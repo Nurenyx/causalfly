@@ -18,6 +18,7 @@ three variables in `.env.local` or the **server or shell environment**:
 | `META_API_KEY` | Secret Meta API credential |
 | `META_BASE_URL` | HTTPS OpenAI-compatible API base URL supplied by your provider |
 | `META_MODEL` | Model identifier available to your Meta account |
+| `META_TIMEOUT_MS` | Optional timeout per attempt in milliseconds; defaults to `120000` |
 
 No real credentials are included. The AI demo and smoke-test CLIs use a shared
 Next.js environment loader to load project environment files, including
@@ -49,8 +50,20 @@ The SDK uses Chat Completions JSON mode and includes the response JSON Schema in
 the system prompt. Local Zod validation is authoritative: JSON mode alone does not
 enforce schema correctness. Refused, truncated, empty, malformed, wrongly typed,
 or unknown-field responses fail safely. No coercion, JSON repair, or markdown
-extraction is performed. Requests have a 30-second timeout and no automatic
-retries. API failure messages omit provider error bodies and credentials.
+extraction is performed. Requests default to a 120-second timeout per attempt,
+configurable with `META_TIMEOUT_MS` (a positive integer, at most `2147483647`).
+The AI workflow makes at most three attempts per model request: only connection
+timeouts/errors, HTTP 429 and HTTP 500-599 are retried, with exponential backoff
+(500 ms, then 1000 ms) plus 0-99 ms of jitter. Other HTTP errors, aborted requests,
+and response/schema validation failures are not retried. SDK retries are disabled
+so they cannot add attempts or broaden this policy. Retry output contains only
+the transient failure category and retry count; final failures retain the original
+SDK exception and safe provider diagnostics. The smoke command uses the same
+timeout configuration but makes exactly one attempt, without retries.
+
+The AI-demo CLI reports `META DESIGN REQUEST`, `DETERMINISTIC EXPERIMENT`, and
+`META INTERPRETATION REQUEST` as they begin, and identifies the stage if it fails.
+API failure diagnostics omit provider error bodies and credentials.
 
 Provider compatibility with Chat Completions and `response_format: json_object`
 must be verified for your configured endpoint and model. Live provider access is
@@ -88,11 +101,29 @@ Only payloads issued by this factory in the current process pass the interpreter
 gate. Arbitrary or deserialized records are rejected; regenerate them through the
 engine. This is an in-process boundary, not an external signature or audit store.
 
-`interpretEvidence` serializes that evidence before invoking the client. It
-validates and freezes the separate ScientificAnalysis result. `runAiExperiment`
+`createCompactEvidence` derives a frozen downstream view without changing either
+full TrialResult. It retains every sample containing any non-zero node activity
+(with exact values and original step indices), followed by the first recorded
+zero-only sample after the last active step, if available. An entirely quiescent
+trial retains its initial sample. No quiescent sample is invented if the window
+ends while activity is present. Additional zero-only samples are omitted.
+Each summary records the original `maxSteps`, original sample count, omitted
+zero-sample count and selection rule. Metrics, deltas, accepted spec, declared
+and applied perturbations, and complete matched-condition provenance are copied
+from the original evidence. No metrics are recomputed from the selected samples.
+
+`interpretEvidence` sends only this compact view to the client after the existing
+engine-evidence gate. It validates and freezes the separate ScientificAnalysis result. `runAiExperiment`
 returns `{ mode, proposal, spec, evidence, analysis }`. The original evidence is
 preserved independently; model content is never merged into TrialResult,
 ExperimentComparison, or provenance, and cannot modify their values.
+
+The AI demo prints the proposal, compact control and perturbed summaries,
+deltas with matched-condition provenance, and analysis. Use
+`npm run experiment:ai-demo -- --raw` to additionally print both full raw
+TrialResults (or `--fake --raw` for offline debugging). `result.evidence.comparison`
+always retains the full activity traces in code. The Sprint 1 engine and demo
+are unchanged.
 
 ScientificAnalysis has observations, interpretation, limitations, confounders,
 nullable boolean hypothesis support and a next-experiment recommendation. An

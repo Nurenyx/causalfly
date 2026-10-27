@@ -35,6 +35,12 @@ mode with `npm run experiment:ai-demo -- --fake`, or require live mode with
 environment files, including `.env.local`, before selecting the client and
 preserves existing shell variables. No dashboard integration is added.
 
+The AI demo and interpreter use compact deterministic evidence: every non-zero
+activity step and one final quiescent step, with unchanged measurements,
+provenance, and original `maxSteps`. Full `TrialResult` traces remain available
+through `result.evidence.comparison` or `npm run experiment:ai-demo -- --raw`
+(add `--fake` for an offline run). Sprint 1's demo still prints its full traces.
+
 The web app remains the Next.js starter described below.
 
 To check live Meta credentials and the selected model, set `META_API_KEY`,

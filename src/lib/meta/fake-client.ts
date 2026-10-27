@@ -1,6 +1,6 @@
 import { demoExperimentSpec } from "../experiment/demo";
 import type { MetaClient, MetaRequest } from "./client";
-import type { EvidencePayload } from "./evidence";
+import type { CompactEvidencePayload } from "./compact-evidence";
 import { eligiblePerturbationTargetIds, type ScientificAnalysis } from "./schemas";
 
 /** Offline template client, not a model and not a general natural-language reasoner. */
@@ -11,7 +11,7 @@ export class FakeMetaClient implements MetaClient {
     if (request.task === "design") {
       return JSON.stringify(demoExperimentSpec);
     }
-    const evidence = JSON.parse(request.inputJson) as EvidencePayload;
+    const evidence = JSON.parse(request.inputJson) as CompactEvidencePayload;
     const { control, perturbed, deltas } = evidence.comparison;
     const eligibleTargets = eligiblePerturbationTargetIds(evidence.provenance.control.network);
     const nextTarget = eligibleTargets.find(

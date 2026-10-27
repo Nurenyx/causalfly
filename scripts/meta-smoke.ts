@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { LiveMetaClient, readLiveConfiguration, readMetaEnvironment } from "../src/lib/meta/client";
+import { formatMetaProviderError } from "../src/lib/meta/provider-errors";
 import { smokeResponseSchema, validateSmokeResponse } from "../src/lib/meta/smoke";
 import { loadProjectEnvironment } from "./load-environment";
 
@@ -17,7 +18,7 @@ async function main() {
   }
 
   try {
-    const client = new LiveMetaClient(env);
+    const client = new LiveMetaClient(env, undefined, { retry: false });
     const raw = await client.complete({
       // The live client ignores this legacy task label; no experiment is run.
       task: "design",
@@ -26,8 +27,8 @@ async function main() {
       responseSchema: z.toJSONSchema(smokeResponseSchema),
     });
     validateSmokeResponse(raw);
-  } catch {
-    console.error('META LIVE smoke test failed: request failed or response was not exactly {"status":"ok"}.');
+  } catch (error: unknown) {
+    console.error(formatMetaProviderError(error) ?? 'META LIVE smoke test failed: request failed or response was not exactly {"status":"ok"}.');
     process.exitCode = 1;
     return;
   }

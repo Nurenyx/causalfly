@@ -7,8 +7,10 @@ import {
   type MetaClient, type MetaEnvironment, type MetaRequest,
 } from "./client";
 import { designExperiment } from "./experiment-designer";
+import { createCompactEvidence } from "./compact-evidence";
 import { createEvidencePayload } from "./evidence";
 import { FakeMetaClient } from "./fake-client";
+import { formatMetaProviderError } from "./provider-errors";
 import { eligiblePerturbationTargetIds, scientificAnalysisSchema } from "./schemas";
 import { INTERPRETER_INSTRUCTIONS, interpretEvidence } from "./scientific-interpreter";
 import { createMetaClient, runAiExperiment } from "./workflow";
@@ -145,7 +147,7 @@ test("empty research questions fail before a client request", async () => {
   assert.equal(calls, 0);
 });
 
-test("the evidence gate supplies exact measured traces, deltas, accepted spec and provenance", async () => {
+test("the evidence gate supplies compact measured traces, deltas, accepted spec and provenance", async () => {
   const evidence = makeEvidence();
   const fake = new FakeMetaClient();
   let received: MetaRequest | undefined;
@@ -155,7 +157,7 @@ test("the evidence gate supplies exact measured traces, deltas, accepted spec an
   }, evidence);
   assert.equal(received?.task, "interpret");
   assert.deepEqual(JSON.parse(received!.inputJson), {
-    ...evidence, eligiblePerturbationTargetIds: eligibleTargets,
+    ...createCompactEvidence(evidence), eligiblePerturbationTargetIds: eligibleTargets,
   });
   const schema = JSON.parse(JSON.stringify(received!.responseSchema));
   assert.deepEqual(
@@ -343,11 +345,12 @@ test("live SDK rejects empty, truncated and refused responses", async () => {
 test("API failures are surfaced safely without leaking provider error bodies or secrets", async () => {
   const client = new LiveMetaClient(config, async () => {
     throw new Error(`provider echoed ${config.META_API_KEY}`);
-  });
+  }, { retry: false });
   await assert.rejects(client.complete(request), (error: unknown) => {
     assert.ok(error instanceof Error);
-    assert.match(error.message, /Meta API request failed/);
-    assert.ok(!error.message.includes(config.META_API_KEY));
+    const diagnostic = formatMetaProviderError(error)!;
+    assert.match(diagnostic, /Meta API request failed/);
+    assert.ok(!diagnostic.includes(config.META_API_KEY));
     return true;
   });
 });
@@ -384,6 +387,6 @@ test("the evidence gate revalidates specs instead of trusting TypeScript asserti
 test("live environment parsing returns only requested configuration", () => {
   const parsed = readLiveConfiguration(config as MetaEnvironment);
   assert.deepEqual(parsed, {
-    apiKey: config.META_API_KEY, baseURL: config.META_BASE_URL, model: config.META_MODEL,
+    apiKey: config.META_API_KEY, baseURL: config.META_BASE_URL, model: config.META_MODEL, timeoutMs: 120_000,
   });
 });

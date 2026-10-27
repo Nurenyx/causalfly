@@ -18,13 +18,21 @@ export function createMetaClient(
   return new FakeMetaClient();
 }
 
+export type AiExperimentStage =
+  | "META DESIGN REQUEST"
+  | "DETERMINISTIC EXPERIMENT"
+  | "META INTERPRETATION REQUEST";
+
 export async function runAiExperiment(client: MetaClient, input: {
   researchQuestion: string;
   networkDefinition: NetworkDefinition;
-}) {
+}, onStage?: (stage: AiExperimentStage) => void) {
   const snapshot = structuredClone(input);
+  onStage?.("META DESIGN REQUEST");
   const { proposal, spec } = await designExperiment(client, snapshot);
+  onStage?.("DETERMINISTIC EXPERIMENT");
   const evidence = createEvidencePayload({ ...snapshot, experimentSpec: spec });
+  onStage?.("META INTERPRETATION REQUEST");
   const analysis = await interpretEvidence(client, evidence);
   return freezeRecord({ mode: client.mode, proposal, spec, evidence, analysis });
 }
