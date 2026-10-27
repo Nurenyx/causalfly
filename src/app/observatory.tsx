@@ -106,6 +106,22 @@ function Provenance({ result }: { result: WebExperimentResult }) {
   </section>;
 }
 
+// Display-only aliases: preserve the model's statements and every value verbatim.
+function displayObservation(observation: string) {
+  const labels: Record<string, string> = {
+    outputPeakActivity: "Peak output",
+    outputThresholdCrossingStep: "Threshold crossing",
+    outputThresholdCrossingSteps: "Threshold-crossing delta",
+    outcomeChanged: "Outcome changed",
+    PERTURBED_MINUS_CONTROL: "Perturbed minus control",
+    maxSteps: "Observation window",
+  };
+  return observation.replace(
+    /\b(outputPeakActivity|outputThresholdCrossingStep|outputThresholdCrossingSteps|outcomeChanged|PERTURBED_MINUS_CONTROL|maxSteps)\b/g,
+    (field) => labels[field],
+  );
+}
+
 function AnalysisList({ items }: { items: readonly string[] }) {
   return items.length ? <ul>{items.map((item, index) => <li key={index}>{item}</li>)}</ul> : <p>None identified by the interpreter. This does not establish absence.</p>;
 }
@@ -117,13 +133,13 @@ function Scientist({ result, onNext }: { result: WebExperimentResult; onNext: (q
     <SectionTitle index="04" title="AI Scientist" id="scientist-heading"><Badge tone="amber">AI INTERPRETATION</Badge></SectionTitle>
     <p className="scientist-intro">{result.mode === "FAKE META CLIENT" ? "Offline template output · not a Meta model response. The fake designer always uses the demo specification, regardless of the question." : "Meta model interpretation · downstream of measured evidence."} AI-authored observations and conclusions are not measured telemetry.</p>
     <div className="analysis-grid">
-      <div className="analysis-block"><h3>OBSERVATIONS</h3><AnalysisList items={analysis.observations} /></div>
+      <div className="analysis-block observations-block"><h3>OBSERVATIONS</h3><AnalysisList items={analysis.observations.map(displayObservation)} /></div>
       <div className="analysis-block interpretation-block"><h3>INTERPRETATION</h3><p>{analysis.interpretation}</p></div>
       <div className="analysis-block caveat-block"><h3>LIMITATIONS</h3><AnalysisList items={analysis.limitations} /></div>
       <div className="analysis-block caveat-block"><h3>CONFOUNDERS</h3><AnalysisList items={analysis.confounders} /></div>
     </div>
     <div className="hypothesis-verdict"><h3>HYPOTHESIS</h3><p>{result.spec.hypothesis}</p><Badge tone="amber">{support}</Badge></div>
-    <div className="next-experiment"><div><h3>NEXT EXPERIMENT</h3><p className="next-question">{analysis.nextExperiment.researchQuestion}</p><p>{analysis.nextExperiment.rationale}</p><span className="next-target">Proposed silence target: <code>{analysis.nextExperiment.proposedPerturbationTarget ?? "Not specified"}</code></span></div><button type="button" className="secondary-button" onClick={() => onNext(analysis.nextExperiment.researchQuestion)}>Use as Next Question <span aria-hidden="true">↗</span></button></div>
+    <div className="next-experiment"><div><h3>NEXT EXPERIMENT</h3><p className="next-question">{analysis.nextExperiment.researchQuestion}</p><p className="next-rationale">{analysis.nextExperiment.rationale}</p><span className="next-target">Proposed silence target: <code>{analysis.nextExperiment.proposedPerturbationTarget ?? "Not specified"}</code></span></div><button type="button" className="secondary-button" onClick={() => onNext(analysis.nextExperiment.researchQuestion)}>Use as Next Question <span aria-hidden="true">↗</span></button></div>
   </section>;
 }
 

@@ -188,13 +188,18 @@ dt { color: #a8b7ca; font-size: 11px; letter-spacing: .2px; margin-bottom: 8px; 
 .interpretation-block { padding: 17px 19px; border-left: 2px solid var(--amber); border-radius: 0 5px 5px 0; background: #35291c60; }
 .interpretation-block h3, .hypothesis-verdict h3, .next-experiment h3 { font-size: 13px; font-weight: 600; }
 .interpretation-block p, .hypothesis-verdict p { font-size: 14px; color: #e2dacd; }
+.interpretation-block p { font-size: 15px; line-height: 1.9; }
 .caveat-block h3 { color: #c2b39b; }
-.analysis-block ul { margin: 0; padding-left: 17px; display: grid; gap: 8px; }
+.caveat-block p, .caveat-block li { line-height: 1.85; }
+.analysis-block ul { margin: 0; padding-left: 17px; display: grid; gap: 10px; list-style: disc outside; }
 .analysis-block li::marker { color: #b58d54; }
+.observations-block ul { gap: 16px; }
+.observations-block li { padding-left: 4px; font-size: 14px; line-height: 1.85; }
 .hypothesis-verdict { border-top: 1px solid #59432b; padding: 20px; margin-bottom: 20px; background: #30261a50; border-radius: 5px; }
 .hypothesis-verdict .badge { margin-top: 13px; }
 .next-experiment { padding: 23px; background: #211e1a; border: 1px solid #59432b; border-radius: 6px; display: flex; justify-content: space-between; gap: 25px; align-items: center; }
-.next-experiment .next-question { color: #f0dfc5; font-size: 17px; margin-bottom: 10px; }
+.next-experiment .next-question { color: #f0dfc5; font-size: 18px; font-weight: 500; line-height: 1.65; margin-bottom: 12px; }
+.next-experiment .next-rationale { font-size: 13px; line-height: 1.85; }
 .next-target { display: block; margin-top: 13px; color: #bcaf9b; font-size: 12px; }
 .next-target code { color: var(--amber); }
 .secondary-button { flex-shrink: 0; display: flex; align-items: center; gap: 15px; border: 1px solid #86663d; color: #f1ca8a; background: #342a1c; border-radius: 5px; padding: 12px 15px; font-size: 13px; }
