@@ -1,6 +1,6 @@
 # Scientific constraints
 
-Sprint 1 uses a **synthetic network**. It is an engineering validation fixture,
+Sprints 1 and 2 use a **synthetic network**. It is an engineering validation fixture,
 not a biological model. All nodes, weights, and pathways are hand-authored to
 exercise the software. Neutral node names have no biological identities.
 
@@ -21,9 +21,25 @@ reached within that window. The outcome labels describe threshold attainment,
 not behavior. Numeric deltas are PERTURBED minus CONTROL. Latency delta is null
 when either crossing is absent; it is not zero or an estimate of infinity.
 
-AI interpretation will later be separated from measured engine output.
-Interpretation must be separately labeled and may not replace, edit, or invent
-TrialResult values. Sprint 1 includes no Meta API calls or AI interpretation.
+Sprint 2 Meta AI may design a validated ExperimentSpec and interpret measured
+evidence. It may not determine simulation outcomes, invent measurements, edit
+TrialResult / ExperimentComparison values, or rewrite provenance. Evidence is
+immutable, engine-produced input; ScientificAnalysis remains a separate artifact.
+The Sprint 1 engine contains no AI calls and is unchanged.
+
+Analysis must separate measured observations from interpretation, disclose
+limitations and confounders, and allow a hypothesis to be unsupported or
+unassessed (`supportsHypothesis: false` or `null`). Schema validation verifies
+structure and known next-target IDs, not the truth of arbitrary generated prose.
+Model statements require scientific review against the separately preserved
+evidence. Generated numbers never become experimental measurements.
+
+Only the exact supplied synthetic demo network is supported by the Meta layer,
+with one silence target from its existing node IDs. Proposals have a 1000-transition
+resource limit. The offline fake client uses a fixed demo proposal and measured
+evidence templates; it is not a general question interpreter or a real Meta model.
+Its hypothesis support remains unassessed. Next experiments are recommendations
+only and must pass validation before execution.
 
 Future real-connectome integration requires explicit dataset provenance
 (source, version, license, preprocessing, mapping, and transformations), justified

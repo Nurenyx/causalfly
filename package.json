@@ -7,13 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/experiment/*.test.ts",
-    "experiment:demo": "tsx scripts/experiment-demo.ts"
+    "test": "tsx --conditions=react-server --test src/lib/experiment/*.test.ts src/lib/meta/*.test.ts",
+    "experiment:demo": "tsx scripts/experiment-demo.ts",
+    "experiment:ai-demo": "tsx --conditions=react-server scripts/experiment-ai-demo.ts"
   },
   "dependencies": {
     "next": "16.4.3",
+    "openai": "^7.45.0",
     "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react-dom": "19.3.0",
+    "server-only": "^0.0.1",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",

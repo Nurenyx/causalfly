@@ -2,15 +2,19 @@
 
 Sprint 1 provides a deterministic CONTROL vs PERTURBED experiment on a small
 synthetic directed network. This is an engineering fixture, **not a biological
-model**; its results are not Drosophila findings.
+model**; its results are not Drosophila findings. Sprint 2 adds Meta-powered
+experiment design and structured interpretation around the unchanged engine,
+with immutable measured evidence and an offline fake client.
 
 ## Experiment walking skeleton
 
-Install dependencies with `npm ci`, then run:
+Use Node.js 22 or newer (required by the OpenAI SDK). Install dependencies with
+`npm ci`, then run:
 
 ```bash
 npm test
 npm run experiment:demo
+npm run experiment:ai-demo
 npm run lint
 npm run build
 git diff --check
@@ -23,7 +27,12 @@ recorded for matching; the current engine has no randomness.
 
 See [architecture](docs/ARCHITECTURE.md) for update and timing semantics and
 [scientific constraints](docs/SCIENTIFIC-CONSTRAINTS.md) for interpretation limits.
-This sprint adds no dashboard or Meta API integration.
+See [Meta integration](docs/META-INTEGRATION.md) for `META_API_KEY`, `META_BASE_URL`,
+`META_MODEL`, and live/fake mode details. The AI demo defaults to an explicitly
+labeled **FAKE META CLIENT** when none of those variables are set. Force offline
+mode with `npm run experiment:ai-demo -- --fake`, or require live mode with
+`npm run experiment:ai-demo -- --live`. The CLI reads shell environment variables
+and does not automatically load `.env` files. No dashboard integration is added.
 
 The web app remains the Next.js starter described below.
 

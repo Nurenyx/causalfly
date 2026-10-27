@@ -1,14 +1,31 @@
 # Experiment architecture
 
-Intended flow:
+Sprint 2 adds Meta experiment design and downstream interpretation around the
+unchanged Sprint 1 deterministic engine:
 
-Research Question → ExperimentSpec → deterministic experiment engine → TrialResult
-→ ExperimentComparison → future Meta AI interpretation
+```text
+Research Question
+        ↓
+Meta Experiment Designer
+        ↓
+validated ExperimentSpec
+        ↓
+DETERMINISTIC TRUST BOUNDARY
+        ↓
+Experiment Engine
+        ↓
+TrialResult / ExperimentComparison
+        ↓
+immutable Evidence Payload
+        ↓
+Meta Scientific Interpreter
+        ↓
+ScientificAnalysis
+```
 
-Sprint 1 implements the typed specification, engine, measured trials, comparison,
-and a CLI demonstration. A person supplies the question and hypothesis. There is
-no question-generation system, dashboard, Meta integration, database, or external
-dataset in this sprint.
+Meta proposes a specification; strict runtime validation accepts it before the
+engine runs. Only the engine determines activity, measurements and provenance.
+There is no dashboard integration, API route, database, or external dataset.
 
 ## Modules
 
@@ -21,6 +38,23 @@ dataset in this sprint.
 - `compare.ts`: matched experiment orchestration and verified comparison.
 - `demo.ts`: demonstration experiment specification, independent of CLI output.
 - `scripts/experiment-demo.ts`: human-readable summary and complete JSON output.
+- `src/lib/meta/client.ts`: injectable raw-JSON client interface and server-only
+  official OpenAI SDK adapter, configured exclusively through Meta variables.
+- `meta/schemas.ts`: strict proposal and ScientificAnalysis schemas, existing-node
+  checks, and the unchanged synthetic-network constraint.
+- `meta/experiment-designer.ts`: question-to-proposal instructions and validation;
+  only the explicitly allowed `SILENCE` spelling is normalized to `silence`.
+- `meta/evidence.ts`: revalidates the accepted spec, calls the Sprint 1 engine,
+  and constructs a detached, deeply frozen evidence payload with complete traces,
+  measured metrics, deltas and provenance. Only locally issued payloads are
+  accepted by the interpreter, preventing arbitrary records bypassing this gate.
+- `meta/scientific-interpreter.ts`: serializes evidence as read-only model input
+  and validates a separate, frozen ScientificAnalysis object.
+- `meta/fake-client.ts`: deterministic, explicitly labeled offline template using
+  the same raw-JSON parsing and validation paths; no network or credentials.
+- `meta/workflow.ts`: composes design → engine/evidence → interpretation and
+  selects fake or configured live mode without coupling AI into the engine.
+- `scripts/experiment-ai-demo.ts`: labeled end-to-end CLI demonstration.
 
 These are CLI/server TypeScript modules outside the Next.js routing tree. The
 comparison uses Node's built-in deep equality; testing uses `node:test` with
@@ -78,11 +112,26 @@ records supplied by an untrusted caller. There is no signature or external audit
 store. Trace memory grows with node count times step count; this sprint targets
 small fixtures and adds no large-network optimizations or resource service.
 
-## Future interpretation boundary
+## Interpretation boundary
 
-Meta AI may later consume a measured comparison as read-only input and produce
-a separate interpretation artifact. **Meta AI must never be able to rewrite
-measured TrialResult values.** The result contracts and runtime-frozen records
-support this boundary; future integration must keep interpretation output separate
-and preserve the original engine records. Read
+**AI-generated analysis is downstream interpretation and cannot alter experimental
+evidence.** Clients receive serialized data, never mutable references to trials.
+Evidence preserves both full measured trials, the comparison, accepted specification
+and provenance separately from analysis. Strict analysis schemas reject extra
+measurement or provenance fields; no model-generated fields are merged into
+TrialResult or ExperimentComparison. Invalid proposals fail before simulation;
+invalid analyses fail without changing evidence. The model cannot choose simulation
+outcomes or rewrite their provenance.
+
+Structural validation cannot prove that prose is scientifically accurate. System
+instructions require observations grounded in the supplied values, separate
+interpretation, limitations, and the possibility of unsupported hypotheses. Analysis
+remains labeled, fallible model output. Next-target IDs are checked at runtime;
+prose recommendations require review and must pass proposal validation before any
+future execution. There is no automatic follow-up experiment execution.
+
+The evidence gate is process-local, not cryptographic attestation or a persisted
+audit store. Deserialized payloads must be regenerated through the deterministic
+engine rather than admitted directly for interpretation. Read
+[META-INTEGRATION.md](META-INTEGRATION.md) and
 [SCIENTIFIC-CONSTRAINTS.md](SCIENTIFIC-CONSTRAINTS.md) before interpreting results.
