@@ -1,88 +1,103 @@
 # CausalFly
 
-Sprint 1 provides a deterministic CONTROL vs PERTURBED experiment on a small
-synthetic directed network. This is an engineering fixture, **not a biological
-model**; its results are not Drosophila findings. Sprint 2 adds Meta-powered
-experiment design and structured interpretation around the unchanged engine,
-with immutable measured evidence and an offline fake client.
+CausalFly is a desktop-first causal observatory: submit a research question,
+inspect an AI-proposed and validated experiment, compare deterministic CONTROL
+and PERTURBED evidence, and review a separate AI Scientist interpretation.
+The underlying Sprint 1 engine and Sprint 2 scientific workflow are unchanged.
 
-## Experiment walking skeleton
+**Synthetic engineering fixture — not a biological model or Drosophila finding.**
 
-Use Node.js 22 or newer (required by the OpenAI SDK). Install dependencies with
-`npm ci`, then run:
+## Launch the web app
 
-```bash
+Use Node.js 22 or newer. Install dependencies and start Next.js 16.4.3:
+
+```powershell
+npm ci
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). Submit the prefilled question
+or write your own. Results appear after the complete workflow finishes. The
+loading panel lists the pipeline; it does not claim streamed stage completion.
+Use **Use as Next Question** to populate the input without running another experiment.
+
+With no Meta configuration, the app uses the clearly labeled **FAKE META CLIENT**.
+For an explicitly offline demo even when `.env.local` contains live credentials:
+
+```powershell
+$env:CAUSALFLY_FAKE_META = "1"
+npm run dev
+```
+
+The override is server-only and applies to the web app. The existing CLI uses
+its own `--fake` flag. Remove the override with
+`Remove-Item Env:CAUSALFLY_FAKE_META` before restarting for live mode.
+
+For live web operation, configure `META_API_KEY`, `META_BASE_URL`, and `META_MODEL`
+in `.env.local` or the server environment, following
+[Meta integration](docs/META-INTEGRATION.md). Partial/invalid configuration shows a
+safe error rather than silently falling back. A page visit checks configuration
+only; it does not contact Meta. A submission makes the existing design and
+interpretation requests, including their existing timeout/retry policy.
+A live-configured badge is not a successful provider health check.
+
+## Web architecture and scientific boundary
+
+The request-time Server Component reads only a safe mode/configuration status.
+The interactive observatory submits `{ researchQuestion: string }` to
+`POST /api/experiments`, a Node.js App Router Route Handler. Its server-only
+adapter validates the input, calls the existing `runAiExperiment`, then derives
+compact evidence with `createCompactEvidence`. It returns an explicit serializable
+result containing mode, submitted question, validated ExperimentSpec, compact
+control/perturbed evidence and deltas, provenance, and separate ScientificAnalysis.
+No experiment logic is duplicated in the web layer. Requests are capped at 64 KB
+and questions at 8,000 characters. Provider failures return fixed public messages;
+SDK exceptions, prompts, request bodies, headers and configuration are not returned.
+`META_API_KEY` stays in server-only modules.
+
+Measured results use cyan, the declared perturbation uses magenta, and AI-authored
+proposals and interpretation use amber. Provenance checks and retained sample
+counts come from actual engine output. Missing threshold crossings stay null and
+are displayed as not reached/not comparable. The expandable evidence inspector
+shows provenance and retained samples; full raw traces remain available in the CLI.
+
+This sprint has no database, authentication, WebSockets, real fly data, SAM, XR,
+or added agent framework. Results live in page memory and disappear on reload.
+The sidebar provides same-page navigation to the question, proposed experiment, comparison, and AI Scientist. Before a run, result links return to the question with an explanation.
+The fake designer always returns the existing demo spec regardless of question,
+and its template interpretation does not assess hypothesis support. Loading does
+not stream intermediate results. The public POST endpoint has no rate limiting;
+restrict access before exposing a live-credential demo publicly.
+
+## Validation and CLI workflows
+
+```powershell
 npm test
 npm run experiment:demo
-npm run experiment:ai-demo
+npm run experiment:ai-demo -- --fake
 npm run lint
 npm run build
 git diff --check
 ```
 
-The demo prints calculated peak activity, first threshold-crossing step, outcome,
-matched-condition checks, and deltas (PERTURBED minus CONTROL), followed by the
-complete structured JSON with per-step activity and provenance. The seed is
-recorded for matching; the current engine has no randomness.
+Tests cover the unchanged experiment and Meta workflows plus web validation,
+offline operation, question forwarding, engine measurements, AI/evidence separation,
+serialization without credentials, safe provider errors, next questions, and request
+body handling. No browser E2E infrastructure is added.
 
-See [architecture](docs/ARCHITECTURE.md) for update and timing semantics and
-[scientific constraints](docs/SCIENTIFIC-CONSTRAINTS.md) for interpretation limits.
-See [Meta integration](docs/META-INTEGRATION.md) for `META_API_KEY`, `META_BASE_URL`,
-`META_MODEL`, and live/fake mode details. The AI demo defaults to an explicitly
-labeled **FAKE META CLIENT** when none of those variables are set. Force offline
-mode with `npm run experiment:ai-demo -- --fake`, or require live mode with
-`npm run experiment:ai-demo -- --live`. The CLI loads the project's Next.js
-environment files, including `.env.local`, before selecting the client and
-preserves existing shell variables. No dashboard integration is added.
+The deterministic demo prints calculated peak activity, first threshold-crossing
+step, outcome, matched-condition checks, and deltas (PERTURBED minus CONTROL),
+followed by the complete structured JSON. The seed is recorded for matching; the
+current engine has no randomness. See [architecture](docs/ARCHITECTURE.md) and
+[scientific constraints](docs/SCIENTIFIC-CONSTRAINTS.md) for semantics and limits.
 
-The AI demo and interpreter use compact deterministic evidence: every non-zero
-activity step and one final quiescent step, with unchanged measurements,
-provenance, and original `maxSteps`. Full `TrialResult` traces remain available
-through `result.evidence.comparison` or `npm run experiment:ai-demo -- --raw`
-(add `--fake` for an offline run). Sprint 1's demo still prints its full traces.
+The AI demo loads Next.js environment files, preserving shell variables. Force
+`--fake` for offline operation or `--live` to require live configuration. It uses
+compact evidence: all non-zero activity steps and one final quiescent step,
+without changing measurements or the original observation window. Access full
+traces with `npm run experiment:ai-demo -- --fake --raw`.
 
-The web app remains the Next.js starter described below.
-
-To check live Meta credentials and the selected model, set `META_API_KEY`,
-`META_BASE_URL`, and `META_MODEL` in `.env.local` or your shell, then run
-`npm run meta:smoke`.
-This command makes one live request (no retries or fake fallback), validates
-exactly `{"status":"ok"}`, and prints only the live mode, model, and status on
-success. It loads the project's Next.js environment files before reading
-configuration, preserves existing shell variables, and exits nonzero
-for missing/invalid configuration, request failures, or invalid responses.
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To explicitly test live credentials, run `npm run meta:smoke`. This makes one live
+request without retry/fake fallback, validates exactly `{"status":"ok"}`, and
+prints only mode, model and status on success. It is never run automatically by
+the web experience or the validation commands above.
