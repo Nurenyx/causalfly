@@ -128,6 +128,23 @@ Examples include:
 
 The user interface keeps these categories visually separate.
 
+### Experiment workspaces
+
+- **Observatory** starts a research question and runs the existing scientific workflow.
+- **Compare** opens automatically after a successful run. It pairs topology and activity charts with measured deltas, a propagation timeline, and an amber AI Scientist rail.
+- **AI Scientist** preserves the complete observations, interpretation, limitations, confounders, hypothesis assessment, and proposed next experiment.
+- **Evidence** exposes the accepted specification, matched-condition checks, engine/network provenance, and retained traces with raw versus retained sample counts.
+
+“Use as Next Question” loads and focuses the Observatory input for review; it never submits automatically. Workspace state is in memory and resets on reload.
+
+For a local offline visual review in PowerShell:
+
+```powershell
+$env:CAUSALFLY_FAKE_META='1'; npm run dev -- --hostname 127.0.0.1 --port 3104
+```
+
+Open `http://127.0.0.1:3104` and run an experiment to open Compare. Fake mode remains explicitly labelled even when live credentials are configured locally.
+
 ---
 
 ## Matched Experimental Conditions

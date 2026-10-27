@@ -135,3 +135,35 @@ audit store. Deserialized payloads must be regenerated through the deterministic
 engine rather than admitted directly for interpretation. Read
 [META-INTEGRATION.md](META-INTEGRATION.md) and
 [SCIENTIFIC-CONSTRAINTS.md](SCIENTIFIC-CONSTRAINTS.md) before interpreting results.
+
+## Experiment dashboard
+
+The client shell (`src/app/observatory.tsx`) manages four in-memory workspaces with
+`workspaceReducer` in `src/lib/web/dashboard.ts`. A completed response selects
+Compare without modifying its evidence or analysis. Selecting a proposed next
+question returns to Observatory and focuses its input; a separate explicit form
+submission is required to run it. Navigation preserves the completed result.
+
+`CompareDashboard` composes two condition panels, each containing
+`SyntheticNetworkViz` and `ActivityChart`, followed by measured delta cards and
+`PropagationTimeline`. `AiScientistRail` stays beside the measured evidence on
+desktop; `ScientistView` contains the full ScientificAnalysis. `EvidenceView`
+contains the specification, matching checks, provenance and retained trace JSON.
+The existing CLI `--raw` pathway remains available and runs a separate experiment;
+it is not represented as a retrieval of the current browser experiment.
+
+The dashboard uses the existing compact web response without extending the
+contract. Network nodes, edges and weights come from trial provenance; node halos
+encode recorded peaks. Chart series select actual node activity samples and retain
+their original computational step numbers. Omitted quiescent samples are disclosed,
+never synthesized, and charts do not interpolate across gaps. The displayed chart
+range covers retained samples; the complete observation window and omitted count
+remain visible. First activation is the first sample whose node activity is
+non-zero, without epsilon filtering. This remains exact because compaction retains
+every non-zero sample. An unactivated node has null timing, distinct from step zero
+and from a declared silence intervention. Missing threshold crossings remain null.
+
+All layout, colors, readable field aliases and prose constraints are display-only.
+The engine, experiment semantics, evidence gate, compact evidence, prompts, schemas
+and provider transport are unchanged. SVG charts add no charting dependency, and
+local design references are neither runtime assets nor data sources.
