@@ -1,10 +1,10 @@
-import { loadEnvConfig } from "@next/env";
 import { z } from "zod";
 import { LiveMetaClient, readLiveConfiguration, readMetaEnvironment } from "../src/lib/meta/client";
 import { smokeResponseSchema, validateSmokeResponse } from "../src/lib/meta/smoke";
+import { loadProjectEnvironment } from "./load-environment";
 
 async function main() {
-  loadEnvConfig(process.cwd());
+  loadProjectEnvironment();
   const env = readMetaEnvironment();
   let config;
   try {

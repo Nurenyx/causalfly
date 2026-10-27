@@ -1,11 +1,13 @@
 import { syntheticDemoNetwork } from "../src/lib/experiment/network";
 import { createMetaClient, runAiExperiment } from "../src/lib/meta/workflow";
+import { loadProjectEnvironment } from "./load-environment";
 
 async function main() {
   const args = process.argv.slice(2);
   if (args.length > 1 || (args.length === 1 && !["--fake", "--live"].includes(args[0]))) {
     throw new Error("Usage: npm run experiment:ai-demo -- [--fake|--live]");
   }
+  loadProjectEnvironment();
   const mode = args[0] === "--fake" ? "fake" : args[0] === "--live" ? "live" : "auto";
   const client = createMetaClient(mode);
   console.log(`CausalFly AI experiment demo — ${client.mode}`);

@@ -11,7 +11,7 @@ has been added.
 
 Live mode uses the official `openai` JavaScript/TypeScript SDK with an
 OpenAI-compatible Meta Model API. There is no endpoint or model default. Set all
-three variables in the **server or shell environment**:
+three variables in `.env.local` or the **server or shell environment**:
 
 | Variable | Purpose |
 | --- | --- |
@@ -19,9 +19,9 @@ three variables in the **server or shell environment**:
 | `META_BASE_URL` | HTTPS OpenAI-compatible API base URL supplied by your provider |
 | `META_MODEL` | Model identifier available to your Meta account |
 
-No real credentials are included. The CLI reads the shell environment; it does
-not automatically load `.env` or `.env.local`. A Next.js server integration would
-use Next's server-side environment loading. Never prefix these variables with
+No real credentials are included. The AI demo and smoke-test CLIs use a shared
+Next.js environment loader to load project environment files, including
+`.env.local`, while preserving existing shell variables. Never prefix these variables with
 `NEXT_PUBLIC_`, expose them through component props, or include them in browser
 code. `client.ts` imports `server-only`, so Next.js rejects importing it into
 Client Components. The SDK's browser credential protection remains enabled.

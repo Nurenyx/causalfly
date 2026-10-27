@@ -31,8 +31,9 @@ See [Meta integration](docs/META-INTEGRATION.md) for `META_API_KEY`, `META_BASE_
 `META_MODEL`, and live/fake mode details. The AI demo defaults to an explicitly
 labeled **FAKE META CLIENT** when none of those variables are set. Force offline
 mode with `npm run experiment:ai-demo -- --fake`, or require live mode with
-`npm run experiment:ai-demo -- --live`. The CLI reads shell environment variables
-and does not automatically load `.env` files. No dashboard integration is added.
+`npm run experiment:ai-demo -- --live`. The CLI loads the project's Next.js
+environment files, including `.env.local`, before selecting the client and
+preserves existing shell variables. No dashboard integration is added.
 
 The web app remains the Next.js starter described below.
 
