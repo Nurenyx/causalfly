@@ -10,6 +10,8 @@ Built for the **Meta Global AI Developer Hackathon 2026** by [Nurenyx](https://g
 
 > **Trust boundary:** Meta AI proposes and interprets experiments. CausalFly's deterministic engine produces the measurements. AI-generated text cannot modify measured experimental results.
 
+![CausalFly control vs perturbation experiment](docs/images/causalfly-readme-hero-temp.png)
+
 ---
 
 ## What CausalFly Does
