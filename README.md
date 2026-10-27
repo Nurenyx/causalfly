@@ -1,4 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CausalFly
+
+Sprint 1 provides a deterministic CONTROL vs PERTURBED experiment on a small
+synthetic directed network. This is an engineering fixture, **not a biological
+model**; its results are not Drosophila findings.
+
+## Experiment walking skeleton
+
+Install dependencies with `npm ci`, then run:
+
+```bash
+npm test
+npm run experiment:demo
+npm run lint
+npm run build
+git diff --check
+```
+
+The demo prints calculated peak activity, first threshold-crossing step, outcome,
+matched-condition checks, and deltas (PERTURBED minus CONTROL), followed by the
+complete structured JSON with per-step activity and provenance. The seed is
+recorded for matching; the current engine has no randomness.
+
+See [architecture](docs/ARCHITECTURE.md) for update and timing semantics and
+[scientific constraints](docs/SCIENTIFIC-CONSTRAINTS.md) for interpretation limits.
+This sprint adds no dashboard or Meta API integration.
+
+The web app remains the Next.js starter described below.
 
 ## Getting Started
 
