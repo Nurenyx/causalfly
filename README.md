@@ -36,6 +36,15 @@ and does not automatically load `.env` files. No dashboard integration is added.
 
 The web app remains the Next.js starter described below.
 
+To check live Meta credentials and the selected model, set `META_API_KEY`,
+`META_BASE_URL`, and `META_MODEL` in `.env.local` or your shell, then run
+`npm run meta:smoke`.
+This command makes one live request (no retries or fake fallback), validates
+exactly `{"status":"ok"}`, and prints only the live mode, model, and status on
+success. It loads the project's Next.js environment files before reading
+configuration, preserves existing shell variables, and exits nonzero
+for missing/invalid configuration, request failures, or invalid responses.
+
 ## Getting Started
 
 First, run the development server:
