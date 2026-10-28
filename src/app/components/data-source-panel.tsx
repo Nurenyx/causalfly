@@ -1,39 +1,26 @@
-import { useEffect, useRef, useState } from "react";
-import { dataSources, disconnectedFruitFly, type DataSourceKind, type FruitFlySnapshot } from "@/lib/sources/contracts";
+import { useEffect, useState } from "react";
+import { dataSources, type DataSourceKind, type FruitFlySnapshot } from "@/lib/sources/contracts";
+import { createLiveConnection, emptyLiveSession, receiveSnapshot } from "@/lib/sources/live-session";
 import { Badge } from "./workspace-ui";
 
 export function useFruitFlySource() {
-  const [snapshot, setSnapshot] = useState<FruitFlySnapshot>(disconnectedFruitFly);
-  const stream = useRef<EventSource | null>(null);
-  useEffect(() => () => stream.current?.close(), []);
-
-  function disconnect() {
-    stream.current?.close();
-    stream.current = null;
-    setSnapshot((previous) => ({ ...previous, state: "DISCONNECTED", message: "Disconnected. Any evidence shown is the last received snapshot." }));
-  }
-  function connect() {
-    stream.current?.close();
-    setSnapshot({ ...disconnectedFruitFly(), state: "CONNECTING", message: "Opening the read-only research connection." });
-    const subscription = new EventSource("/api/sources/fruitfly");
-    stream.current = subscription;
-    subscription.onmessage = (event) => {
-      if (stream.current !== subscription) return;
-      const next = JSON.parse(event.data) as FruitFlySnapshot;
-      setSnapshot(next);
-      if (next.state === "ERROR" || next.state === "DISCONNECTED") {
-        subscription.close();
-        stream.current = null;
-      }
-    };
-    subscription.onerror = () => {
-      if (stream.current !== subscription) return;
-      subscription.close();
-      stream.current = null;
-      setSnapshot((previous) => ({ ...previous, state: "DISCONNECTED", message: "The telemetry connection was lost. Reconnect to receive new data." }));
-    };
-  }
-  return { snapshot, connect, disconnect };
+  const [session, setSession] = useState(emptyLiveSession);
+  const [now, setNow] = useState<number | null>(null);
+  const [connection] = useState(() => createLiveConnection(
+    (snapshot) => {
+      setSession((previous) => receiveSnapshot(previous, snapshot));
+      setNow(Date.now());
+    },
+    (url) => new EventSource(url),
+  ));
+  const hasEvidence = Boolean(session.snapshot.evidence);
+  useEffect(() => {
+    if (!hasEvidence) return;
+    const timer = window.setInterval(() => setNow(Date.now()), 250);
+    return () => window.clearInterval(timer);
+  }, [hasEvidence]);
+  useEffect(() => () => connection.dispose(), [connection]);
+  return { ...session, now, connect: connection.connect, disconnect: connection.disconnect };
 }
 
 export function DataSourcePanel({ source, snapshot, disabled, onSelect, onConnect, onDisconnect }: {
@@ -57,6 +44,6 @@ export function DataSourcePanel({ source, snapshot, disabled, onSelect, onConnec
       })}
     </fieldset>
     {external && <div className="source-connection"><p role="status">{snapshot.message}</p><button type="button" className="secondary-button" onClick={active ? onDisconnect : onConnect}>{snapshot.state === "CONNECTING" ? "Cancel connection" : active ? "Disconnect" : snapshot.state === "ERROR" ? "Retry connection" : "Connect FruitFly XR"}</button><p>Read-only simulated dynamics. Not living-fly recordings.</p></div>}
-    <p id="source-scope-note" className="source-scope-note">FruitFly XR currently provides telemetry and evidence only. Experiment design and Compare use Synthetic Fixture.</p>
+    <p id="source-scope-note" className="source-scope-note">FruitFly XR powers Live Session and Evidence. Experiment design and Compare use Synthetic Fixture.</p>
   </div>;
 }

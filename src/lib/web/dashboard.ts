@@ -1,7 +1,7 @@
 import type { CompactTrialSummary } from "../meta/compact-evidence";
 import type { WebExperimentResult } from "./contracts";
 
-export type Workspace = "observatory" | "compare" | "scientist" | "evidence";
+export type Workspace = "observatory" | "live" | "compare" | "scientist" | "evidence";
 export const chartNodes = ["primary_a", "primary_b", "alternate_c", "motor"] as const;
 
 /** Playback visits recorded steps only, preserving the computational step numbers. */

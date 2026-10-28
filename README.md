@@ -131,6 +131,7 @@ The user interface keeps these categories visually separate.
 ### Experiment workspaces
 
 - **Observatory** starts a research question and runs the existing scientific workflow.
+- **Live Session** follows received FruitFly XR simulation ticks with spike-count charts, a sampled neuron-ID raster, decoder output, stream diagnostics, and deterministic session observations. It keeps up to 120 frames in memory, marks frames stale after five seconds, and preserves the last snapshot. It makes no Meta requests. See the [Sprint 5.1 review, telemetry map, screenshots, and manual procedure](docs/SPRINT_5_1_REVIEW.md).
 - **Compare** opens automatically after a successful run. It pairs topology and activity charts with measured deltas, a propagation timeline, and an amber AI Scientist rail.
 - **AI Scientist** preserves the complete observations, interpretation, limitations, confounders, hypothesis assessment, and proposed next experiment.
 - **Evidence** exposes the accepted specification, matched-condition checks, engine/network provenance, and retained traces with raw versus retained sample counts.
@@ -489,9 +490,7 @@ Potential future data sources include:
 - XR research environments;
 - robotic embodiments.
 
-One planned future direction is optional integration with **FruitFly XR**, where CausalFly could consume experimental telemetry produced by an embodied Drosophila connectome simulation.
-
-That integration is **not part of the current hackathon repository**.
+The current **FruitFly XR** integration is read-only and presents connectome-backed simulated telemetry in Live Session and Evidence. Future work may extend that boundary to controlled interventions and verified embodiment measurements.
 
 ---
 

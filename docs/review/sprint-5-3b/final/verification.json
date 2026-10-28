@@ -1,0 +1,2299 @@
+{
+  "waitingClipping": [
+    {
+      "text": "Decoded simulation output. Physical movement is not measured by this stream.",
+      "fits": true
+    },
+    {
+      "text": "View diagnostics ↗",
+      "fits": true
+    }
+  ],
+  "clipping": [
+    {
+      "text": "View diagnostics ↗",
+      "bottom": 1041.65625,
+      "panelBottom": 1047.59375,
+      "fits": true
+    },
+    {
+      "text": "Not available for live telemetry · no automatic calls.",
+      "bottom": 826.28125,
+      "panelBottom": 840.09375,
+      "fits": true
+    }
+  ],
+  "visualGeometry": {
+    "canvas": {
+      "x": 249,
+      "y": 259.09375,
+      "width": 747.796875,
+      "height": 421
+    },
+    "hero": {
+      "x": 248,
+      "y": 171.59375,
+      "width": 749.796875,
+      "height": 606
+    },
+    "analytics": {
+      "x": 1009.796875,
+      "y": 171.59375,
+      "width": 472.6875,
+      "height": 606
+    },
+    "observer": {
+      "x": 1494.5,
+      "y": 171.59375,
+      "width": 411.5,
+      "height": 876
+    },
+    "captionDisplay": "none",
+    "brand": "29px",
+    "brandAccent": "rgb(24, 224, 244)",
+    "background": "rgb(0, 13, 22)"
+  },
+  "harnessOutput": "PASS 59 experimental trial checks\r\nPASS 59 deterministic 005A.2 trial checks\r\nPASS 19 domain checks\r\nPASS 21 total domain checks with stabilization diagnostics\r\nPASS C# socket + physical-distance proxy + real connectome + command gate\r\n",
+  "exitCode": 0,
+  "errors": [],
+  "unexpectedRequests": [],
+  "frameCount": 4,
+  "latest": {
+    "source": "FRUITFLY_XR",
+    "receivedAt": "2026-10-28T04:00:34.472Z",
+    "provenance": {
+      "structuralSource": "Published male Drosophila CNS connectome: male-cns:v1.0",
+      "dataset": "male-cns:v1.0",
+      "connectomeSha256": "e33df182bed7a6f3ea279daf4790a82b05706d3d41e819a6a80c0473e8c559f3",
+      "neurons": 176422,
+      "edges": 6287749,
+      "dynamics": "SIMULATED",
+      "generator": "FruitFly XR brain server",
+      "experimentalRecording": false,
+      "transport": "observatory/v1"
+    },
+    "telemetry": {
+      "sessionId": "fd71745e-a9f2-404a-acf9-adce0d94b39f",
+      "sequence": 4,
+      "simulationMs": 200,
+      "neuralTick": 4,
+      "totalSpikeEvents": 3314,
+      "activeNeuronCount": 59294,
+      "displaySpikeEvents": 512,
+      "displayTruncated": true,
+      "droppedDisplayFrames": 0,
+      "droppedSubscriberMessages": 0,
+      "spikeDisplaySemantics": "EXACT_SPIKES_FIRST_N_FILTERED",
+      "edgeDisplaySemantics": "CONNECTED_ACTIVE_SUBGRAPH_NON_CAUSAL",
+      "spikeEvents": [
+        {
+          "neuronId": 18929,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 21703,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 22677,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 26915,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 37925,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 10001,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 10283,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 76637,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 10375,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 10588,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 18425,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 800145,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 800254,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 801805,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 10138,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 12175,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 514232,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 520792,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 64850,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 805425,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 807368,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 904101,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 11920,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 808305,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 12845,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 11354,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 525958,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 27478,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 13403,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 519132,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 27341,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 512662,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 10251,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 801824,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 801006,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 11131,
+          "spikeTimeMs": 150
+        },
+        {
+          "neuronId": 19589,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 19842,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 34681,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 10887,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 22212,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 12041,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 12236,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 12157,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 22124,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 10580,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 805365,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 17757,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 28663,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 516820,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 800244,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 807445,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 21568,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 804177,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 12427,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 10325,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 11932,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 801621,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 10101,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 802107,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 802207,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 803195,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 804411,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 906236,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 10822,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 11934,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 41534,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 10035,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 33729,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 12333,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 523590,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 800912,
+          "spikeTimeMs": 150.5
+        },
+        {
+          "neuronId": 17926,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 18929,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 22677,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 25253,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 35632,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 10943,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 11137,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 523921,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 539413,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 13794,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 12289,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 10010,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 11711,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 12531,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 521762,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 11982,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 804697,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 803564,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 13124,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 800348,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 800480,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 902349,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 10072,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 14075,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 10276,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 10203,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 13128,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 43365,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 10299,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 13724,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 803241,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 17706,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 909840,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 801382,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 79556,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 63027,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 10385,
+          "spikeTimeMs": 151
+        },
+        {
+          "neuronId": 22847,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 22966,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 19146,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 19249,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 19608,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 21862,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 25636,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 12395,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 12507,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 92244,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 76505,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 532199,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 11334,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 13271,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 27890,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 30003,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 578193,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 60067,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 75379,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 76888,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 517452,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 529604,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 806284,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 806662,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 806969,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 31759,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 20163,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 15811,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 12512,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 11710,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 803339,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 910098,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 10582,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 10368,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 11659,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 15689,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 13007,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 800257,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 12902,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 10703,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 803575,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 902790,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 10872,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 10285,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 512750,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 924901,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 802734,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 801933,
+          "spikeTimeMs": 151.5
+        },
+        {
+          "neuronId": 17551,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 18929,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 22677,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 28003,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 30041,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 33439,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 10297,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 11677,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 13122,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 16659,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 10250,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 18142,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 14899,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 802681,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 11575,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 18714,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 20381,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 522465,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 800012,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 806719,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 95237,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 45498,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 800741,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 802197,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 902492,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 905139,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 520815,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 13307,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 24136,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 801616,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 526521,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 13757,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 804978,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 520117,
+          "spikeTimeMs": 152
+        },
+        {
+          "neuronId": 24118,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 25636,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 33185,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 10001,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 12951,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 19756,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 531648,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 12628,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 10082,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 28160,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 800146,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 26430,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 805946,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 19031,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 515110,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 800296,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 801593,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 802961,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 803425,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 805362,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 10738,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 23704,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 802893,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 523715,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 44903,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 11455,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 10488,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 536048,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 11348,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 521190,
+          "spikeTimeMs": 152.5
+        },
+        {
+          "neuronId": 19842,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 21899,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 33439,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 10283,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 10923,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 12870,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 13286,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 23147,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 11133,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 18621,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 10091,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 10184,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 11064,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 11700,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 13382,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 17522,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 811088,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 814356,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 10202,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 24906,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 912294,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 529023,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 513403,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 803280,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 808708,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 932684,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 906757,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 12777,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 908973,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 34187,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 523564,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 122374,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 10869,
+          "spikeTimeMs": 153
+        },
+        {
+          "neuronId": 20535,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 21899,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 24268,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 30938,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 34681,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 38542,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 11826,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 21813,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 23756,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 28725,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 10117,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 10146,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 10277,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 11630,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 10853,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 25483,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 66264,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 800690,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 801755,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 803986,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 10404,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 904387,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 800434,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 801239,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 809743,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 905489,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 11403,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 21823,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 11166,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 21849,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 30119,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 803197,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 33075,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 10271,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 801010,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 18889,
+          "spikeTimeMs": 153.5
+        },
+        {
+          "neuronId": 25267,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 10943,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 11137,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 14862,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 22212,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 10106,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 531985,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 29481,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 10010,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 366232,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 534063,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 800700,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 802595,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 808873,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 10855,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 21568,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 940260,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 10931,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 11252,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 16438,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 32914,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 13996,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 523636,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 524881,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 34462,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 801148,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 802239,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 1054499659,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 22837,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 10238,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 10830,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 902552,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 15310,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 43756,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 15905,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 16862,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 14435,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 802043,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 45311,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 805137,
+          "spikeTimeMs": 154
+        },
+        {
+          "neuronId": 17548,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 14465,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 18672,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 19229,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 21045,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 21318,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 21562,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 33396,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 38542,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 16554,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 16659,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 22654,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 25978,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 65465,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 800178,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 800595,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 10417,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 17757,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 30789,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 48633,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 519365,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 801653,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 805206,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 805604,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 20201,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 10959,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 10646,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 39880,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 800184,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 800968,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 804793,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 905905,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 908181,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 12794,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 10477,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 804307,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 15117,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 529571,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 804119,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 16274,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 62207,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 519865,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 11945,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 10497,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 16781,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 13221,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 802584,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 21719,
+          "spikeTimeMs": 154.5
+        },
+        {
+          "neuronId": 18929,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 19842,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 20269,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 21703,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 28044,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 10001,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 24509,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 10102,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 15009,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 17589,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 20463,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 21190,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 28636,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 517234,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 520479,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 537514,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 806876,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 10323,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 11965,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 18069,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 27921,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 512909,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 801053,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 805800,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 932493,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 12426,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 10780,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 523626,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 802204,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 800032,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 803480,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 805992,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 808531,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 815323,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 907793,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 802793,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 904119,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 15212,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 803811,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 16632,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 808060,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 16402,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 28181,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 12278,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 1050074465,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 57240,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 802413,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 537032,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 801610,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 800412,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 11423,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 517997,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 19957,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 21522,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 13428,
+          "spikeTimeMs": 155
+        },
+        {
+          "neuronId": 21165,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 20182,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 24187,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 10732,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 11677,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 12951,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 15890,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 10601,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 85544,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 10375,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 17568,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 18555,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 33257,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 519300,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 10286,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 14051,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 17152,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 19740,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 802402,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 806232,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 801689,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 17246,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 808120,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 902931,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 904395,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 22768,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 14808,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 12089,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 18303,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 519131,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 11192,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 13450,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 519132,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 931656,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 11846,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 10149,
+          "spikeTimeMs": 155.5
+        },
+        {
+          "neuronId": 20535,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 28741,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 29216,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 10297,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 92244,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 12041,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 13111,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 10480,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 519296,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 10542,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 12000,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 18940,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 21110,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 25230,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 37530,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 81660,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 519773,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 801014,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 807265,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 11796,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 26056,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 533368,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 801195,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 803215,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 811410,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 939660,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 14210,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 800546,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 801061,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 904262,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 519705,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 11797,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 515140,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 19290,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 808663,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 523590,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 14039,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 800069,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 10051,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 512273,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 13084,
+          "spikeTimeMs": 156
+        },
+        {
+          "neuronId": 17926,
+          "spikeTimeMs": 156.5
+        },
+        {
+          "neuronId": 24118,
+          "spikeTimeMs": 156.5
+        }
+      ],
+      "decodedMotor": [
+        {
+          "name": "backward",
+          "value": 0
+        },
+        {
+          "name": "brake",
+          "value": 0.0060423082307339395
+        },
+        {
+          "name": "courtship",
+          "value": 0.000011251882088251952
+        },
+        {
+          "name": "feed",
+          "value": 0
+        },
+        {
+          "name": "flightPower",
+          "value": 0
+        },
+        {
+          "name": "flightYaw",
+          "value": 0
+        },
+        {
+          "name": "forward",
+          "value": 0.08631402314149733
+        },
+        {
+          "name": "groomAbdomen",
+          "value": 0
+        },
+        {
+          "name": "groomAntenna",
+          "value": 0
+        },
+        {
+          "name": "groomHead",
+          "value": 0.0074877624867367085
+        },
+        {
+          "name": "groomLeg",
+          "value": 0
+        },
+        {
+          "name": "halt",
+          "value": 0.019441345590658066
+        },
+        {
+          "name": "jump",
+          "value": 1
+        },
+        {
+          "name": "landing",
+          "value": 0
+        },
+        {
+          "name": "legMotor",
+          "value": 0.054280027860806414
+        },
+        {
+          "name": "legMotorAsym",
+          "value": 0.00846886843078603
+        },
+        {
+          "name": "song",
+          "value": 0
+        },
+        {
+          "name": "songPulse",
+          "value": 0
+        },
+        {
+          "name": "takeoff",
+          "value": 0.6966811848051268
+        },
+        {
+          "name": "wingMotor",
+          "value": 0.14093221634730763
+        },
+        {
+          "name": "yaw",
+          "value": 0
+        }
+      ],
+      "inputSequence": 3,
+      "inputFresh": true,
+      "motorMode": "ESCAPE"
+    }
+  },
+  "matched": 476,
+  "frozenCanvas": true,
+  "overflow": {
+    "width": 1920,
+    "height": 1080,
+    "scrollWidth": 1920,
+    "scrollHeight": 1080,
+    "panels": [
+      {
+        "top": 47.59375,
+        "bottom": 135.59375
+      },
+      {
+        "title": "Connectome activity",
+        "top": 171.59375,
+        "bottom": 777.59375
+      },
+      {
+        "top": 171.59375,
+        "bottom": 777.59375
+      },
+      {
+        "title": "Event timeline",
+        "top": 789.59375,
+        "bottom": 889.59375
+      },
+      {
+        "title": "Simulation output",
+        "top": 901.59375,
+        "bottom": 1047.59375
+      },
+      {
+        "title": "Stream health",
+        "top": 901.59375,
+        "bottom": 1047.59375
+      },
+      {
+        "title": "AI OBSERVER",
+        "top": 171.59375,
+        "bottom": 840.09375
+      },
+      {
+        "top": 223.09375,
+        "bottom": 558.28125
+      },
+      {
+        "top": 558.28125,
+        "bottom": 647.28125
+      },
+      {
+        "top": 649.28125,
+        "bottom": 759.28125
+      },
+      {
+        "top": 852.09375,
+        "bottom": 1047.59375
+      }
+    ]
+  },
+  "desktop1440": {
+    "width": 1440,
+    "scrollWidth": 1440,
+    "scrollHeight": 1123
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390
+  },
+  "liveText": "FRUITFLY XR / Connectome simulation\nLIVE\nCONNECTED\n\nSession\nfd71745e-a9f2-404a-acf9-adce0d94b39f\n\nModel time\n200 ms\nSimulation tick\n4\nSequence\n4\nStream health\nReceiving data\nDisconnect\nPublished fruit-fly connectome · Simulated neural dynamics\n4 / 120 received frames\nCONNECTOME ACTIVITY\nPUBLISHED ANATOMY\nCurrent tick\nRecent activity\nStructure\nAnatomy\nID raster\nRAW X / Y · Z DEPTH\nLATEST RECEIVED TICK 4\n476 / 478 supplied spiking IDs mapped\n47,261 structural points · orientation unspecified\n512\nsupplied events / latest tick\n141,781\npublished soma coordinates\n\nCyan marks supplied spiking IDs, not all active neurons. No inferred connections.\n\nSIMULATED SPIKE EVENTS\n3,314\nreported in latest tick\n0\n1,858\n3,715\n1\n4\nSimulation tick\nACTIVE SIMULATED NEURONS\n59,294\nsimulation state · latest tick\n0\n33,472\n66,945\n1\n4\nSimulation tick\n\nCounts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states\n\nEVENT TIMELINE\nRECEIVED EVENTS · MODEL TIME\nFrame received\nTick 1\n50 model ms\nDecoder changed\nIDLE → ESCAPE\n100 model ms\nInput reference changed\nTick 3\n150 model ms\nInput reference changed\nTick 4\n200 model ms\nSIMULATION OUTPUT\nMOTOR DECODER\n↗\nESCAPE\n\nIDLE → ESCAPE · received window\n\nSIMULATED\n\nDecoded simulation output. Physical movement is not measured by this stream.\n\nSTREAM HEALTH\nSequence\n4\nLatest-frame age\n0.5 s\nDisplay drops\n0\nSubscriber drops\n0\nInput freshness\nFresh\nDisplay sample\n512 / 3,314\nView diagnostics ↗\nAI OBSERVER\nLOCAL OBSERVER\nWHAT HAPPENED?\n⌁\n\n3,314\nSimulated spike events\n\n◉\n\n59,294\nActive simulated neurons\n\n↗\n\nESCAPE\nMotor decoder output\n\n⋮\n\n512 / 3,314\nEvents supplied for display\n\nSTREAM NOTES\nDisplay sample: 512 / 3,314 events supplied.\n✦   WORTH INVESTIGATING\nInspect totals beyond the display sample\nOpen Evidence\n↗\n✧   Analyze with Meta\nON DEMAND\n\nNot available for live telemetry · no automatic calls.\n\nVALIDATED CONNECTOME SOURCE\nmale-cns:v1.0\n176,422\nneurons\n6,287,749\nstructural edges\n\nPublished structure / Simulated dynamics\n\nNot recordings from a living fly",
+  "staleText": "FRUITFLY XR / Connectome simulation\nLAST SNAPSHOT\nCONNECTED\n\nSession\nfd71745e-a9f2-404a-acf9-adce0d94b39f\n\nModel time\n200 ms\nSimulation tick\n4\nSequence\n4\nStream health\nNo current frames\nDisconnect\nLAST RECEIVED 2026-10-28 04:00:34.472 UTC · No current activity claimed\n4 / 120 received frames\nCONNECTOME ACTIVITY\nPUBLISHED ANATOMY\nLast tick\nRecent activity\nStructure\nAnatomy\nID raster\nRAW X / Y · Z DEPTH\nLAST RECEIVED TICK 4\n476 / 478 supplied spiking IDs mapped\n47,261 structural points · orientation unspecified\n512\nsupplied events / latest tick\n141,781\npublished soma coordinates\n\nCyan marks supplied spiking IDs, not all active neurons. No inferred connections.\n\nSIMULATED SPIKE EVENTS\n3,314\nreported in latest tick\n0\n1,858\n3,715\n1\n4\nSimulation tick\nACTIVE SIMULATED NEURONS\n59,294\nsimulation state · latest tick\n0\n33,472\n66,945\n1\n4\nSimulation tick\n\nCounts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states\n\nEVENT TIMELINE\nRECEIVED EVENTS · MODEL TIME\nFrame received\nTick 1\n50 model ms\nDecoder changed\nIDLE → ESCAPE\n100 model ms\nInput reference changed\nTick 3\n150 model ms\nInput reference changed\nTick 4\n200 model ms\nStream inactive\nSnapshot retained\n04:00:34 UTC · last received\nSIMULATION OUTPUT\nMOTOR DECODER\n↗\nESCAPE\n\nIDLE → ESCAPE · received window\n\nSIMULATED\n\nDecoded simulation output. Physical movement is not measured by this stream.\n\nSTREAM HEALTH\nSequence\n4\nLatest-frame age\n5.8 s\nDisplay drops\n0\nSubscriber drops\n0\nInput freshness\nFresh\nDisplay sample\n512 / 3,314\nView diagnostics ↗\nAI OBSERVER\nLOCAL OBSERVER\nWHAT HAPPENED?\n⌁\n\n3,314\nSimulated spike events\n\n◉\n\n59,294\nActive simulated neurons\n\n↗\n\nESCAPE\nMotor decoder output\n\n⋮\n\n512 / 3,314\nEvents supplied for display\n\nSTREAM NOTES\nLast snapshot only. No current activity claimed.\nDisplay sample: 512 / 3,314 events supplied.\n✦   WORTH INVESTIGATING\nReview the retained decoder states\nOpen Evidence\n↗\n✧   Analyze with Meta\nON DEMAND\n\nNot available for live telemetry · no automatic calls.\n\nVALIDATED CONNECTOME SOURCE\nmale-cns:v1.0\n176,422\nneurons\n6,287,749\nstructural edges\n\nPublished structure / Simulated dynamics\n\nNot recordings from a living fly"
+}

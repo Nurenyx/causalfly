@@ -10,11 +10,13 @@ import { ScientistView } from "./components/ai-scientist";
 import { EvidenceView, ExperimentMetadata } from "./components/evidence-view";
 import { DataSourcePanel, useFruitFlySource } from "./components/data-source-panel";
 import { FruitFlyEvidenceView } from "./components/fruitfly-evidence";
+import { LiveSessionWorkspace } from "./components/live-session";
 import { dataSources, type DataSourceKind } from "@/lib/sources/contracts";
 
 const defaultQuestion = "Does silencing primary_a reduce the synthetic output peak and delay threshold crossing?";
 const workspaces: { id: Workspace; label: string; icon: string; description: string }[] = [
   { id: "observatory", label: "Observatory", icon: "◉", description: "Design your next experiment" },
+  { id: "live", label: "Live Session", icon: "◌", description: "Live connectome observatory" },
   { id: "compare", label: "Compare", icon: "⇄", description: "Control vs Intervention" },
   { id: "scientist", label: "AI Scientist", icon: "✧", description: "Scientific analysis" },
   { id: "evidence", label: "Evidence", icon: "▤", description: "How this result was produced" },
@@ -78,10 +80,10 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     setNotice("Next question loaded. Review it, then choose Design & Run Experiment.");
   }
 
-  return <div className="app-shell">
+  return <div className={`app-shell${workspace === "live" ? " live-shell" : ""}`}>
     <a href="#main" className="skip-link">Skip to workspace</a>
     <aside className="sidebar" aria-label="CausalFly navigation">
-      <Link className="brand" href="/" aria-label="CausalFly home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16 12 5l8 22 8-11M4 16h24M12 5l8 22" /><circle cx="4" cy="16" r="3" /><circle cx="12" cy="5" r="3" /><circle cx="20" cy="27" r="3" /><circle cx="28" cy="16" r="3" /></svg><span>CAUSALFLY<small>causal observatory</small></span></Link>
+      <Link className="brand" href="/" aria-label="CausalFly home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16 12 5l8 22 8-11M4 16h24M12 5l8 22" /><circle cx="4" cy="16" r="3" /><circle cx="12" cy="5" r="3" /><circle cx="20" cy="27" r="3" /><circle cx="28" cy="16" r="3" /></svg><span>{workspace === "live" ? <>Causal<span className="brand-accent">Fly</span></> : "CAUSALFLY"}<small>{workspace === "live" ? <>Connectome Experiment<br />Observatory</> : "causal observatory"}</small></span></Link>
       <span className="sidebar-caption">WORKSPACE</span>
       <nav aria-label="Experiment workspaces">{workspaces.map((view) => <button key={view.id} type="button" aria-current={workspace === view.id ? "page" : undefined} className={workspace === view.id ? "active" : ""} onClick={() => navigate(view.id)} disabled={pending}><span aria-hidden="true">{view.icon}</span>{view.label}{workspace === view.id && <i aria-hidden="true" />}</button>)}</nav>
       <DataSourcePanel source={source} snapshot={fruitFly.snapshot} disabled={pending} onSelect={selectSource} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} />
@@ -92,7 +94,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       {source === "SYNTHETIC_FIXTURE" && result && workspace !== "observatory" && <div className="metadata-bar"><span className="eyebrow">EXPERIMENT</span><ExperimentMetadata result={result} /></div>}
       <div className="sr-only" role="status">{notice}</div>
       <main id="main" ref={mainRef} tabIndex={-1} className={`main-content ${workspace === "compare" && result ? "compare-content" : ""}`} aria-label={`${current.label} workspace`}>
-        {source === "FRUITFLY_XR" ? workspace === "evidence" ? <FruitFlyEvidenceView snapshot={fruitFly.snapshot} /> : <section className="panel"><h2>FruitFly XR data bridge</h2><p>Receive read-only, connectome-backed simulation telemetry using the Data Source panel. Inspect the received data and how it was produced in Evidence.</p><p>What did we change? No intervention is sent by CausalFly. What happened? Received telemetry describes the external simulation. What should we test next? A controlled experiment is needed before making causal comparisons.</p><p>Compare and AI Scientist currently use the Synthetic Fixture. Your synthetic result is preserved.</p><button type="button" className="secondary-button" onClick={() => navigate("evidence")}>Open Evidence ↗</button><button type="button" className="text-button" onClick={() => selectSource("SYNTHETIC_FIXTURE")}>Use Synthetic Fixture</button></section> : workspace === "observatory" ? <>
+        {workspace === "live" ? source === "FRUITFLY_XR" ? <LiveSessionWorkspace snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} onEvidence={() => navigate("evidence")} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} /> : <section className="empty-state"><div className="empty-orbit" aria-hidden="true">◌</div><span className="eyebrow">LIVE SESSION</span><h2>Follow a FruitFly XR simulation.</h2><p>Live telemetry requires FruitFly XR. Select the source, connect, and start a trial with its existing client.</p><button type="button" className="primary-button" onClick={() => selectSource("FRUITFLY_XR")}>Select FruitFly XR ↗</button></section> : source === "FRUITFLY_XR" ? workspace === "evidence" ? <FruitFlyEvidenceView snapshot={fruitFly.snapshot} /> : <section className="panel"><h2>FruitFly XR data bridge</h2><p>Receive read-only, connectome-backed simulation telemetry using the Data Source panel. Inspect the received data and how it was produced in Evidence.</p><p>What did we change? No intervention is sent by CausalFly. What happened? Received telemetry describes the external simulation. What should we test next? A controlled experiment is needed before making causal comparisons.</p><p>Compare and AI Scientist currently use the Synthetic Fixture. Your synthetic result is preserved.</p><button type="button" className="secondary-button" onClick={() => navigate("live")}>Open Live Session ↗</button><button type="button" className="text-button" onClick={() => navigate("evidence")}>Open Evidence ↗</button><button type="button" className="text-button" onClick={() => selectSource("SYNTHETIC_FIXTURE")}>Use Synthetic Fixture</button></section> : workspace === "observatory" ? <>
           <div className="page-intro"><span className="eyebrow cyan-text">THE CAUSAL OBSERVATORY</span><h2>Ask. Intervene. Understand.</h2><p>From a research question to reproducible evidence, with an AI scientist in the loop.</p></div>
           <section id="research" className="panel question-panel" aria-labelledby="question-label">
             <div className="question-heading"><label id="question-label" htmlFor="research-question"><span className="section-index">01</span>Research question</label><span className="eyebrow">START WITH A HYPOTHESIS</span></div>
