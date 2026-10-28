@@ -10,6 +10,8 @@ Built for the **Meta Global AI Developer Hackathon 2026** by [Nurenyx](https://g
 
 > **Trust boundary:** Meta AI proposes and interprets experiments. CausalFly's deterministic engine produces the measurements. AI-generated text cannot modify measured experimental results.
 
+**Live Meta, two source-aware paths:** Synthetic Fixture runs Meta design → validated deterministic trials → Meta interpretation. FruitFly XR runs local observational analysis first, then **ANALYZE WITH META** sends the exact question and frozen retained evidence on demand. Accepted live results display **META MUSE / LIVE AI ANALYSIS**; errors allow Retry and never fall back to fake. [Runtime architecture and verification](docs/META-INTEGRATION.md).
+
 ![CausalFly control vs perturbation experiment](docs/images/causalfly-readme-hero-temp.png)
 
 ---
@@ -245,7 +247,7 @@ META_MODEL=muse-wonder-1.0
 META_BASE_URL=https://api.meta.ai/v1
 ```
 
-Meta AI is currently used in two distinct stages.
+Synthetic experiments use Meta AI in two distinct stages. FruitFly XR adds a separate on-demand observational scientist.
 
 ### 1. Experiment Designer
 
@@ -276,6 +278,15 @@ ScientificAnalysis
 ```
 
 Meta credentials remain server-side and are never sent to the browser.
+
+### 3. FruitFly observational scientist
+
+An explicit **ANALYZE WITH META** action sends the exact question plus compact,
+validated, server-retained simulation evidence. Meta returns a strictly validated
+observational interpretation, limitations and a proposed next test. No Meta call
+occurs on navigation, connection, incoming telemetry or question submission alone.
+Published connectome structure supports simulated dynamics—not living-fly
+recordings or causal intervention claims. [Sprint 6A review](docs/SPRINT_6_META_RUNTIME_REVIEW.md).
 
 ---
 

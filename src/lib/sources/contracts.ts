@@ -45,6 +45,8 @@ export interface FruitFlyEvidence {
 
 /** Only allowlisted telemetry crosses the server/browser boundary. */
 export interface FruitFlySnapshot {
+  /** Opaque reference to validated server retention; contains no provider information. */
+  retentionId?: string;
   source: "FRUITFLY_XR";
   state: FruitFlyConnectionState;
   message: string;

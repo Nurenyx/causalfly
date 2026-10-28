@@ -4,7 +4,7 @@ import OpenAI from "openai";
 import { addMetaProviderErrorContext } from "./provider-errors";
 
 export interface MetaRequest {
-  readonly task: "design" | "interpret";
+  readonly task: "design" | "interpret" | "observe";
   readonly system: string;
   /** Serialized data prevents a client from obtaining mutable evidence references. */
   readonly inputJson: string;

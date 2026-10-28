@@ -1,4 +1,5 @@
 import "server-only";
+import { openRetention, retainSnapshot } from "./retained-evidence";
 import { FruitFlyNormalizer } from "./fruitfly-protocol";
 import { disconnectedFruitFly, type FruitFlySnapshot } from "./contracts";
 
@@ -82,6 +83,7 @@ export function connectFruitFly(publish: (snapshot: FruitFlySnapshot) => void, d
 }
 
 export function fruitFlyStream(signal: AbortSignal, dependencies: BridgeDependencies = {}) {
+  const retentionId = openRetention();
   const encoder = new TextEncoder();
   let cleanup: (cancelled?: boolean) => void = () => {};
   let pending: Uint8Array | null = null;
@@ -90,8 +92,9 @@ export function fruitFlyStream(signal: AbortSignal, dependencies: BridgeDependen
       if (signal.aborted) { controller.close(); return; }
       let ended = false;
       const send = (snapshot: FruitFlySnapshot) => {
+        retainSnapshot(retentionId, snapshot);
         if (ended) return;
-        const data = encoder.encode(`data: ${JSON.stringify(snapshot)}\n\n`);
+        const data = encoder.encode(`data: ${JSON.stringify({ ...snapshot, retentionId })}\n\n`);
         // Latest-only HTTP lane: a slow browser must not build an unbounded backlog.
         if ((controller.desiredSize ?? 0) > 0) {
           pending = null;

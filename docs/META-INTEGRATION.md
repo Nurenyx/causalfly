@@ -1,11 +1,12 @@
-# Meta integration (Sprint 2)
+# Meta runtime integration (Sprint 6A)
 
 Use Node.js 22 or newer, as required by the official OpenAI SDK.
 
-The CLI workflow designs an experiment from a research question, validates its
+The synthetic CLI and web workflow design an experiment from a research question, validate its
 specification, executes the deterministic Sprint 1 engine, and interprets the
-measured comparison as a separate ScientificAnalysis artifact. No UI or API route
-has been added.
+measured comparison as a separate ScientificAnalysis artifact. The web app exposes
+this loop at `POST /api/experiments`. FruitFly XR has a separate, explicit
+`POST /api/sources/fruitfly/analyze` observational interpreter described below.
 
 ## Configuration and modes
 
@@ -39,6 +40,12 @@ npm run experiment:ai-demo -- --live
 - `--fake`: always **FAKE META CLIENT**, ignoring credentials. No network calls.
 - `--live`: always **META LIVE**; missing or blank configuration fails before a
   request. Request failures never fall back to fake responses.
+
+The web runtime uses the same factory: `CAUSALFLY_FAKE_META=1` explicitly selects
+offline templates; otherwise complete configuration selects **META LIVE**. No
+provider SDK, key, endpoint, authorization header, hidden prompt or raw provider
+error enters browser contracts. Only the mode is exposed; model names are not
+guessed. The UI uses **META MUSE / LIVE AI ANALYSIS** only for accepted live results.
 
 The CLI prints its mode before the workflow. Fake output explicitly describes
 itself as an offline template and never claims to be a Meta model response. Its
@@ -132,12 +139,82 @@ measurements, limitations, no biological claims, and silence-only follow-ups.
 Free-text correctness cannot be guaranteed by structural validation. Review
 analysis against evidence; recommendations are not automatically executed.
 
+## FruitFly observational scientist
+
+1. An explicit Connect action opens the existing read-only research bridge.
+2. After protocol/source validation, the server retains a frozen history of up to
+   120 frames under an opaque random reference. The browser receives that reference
+   with telemetry; switching sources or disconnecting preserves received evidence.
+3. Submitting the exact question runs the pure local observational answer and opens
+   AI Scientist. This performs no provider IO.
+4. Only **ANALYZE WITH META** posts the question, reference, session ID and the
+   exact browser-retained sequence IDs. Browser-supplied measurements are rejected.
+5. The server selects those frames from retention, runs the local answer again,
+   constructs a deeply frozen compact bundle and registers it in an in-process
+   evidence gate. Missing/expired references fail before constructing a Meta client.
+6. `interpretObservationalEvidence` calls the existing client once with task
+   `observe`. The response passes JSON parsing, strict Zod validation, exact-question
+   equality and a conservative sufficiency check before it is returned separately.
+
+No Meta request occurs on load, navigation, source switch, connection, telemetry
+arrival or question submission. The event handler blocks concurrent duplicate clicks.
+Retry is explicit. Existing transport retries remain bounded to transient failures
+(at most three attempts per completion); no fake fallback exists.
+
+### Evidence sent to Meta
+
+| Field group | Content |
+| --- | --- |
+| Question/window | Exact question, source, session ID, capture time, retained frame count |
+| Source provenance | Published dataset/hash/counts, simulated dynamics, generator, transport, `experimentalRecording: false` |
+| Per received frame | Receipt time, sequence, simulation tick, model time, supplied simulated spike-event and active-neuron counts |
+| Decoder/input | Supplied decoder states/channel values, input-reference IDs and freshness; received state/reference transitions |
+| Diagnostics | Display event count/truncation, producer display/subscriber drop counters, current server stream state and historical status |
+| Local derivation | Deterministic answer, intent, sufficiency, facts, missing evidence, exact session/sequence window |
+
+The bundle omits raw WebSocket objects, spike-ID arrays, soma coordinates, anatomical
+edges, inferred neuron/population identities, stimulus contents and unsupported XR
+movement. No secrets or credentials are supplied. Model time is simulation time;
+counts are not Hz or living-fly measurements. Active counts can include nonspiking
+neurons. Decoder values are simulated outputs, not physical movement evidence.
+
+### Strict observational response
+
+Required fields: `exactQuestion`, `evidenceSufficiency` (`SUFFICIENT`, `PARTIAL`,
+`INSUFFICIENT`), nonempty `observations[]`, `interpretation`, nonempty `limitations[]`,
+`potentialConfounders[]`, `nextExperiment: { title, rationale, requiredEvidence[] }`
+and literal `causalClaimAllowed: false`. All objects reject extra fields. Text is
+nonblank and bounded; lists are bounded. Malformed, missing, empty, incomplete,
+refused or truncated responses fail without repair. A changed exact question fails.
+When the local answer is insufficient, Meta cannot upgrade its sufficiency.
+
+Instructions distinguish observations from interpretation, require simulated
+dynamics over published structure, prohibit biological validation and causal-effect
+claims, and label recommendations as proposed tests. Schema validation does not
+prove free-text scientific correctness; the measured/local evidence remains visible
+beside the separate AI interpretation for review.
+
+The UI identifies the frozen analysis question and frame window even if newer
+telemetry or another question becomes available. Local analysis remains accessible
+and separate. Errors use fixed public messages with an explicit Retry action.
+
+### Retention limits
+
+This local-demo store is process-local: 120 frames per subscription, up to 32
+subscriptions, one-hour inactivity expiry, oldest-created eviction at capacity.
+Restart, expiry, eviction, a new external session or a rolling-window overrun can
+invalidate a reference. The server rejects it rather than trusting client evidence.
+The random reference is a capability for this unauthenticated local app, not a user
+identity or durable audit signature. Multi-process/serverless deployment needs a
+shared store and ownership/authentication. CausalFly never sends an XR intervention.
+
 ## Current scope and verification
 
-The Meta layer accepts only the unchanged `synthetic-two-pathway-v1` fixture,
+The experiment-design Meta layer accepts only the unchanged `synthetic-two-pathway-v1` fixture,
 including nodes, edges, weights and provenance. Its nodes have no biological
-identities. No Drosophila dataset, connectome validity, real-time integration,
-authentication or persistence is provided.
+identities. The separate FruitFly path accepts validated retained observational
+simulation telemetry; it does not supply controlled trials or biological validation.
+Neither path provides authentication or durable persistence.
 
 `npm test` runs Sprint 1 and Meta tests with no API credentials or network access.
 SDK tests inject an in-memory fetch implementation. The test and AI-demo scripts
@@ -147,7 +224,7 @@ standalone CLI context; no browser bundling is involved. All six acceptance gate
 ```sh
 npm test
 npm run experiment:demo
-npm run experiment:ai-demo
+npm run experiment:ai-demo -- --fake
 npm run lint
 npm run build
 git diff --check
@@ -157,4 +234,10 @@ The default fake demo silences `primary_a`: control peak 1 / crossing step 3,
 perturbed peak 0.5 / crossing step 4, peak delta -0.5 / crossing-step delta +1,
 with both threshold outcomes reached. The fake scientist labels these as synthetic
 observations, discloses its template limitations, and suggests silencing the
-existing `stimulus` node while keeping other parameters matched.
+eligible internal `primary_b` node while keeping other parameters matched.
+
+Sprint 6A adds offline compaction, strict observational parsing, false-only causal
+flag, insufficiency, retention/provenance, exact-question, no-fallback, sanitized
+error, no-automatic-request and explicit-action tests. SDK transports are injected.
+See [Sprint 6 runtime review](SPRINT_6_META_RUNTIME_REVIEW.md) for gate counts,
+controlled live acceptance, screenshots and remaining limitations.

@@ -175,3 +175,18 @@
   .xr-analysis-heading .page-intro h2 { font-size: 32px; }
   .nav-route-copy small { font-size: 8px; white-space: normal; line-height: 1.4; }
 }
+.xr-meta-runtime { padding: 24px; margin: 20px 0; border: 1px solid #bb86fc88; background: linear-gradient(125deg, #211337, #0b2029 72%); overflow-wrap: anywhere; }
+.xr-meta-runtime > header, .meta-live-banner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.xr-meta-runtime h3 { font-size: 24px; margin: 8px 0; }
+.xr-meta-runtime h4 { font-size: 18px; margin: 10px 0; white-space: pre-wrap; }
+.xr-meta-runtime p, .xr-meta-runtime li { line-height: 1.6; color: #c9d5de; }
+.xr-meta-runtime small { display: block; margin-top: 12px; color: #b6c3ce; }
+.xr-meta-runtime button { margin: 12px 0; }
+.xr-meta-result { margin-top: 20px; }
+.xr-meta-question { border-top: 1px solid #ffffff25; padding-top: 20px; }
+.xr-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+.xr-meta-grid > section { min-width: 0; padding: 18px; background: #08131b70; border-radius: 10px; }
+.xr-meta-error { border-left: 3px solid #ff697e; padding: 12px; }
+.meta-live-banner { padding: 18px 24px; margin-bottom: 20px; background: linear-gradient(110deg, #532c78, #123d48); border: 1px solid #bc8dff; border-radius: 12px; }
+.meta-live-banner strong { font-size: 24px; }
+@media (max-width: 850px) { .xr-meta-grid { grid-template-columns: 1fr; } }

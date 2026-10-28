@@ -1,0 +1,14 @@
+[
+  {
+    "providerMode": "META LIVE",
+    "task": "synthetic design + interpretation",
+    "success": true,
+    "schemaValidation": "PASS"
+  },
+  {
+    "providerMode": "META LIVE",
+    "task": "FruitFly observational interpretation",
+    "success": true,
+    "schemaValidation": "PASS"
+  }
+]

@@ -12,7 +12,7 @@ import type { WebExperimentResponse, WebStatus } from "./contracts";
 const inputSchema = z.strictObject({ researchQuestion: researchQuestionSchema });
 const configurationError = "Meta Model API configuration is incomplete or invalid. Configure the server or use offline fake mode.";
 
-function configuredClient(env: MetaEnvironment): MetaClient {
+export function configuredClient(env: MetaEnvironment): MetaClient {
   return createMetaClient(process.env.CAUSALFLY_FAKE_META === "1" ? "fake" : "auto", env);
 }
 

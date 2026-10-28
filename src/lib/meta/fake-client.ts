@@ -1,4 +1,5 @@
 import { demoExperimentSpec } from "../experiment/demo";
+import type { ObservationalEvidence } from "./observational-evidence";
 import type { MetaClient, MetaRequest } from "./client";
 import type { CompactEvidencePayload } from "./compact-evidence";
 import { eligiblePerturbationTargetIds, type ScientificAnalysis } from "./schemas";
@@ -8,6 +9,17 @@ export class FakeMetaClient implements MetaClient {
   readonly mode = "FAKE META CLIENT" as const;
 
   async complete(request: MetaRequest): Promise<string> {
+    if (request.task === "observe") {
+      const evidence = JSON.parse(request.inputJson) as ObservationalEvidence;
+      return JSON.stringify({ exactQuestion: evidence.exactQuestion,
+        evidenceSufficiency: evidence.localAnswer.sufficient ? "PARTIAL" : "INSUFFICIENT",
+        observations: [evidence.localAnswer.summary],
+        interpretation: `Offline template, not a Meta response. ${evidence.localAnswer.summary} Dynamics are simulated by FruitFly XR over published connectome structure, not recordings from a living fly.`,
+        limitations: ["No biological validation or causal intervention effect is established.", evidence.localAnswer.missing ?? "Only retained received frames are available."],
+        potentialConfounders: ["Unreceived frames and undocumented stimulus contents limit interpretation."],
+        nextExperiment: { title: "Collect documented follow-up evidence", rationale: "Proposed test only; no intervention has been performed.", requiredEvidence: [evidence.localAnswer.missing ?? "Independently documented input conditions and received telemetry."] },
+        causalClaimAllowed: false });
+    }
     if (request.task === "design") {
       return JSON.stringify(demoExperimentSpec);
     }

@@ -21,7 +21,7 @@ function ModeNote({ result }: { result: WebExperimentResult }) {
 export function AiScientistRail({ result, onNext, onFullAnalysis }: ScientistProps & { onFullAnalysis: () => void }) {
   const { analysis } = result;
   return <aside className="scientist-rail" aria-label="AI Scientist interpretation">
-    <header className="rail-header"><span className="scientist-icon" aria-hidden="true">✧</span><div><h2>AI SCIENTIST</h2><p>Powered by Meta Muse</p></div><Badge tone="amber">{result.mode === "FAKE META CLIENT" ? "FAKE" : "AI"}</Badge></header>
+    <header className="rail-header"><span className="scientist-icon" aria-hidden="true">✧</span><div><h2>AI SCIENTIST</h2><p>{result.mode === "META LIVE" ? "META MUSE / LIVE AI ANALYSIS" : "Offline template"}</p></div><Badge tone="amber">{result.mode === "FAKE META CLIENT" ? "FAKE" : "META LIVE"}</Badge></header>
     <p className="rail-mode-note">{result.mode === "FAKE META CLIENT" ? "OFFLINE TEMPLATE · Not a Meta model response" : "AI INTERPRETATION · Downstream of evidence"}</p>
     <section className="rail-section rail-observations"><h3>KEY OBSERVATIONS</h3><AnalysisList items={analysis.observations.slice(0, 4).map(displayObservation)} /></section>
     <section className="rail-section rail-interpretation"><h3>INTERPRETATION</h3><p className="scroll-prose" tabIndex={0} aria-label="Full interpretation, scroll to read">{analysis.interpretation}</p></section>
@@ -35,6 +35,7 @@ export function ScientistView({ result, onNext }: ScientistProps) {
   const { analysis } = result;
   const support = analysis.supportsHypothesis === null ? "INCONCLUSIVE" : analysis.supportsHypothesis ? "SUPPORTED IN THIS FIXTURE" : "NOT SUPPORTED IN THIS FIXTURE";
   return <div className="scientist-workspace" aria-labelledby="scientist-heading">
+    {result.mode === "META LIVE" && <div className="meta-live-banner"><span className="eyebrow">META MUSE</span><strong>LIVE AI ANALYSIS</strong><Badge tone="amber">META LIVE</Badge></div>}
     <section className="panel finding-panel">
       <SectionTitle index="AI" title="What did we find?" id="scientist-heading"><Badge tone="amber">{result.mode}</Badge></SectionTitle>
       <div className="finding-summary"><div><span className="eyebrow">HYPOTHESIS TESTED</span><h3>{result.spec.hypothesis}</h3></div><div className="support-state" data-support={analysis.supportsHypothesis === null ? "inconclusive" : analysis.supportsHypothesis ? "supported" : "unsupported"}><span className="eyebrow">HYPOTHESIS STATE / AI ASSESSMENT</span><strong>{support}</strong><small>Limited to this synthetic fixture</small></div></div>

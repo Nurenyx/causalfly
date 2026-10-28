@@ -55,15 +55,15 @@ test("FruitFly AI Scientist renders exact retained telemetry and source identity
   assert.doesNotMatch(html, /primary_a|supportsHypothesis|hypothesis state/i);
 });
 
-test("FruitFly AI Scientist is observational and its unwired Meta control is disabled", () => {
+test("FruitFly AI Scientist is observational and Meta control needs an explicit question and retained reference", () => {
   const html = render("FRUITFLY_XR", "scientist");
   assert.match(html, /OBSERVATIONAL ANALYSIS/);
   assert.match(html, /Observational telemetry does not establish causal effect/);
   assert.match(html, /did not apply an intervention/);
   assert.match(html, /not recordings from a living fly/);
   assert.match(html, /SUGGESTIONS \/ NOT FINDINGS/);
-  assert.match(html, /<button[^>]*disabled=""[^>]*>Analyze this question with Meta/);
-  assert.match(html, /Send the question plus the retained evidence bundle to Meta for observational interpretation/);
+  assert.match(html, /<button[^>]*disabled=""[^>]*>ANALYZE WITH META/);
+  assert.match(html, /Interpret the exact question using a frozen window/);
 });
 
 test("stale and disconnected evidence remains visible without claiming current activity", () => {

@@ -27,7 +27,7 @@ export function receiveSnapshot(previous: LiveSession, incoming: FruitFlySnapsho
     frames = [...frames, evidence].slice(-LIVE_FRAME_LIMIT);
     latest = evidence;
   }
-  return { snapshot: { source: "FRUITFLY_XR", state: incoming.state, message: incoming.message, evidence: latest }, frames };
+  return { snapshot: { source: "FRUITFLY_XR", state: incoming.state, message: incoming.message, evidence: latest, retentionId: incoming.evidence ? incoming.retentionId : previous.snapshot.retentionId }, frames };
 }
 
 export function frameAgeMs(evidence: FruitFlyEvidence | null, now: number): number | null {
