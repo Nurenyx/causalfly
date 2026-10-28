@@ -8,19 +8,24 @@ import { Badge } from "./components/workspace-ui";
 import { CompareDashboard } from "./components/compare-dashboard";
 import { ScientistView } from "./components/ai-scientist";
 import { EvidenceView, ExperimentMetadata } from "./components/evidence-view";
+import { DataSourcePanel, useFruitFlySource } from "./components/data-source-panel";
+import { FruitFlyEvidenceView } from "./components/fruitfly-evidence";
+import { dataSources, type DataSourceKind } from "@/lib/sources/contracts";
 
 const defaultQuestion = "Does silencing primary_a reduce the synthetic output peak and delay threshold crossing?";
 const workspaces: { id: Workspace; label: string; icon: string; description: string }[] = [
   { id: "observatory", label: "Observatory", icon: "◉", description: "Design your next experiment" },
-  { id: "compare", label: "Compare", icon: "⇄", description: "Control vs Perturbation" },
+  { id: "compare", label: "Compare", icon: "⇄", description: "Control vs Intervention" },
   { id: "scientist", label: "AI Scientist", icon: "✧", description: "Scientific analysis" },
-  { id: "evidence", label: "Evidence", icon: "▤", description: "Provenance & experiment configuration" },
+  { id: "evidence", label: "Evidence", icon: "▤", description: "How this result was produced" },
 ];
 const stages = ["Designing experiment with Meta", "Running deterministic control", "Running deterministic perturbation", "Comparing measured evidence", "Interpreting results with Meta"];
 
 export default function Observatory({ initialStatus }: { initialStatus: WebStatus }) {
   const [{ workspace, question, result }, dispatch] = useReducer(workspaceReducer, { workspace: "observatory", question: defaultQuestion, result: null });
   const [pending, setPending] = useState(false);
+  const [source, setSource] = useState<DataSourceKind>("SYNTHETIC_FIXTURE");
+  const fruitFly = useFruitFlySource();
   const [error, setError] = useState(initialStatus.error ?? "");
   const [notice, setNotice] = useState("");
   const questionRef = useRef<HTMLTextAreaElement>(null);
@@ -40,7 +45,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (inFlight.current) return;
+    if (inFlight.current || source !== "SYNTHETIC_FIXTURE") return;
     inFlight.current = true;
     setPending(true);
     setError("");
@@ -63,6 +68,10 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   }
 
   function navigate(next: Workspace) { dispatch({ type: "navigate", workspace: next }); }
+  function selectSource(next: DataSourceKind) {
+    if (next === "SYNTHETIC_FIXTURE") fruitFly.disconnect();
+    setSource(next);
+  }
   function useNextQuestion(next: string) {
     focusQuestion.current = true;
     dispatch({ type: "next-question", question: next });
@@ -75,15 +84,15 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       <Link className="brand" href="/" aria-label="CausalFly home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16 12 5l8 22 8-11M4 16h24M12 5l8 22" /><circle cx="4" cy="16" r="3" /><circle cx="12" cy="5" r="3" /><circle cx="20" cy="27" r="3" /><circle cx="28" cy="16" r="3" /></svg><span>CAUSALFLY<small>causal observatory</small></span></Link>
       <span className="sidebar-caption">WORKSPACE</span>
       <nav aria-label="Experiment workspaces">{workspaces.map((view) => <button key={view.id} type="button" aria-current={workspace === view.id ? "page" : undefined} className={workspace === view.id ? "active" : ""} onClick={() => navigate(view.id)} disabled={pending}><span aria-hidden="true">{view.icon}</span>{view.label}{workspace === view.id && <i aria-hidden="true" />}</button>)}</nav>
-      <div className="source-card"><span className="sidebar-caption">DATA SOURCE</span><div className="source-icon" aria-hidden="true">⌘</div><strong>Synthetic Fixture</strong><span className="ready-label"><span className="status-dot" />READY</span><p>Deterministic engineering network</p><div className="source-boundary">Meta proposes & interprets.<br />The engine measures.</div></div>
+      <DataSourcePanel source={source} snapshot={fruitFly.snapshot} disabled={pending} onSelect={selectSource} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} />
       <div className="sidebar-footer"><span className="sidebar-caption">META MODEL API</span><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode === "META LIVE" ? "LIVE CONFIGURED" : mode === "FAKE META CLIENT" ? "OFFLINE / FAKE" : "CONFIGURATION NEEDED"}</Badge><p>{mode === "META LIVE" ? "Connection checked when you submit" : "No provider request on page load"}</p></div>
     </aside>
     <div className="workspace">
-      <header className="topbar"><div><span className="breadcrumb">EXPERIMENT <span>/</span> {current.label.toUpperCase()}</span><h1>{current.description}</h1></div><div className="header-badges"><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "META CONFIGURATION NEEDED"}</Badge><Badge tone="cyan">SYNTHETIC FIXTURE</Badge></div></header>
-      {result && workspace !== "observatory" && <div className="metadata-bar"><span className="eyebrow">EXPERIMENT</span><ExperimentMetadata result={result} /></div>}
+      <header className="topbar"><div><span className="breadcrumb">EXPERIMENT <span>/</span> {current.label.toUpperCase()}</span><h1>{current.description}</h1></div><div className="header-badges"><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "META CONFIGURATION NEEDED"}</Badge><Badge tone="cyan">{dataSources[source].label.toUpperCase()}</Badge></div></header>
+      {source === "SYNTHETIC_FIXTURE" && result && workspace !== "observatory" && <div className="metadata-bar"><span className="eyebrow">EXPERIMENT</span><ExperimentMetadata result={result} /></div>}
       <div className="sr-only" role="status">{notice}</div>
       <main id="main" ref={mainRef} tabIndex={-1} className={`main-content ${workspace === "compare" && result ? "compare-content" : ""}`} aria-label={`${current.label} workspace`}>
-        {workspace === "observatory" ? <>
+        {source === "FRUITFLY_XR" ? workspace === "evidence" ? <FruitFlyEvidenceView snapshot={fruitFly.snapshot} /> : <section className="panel"><h2>FruitFly XR data bridge</h2><p>Receive read-only, connectome-backed simulation telemetry using the Data Source panel. Inspect the received data and how it was produced in Evidence.</p><p>What did we change? No intervention is sent by CausalFly. What happened? Received telemetry describes the external simulation. What should we test next? A controlled experiment is needed before making causal comparisons.</p><p>Compare and AI Scientist currently use the Synthetic Fixture. Your synthetic result is preserved.</p><button type="button" className="secondary-button" onClick={() => navigate("evidence")}>Open Evidence ↗</button><button type="button" className="text-button" onClick={() => selectSource("SYNTHETIC_FIXTURE")}>Use Synthetic Fixture</button></section> : workspace === "observatory" ? <>
           <div className="page-intro"><span className="eyebrow cyan-text">THE CAUSAL OBSERVATORY</span><h2>Ask. Intervene. Understand.</h2><p>From a research question to reproducible evidence, with an AI scientist in the loop.</p></div>
           <section id="research" className="panel question-panel" aria-labelledby="question-label">
             <div className="question-heading"><label id="question-label" htmlFor="research-question"><span className="section-index">01</span>Research question</label><span className="eyebrow">START WITH A HYPOTHESIS</span></div>
@@ -94,7 +103,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
           {pending ? <section className="panel loading-panel" role="status" aria-live="polite" aria-busy="true"><div><span className="spinner" /><h2>Scientific workflow in progress</h2></div><p>{mode === "FAKE META CLIENT" ? "Using the offline fake client for design and interpretation." : "The server is running the complete experiment. This may take a few minutes."} Results appear together when complete; stage completion is not streamed.</p><ol>{stages.map((stage, index) => <li key={stage}><span>{String(index + 1).padStart(2, "0")}</span>{mode === "FAKE META CLIENT" ? stage.replace("with Meta", "with fake client") : stage}</li>)}</ol></section> : result ? <div className="return-to-result panel"><div><Badge tone="green">EXPERIMENT AVAILABLE</Badge><p>Your measured comparison is ready to explore.</p></div><button type="button" className="secondary-button" onClick={() => navigate("compare")}>Open Compare ↗</button></div> : <div className="observatory-guide"><div><span>01 / DESIGN</span><h3>Start with a question</h3><p>Meta proposes a validated experiment specification.</p></div><div><span>02 / MEASURE</span><h3>Isolate the intervention</h3><p>The engine runs control and perturbation with matched conditions.</p></div><div><span>03 / INTERPRET</span><h3>Follow the evidence</h3><p>Compare real traces, then explore AI interpretation and provenance.</p></div></div>}
         </> : result ? workspace === "compare" ? <CompareDashboard result={result} onNext={useNextQuestion} onFullAnalysis={() => navigate("scientist")} onEvidence={() => navigate("evidence")} /> : workspace === "scientist" ? <ScientistView result={result} onNext={useNextQuestion} /> : <EvidenceView result={result} /> : <section className="empty-state"><div className="empty-orbit" aria-hidden="true">{current.icon}</div><span className="eyebrow">{current.label.toUpperCase()}</span><h2>Begin with an experiment.</h2><p>Run a research question to explore measured comparisons, scientific analysis, and provenance.</p><button type="button" className="primary-button" onClick={() => { focusQuestion.current = true; navigate("observatory"); }}>Go to Observatory ↗</button></section>}
       </main>
-      <footer className="scientific-disclaimer"><span aria-hidden="true">◇</span>Synthetic engineering fixture — not a biological model or Drosophila finding.</footer>
+      <footer className="scientific-disclaimer"><span aria-hidden="true">◇</span>{source === "SYNTHETIC_FIXTURE" ? "Synthetic engineering fixture — not a biological model or Drosophila finding." : "FruitFly XR — published connectome structure with simulated dynamics; not recordings from a living fly."}</footer>
     </div>
   </div>;
 }

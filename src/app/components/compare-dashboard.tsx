@@ -9,13 +9,14 @@ import { AiScientistRail } from "./ai-scientist";
 import { Badge } from "./workspace-ui";
 import { ExperimentPlayback } from "./experiment-playback";
 import { MeasuredDeltaCard } from "./measured-delta-card";
+import { measurementLabels } from "@/lib/web/display-labels";
 
 function ConditionPanel({ trial, step, maxStep, maxValue }: { trial: CompactTrialSummary; step: number; maxStep: number; maxValue: number }) {
   return <article className={`condition-panel ${trial.condition.toLowerCase()}`} aria-label={`${trial.condition} measurements`}>
-    <header className="condition-header"><h3><span className="status-dot" />{trial.condition}</h3><span>{trial.provenance.appliedPerturbation ? `silence / ${trial.provenance.appliedPerturbation.targetNodeId}` : "baseline / intact network"}</span></header>
+    <header className="condition-header"><h3 title={trial.condition}><span className="status-dot" />{trial.condition === "CONTROL" ? "CONTROL" : "INTERVENTION"}</h3><span>{trial.provenance.appliedPerturbation ? `silence / ${trial.provenance.appliedPerturbation.targetNodeId}` : "baseline / intact network"}</span></header>
     <SyntheticNetworkViz trial={trial} step={step} />
     <ActivityChart trial={trial} step={step} maxStep={maxStep} maxValue={maxValue} />
-    <dl className="condition-summary"><div><dt>Peak output</dt><dd>{trial.outputPeakActivity}</dd></div><div><dt>Threshold crossing</dt><dd>{crossing(trial.outputThresholdCrossingStep)}</dd></div><div><dt>Outcome</dt><dd className="condition-outcome">{trial.outcome === "THRESHOLD_REACHED" ? "Threshold reached" : "Threshold not reached"}</dd></div></dl>
+    <dl className="condition-summary"><div><dt title={measurementLabels.outputPeakActivity.technical}>{measurementLabels.outputPeakActivity.label}</dt><dd>{trial.outputPeakActivity}</dd></div><div><dt title={measurementLabels.outputThresholdCrossingStep.technical}>{measurementLabels.outputThresholdCrossingStep.label}</dt><dd>{crossing(trial.outputThresholdCrossingStep)}</dd></div><div><dt title={measurementLabels.outcome.technical}>{measurementLabels.outcome.label}</dt><dd className="condition-outcome">{trial.outcome === "THRESHOLD_REACHED" ? "Threshold reached" : "Threshold not reached"}</dd></div></dl>
   </article>;
 }
 
@@ -41,9 +42,9 @@ export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence }:
       <div className="condition-grid"><ConditionPanel trial={control} step={step} maxStep={maxStep} maxValue={maxValue} /><ConditionPanel trial={perturbed} step={step} maxStep={maxStep} maxValue={maxValue} /></div>
       <div className="measured-heading"><h2>Measured deltas</h2><span>PERTURBED − CONTROL</span></div>
       <div className="measured-deltas">
-        <MeasuredDeltaCard label="PEAK OUTPUT" delta={`Δ ${signed(deltas.outputPeakActivity)}`} control={control.outputPeakActivity} perturbed={perturbed.outputPeakActivity} note="Normalized activity · output node" />
-        <MeasuredDeltaCard label="THRESHOLD CROSSING" delta={deltas.outputThresholdCrossingSteps === null ? "N/A" : `Δ ${signed(deltas.outputThresholdCrossingSteps)}`} control={crossing(control.outputThresholdCrossingStep)} perturbed={crossing(perturbed.outputThresholdCrossingStep)} note={deltas.outputThresholdCrossingSteps === null ? "Not comparable · a crossing was not reached" : "Computational steps · perturbed − control"} tone="amber" />
-        <MeasuredDeltaCard label="OUTCOME" delta={deltas.outcomeChanged ? "Changed" : "Unchanged"} tone={deltas.outcomeChanged ? "red" : "green"} control={control.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"} perturbed={perturbed.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"} note="Output threshold · deterministic outcome" />
+        <MeasuredDeltaCard label={measurementLabels.outputPeakActivity.label} technicalLabel={measurementLabels.outputPeakActivity.technical} delta={`Δ ${signed(deltas.outputPeakActivity)}`} control={control.outputPeakActivity} perturbed={perturbed.outputPeakActivity} note="Peak output · normalized activity at output node" />
+        <MeasuredDeltaCard label={measurementLabels.outputThresholdCrossingStep.label} technicalLabel={measurementLabels.outputThresholdCrossingStep.technical} delta={deltas.outputThresholdCrossingSteps === null ? "N/A" : `Δ ${signed(deltas.outputThresholdCrossingSteps)}`} control={crossing(control.outputThresholdCrossingStep)} perturbed={crossing(perturbed.outputThresholdCrossingStep)} note={deltas.outputThresholdCrossingSteps === null ? "Not comparable · a crossing was not reached" : "Simulation steps · intervention − control"} tone="amber" />
+        <MeasuredDeltaCard label={measurementLabels.outcome.label} technicalLabel={measurementLabels.outcome.technical} delta={deltas.outcomeChanged ? "Changed" : "Unchanged"} tone={deltas.outcomeChanged ? "red" : "green"} control={control.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"} perturbed={perturbed.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"} note="Output threshold · deterministic outcome" />
       </div>
       <PropagationTimeline result={result} step={step} />
       <div className="evidence-link-bar"><span>{matched ? "✓ Engine measurements · matched condition provenance" : "Condition mismatch · inspect provenance"}</span><button type="button" className="text-button" onClick={onEvidence}>Inspect evidence ↗</button></div>

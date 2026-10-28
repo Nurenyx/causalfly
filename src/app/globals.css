@@ -1094,3 +1094,30 @@ dt  {
   .spinner { animation: none; }
   * { scroll-behavior: auto !important; transition: none !important; }
 }
+
+.sidebar:has(.source-picker) { overflow-y: auto; }
+.source-picker { padding: 0; border: 0; background: none; min-width: 0; margin-top: 28px; }
+.source-picker fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 10px; }
+.source-picker .sidebar-caption { padding: 0; margin-bottom: 12px; }
+.source-option { display: flex; align-items: flex-start; gap: 8px; width: 100%; padding: 12px 9px; border: 1px solid #35465d; border-radius: 6px; background: #101b2a; cursor: pointer; }
+.source-option:hover { border-color: #68849c; background: #142334; }
+.source-option.selected { border-color: var(--cyan); background: #14313e; box-shadow: inset 3px 0 0 var(--cyan); }
+.source-option input { flex: 0 0 auto; width: 15px; height: 15px; margin: 2px 0 0; accent-color: var(--cyan); cursor: pointer; }
+.source-option-content { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; }
+.source-option strong { font-size: 12px; font-weight: 600; line-height: 1.4; }
+.source-option.selected strong { color: #e3fbff; }
+.source-option-subtitle { color: #a8b9cb; font-size: 10px; line-height: 1.5; }
+.source-option .badge { font-size: 8px; letter-spacing: .3px; padding: 4px 5px; }
+.source-option:has(input:focus-visible) { outline: 2px solid var(--cyan); outline-offset: 3px; }
+.source-option input:focus-visible { outline: none; }
+.source-picker fieldset:disabled .source-option { opacity: .55; cursor: not-allowed; }
+.source-picker fieldset:disabled input { cursor: not-allowed; }
+.source-connection { margin-top: 12px; padding: 10px; border: 1px solid #35465d; border-radius: 6px; background: #101b2a; }
+.source-connection p:first-child { margin-top: 0; color: var(--foreground); }
+.source-picker .secondary-button { width: 100%; margin-top: 10px; white-space: normal; padding: 10px 8px; }
+.source-picker .source-scope-note { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); color: #b3c5d8; }
+.network-provenance dd { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .sidebar .source-card { display: block; margin-top: 14px; }
+  .source-card .source-icon { display: none; }
+}

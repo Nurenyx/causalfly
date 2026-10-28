@@ -31,7 +31,7 @@ CausalFly then:
 7. Sends compact measured evidence to Meta AI for downstream scientific interpretation.
 8. Presents observations, interpretation, limitations, confounders, hypothesis support, and a proposed next experiment.
 
-The current hackathon version uses a **synthetic engineering network**, not a biological connectome.
+Controlled experiments use a **synthetic engineering network**. Sprint 5 also adds a separate, read-only **FruitFly XR** data source for connectome-backed simulation telemetry. Its Evidence view distinguishes published structural data from simulated dynamics; these are not recordings from a living fly. See the [verified protocol, limitations, and manual bridge test](docs/FRUITFLY-XR-BRIDGE.md).
 
 ---
 
