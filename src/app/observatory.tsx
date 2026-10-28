@@ -16,6 +16,7 @@ import { fruitFlyExampleQuestion } from "@/lib/web/observational-question";
 import { dataSources, type DataSourceKind } from "@/lib/sources/contracts";
 import { createObservationalAction } from "@/lib/web/observational-action";
 import type { ObservationalMetaState } from "@/lib/web/observational-contracts";
+import { CausalFlyAssistant } from "./components/causalfly-assistant";
 
 const defaultQuestion = "Does silencing primary_a reduce the synthetic output peak and delay threshold crossing?";
 const workspaces: { id: Workspace; label: string; icon: string; description: string }[] = [
@@ -114,5 +115,9 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       </main>
       <footer className="scientific-disclaimer"><span aria-hidden="true">◇</span>{source === "SYNTHETIC_FIXTURE" ? "Synthetic engineering fixture — not a biological model or Drosophila finding." : "FruitFly XR — published connectome structure with simulated dynamics; not recordings from a living fly."}</footer>
     </div>
+    <CausalFlyAssistant source={source} workspace={workspace} snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} result={result} mode={mode} meta={fruitFlyMeta} busy={pending} onAnalyze={analyzeFruitFly} onNavigate={navigate} onSynthetic={() => selectSource("SYNTHETIC_FIXTURE")} onDesign={useNextQuestion} onFullAnalysis={(question) => {
+      if (source === "FRUITFLY_XR" && question) dispatch({ type: "fruitfly-ask", question, hasEvidence: true });
+      else navigate("scientist");
+    }} />
   </div>;
 }

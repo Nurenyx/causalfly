@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Ignored local acceptance logs/scripts are not application source.
+    "tmp/**",
   ]),
 ]);
 

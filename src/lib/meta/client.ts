@@ -103,7 +103,8 @@ export class LiveMetaClient implements MetaClient {
 
   async complete(request: MetaRequest): Promise<string> {
     let completion;
-    const maxRetries = this.transport.retry === false ? 0 : 2;
+    // Observational analysis is one provider attempt per explicit action; Retry belongs to the user.
+    const maxRetries = request.task === "observe" || this.transport.retry === false ? 0 : 2;
     for (let retry = 0; ; retry++) {
       try {
         completion = await this.sdk.chat.completions.create({

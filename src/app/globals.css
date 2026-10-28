@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./components/compare-dashboard.css";
+@import "./components/causalfly-assistant.css";
 :root  {
   --cf-bg-deep: #000A10;
   --cf-bg: #000D16;

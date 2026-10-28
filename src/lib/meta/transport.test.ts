@@ -51,6 +51,15 @@ test("Meta timeout defaults to 120000 ms and SDK retries stay disabled", () => {
   assert.equal(client["sdk"].maxRetries, 0);
 });
 
+test("observational analysis makes one provider attempt and never automatically retries a transient error", async () => {
+  let calls = 0;
+  const waits: number[] = [];
+  const client = new LiveMetaClient(config, async () => { calls++; return failure(503); }, { sleep: async ms => { waits.push(ms); } });
+  await assert.rejects(client.complete({ ...request, task: "observe" }));
+  assert.equal(calls, 1);
+  assert.deepEqual(waits, []);
+});
+
 test("configured META_TIMEOUT_MS is parsed and applied to the SDK", () => {
   const env = { ...config, META_TIMEOUT_MS: " 45000 " };
   assert.equal(readLiveConfiguration(env).timeoutMs, 45_000);

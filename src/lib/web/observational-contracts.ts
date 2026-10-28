@@ -11,6 +11,7 @@ export type WebObservationalResponse = { ok: true; result: ObservationalResult }
   { ok: false; kind: "validation" | "evidence" | "configuration" | "provider"; error: string };
 export interface ObservationalMetaState {
   pending: boolean;
+  requestKey?: string;
   error?: string;
   result?: ObservationalResult;
 }

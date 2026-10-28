@@ -21,7 +21,7 @@ test("question submission and navigation perform zero requests; explicit action 
   state = workspaceReducer(state, { type: "navigate", workspace: "evidence" });
   assert.equal(state.fruitFlyAskedQuestion, " Exact? ");
   assert.equal(calls, 0);
-  const frame = { telemetry: { sessionId: "session", sequence: 3 } } as FruitFlyEvidence;
+  const frame = { telemetry: { sessionId: "session", sequence: 3, neuralTick: 3, simulationMs: 150, totalSpikeEvents: 0, activeNeuronCount: 0, displaySpikeEvents: 0, inputSequence: -1 } } as FruitFlyEvidence;
   const snapshot = { ...disconnectedFruitFly(), retentionId: "reference", evidence: frame };
   const first = analyze(state.fruitFlyAskedQuestion!, snapshot, [frame]);
   await analyze(state.fruitFlyAskedQuestion!, snapshot, [frame]);

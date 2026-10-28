@@ -1,0 +1,106 @@
+{
+  "checks": [
+    {
+      "state": "01-fruitfly-live-launcher",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "drawerOverflow": false
+    },
+    {
+      "state": "01-fruitfly-live-launcher",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "drawerOverflow": false
+    },
+    {
+      "state": "02-fruitfly-live-assistant",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "drawerOverflow": false
+    },
+    {
+      "state": "02-fruitfly-live-assistant",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "drawerOverflow": false
+    },
+    {
+      "state": "03-fruitfly-retained-question",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "drawerOverflow": false
+    },
+    {
+      "state": "03-fruitfly-retained-question",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "drawerOverflow": false
+    },
+    {
+      "state": "04-fruitfly-local-answer",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "drawerOverflow": false
+    },
+    {
+      "state": "04-fruitfly-local-answer",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "drawerOverflow": false
+    },
+    {
+      "state": "05-fruitfly-meta-available",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "drawerOverflow": false
+    },
+    {
+      "state": "05-fruitfly-meta-available",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "drawerOverflow": false
+    },
+    {
+      "state": "06-synthetic-observatory-assistant",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "drawerOverflow": false
+    },
+    {
+      "state": "06-synthetic-observatory-assistant",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "drawerOverflow": false
+    },
+    {
+      "state": "07-synthetic-compare-assistant",
+      "width": 1920,
+      "scrollWidth": 1920,
+      "drawerOverflow": false
+    },
+    {
+      "state": "07-synthetic-compare-assistant",
+      "width": 1440,
+      "scrollWidth": 1440,
+      "drawerOverflow": false
+    },
+    {
+      "state": "08-mobile-assistant",
+      "width": 390,
+      "scrollWidth": 390,
+      "drawerOverflow": false
+    }
+  ],
+  "pageErrors": [],
+  "liveMetaCalls": 0,
+  "interceptedObservationPosts": 3,
+  "actualFakeSyntheticPosts": 1,
+  "launcherWorkspaces": 10,
+  "keyboardTrap": "PASS",
+  "escapeRestoresLauncherFocus": "PASS",
+  "sourcePersistence": "PASS",
+  "noAutomaticMetaCalls": "PASS",
+  "explicitRetryOnly": "PASS",
+  "sharedAnalysisReuse": "PASS",
+  "evidenceReplay": "Original Sprint 5.6 received snapshots; original receipt times and telemetry preserved. Review banner only, never loaded by application code."
+}
