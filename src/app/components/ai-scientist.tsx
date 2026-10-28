@@ -1,6 +1,7 @@
 import type { WebExperimentResult } from "@/lib/web/contracts";
 import { displayObservation } from "@/lib/web/dashboard";
 import { Badge, SectionTitle } from "./workspace-ui";
+import { ObservationMetrics } from "./observation-metrics";
 
 type ScientistProps = { result: WebExperimentResult; onNext: (question: string) => void };
 
@@ -33,17 +34,15 @@ export function AiScientistRail({ result, onNext, onFullAnalysis }: ScientistPro
 export function ScientistView({ result, onNext }: ScientistProps) {
   const { analysis } = result;
   const support = analysis.supportsHypothesis === null ? "INCONCLUSIVE" : analysis.supportsHypothesis ? "SUPPORTED IN THIS FIXTURE" : "NOT SUPPORTED IN THIS FIXTURE";
-  return <section className="panel scientist-panel" aria-labelledby="scientist-heading">
-    <SectionTitle index="AI" title="Scientific analysis" id="scientist-heading"><Badge tone="amber">AI INTERPRETATION</Badge></SectionTitle>
-    <ModeNote result={result} />
-    <p className="submitted-question"><span>QUESTION RUN</span>{result.researchQuestion}</p>
-    <div className="analysis-grid">
-      <div className="analysis-block observations-block"><h3>OBSERVATIONS</h3><AnalysisList items={analysis.observations.map(displayObservation)} /></div>
-      <div className="analysis-block interpretation-block"><h3>INTERPRETATION</h3><p>{analysis.interpretation}</p></div>
-      <div className="analysis-block caveat-block"><h3>LIMITATIONS</h3><AnalysisList items={analysis.limitations} /></div>
-      <div className="analysis-block caveat-block"><h3>CONFOUNDERS</h3><AnalysisList items={analysis.confounders} /></div>
-    </div>
-    <div className="hypothesis-verdict"><h3>HYPOTHESIS</h3><p>{result.spec.hypothesis}</p><Badge tone="amber">{support}</Badge></div>
+  return <div className="scientist-workspace" aria-labelledby="scientist-heading">
+    <section className="panel finding-panel">
+      <SectionTitle index="AI" title="What did we find?" id="scientist-heading"><Badge tone="amber">{result.mode}</Badge></SectionTitle>
+      <div className="finding-summary"><div><span className="eyebrow">HYPOTHESIS TESTED</span><h3>{result.spec.hypothesis}</h3></div><div className="support-state" data-support={analysis.supportsHypothesis === null ? "inconclusive" : analysis.supportsHypothesis ? "supported" : "unsupported"}><span className="eyebrow">HYPOTHESIS STATE / AI ASSESSMENT</span><strong>{support}</strong><small>Limited to this synthetic fixture</small></div></div>
+      <ModeNote result={result} />
+    </section>
+    <section className="scientist-observations"><SectionTitle index="01" title="Key measured observations"><Badge tone="cyan">ENGINE EVIDENCE</Badge></SectionTitle><ObservationMetrics result={result} /></section>
+    <div className="scientist-analysis-layout"><section className="panel analysis-block interpretation-block"><h3>02 / INTERPRETATION</h3><p>{analysis.interpretation}</p><span className="interpretation-caption">AI-authored interpretation · downstream of measured evidence</span></section><section className="panel analysis-caveats"><div className="analysis-block"><details open><summary>LIMITATIONS <span>{analysis.limitations.length}</span></summary><AnalysisList items={analysis.limitations} /></details></div><div className="analysis-block"><details open><summary>CONFOUNDERS <span>{analysis.confounders.length}</span></summary><AnalysisList items={analysis.confounders} /></details></div></section></div>
     <NextExperiment result={result} onNext={onNext} />
-  </section>;
+    <details className="panel full-analysis"><summary>View full analysis <span className="eyebrow">QUESTION + ALL AI OBSERVATIONS + ORIGINAL RECORD</span></summary><p className="submitted-question"><span>QUESTION RUN</span>{result.researchQuestion}</p><div className="analysis-block"><h3>ALL AI-AUTHORED OBSERVATIONS</h3><AnalysisList items={analysis.observations.map(displayObservation)} /></div><details className="provenance-details"><summary>Inspect original analysis record</summary><pre>{JSON.stringify(analysis, null, 2)}</pre></details></details>
+  </div>;
 }

@@ -38,7 +38,7 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
           <path d={path} strokeWidth={1.5 + drive * 2.8} opacity={blocked ? .65 : .22 + drive * .78} />
           <path d={`M${x2 - 30},${y2 - 5} L${x2 - 22},${y2} L${x2 - 30},${y2 + 5}`} opacity={.3 + drive * .7} />
           <text x={(x1 + x2) / 2} y={(y1 + y2) / 2 - 13} textAnchor="middle">{weight}</text>
-          <title>{from} → {to}; weight {weight}. {blocked ? "Interrupted by declared silence." : `Emphasis: recorded upstream activity at step ${step - 1} × weight; not a measured edge flow.`}</title>
+          <title>{`${from} → ${to}; weight ${weight}. ${blocked ? "Interrupted by declared silence." : `Emphasis: recorded upstream activity at step ${step - 1} × weight; not a measured edge flow.`}`}</title>
         </g>;
       })}
       {network.nodes.map(({ id }) => {
@@ -54,7 +54,7 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
           {id === silenced ? <path d={`M${x - 8},${y - 8} l16,16 m0,-16 l-16,16`} stroke="currentColor" strokeWidth="4" /> : <circle cx={x} cy={y} r={4 + intensity * 5} fill="currentColor" opacity={.15 + intensity * .85} />}
           <text x={x} y={y + 43} textAnchor="middle">{id}</text>
           <text x={x} y={y - 33} textAnchor="middle" className={id === silenced ? "silenced-label" : "node-value"}>{id === silenced ? "SILENCED" : value ?? "—"}</text>
-          <title>{id}: {value === undefined ? "no retained sample" : `normalized activity ${value}`} at step {step}{id === silenced ? "; declared silence intervention" : ""}</title>
+          <title>{`${id}: ${value === undefined ? "no retained sample" : `normalized activity ${value}`} at step ${step}${id === silenced ? "; declared silence intervention" : ""}`}</title>
         </g>;
       })}
     </svg>

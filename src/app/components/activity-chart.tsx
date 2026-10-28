@@ -19,7 +19,7 @@ export function ActivityChart({ trial, step, maxStep, maxValue }: { trial: Compa
       <line x1={x(step)} x2={x(step)} y1="30" y2="174" className="chart-playhead" />
       {series.map((line, index) => <g key={line.id} style={{ color: colors[index] }}>
         <path fill="none" stroke="currentColor" strokeWidth={line.id === "motor" ? 3.2 : 2.5} strokeLinejoin="round" strokeDasharray={dashes[index]} d={line.points.map((point, i) => `${i === 0 || point.step !== line.points[i - 1].step + 1 ? "M" : "L"}${x(point.step)},${y(point.value)}`).join(" ")} />
-        {line.points.map((point) => <circle key={point.step} cx={x(point.step)} cy={y(point.value)} r={point.step === step ? 5 : 3} fill={point.step === step ? "#f0f8ff" : "currentColor"} stroke="currentColor" strokeWidth="2"><title>{line.id}: step {point.step}, normalized activity {point.value}</title></circle>)}
+        {line.points.map((point) => <circle key={point.step} cx={x(point.step)} cy={y(point.value)} r={point.step === step ? 5 : 3} fill={point.step === step ? "#f0f8ff" : "currentColor"} stroke="currentColor" strokeWidth="2"><title>{`${line.id}: step ${point.step}, normalized activity ${point.value}`}</title></circle>)}
       </g>)}
       <text x="300" y="215" textAnchor="middle" className="axis-title">Simulation step</text>
     </svg>

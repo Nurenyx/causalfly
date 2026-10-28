@@ -32,12 +32,16 @@ export function propagationTiming(trial: CompactTrialSummary) {
 export interface WorkspaceState {
   workspace: Workspace;
   question: string;
+  fruitFlyQuestion?: string;
+  fruitFlyAskedQuestion?: string;
   result: WebExperimentResult | null;
 }
 
 export type WorkspaceAction =
   | { type: "navigate"; workspace: Workspace }
   | { type: "question"; question: string }
+  | { type: "fruitfly-question"; question: string }
+  | { type: "fruitfly-ask"; question: string; hasEvidence: boolean }
   | { type: "completed"; result: WebExperimentResult }
   | { type: "next-question"; question: string };
 
@@ -46,6 +50,8 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
   switch (action.type) {
     case "navigate": return { ...state, workspace: action.workspace };
     case "question": return { ...state, question: action.question };
+    case "fruitfly-question": return { ...state, fruitFlyQuestion: action.question };
+    case "fruitfly-ask": return { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, workspace: action.hasEvidence ? "scientist" : "observatory" };
     case "completed": return { ...state, result: action.result, workspace: "compare" };
     case "next-question": return { ...state, question: action.question, workspace: "observatory" };
   }

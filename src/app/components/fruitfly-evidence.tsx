@@ -1,11 +1,13 @@
 import type { FruitFlySnapshot } from "@/lib/sources/contracts";
-import { Badge, SectionTitle } from "./workspace-ui";
+import { Badge, EvidenceFlow, SectionTitle } from "./workspace-ui";
 
 export function FruitFlyEvidenceView({ snapshot }: { snapshot: FruitFlySnapshot }) {
   const evidence = snapshot.evidence;
   return <div className="evidence-view">
+    <div className="evidence-heading"><div><span className="eyebrow">FRUITFLY XR / CHAIN OF CUSTODY</span><h2>Trace the simulation evidence.</h2></div><Badge tone="muted">READ-ONLY TELEMETRY</Badge></div>
+    {evidence && <EvidenceFlow stages={[{ label: "PUBLISHED CONNECTOME", detail: evidence.provenance.structuralSource }, { label: "FRUITFLY XR SIMULATION", detail: "Simulated neural dynamics" }, { label: "TELEMETRY FRAME", detail: `Sequence ${evidence.telemetry.sequence} · ${evidence.telemetry.simulationMs} model ms` }, { label: "CAUSALFLY EVIDENCE", detail: "Validated received snapshot" }]} />}
     <section className="panel"><SectionTitle index="01" title="FruitFly XR evidence"><Badge tone={snapshot.state === "DATA RECEIVED" ? "green" : "muted"}>{snapshot.state}</Badge></SectionTitle>
-      <p>{snapshot.message}</p>
+      <p className="source-message">{snapshot.message}</p>
       <p>Connectome-backed simulation telemetry. Neural dynamics are simulated by the FruitFly XR brain server. These data are not experimental recordings from a living fly.</p>
       {!evidence && <p>No validated simulation frame has been received. Start a trial in FruitFly XR, then connect using the Data Source panel.</p>}
       {evidence && <><p className="trace-note">Last received snapshot · CausalFly receipt time: {evidence.receivedAt}. This is not a claim of current activity.</p>
@@ -13,6 +15,7 @@ export function FruitFlyEvidenceView({ snapshot }: { snapshot: FruitFlySnapshot 
       </>}
     </section>
     {evidence && <section className="panel"><SectionTitle index="02" title="How this result was produced" />
+      <dl className="audit-readouts"><div><dt>Simulated events / tick</dt><dd>{evidence.telemetry.totalSpikeEvents}</dd></div><div><dt>Supplied display events</dt><dd>{evidence.telemetry.displaySpikeEvents}</dd></div><div><dt>Dropped display frames</dt><dd>{evidence.telemetry.droppedDisplayFrames}</dd></div><div><dt>Dropped subscriber messages</dt><dd>{evidence.telemetry.droppedSubscriberMessages}</dd></div></dl>
       <p>The published connectome supplies structure. FruitFly XR generates the neural dynamics. Decoder channels describe simulated outputs; they do not establish actual movement or a causal intervention effect.</p>
       <p>{evidence.telemetry.totalSpikeEvents} simulated spike events in this tick; {evidence.telemetry.displaySpikeEvents} events displayed{evidence.telemetry.displayTruncated ? " (truncated)" : ""}. Active neuron count ({evidence.telemetry.activeNeuronCount}) includes neurons that did not spike.</p>
       <p>Stream drop counters: {evidence.telemetry.droppedDisplayFrames} display frames; {evidence.telemetry.droppedSubscriberMessages} subscriber messages. This latest-only stream is not a complete recording.</p>

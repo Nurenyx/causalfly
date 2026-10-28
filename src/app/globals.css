@@ -1,15 +1,37 @@
 @import "tailwindcss";
 @import "./components/compare-dashboard.css";
 :root  {
+  --cf-bg-deep: #000A10;
+  --cf-bg: #000D16;
+  --cf-bg-elevated: #011822;
+  --cf-panel: #061A24;
+  --cf-panel-strong: #082331;
+  --cf-border: rgba(45, 150, 190, 0.34);
+  --cf-border-strong: rgba(0, 205, 240, 0.58);
+  --cf-cyan: #00D0F0;
+  --cf-cyan-bright: #18E0F4;
+  --cf-magenta: #FF4F8B;
+  --cf-magenta-bright: #FF68A2;
+  --cf-amber: #F0D040;
+  --cf-amber-bright: #FFD84A;
+  --cf-green: #00DFA0;
+  --cf-red: #FF4866;
+  --cf-text: #F2F7FA;
+  --cf-text-secondary: #A2BAC7;
+  --cf-text-muted: #688796;
+  --cf-radius: 5px;
+  --cf-space: 12px;
+  --cf-glow: inset 0 0 24px #00D0F008;
+
   color-scheme: dark;
-  --background: #080e16;
-  --foreground: #e1e8f1;
-  --muted: #96a8bd;
-  --line: #223145;
-  --cyan: #65dbea;
-  --amber: #efc16c;
-  --red: #f180a5;
-  --green: #7fd8ac;
+  --background: var(--cf-bg);
+  --foreground: var(--cf-text);
+  --muted: var(--cf-text-secondary);
+  --line: var(--cf-border);
+  --cyan: var(--cf-cyan);
+  --amber: var(--cf-amber);
+  --red: var(--cf-magenta);
+  --green: var(--cf-green);
 }
 
 @theme inline  {
@@ -372,7 +394,7 @@ nav button i  {
   gap: 28px;
   padding: 7px 24px;
   border-bottom: 1px solid var(--line);
-  background: #0d1722;
+  background: var(--cf-bg-deep);
 }
 
 .metadata-bar > .eyebrow  {
@@ -422,9 +444,9 @@ nav button i  {
 
 .panel  {
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: var(--cf-radius);
   padding: 22px;
-  background: #0e1825;
+  background: var(--cf-bg-deep);
 }
 
 .section-title  {
@@ -472,7 +494,7 @@ nav button i  {
 
 .question-panel  {
   padding: 20px 22px;
-  background: linear-gradient(120deg, #122230, #0e1825);
+  background: linear-gradient(110deg, var(--cf-bg-elevated), var(--cf-bg-deep));
   border-top-color: #365d72;
 }
 
@@ -502,7 +524,7 @@ textarea  {
   width: 100%;
   min-height: 86px;
   border: 1px solid #30495f;
-  background: #080f19;
+  background: var(--cf-bg-deep);
   border-radius: 5px;
   color: #e2ebf4;
   font-size: 16px;
@@ -540,8 +562,8 @@ textarea:disabled  {
   justify-content: center;
   gap: 15px;
   flex-shrink: 0;
-  border: 1px solid #8aebf7;
-  background: #71daea;
+  border: 1px solid var(--cf-cyan);
+  background: var(--cf-cyan-bright);
   color: #06141c;
   padding: 12px 17px;
   font-size: 10px;
@@ -562,8 +584,8 @@ textarea:disabled  {
 
 .secondary-button  {
   border: 1px solid #6d5636;
-  background: #362b1e;
-  color: #f4ce8c;
+  background: #F0D04012;
+  color: var(--cf-amber-bright);
   padding: 11px 14px;
   border-radius: 4px;
   font-size: 12px;
@@ -970,7 +992,7 @@ dt  {
 }
 
 .provenance-details pre  {
-  background: #080f19;
+  background: var(--cf-bg-deep);
   color: #adc7db;
   max-height: 400px;
   overflow: auto;
@@ -1122,83 +1144,70 @@ dt  {
   .source-card .source-icon { display: none; }
 }
 
-/* Sprint 5.3B: approved observatory palette, scoped to Live Session. */
-.live-shell {
-  --cf-bg-deep: #000A10;
-  --cf-bg: #000D16;
-  --cf-bg-elevated: #011822;
-  --cf-panel: #061A24;
-  --cf-panel-strong: #082331;
-  --cf-border: rgba(45, 150, 190, 0.34);
-  --cf-border-strong: rgba(0, 205, 240, 0.58);
-  --cf-cyan: #00D0F0;
-  --cf-cyan-bright: #18E0F4;
-  --cf-magenta: #FF4F8B;
-  --cf-magenta-bright: #FF68A2;
-  --cf-amber: #F0D040;
-  --cf-amber-bright: #FFD84A;
-  --cf-green: #00DFA0;
-  --cf-red: #FF4866;
-  --cf-text: #F2F7FA;
-  --cf-text-secondary: #A2BAC7;
-  --cf-text-muted: #688796;
-  --cyan: var(--cf-cyan);
-  --amber: var(--cf-amber);
-  --green: var(--cf-green);
-  --line: var(--cf-border);
+/* Shared instrument shell, promoted from the canonical Live Session. */
+.instrument-shell {
   color: var(--cf-text);
   background: var(--cf-bg);
 }
-.live-shell .workspace { background: var(--cf-bg); }
-.live-shell .main-content { padding: 12px 14px 4px; max-width: none; }
-.live-shell .topbar { min-height: 34px; padding: 4px 18px; background: var(--cf-bg-deep); }
-.live-shell .topbar h1 { color: var(--cf-text-secondary); font-size: 15px; font-weight: 450; }
-.live-shell .sidebar { background: var(--cf-bg-deep); border-color: var(--cf-border); }
-.live-shell .brand { margin-bottom: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--cf-border); }
-.live-shell .brand > span { font-size: 29px; letter-spacing: .2px; }
-.live-shell .brand-accent { color: var(--cf-cyan-bright); }
-.live-shell .sidebar > .sidebar-caption { display: none; }
-.live-shell .brand svg { width: 34px; fill: var(--cf-bg-deep); }
-.live-shell .brand small { font-size: 11px; letter-spacing: .2px; line-height: 1.5; color: var(--cf-text-secondary); }
-.live-shell .sidebar-caption { color: var(--cf-text-secondary); }
-.live-shell nav button { font-size: 15px; min-height: 48px; color: var(--cf-text-secondary); }
-.live-shell nav button.active { color: var(--cf-text); border-color: var(--cf-border-strong); background: linear-gradient(90deg, var(--cf-panel-strong), var(--cf-bg-elevated)); box-shadow: inset 2px 0 var(--cf-cyan); }
-.live-shell nav button.active > span { color: var(--cf-cyan-bright); }
-.live-shell .source-picker { margin-top: 24px; border-top: 1px solid var(--cf-border); padding-top: 18px; }
-.live-shell .source-picker fieldset { gap: 4px; }
-.live-shell .source-picker .sidebar-caption { font-size: 12px; letter-spacing: .6px; margin-bottom: 10px; }
-.live-shell .source-option { padding: 10px 6px; border: 0; border-radius: 0; background: transparent; box-shadow: none; gap: 10px; }
-.live-shell .source-option.selected { background: var(--cf-bg-elevated); }
-.live-shell .source-option:hover { background: var(--cf-panel); }
-.live-shell .source-option input { margin-top: 4px; }
-.live-shell .source-option-content { gap: 4px; }
-.live-shell .source-option strong { font-size: 14px; }
-.live-shell .source-option-subtitle { font-size: 11px; color: var(--cf-text-muted); }
-.live-shell .source-option .badge { padding: 2px 0; border: 0; background: none; color: var(--cf-green); font-size: 10px; }
-.live-shell .source-option .badge.red { color: var(--cf-red); }
-.live-shell .source-option .badge.amber { color: var(--cf-amber); }
-.live-shell .source-option .badge.muted { color: var(--cf-text-muted); }
-.live-shell .source-connection { background: transparent; border: 0; border-top: 1px solid var(--cf-border); border-radius: 0; padding: 10px 2px 0; margin-top: 10px; }
-.live-shell .source-connection p { color: var(--cf-text-muted); font-size: 11px; line-height: 1.6; }
-.live-shell .source-connection p:first-child { color: var(--cf-text-secondary); }
-.live-shell .source-picker .secondary-button { color: var(--cf-cyan); border-color: var(--cf-border); background: var(--cf-bg-elevated); font-size: 12px; padding: 8px; }
-.live-shell .source-scope-note { font-size: 11px; line-height: 1.6; color: var(--cf-text-muted); }
-.live-shell .sidebar-footer { padding-top: 20px; }
-.live-shell .badge { background: transparent; border-color: var(--cf-border); }
-.live-shell .scientific-disclaimer { padding: 5px 14px; font-size: 10px; line-height: 1.4; color: var(--cf-text-muted); background: var(--cf-bg-deep); }
+.instrument-shell .workspace { background: var(--cf-bg); }
+.instrument-shell .main-content { padding: 24px; max-width: none; }
+.live-shell .main-content { padding: 12px 14px 4px; }
+.instrument-shell .topbar { min-height: 34px; padding: 4px 18px; background: var(--cf-bg-deep); }
+.instrument-shell .topbar h1 { color: var(--cf-text-secondary); font-size: 15px; font-weight: 450; }
+.instrument-shell .sidebar { background: var(--cf-bg-deep); border-color: var(--cf-border); }
+.instrument-shell .brand { margin-bottom: 16px; padding-bottom: 24px; border-bottom: 1px solid var(--cf-border); }
+.instrument-shell .brand > span { font-size: 29px; letter-spacing: .2px; }
+.instrument-shell .brand-accent { color: var(--cf-cyan-bright); }
+.instrument-shell .sidebar > .sidebar-caption { display: none; }
+.instrument-shell .brand svg { width: 34px; fill: var(--cf-bg-deep); }
+.instrument-shell .brand small { font-size: 11px; letter-spacing: .2px; line-height: 1.5; color: var(--cf-text-secondary); }
+.instrument-shell .sidebar-caption { color: var(--cf-text-secondary); }
+.instrument-shell nav button { font-size: 15px; min-height: 48px; color: var(--cf-text-secondary); }
+.instrument-shell nav button.active { color: var(--cf-text); border-color: var(--cf-border-strong); background: linear-gradient(90deg, var(--cf-panel-strong), var(--cf-bg-elevated)); box-shadow: inset 2px 0 var(--cf-cyan); }
+.instrument-shell nav button.active > span { color: var(--cf-cyan-bright); }
+.instrument-shell .source-picker { margin-top: 24px; border-top: 1px solid var(--cf-border); padding-top: 18px; }
+.instrument-shell .source-picker fieldset { gap: 4px; }
+.instrument-shell .source-picker .sidebar-caption { font-size: 12px; letter-spacing: .6px; margin-bottom: 10px; }
+.instrument-shell .source-option { padding: 10px 6px; border: 0; border-radius: 0; background: transparent; box-shadow: none; gap: 10px; }
+.instrument-shell .source-option.selected { background: var(--cf-bg-elevated); }
+.instrument-shell .source-option:hover { background: var(--cf-panel); }
+.instrument-shell .source-option input { margin-top: 4px; }
+.instrument-shell .source-option-content { gap: 4px; }
+.instrument-shell .source-option strong { font-size: 14px; }
+.instrument-shell .source-option-subtitle { font-size: 11px; color: var(--cf-text-muted); }
+.instrument-shell .source-option .badge { padding: 2px 0; border: 0; background: none; color: var(--cf-green); font-size: 10px; }
+.instrument-shell .source-option .badge.red { color: var(--cf-red); }
+.instrument-shell .source-option .badge.amber { color: var(--cf-amber); }
+.instrument-shell .source-option .badge.muted { color: var(--cf-text-muted); }
+.instrument-shell .source-connection { background: transparent; border: 0; border-top: 1px solid var(--cf-border); border-radius: 0; padding: 10px 2px 0; margin-top: 10px; }
+.instrument-shell .source-connection p { color: var(--cf-text-muted); font-size: 11px; line-height: 1.6; }
+.instrument-shell .source-connection p:first-child { color: var(--cf-text-secondary); }
+.instrument-shell .source-picker .secondary-button { color: var(--cf-cyan); border-color: var(--cf-border); background: var(--cf-bg-elevated); font-size: 12px; padding: 8px; }
+.instrument-shell .source-scope-note { font-size: 11px; line-height: 1.6; color: var(--cf-text-muted); }
+.instrument-shell .sidebar-footer { padding-top: 20px; }
+.instrument-shell .badge { background: transparent; border-color: var(--cf-border); }
+.instrument-shell .scientific-disclaimer { padding: 5px 14px; font-size: 10px; line-height: 1.4; color: var(--cf-text-muted); background: var(--cf-bg-deep); }
 @media (min-width: 1601px) {
-  .live-shell .sidebar { width: 234px; padding-left: 16px; padding-right: 16px; }
-  .live-shell .workspace { margin-left: 234px; }
+  .instrument-shell .sidebar { width: 234px; padding-left: 16px; padding-right: 16px; }
+  .instrument-shell .workspace { margin-left: 234px; }
 }
-@media (min-width: 1151px) { .live-shell .breadcrumb { display: none; } }
+@media (min-width: 1151px) { .instrument-shell .breadcrumb { display: none; } }
+@media (min-width: 601px) and (max-width: 1600px) {
+  .instrument-shell .brand { gap: 7px; padding-left: 0; padding-right: 0; }
+  .instrument-shell .brand svg { width: 24px; }
+  .instrument-shell .brand > span { min-width: 0; font-size: 21px; letter-spacing: 0; }
+  .instrument-shell .brand small { font-size: 9px; letter-spacing: 0; }
+  .instrument-shell nav button { gap: 8px; padding-left: 9px; padding-right: 9px; font-size: 14px; white-space: nowrap; }
+}
 @media (max-width: 600px) {
   .sidebar nav { grid-template-columns: repeat(3, 1fr); }
+  .instrument-shell .main-content { padding: 16px 12px; }
   .live-shell .main-content { padding: 12px; }
-  .live-shell .brand { margin-bottom: 12px; padding-bottom: 12px; }
-  .live-shell .brand > span { font-size: 21px; }
-  .live-shell nav button { font-size: 11px; min-height: 40px; }
-  .live-shell .source-picker { margin-top: 14px; padding-top: 12px; }
-  .live-shell .source-picker fieldset { grid-template-columns: 1fr 1fr; }
-  .live-shell .source-option { padding: 7px 5px; gap: 7px; }
-  .live-shell .source-option strong { font-size: 12px; }
+  .instrument-shell .brand { margin-bottom: 12px; padding-bottom: 12px; }
+  .instrument-shell .brand > span { font-size: 21px; }
+  .instrument-shell nav button { font-size: 11px; min-height: 40px; }
+  .instrument-shell .source-picker { margin-top: 14px; padding-top: 12px; }
+  .instrument-shell .source-picker fieldset { grid-template-columns: 1fr 1fr; }
+  .instrument-shell .source-option { padding: 7px 5px; gap: 7px; }
+  .instrument-shell .source-option strong { font-size: 12px; }
 }

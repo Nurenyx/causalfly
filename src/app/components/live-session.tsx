@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import type { FruitFlyEvidence, FruitFlySnapshot } from "@/lib/sources/contracts";
 import { LIVE_FRAME_LIMIT, number, sessionStatus, sessionTimeline } from "@/lib/sources/live-session";
-import { ConnectomeActivityView, InstrumentPanel, LiveMetricChart, WaitingForTelemetry } from "./live-visualizations";
+import { ConnectomeActivityView, InstrumentPanel, LiveMetricChart } from "./live-visualizations";
 import styles from "./live-session.module.css";
 
 type Status = ReturnType<typeof sessionStatus>;
@@ -72,6 +72,6 @@ export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConn
   return <div className={styles.session}>
     <LiveSessionHeader snapshot={snapshot} status={status} onConnect={onConnect} onDisconnect={onDisconnect} />
     <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{status.historical && receivedAt ? `LAST RECEIVED ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{frames.length} / {LIVE_FRAME_LIMIT} received frames</span></div>
-    <div className={styles.layout}><div className={styles.instruments}>{snapshot.evidence ? <><ConnectomeActivityView frames={frames} historical={status.historical} /><section className={styles.activity} aria-label="Received simulation activity"><LiveMetricChart frames={frames} metric="spikes" /><LiveMetricChart frames={frames} metric="active" /><p className={styles.chartNote}>Counts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states</p></section><EventTimeline frames={frames} historical={status.historical} receivedAt={receivedAt} reconnectedAt={transport.reconnectedAt} /></> : <WaitingForTelemetry connected={status.connected} />}<div className={styles.lowerPanels}><SimulationOutput frames={frames} /><StreamHealth evidence={snapshot.evidence} ageMs={status.ageMs} onEvidence={onEvidence} /></div></div><AiObserverRail evidence={snapshot.evidence} historical={status.historical} onEvidence={onEvidence} /></div>
+    <div className={styles.layout}><div className={styles.instruments}><ConnectomeActivityView frames={frames} historical={status.historical} /><section className={styles.activity} aria-label="Received simulation activity"><LiveMetricChart frames={frames} metric="spikes" /><LiveMetricChart frames={frames} metric="active" /><p className={styles.chartNote}>Counts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states</p></section><EventTimeline frames={frames} historical={status.historical} receivedAt={receivedAt} reconnectedAt={transport.reconnectedAt} /><div className={styles.lowerPanels}><SimulationOutput frames={frames} /><StreamHealth evidence={snapshot.evidence} ageMs={status.ageMs} onEvidence={onEvidence} /></div></div><AiObserverRail evidence={snapshot.evidence} historical={status.historical} onEvidence={onEvidence} /></div>
   </div>;
 }

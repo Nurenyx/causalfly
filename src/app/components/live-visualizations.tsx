@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import dynamic from "next/dynamic";
 import type { FruitFlyEvidence } from "@/lib/sources/contracts";
-import { parseAnatomy, projectAnatomy, type Anatomy } from "@/lib/sources/anatomy";
+import { ANATOMY_HASH, parseAnatomy, projectAnatomy, type Anatomy } from "@/lib/sources/anatomy";
+import { ACTIVITY_EMPHASIS, buildConnectomeStructure, classifyConnectomeActivity } from "@/lib/sources/connectome-view";
 import { activityRaster, activitySeries, number } from "@/lib/sources/live-session";
 import styles from "./live-session.module.css";
+
+const Connectome3D = dynamic(() => import("./connectome-3d"), { ssr: false, loading: () => <div className={styles.loadingAnatomy}>Preparing 3D viewer…</div> });
 
 export function InstrumentPanel({ title, tag, className = "", children }: { title: string; tag?: string; className?: string; children: ReactNode }) {
   return <section className={`${styles.panel} ${className}`}><header className={styles.panelHeading}><h2>{title}</h2>{tag && <span>{tag}</span>}</header>{children}</section>;
@@ -13,23 +17,21 @@ export function InstrumentPanel({ title, tag, className = "", children }: { titl
 function AnatomyProjection({ anatomy, frames, historical }: { anatomy: Anatomy; frames: readonly FruitFlyEvidence[]; historical: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const projection = useMemo(() => projectAnatomy(anatomy), [anatomy]);
-  const evidence = frames.at(-1)!;
-  const events = evidence.telemetry.spikeEvents;
+  const evidence = frames.at(-1);
+  const events = useMemo(() => evidence?.telemetry.spikeEvents ?? [], [evidence]);
   const active = useMemo(() => [...new Set(events.map(e => e.neuronId))].flatMap(id => projection.lookup.get(id) ?? []), [events, projection]);
   const geometry = useMemo(() => {
     const points = [...projection.lookup.values()];
     const bounds = points.reduce((b, p) => ({ minX: Math.min(b.minX, p.x), maxX: Math.max(b.maxX, p.x), minY: Math.min(b.minY, p.y), maxY: Math.max(b.maxY, p.y), minZ: Math.min(b.minZ, p.raw[2]), maxZ: Math.max(b.maxZ, p.raw[2]) }), { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity, minZ: Infinity, maxZ: -Infinity });
     return { ...bounds, width: Math.max(1, bounds.maxX - bounds.minX), height: Math.max(1, bounds.maxY - bounds.minY) };
   }, [projection]);
-  const recent = useMemo(() => frames.slice(-3).map(f => ({ received: Date.parse(f.receivedAt), sequence: f.telemetry.sequence, points: [...new Set(f.telemetry.spikeEvents.map(e => e.neuronId))].flatMap(id => projection.lookup.get(id) ?? []) })), [frames, projection]);
+  const recent = useMemo(() => frames.slice(-4).map((f, i, retained) => ({ age: retained.length - 1 - i, points: [...new Set(f.telemetry.spikeEvents.map(e => e.neuronId))].flatMap(id => projection.lookup.get(id) ?? []) })), [frames, projection]);
   // Denser static context uses the same verified coordinate lookup as activity.
   const structurePoints = useMemo(() => [...projection.lookup.values()].filter((_, i) => i % 3 === 0).sort((a, b) => a.raw[2] - b.raw[2]), [projection]);
   const [hover, setHover] = useState<string | null>(null);
   useEffect(() => {
     const element = canvas.current;
     if (!element) return;
-    let animation = 0;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const structure = document.createElement("canvas");
     const glow = document.createElement("canvas"); glow.width = glow.height = 40;
     const glowContext = glow.getContext("2d")!;
@@ -56,35 +58,28 @@ function AnatomyProjection({ anatomy, frames, historical }: { anatomy: Anatomy; 
       draw();
     };
     const draw = () => {
-      cancelAnimationFrame(animation);
       const ctx = element.getContext("2d"); if (!ctx) return;
-      const ratio = Math.min(2, window.devicePixelRatio || 1), now = Date.now();
+      const ratio = Math.min(2, window.devicePixelRatio || 1);
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, element.width, element.height); ctx.drawImage(structure, 0, 0);
       ctx.setTransform(ratio * scale, 0, 0, ratio * scale, ratio * offsetX, ratio * offsetY);
       for (const frame of recent) {
-        const current = frame.sequence === evidence.telemetry.sequence;
-        const age = Math.max(0, now - frame.received);
-        const decay = historical || reducedMotion.matches ? 0 : Math.max(0, 1 - age / 900);
-        if (!current && !decay) continue;
-        ctx.globalAlpha = current ? 1 : decay * .32;
+        const current = frame.age === 0;
+        ctx.globalAlpha = ACTIVITY_EMPHASIS[frame.age];
         for (const p of frame.points) {
           const depth = (p.raw[2] - geometry.minZ) / Math.max(1, geometry.maxZ - geometry.minZ);
-          const radius = current ? 5.3 + depth * 2.2 + decay * 1.4 : 3.2;
+          const radius = current ? 5.3 + depth * 2.2 : 3.2;
           ctx.drawImage(glow, p.x - radius, p.y - radius, radius * 2, radius * 2);
           ctx.fillStyle = current ? "#F2F7FA" : "#00D0F0";
           ctx.beginPath(); ctx.arc(p.x, p.y, current ? .95 + depth * .8 : .65, 0, Math.PI * 2); ctx.fill();
         }
       }
       ctx.globalAlpha = 1;
-      // A finite receipt-driven transition; never a free-running firing animation.
-      if (!historical && !reducedMotion.matches && now - Date.parse(evidence.receivedAt) < 900) animation = requestAnimationFrame(draw);
     };
     const observer = new ResizeObserver(resize); observer.observe(element); resize();
-    reducedMotion.addEventListener("change", draw);
-    return () => { observer.disconnect(); cancelAnimationFrame(animation); reducedMotion.removeEventListener("change", draw); };
-  }, [recent, projection, structurePoints, geometry, evidence, historical]);
+    return () => observer.disconnect();
+  }, [recent, projection, structurePoints, geometry]);
   return <div className={styles.projection}>
-    <div className={styles.projectionTop}><span>RAW X / Y · Z DEPTH</span><span><i />{historical ? "LAST RECEIVED TICK" : "LATEST RECEIVED TICK"} {number(evidence.telemetry.neuralTick)}</span></div>
+    <div className={styles.projectionTop}><span>RAW X / Y · Z DEPTH</span><span><i />{evidence ? `${historical ? "LAST" : "LATEST"} RECEIVED TICK ${number(evidence.telemetry.neuralTick)}` : "WAITING · STRUCTURE ONLY"}</span></div>
     <canvas ref={canvas} className={styles.anatomyCanvas} data-current-ids={active.length} data-history-frames={recent.length} role="img" aria-label={`Actual published soma coordinates. ${number(structurePoints.length)} structural points sampled; ${number(active.length)} supplied spiking IDs have coordinates. Raw voxel X/Y, orientation unspecified. Raw Z determines display opacity and point size. Recent highlights are received events only.`} onPointerLeave={() => setHover(null)} onPointerMove={event => {
       const rect = event.currentTarget.getBoundingClientRect(); const scale = Math.min(rect.width * .96 / geometry.width, rect.height * .93 / geometry.height); const x = (event.clientX - rect.left - (rect.width - geometry.width * scale) / 2) / scale + geometry.minX, y = (event.clientY - rect.top - (rect.height - geometry.height * scale) / 2) / scale + geometry.minY;
       const p = active.find(p => Math.hypot(p.x - x, p.y - y) < 9);
@@ -107,21 +102,32 @@ function EventRaster({ frames }: { frames: readonly FruitFlyEvidence[] }) {
 }
 
 export function ConnectomeActivityView({ frames, historical }: { frames: readonly FruitFlyEvidence[]; historical: boolean }) {
-  const [view, setView] = useState("anatomy");
+  const [view, setView] = useState("3d");
   const [anatomy, setAnatomy] = useState<Anatomy | null>(null);
   const [failed, setFailed] = useState(false);
+  const [webglFailed, setWebglFailed] = useState(false);
+  const [reset, setReset] = useState(0);
+  const failWebGL = useCallback(() => { setWebglFailed(true); setView("projection"); }, []);
   const evidence = frames.at(-1);
-  const hash = evidence?.provenance.connectomeSha256;
+  const hash = evidence?.provenance.connectomeSha256 ?? ANATOMY_HASH;
+  const structure = useMemo(() => anatomy ? buildConnectomeStructure(anatomy) : null, [anatomy]);
+  const activity = useMemo(() => structure ? classifyConnectomeActivity(structure, frames) : null, [structure, frames]);
   useEffect(() => {
-    if (!hash) return;
     const controller = new AbortController();
     fetch("/anatomy/male-cns-v1.json", { signal: controller.signal }).then(r => { if (!r.ok) throw new Error("Anatomy unavailable"); return r.json(); }).then(parseAnatomy).then(a => { if (a.connectomeSha256 !== hash) throw new Error("Anatomy identity mismatch"); setAnatomy(a); }).catch(() => { if (!controller.signal.aborted) setFailed(true); });
     return () => controller.abort();
   }, [hash]);
-  return <InstrumentPanel title="Connectome activity" tag="PUBLISHED ANATOMY" className={styles.connectome}>
-    <div className={styles.heroToolbar}><span><i className={styles.cyanKey} /> {historical ? "Last tick" : "Current tick"} <i className={styles.recentKey} /> Recent activity <i className={styles.dimKey} /> Structure</span><div aria-label="Activity visualization"><button aria-pressed={view === "anatomy"} onClick={() => setView("anatomy")}>Anatomy</button><button aria-pressed={view === "raster"} onClick={() => setView("raster")}>ID raster</button></div></div>
-    {evidence && (view === "raster" || failed) ? <EventRaster frames={frames} /> : evidence && anatomy ? <AnatomyProjection anatomy={anatomy} frames={frames} historical={historical} /> : <div className={styles.loadingAnatomy}>Loading verified static anatomy…</div>}
-    <div className={styles.heroFooter}><div><strong>{evidence ? number(evidence.telemetry.displaySpikeEvents) : "—"}</strong><span>supplied events / latest tick</span></div><div><strong>{anatomy ? number(anatomy.count) : "—"}</strong><span>published soma coordinates</span></div><p>{failed ? "Anatomy unavailable · showing real ID events." : "Cyan marks supplied spiking IDs, not all active neurons. No inferred connections."}</p></div>
+  return <InstrumentPanel title="Connectome observatory" tag="PUBLISHED SOMA COORDINATES" className={styles.connectome}>
+    <div className={styles.heroToolbar}><span><i className={styles.cyanKey} /> {historical ? "Last tick" : "Current tick"} <i className={styles.recentKey} /> Recent <i className={styles.dimKey} /> Structure</span><div role="group" aria-label="Activity visualization"><button aria-pressed={view === "3d"} disabled={webglFailed || failed} onClick={() => setView("3d")}>3D</button><button aria-pressed={view === "projection"} onClick={() => setView("projection")}>Projection</button><button aria-pressed={view === "raster"} onClick={() => setView("raster")}>ID raster</button></div></div>
+    {webglFailed && <p className={styles.viewerNotice} role="status">3D unavailable in this browser. Projection remains available.</p>}
+    {failed ? <><p className={styles.viewerNotice}>Published anatomy unavailable. Showing supplied ID events only.</p><EventRaster frames={frames} /></> : view === "raster" ? <EventRaster frames={frames} /> : anatomy && structure && activity ? view === "3d" ? <div className={styles.spatialViewer} data-historical={historical} data-waiting={!evidence}>
+      <Connectome3D structure={structure} activity={activity} reset={reset} onFailure={failWebGL} />
+      <div className={styles.spatialTop}><span>3D · FULL STRUCTURE</span><span>{evidence ? `${historical ? "LAST SNAPSHOT" : "RECEIVED"} · TICK ${number(evidence.telemetry.neuralTick)}` : "WAITING · STRUCTURE ONLY"}</span></div>
+      <button type="button" className={styles.resetView} onClick={() => setReset(value => value + 1)} aria-label="Reset View">↺ &nbsp; Reset View</button>
+      <div className={styles.spatialBottom}><span>Drag rotate · Scroll zoom · Right-drag pan</span><span>Orientation unspecified</span></div>
+    </div> : <AnatomyProjection anatomy={anatomy} frames={frames} historical={historical} /> : <div className={styles.loadingAnatomy}>Loading verified static anatomy…</div>}
+    <div className={styles.mappingBar} aria-label="Supplied neuron ID mapping"><span><b>{activity && evidence ? number(activity.mapped) : "—"}</b> mapped supplied IDs</span><span data-unmapped={Boolean(activity?.unmapped)}><b>{activity && evidence ? number(activity.unmapped) : "—"}</b> unmapped</span><span>{activity?.recent.length ?? 0} recent mapped IDs · ≤3 prior received frames</span></div>
+    <div className={styles.heroFooter}><div><strong>{anatomy ? number(anatomy.count) : "—"}</strong><span>published soma coordinates</span></div><div><strong>{evidence ? number(evidence.telemetry.displaySpikeEvents) : "—"}</strong><span>supplied spike events / tick</span></div><p>{!evidence ? "Waiting for telemetry · published structure only; no activity received." : "Supplied spiking IDs only · recent emphasis follows received frames · no inferred connections."}</p></div>
   </InstrumentPanel>;
 }
 

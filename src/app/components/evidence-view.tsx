@@ -1,5 +1,5 @@
 import type { WebExperimentResult } from "@/lib/web/contracts";
-import { Badge, SectionTitle } from "./workspace-ui";
+import { Badge, EvidenceFlow, SectionTitle } from "./workspace-ui";
 
 export function ExperimentMetadata({ result }: { result: WebExperimentResult }) {
   return <dl className="experiment-metadata"><div><dt>Perturbation</dt><dd className="red-text">silence / {result.spec.perturbation.targetNodeId}</dd></div><div><dt>Stimulus amplitude</dt><dd>{result.spec.stimulus.amplitude}</dd></div><div><dt>Seed</dt><dd>{result.spec.seed}</dd></div><div><dt>maxSteps</dt><dd>{result.spec.maxSteps}</dd></div><div><dt>Threshold</dt><dd>{result.spec.outputThreshold}</dd></div></dl>;
@@ -14,6 +14,8 @@ export function EvidenceView({ result }: { result: WebExperimentResult }) {
     ["outputThreshold", "Same threshold"], ["onlyDeclaredPerturbationDiffers", "Only declared perturbation differs"],
   ];
   return <div className="evidence-view">
+    <div className="evidence-heading"><div><span className="eyebrow">SYNTHETIC FIXTURE / CHAIN OF CUSTODY</span><h2>Every result has a source.</h2></div><Badge tone="muted">ENGINEERING EVIDENCE</Badge></div>
+    <EvidenceFlow stages={[{ label: "SYNTHETIC NETWORK", detail: control.provenance.network.id }, { label: "DETERMINISTIC ENGINE", detail: control.provenance.engineVersion }, { label: "MATCHED TRACES", detail: "Control + declared perturbation" }, { label: "CAUSALFLY EVIDENCE", detail: "Full-trace measurements · retained samples" }]} />
     <section className="panel proposal-panel"><SectionTitle index="01" title="Experiment specification"><div className="proposal-badges"><Badge tone="amber">AI PROPOSED{result.mode === "FAKE META CLIENT" ? " / FAKE" : ""}</Badge><Badge tone="green">VALIDATED BY CAUSALFLY</Badge></div></SectionTitle><p className="submitted-question"><span>QUESTION RUN</span>{result.researchQuestion}</p><p className="hypothesis"><span className="eyebrow">HYPOTHESIS</span>{result.spec.hypothesis}</p><ExperimentMetadata result={result} /><p className="trace-note">Specification ID: {result.spec.id} · Seed recorded; engine has no random operations.</p></section>
     <section className="panel provenance-panel">
       <SectionTitle index="02" title="Matched condition provenance"><Badge tone="green">DETERMINISTIC EVIDENCE</Badge></SectionTitle>

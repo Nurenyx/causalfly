@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import type { WebExperimentResult } from "@/lib/web/contracts";
 import type { CompactTrialSummary } from "@/lib/meta/compact-evidence";
-import { crossing, playbackSteps, signed } from "@/lib/web/dashboard";
+import { crossing, playbackSteps } from "@/lib/web/dashboard";
 import { SyntheticNetworkViz } from "./synthetic-network-viz";
 import { ActivityChart } from "./activity-chart";
 import { PropagationTimeline } from "./propagation-timeline";
 import { AiScientistRail } from "./ai-scientist";
 import { Badge } from "./workspace-ui";
 import { ExperimentPlayback } from "./experiment-playback";
-import { MeasuredDeltaCard } from "./measured-delta-card";
+import { ObservationMetrics } from "./observation-metrics";
 import { measurementLabels } from "@/lib/web/display-labels";
 
 function ConditionPanel({ trial, step, maxStep, maxValue }: { trial: CompactTrialSummary; step: number; maxStep: number; maxValue: number }) {
@@ -21,7 +21,7 @@ function ConditionPanel({ trial, step, maxStep, maxValue }: { trial: CompactTria
 }
 
 export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence }: { result: WebExperimentResult; onNext: (question: string) => void; onFullAnalysis: () => void; onEvidence: () => void }) {
-  const { control, perturbed, deltas, provenance } = result.measuredEvidence;
+  const { control, perturbed, provenance } = result.measuredEvidence;
   const steps = playbackSteps(control, perturbed);
   const [index, setIndex] = useState(() => Math.max(0, steps.indexOf(control.activity.find((sample) => sample.nodes[control.provenance.network.outputNodeId] === control.outputPeakActivity)?.step ?? steps[0])));
   const [playing, setPlaying] = useState(false);
@@ -41,11 +41,7 @@ export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence }:
       <ExperimentPlayback steps={steps} index={index} playing={playing} onToggle={() => setPlaying((value) => !value)} onSeek={(next) => { setPlaying(false); setIndex(next); }} />
       <div className="condition-grid"><ConditionPanel trial={control} step={step} maxStep={maxStep} maxValue={maxValue} /><ConditionPanel trial={perturbed} step={step} maxStep={maxStep} maxValue={maxValue} /></div>
       <div className="measured-heading"><h2>Measured deltas</h2><span>PERTURBED − CONTROL</span></div>
-      <div className="measured-deltas">
-        <MeasuredDeltaCard label={measurementLabels.outputPeakActivity.label} technicalLabel={measurementLabels.outputPeakActivity.technical} delta={`Δ ${signed(deltas.outputPeakActivity)}`} control={control.outputPeakActivity} perturbed={perturbed.outputPeakActivity} note="Peak output · normalized activity at output node" />
-        <MeasuredDeltaCard label={measurementLabels.outputThresholdCrossingStep.label} technicalLabel={measurementLabels.outputThresholdCrossingStep.technical} delta={deltas.outputThresholdCrossingSteps === null ? "N/A" : `Δ ${signed(deltas.outputThresholdCrossingSteps)}`} control={crossing(control.outputThresholdCrossingStep)} perturbed={crossing(perturbed.outputThresholdCrossingStep)} note={deltas.outputThresholdCrossingSteps === null ? "Not comparable · a crossing was not reached" : "Simulation steps · intervention − control"} tone="amber" />
-        <MeasuredDeltaCard label={measurementLabels.outcome.label} technicalLabel={measurementLabels.outcome.technical} delta={deltas.outcomeChanged ? "Changed" : "Unchanged"} tone={deltas.outcomeChanged ? "red" : "green"} control={control.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"} perturbed={perturbed.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"} note="Output threshold · deterministic outcome" />
-      </div>
+      <ObservationMetrics result={result} compact />
       <PropagationTimeline result={result} step={step} />
       <div className="evidence-link-bar"><span>{matched ? "✓ Engine measurements · matched condition provenance" : "Condition mismatch · inspect provenance"}</span><button type="button" className="text-button" onClick={onEvidence}>Inspect evidence ↗</button></div>
     </div>
