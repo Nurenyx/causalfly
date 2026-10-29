@@ -43,3 +43,8 @@ next-env.d.ts
 !.env.example
 
 tmp/
+
+# Local acceptance reports and run exports (may contain questions / AI prose)
+/playwright-report/
+/test-results/
+/run_*-diagnostics.json

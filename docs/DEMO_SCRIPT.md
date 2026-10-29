@@ -1,0 +1,19 @@
+# Three-minute video script
+
+Target: **2:58**, with two seconds of buffer. Record the current UI; shorten provider waiting time with a visible “processing time shortened” caption. Narration below assumes successful live Muse/SAM results. If using offline footage, say “offline template” / “geometry fixture” and leave labels visible; never imply live Meta execution. Do not mix fixture amplitude 0.640 with the prior live calibration result near 0.488.
+
+| Time | Screen/action | Concise narration |
+| --- | --- | --- |
+| 0:00–0:15 | Experiment overview; question, flow, and Meta labels | “An AI answer is not an experiment. CausalFly turns a question about a simulated nervous system into a controlled test, with measurements you can inspect.” |
+| 0:15–0:40 | Question: “What happens if I silence the primary pathway?” Show Synthetic Fixture context; open Real-world perception without designing yet | “We ask what changes when one pathway is silenced. Our controlled network is a small synthetic engineering model. We keep the control conditions fixed and change only the approved intervention.” |
+| 0:40–1:05 | Choose `public/perception-calibration.mp4`; concept `red square`; Analyze with SAM 3.1; scrub returned track, show stimulus | “Meta SAM 3.1 segments and tracks the red square in this generated calibration clip. CausalFly maps apparent box growth into a synthetic stimulus. The prior check returned sixty frames and about point four eight eight; here are this run's actual values.” |
+| 1:05–1:30 | Design Experiment With This Stimulus; show target/settings; Approve & Run; embodied/network playback | “Meta Muse proposes the test. CausalFly validates it and locks the derived input. I approve the run. The engine executes control and intervention; the web embodiment illustrates those synthetic results.” |
+| 1:30–1:55 | Measured result, actual strength/timing/outcome cards; optionally detailed comparison | “These values come from the engine, not the language model. We compare output strength, threshold timing, and whether the target was reached. If a condition never crosses threshold, the interface reports that rather than inventing a delay.” |
+| 1:55–2:15 | Explain with Meta; interpretation and proposed next question | “Now Muse interprets the measured evidence and proposes what to test next. Its explanation stays separate from the result. A follow-up still needs a new design and my approval.” |
+| 2:15–2:35 | Experiment Trust; Run diagnostics; export JSON and briefly show manifest/event ledger | “Experiment Trust exposes matched inputs, intervention checks, and engine-owned measurements. The flight recorder retains provenance and an event ledger. We can export it for inspection. AI proposes and interprets. CausalFly measures.” |
+| 2:35–2:50 | Switch to Live Connectome; orbit published structure; show current telemetry status | “Our second view connects to published Drosophila CNS structure. Optional FruitFly XR telemetry adds simulated neural activity. FruitFly XR and its brain server predate this hackathon; these are not recordings from a living fly.” |
+| 2:50–2:58 | Return to wide view, project name/repository | “The vision is the same inspectable loop across connectome simulation, XR embodiment, and eventually robotics and broader experimental systems.” |
+
+Record the exact result before writing any numeric voiceover. The historical 60-frame / 0.488 SAM result is documented in [Sprint 8B](SPRINT_8B_REVIEW.md), not guaranteed for a new response. If telemetry is unavailable at the reveal, replace that sentence with: “This is published structure; live telemetry is disconnected.”
+
+Keep biological-validation limits visible, avoid exposing configuration/keys, and do not execute the next proposal during the timed recording. Production/recovery commands: [DEMO_RUNBOOK.md](DEMO_RUNBOOK.md). Scope disclosure: [HACKATHON-DISCLOSURE.md](HACKATHON-DISCLOSURE.md).
