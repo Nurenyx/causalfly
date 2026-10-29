@@ -1,4 +1,5 @@
 import type { VideoSegmentationSnapshot } from "@meta-sam/parser";
+import type { RunDiagnostics } from "../web/flight-recorder-types";
 
 export const SAM_MODEL = "sam-3.1" as const;
 export const MAX_VIDEO_BYTES = 20 * 1024 * 1024;
@@ -27,6 +28,7 @@ export interface PerceptionMeasurement {
 }
 /** Input provenance, explicitly separate from neural causal evidence. */
 export interface PerceptionRecord {
+  run_id?: string;
   id: string; model: typeof SAM_MODEL;
   mode: "SAM LIVE" | "OFFLINE SAM FIXTURE";
   concept: string; media: VideoMetadata;
@@ -40,5 +42,5 @@ export interface PerceptionRecord {
   };
 }
 export type PerceptionResponse =
-  | { ok: true; perception: PerceptionRecord; receipt?: string; overlay?: VideoSegmentationSnapshot }
-  | { ok: false; error: string; kind: "validation" | "configuration" | "provider" };
+  | { ok: true; perception: PerceptionRecord; receipt?: string; overlay?: VideoSegmentationSnapshot; diagnostics?: RunDiagnostics }
+  | { ok: false; error: string; kind: "validation" | "configuration" | "provider"; run_id?: string; diagnostics?: RunDiagnostics };

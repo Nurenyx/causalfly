@@ -5,6 +5,7 @@ import { researchQuestionSchema, validateExperimentProposal } from "./schemas";
 import type { PerceptionRecord } from "../perception/contracts";
 
 export interface EvidencePayload {
+  readonly run_id?: string;
   readonly perceptionInput?: PerceptionRecord;
   readonly researchQuestion: string;
   readonly experimentSpec: ExperimentSpec;
@@ -21,6 +22,7 @@ export interface EvidencePayload {
 const issuedEvidence = new WeakSet<EvidencePayload>();
 
 export function createEvidencePayload(input: {
+  run_id?: string;
   researchQuestion: string;
   networkDefinition: NetworkDefinition;
   experimentSpec: ExperimentSpec;
@@ -33,6 +35,7 @@ export function createEvidencePayload(input: {
   // Sprint 1 still performs its own validation before any simulation.
   const comparison = runExperiment(network, spec);
   const evidence: EvidencePayload = freezeRecord({
+    ...(input.run_id ? { run_id: input.run_id } : {}),
     ...(input.perceptionInput ? { perceptionInput: structuredClone(input.perceptionInput) } : {}),
     researchQuestion,
     experimentSpec: spec,

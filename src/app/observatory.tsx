@@ -24,6 +24,8 @@ import { InvestigationQuestion } from "./components/investigation-question";
 import { MetaRequestLabel } from "./components/meta-request-label";
 import { WorkflowErrorNotice, type WorkflowFailure } from "./components/workflow-error-notice";
 import { initialPerceptionSession } from "@/lib/web/perception-session";
+import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
+import { RunDiagnosticsDetails } from "./components/experiment-trust";
 
 const defaultQuestion = "What happens if I silence the primary pathway?";
 const navigation: { id: Workspace; label: string; icon: string }[] = [
@@ -69,13 +71,15 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   function navigate(next: Workspace) { dispatch({ type: "navigate", workspace: next }); }
   function selectSource(next: DataSourceKind) { if (next === "SYNTHETIC_FIXTURE") fruitFly.disconnect(); setSource(next); setError(""); setNotice(""); }
   function useNextQuestion(next: string) { dispatch({ type: "next-question", question: next }); setNotice("Next question ready. Request a new Meta design."); requestAnimationFrame(() => document.getElementById("demo-question")?.scrollIntoView({ block: "start", behavior: "smooth" })); }
-  function reportFailure(task: string, detail: string) {
+  function reportFailure(task: string, detail: string, diagnostics?: RunDiagnostics) {
+    if (diagnostics) dispatch({ type: "diagnostics", diagnostics });
     const designRecovery = /design expired|Design the experiment again/i.test(detail);
     const perceptionRecovery = /receipt|can no longer verify|perception result.*(?:restart|expir|unavailable)|re-analyze/i.test(detail);
     if (designRecovery) setUnavailableDesignId(design?.id);
     const target = designRecovery ? "demo-question" : task === "perception" || task === "stimulus" || perceptionRecovery ? "perception-source" : task === "design" ? "demo-question" : task === "interpret" ? "demo-understand" : "demo-watch";
     const summary = designRecovery ? "Experiment design expired. Design it again with the retained stimulus." : perceptionRecovery ? "Perception could not be verified. Re-analyze the video." : task === "design" ? "Meta experiment design failed. Retry." : task === "stimulus" ? "Unable to use this stimulus." : task === "perception" ? "Video analysis failed. Review & retry." : task === "interpret" ? "Meta interpretation failed. Retry." : "Experiment could not run. Retry.";
-    setError(detail); setErrorTarget(target); setFailure({ id: Date.now(), summary, detail, target });
+    const run_id = diagnostics?.manifest.run_id ?? design?.run_id ?? (task === "perception" ? perceptionSession.analysis?.perception.run_id : undefined);
+    setError(detail); setErrorTarget(target); setFailure({ id: Date.now(), summary, detail, target, run_id, diagnostics });
   }
   function locateFailure() {
     if (!failure) return;
@@ -93,12 +97,13 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     const selectedId = perceptionId ?? (action === "design" && perceptionSession.source === "perception" ? perceptionSession.analysis?.perception.id : undefined);
     const selectedReceipt = receipt ?? (selectedId === perceptionSession.analysis?.perception.id ? perceptionSession.analysis?.receipt : undefined);
     try {
-      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion, ...(selectedId ? { perceptionId: selectedId, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}) } : { action, id: design!.id, ...(action === "stimulus" ? { perceptionId: perceptionId ?? null, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}), ...(action === "run" && stimulusAmplitude !== undefined && stimulusAmplitude !== design!.spec.stimulus.amplitude ? { stimulusAmplitude } : {}) }) });
+      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion, ...(result?.analysis?.nextExperiment.researchQuestion === researchQuestion ? { nextFromId: design?.id } : {}), ...(selectedId ? { perceptionId: selectedId, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}) } : { action, id: design!.id, ...(action === "stimulus" ? { perceptionId: perceptionId ?? null, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}), ...(action === "run" && stimulusAmplitude !== undefined && stimulusAmplitude !== design!.spec.stimulus.amplitude ? { stimulusAmplitude } : {}) }) });
       const data = await response.json() as GuidedResponse;
-      if (!data.ok) reportFailure(action, data.error);
+      if (!data.ok) reportFailure(action, data.error, data.diagnostics);
       else if (!response.ok) reportFailure(action, "Request failed. Retained evidence is unchanged.");
       else if (action === "design" || action === "stimulus") { dispatch({ type: "designed", design: data.design }); setNotice(action === "stimulus" ? "Stimulus accepted into a fresh validated design. Approve to run; no experiment or interpretation has run yet." : "Design validated. Approve to run."); }
       else if (data.result) { dispatch(action === "run" ? { type: "completed", result: data.result, design: data.design, workspace: "observatory" } : { type: "interpreted", result: data.result, workspace: "observatory" }); setNotice(action === "run" ? "Measurement ready. Play control, then intervention." : "Interpretation ready. Choose the next test."); }
+      if (data.ok && data.diagnostics) dispatch({ type: "diagnostics", diagnostics: data.diagnostics });
     } catch { reportFailure(action, "Unable to reach CausalFly. Retry the explicit action; retained evidence is unchanged."); }
     finally { inFlight.current = false; setPending(""); }
   }
@@ -139,7 +144,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       {external && fruitFlyAskedQuestion && workspace !== "evidence" && <p className="workflow-investigation"><span className="eyebrow">INVESTIGATION QUESTION{currentSession ? " / RETAINED SESSION" : " / AWAITING SESSION"}</span><span>{fruitFlyAskedQuestion}</span></p>}
       {!mode && <p className="workflow-notice">Meta configuration is required for design or interpretation. Existing measurements remain inspectable.</p>}
       {notice && <p className="workflow-notice" role="status">{notice}</p>}
-      {error && <div className="error-panel" role="alert"><strong>Action could not complete</strong><p>{error}</p></div>}
+      {error && <div className="error-panel" role="alert"><strong>Action could not complete</strong><p>{error}</p>{failure?.diagnostics ? <RunDiagnosticsDetails diagnostics={failure.diagnostics} /> : failure?.run_id && <details><summary>Run reference</summary><p>Run: <code>{failure.run_id}</code></p></details>}</div>}
       <main id="main" tabIndex={-1} className="main-content" aria-label={`${activeStage} workspace`}>
         {external ? <>
           {workspace === "compare" ? <CompareRequirements external onNext={() => navigate("evidence")} /> : workspace === "evidence" ? <><FruitFlyEvidenceView snapshot={fruitFly.snapshot} question={fruitFlyAskedQuestion} />{fruitFlyMeta.result && <details className="panel"><summary>Frozen Meta interpretation / proposal provenance</summary><p>Analysis belongs to session {fruitFlyMeta.result.evidence.sessionId}; inspect its exact frozen window.</p><pre>{JSON.stringify(fruitFlyMeta.result, null, 2)}</pre></details>}</> : workspace === "scientist" ? <FruitFlyScientist snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} question={fruitFlyAskedQuestion} meta={metaProps} onLive={() => navigate("live")} onEvidence={() => navigate("evidence")} /> : <>
@@ -152,7 +157,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
             perceptionSession={perceptionSession} onPerceptionSession={setPerceptionSession}
             perceptionWorkflowError={errorTarget === "perception-source" ? error : undefined}
             actionError={error ? { target: errorTarget, detail: error } : undefined}
-            onPerceptionFailure={message => reportFailure("perception", message)}
+            onPerceptionFailure={(message, diagnostics) => reportFailure("perception", message, diagnostics)}
             onDesignPerception={(id, receipt) => void execute("design", question, undefined, id, receipt)}
             onStimulus={(id, receipt) => void execute("stimulus", question, undefined, id, receipt)}
             onPerceptionBusy={value => { inFlight.current = value; setPending(value ? "perception" : ""); if (value) { setError(""); setFailure(undefined); } }}

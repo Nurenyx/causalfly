@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useRef, useState, type ChangeEvent, type Dispatch, type SetStateAction } from "react";
 import { MAX_VIDEO_BYTES, MAX_VIDEO_SECONDS, type PerceptionRecord, type PerceptionResponse } from "@/lib/perception/contracts";
 import { conceptForVideo, initialPerceptionSession, type PerceptionSession } from "@/lib/web/perception-session";
+import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
+import { RunDiagnosticsDetails } from "./experiment-trust";
 
 const TrackedVideo = dynamic(() => import("./perception-video"), { ssr: false, loading: () => <p role="status">Preparing tracked video…</p> });
 const percent = (value: number) => `${(value * 100).toFixed(1)}%`;
@@ -40,7 +42,7 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
   designing?: boolean; measured?: boolean;
   onBusy: (busy: boolean) => void; onUse: (perceptionId: string | null, receipt?: string) => void;
   onDesign?: (perceptionId: string, receipt?: string) => void; onRun?: () => void;
-  onFailure?: (message: string) => void; workflowError?: string;
+  onFailure?: (message: string, diagnostics?: RunDiagnostics) => void; workflowError?: string;
   session?: PerceptionSession; onSession?: Dispatch<SetStateAction<PerceptionSession>>;
 }) {
   const [localSession, setLocalSession] = useState<PerceptionSession>(() => ({ ...initialPerceptionSession(), source: accepted ? "perception" : "synthetic" }));
@@ -54,7 +56,7 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
   const record = analysis?.perception ?? accepted;
   const acceptedHere = Boolean(record && record.id === accepted?.id);
   const showResult = Boolean(record && !editing);
-  function fail(message: string) { setError(message); onFailure?.(message); }
+  function fail(message: string, diagnostics?: RunDiagnostics) { setError(message); onFailure?.(message, diagnostics); }
   function choose(event: ChangeEvent<HTMLInputElement>) {
     const next = event.target.files?.[0];
     setError("");
@@ -74,7 +76,7 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
       form.set("concept", concept.trim());
       const response = await fetch("/api/perception", { method: "POST", headers: { "X-Perception-Request": crypto.randomUUID(), ...(mode === "fixture" ? { "Content-Type": "application/json" } : {}) }, body: mode === "fixture" ? JSON.stringify({ mode: "fixture" }) : form });
       const data = await response.json() as PerceptionResponse;
-      if (!data.ok) fail(data.error);
+      if (!data.ok) fail(data.error, data.diagnostics);
       else if (!response.ok) fail("Perception request failed. Retry explicitly.");
       else update({ analysis: data, analyzedFile: mode === "live" ? file : undefined, editing: false });
     } catch { fail("Unable to reach CausalFly perception. Retry the explicit action."); }
@@ -98,7 +100,7 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
       {showResult && record?.mode === "OFFLINE SAM FIXTURE" ? <OfflineTrack key={record.id} perception={record} /> : showResult && analysis?.overlay && session.analyzedFile ? <TrackedVideo key={analysis.perception.id} file={session.analyzedFile} overlay={analysis.overlay} perception={analysis.perception} /> : !showResult && url ? <div className="perception-preview"><video key={url} src={url} controls preload="metadata" playsInline aria-label="Selected video preview" onLoadedMetadata={event => { const v = event.currentTarget; const valid = Number.isFinite(v.duration) && v.duration > 0 && v.duration <= MAX_VIDEO_SECONDS && v.videoWidth <= 1920 && v.videoHeight <= 1920; update({ ready: valid }); if (!valid) fail("Choose a clip of at most 15 seconds and 1920 pixels per side."); }} onError={() => { update({ ready: false }); fail("This browser cannot preview the clip. Export a short H.264 MP4."); }} /><small>LOCAL PREVIEW · NO SAM DETECTION YET</small></div> : null}
       {showResult && record && <><span className="eyebrow cyan-text">CAUSALFLY — DETERMINISTIC MEASUREMENT</span><PerceptionSummary perception={record} /><ol className="perception-chain" aria-label="Perception to experiment"><li>{record.mode === "SAM LIVE" ? "REAL VIDEO" : "OFFLINE FIXTURE"}</li><li>{record.mode === "SAM LIVE" ? "META SAM TRACKS OBJECT" : "TRACK GEOMETRY FIXTURE"}</li><li>CAUSALFLY MEASURES EXPANSION</li><li data-active={!hasDesign}>META DESIGNS TEST</li><li data-active={acceptedHere && !measured}>CAUSALFLY RUNS EXPERIMENT</li><li data-active={measured}>META EXPLAINS</li></ol>
         {acceptedHere ? <div className="perception-ready" role="status"><strong>STIMULUS READY ✓ <output>{record.measurement.amplitude.toFixed(3)}</output></strong>{!measured && <button type="button" className="secondary-button" disabled={busy} onClick={onRun}>APPROVE & RUN EXPERIMENT ↓</button>}</div> : <><button type="button" className="primary-button" disabled={busy} aria-busy={accepting || designing} onClick={() => hasDesign ? onUse(record.id, analysis?.receipt) : onDesign?.(record.id, analysis?.receipt)}>{designing ? <span role="status"><span className="spinner" aria-hidden="true" /> META IS DESIGNING WITH THIS STIMULUS…</span> : accepting ? "Preparing validated stimulus…" : hasDesign ? "USE AS EXPERIMENT STIMULUS" : "DESIGN EXPERIMENT WITH THIS STIMULUS"}</button>{!hasDesign && <small>Meta will design a controlled test using the measured stimulus.</small>}</>}
-        <PerceptionDetails perception={record} /></>}
+        <PerceptionDetails perception={record} />{analysis?.diagnostics && <RunDiagnosticsDetails diagnostics={analysis.diagnostics} />}</>}
       {!showResult && <details className="perception-offline-option"><summary>Offline validation</summary><p>Synthetic geometry only. Never a fallback for live SAM.</p><button type="button" className="secondary-button" disabled={busy} aria-busy={pending === "fixture"} onClick={() => void analyze("fixture")}>{pending === "fixture" ? "Loading offline fixture…" : "Load OFFLINE SAM FIXTURE"}</button></details>}
     </div>}
   </section>;

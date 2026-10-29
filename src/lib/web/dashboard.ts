@@ -1,6 +1,7 @@
 import type { CompactTrialSummary } from "../meta/compact-evidence";
 import type { MeasuredExperimentResult as WebExperimentResult } from "./contracts";
 import type { GuidedDesign } from "./contracts";
+import type { RunDiagnostics } from "./flight-recorder-types";
 
 export type Workspace = "observatory" | "live" | "compare" | "scientist" | "evidence";
 export const chartNodes = ["primary_a", "primary_b", "alternate_c", "motor"] as const;
@@ -41,6 +42,7 @@ export interface WorkspaceState {
 }
 
 export type WorkspaceAction =
+  | { type: "diagnostics"; diagnostics: RunDiagnostics }
   | { type: "designed"; design: GuidedDesign }
   | { type: "interpreted"; result: WebExperimentResult; workspace?: Workspace }
   | { type: "navigate"; workspace: Workspace }
@@ -54,6 +56,7 @@ export type WorkspaceAction =
 /** UI state transitions cannot submit experiments or mutate evidence. */
 export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction): WorkspaceState {
   switch (action.type) {
+    case "diagnostics": return state.result?.run_id === action.diagnostics.manifest.run_id ? { ...state, result: { ...state.result, diagnostics: action.diagnostics } } : state;
     case "designed": return { ...state, design: action.design, result: null, workspace: "observatory" };
     case "interpreted": return { ...state, result: action.result, workspace: action.workspace ?? "scientist" };
     case "navigate": return { ...state, workspace: action.workspace };

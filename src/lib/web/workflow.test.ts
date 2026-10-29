@@ -106,7 +106,11 @@ test("a live-mode result serializes no key, Authorization header, provider reque
 
 test("provider timeout becomes the exact safe retry message", async () => {
   const response = await failingClient(new OpenAI.APIConnectionTimeoutError({ message: config.META_API_KEY }));
-  assert.deepEqual(response, { ok: false, kind: "provider", error: "Meta Model API timed out. Please retry." });
+  assert.ok(!response.ok);
+  assert.equal(response.kind, "provider");
+  assert.equal(response.error, "Meta Model API timed out. Please retry.");
+  assert.match(response.run_id!, /^run_/);
+  assert.equal(response.diagnostics?.manifest.run_id, response.run_id);
 });
 
 test("provider authentication and unknown failures never expose raw errors", async () => {

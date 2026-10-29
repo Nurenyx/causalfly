@@ -1,6 +1,7 @@
 import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { Badge, EvidenceFlow, SectionTitle } from "./workspace-ui";
 import { PerceptionDetails, PerceptionSummary } from "./perception-panel";
+import { ExperimentTrust } from "./experiment-trust";
 
 export function ExperimentMetadata({ result }: { result: WebExperimentResult }) {
   return <dl className="experiment-metadata"><div><dt>Perturbation</dt><dd className="red-text">silence / {result.spec.perturbation.targetNodeId}</dd></div><div><dt>Stimulus amplitude</dt><dd>{result.spec.stimulus.amplitude}</dd></div><div><dt>Seed</dt><dd>{result.spec.seed}</dd></div><div><dt>maxSteps</dt><dd>{result.spec.maxSteps}</dd></div><div><dt>Threshold</dt><dd>{result.spec.outputThreshold}</dd></div></dl>;
@@ -15,6 +16,7 @@ export function EvidenceView({ result }: { result: WebExperimentResult }) {
     ["outputThreshold", "Same threshold"], ["onlyDeclaredPerturbationDiffers", "Only declared perturbation differs"],
   ];
   return <div className="evidence-view">
+    <ExperimentTrust diagnostics={result.diagnostics} />
     {result.perceptionInput && <section className="panel perception-evidence"><span className="eyebrow amber-text">META SAM 3.1 — PERCEPTION / INPUT PROVENANCE ONLY</span><h3>CAUSALFLY — DETERMINISTIC MEASUREMENT</h3><p>{result.perceptionInput.mode} · CausalFly converted tracked visual expansion into the approved stimulus. Neural causal evidence comes from the controlled engine runs below.</p><PerceptionSummary perception={result.perceptionInput} /><PerceptionDetails perception={result.perceptionInput} /></section>}
     {result.stimulusOverride && !result.perceptionInput && <p className="workflow-notice">User-set stimulus amplitude: {result.stimulusOverride.amplitude}. Original proposal: {result.stimulusOverride.originalAmplitude}. Source design: {result.stimulusOverride.sourceDesignId}. CausalFly validated and ran this new specification; Meta did not author this input adjustment.</p>}
     <header className="evidence-purpose"><h2>Verify what happened.</h2><p>Engine measurements, source provenance and AI interpretation remain separate.</p></header>

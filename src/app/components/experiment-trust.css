@@ -1,0 +1,9 @@
+.experiment-trust { margin: 18px 0; padding: 16px 18px; border: 1px solid var(--border, #28414a); border-radius: 8px; background: #09191f; color: #b8cbd0; font-size: .78rem; }
+.experiment-trust header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; font-size: .69rem; letter-spacing: .08em; color: #92ddd2; }
+.experiment-trust ul { display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; padding: 0; margin: 12px 0; }
+.experiment-trust > p { font-size: .68rem; color: #92ddd2; }
+.experiment-trust details { margin-top: 10px; }
+.experiment-trust summary, .run-diagnostics summary { cursor: pointer; }
+.run-diagnostics { margin: 12px 0; font-size: .78rem; }
+.run-diagnostics code { overflow-wrap: anywhere; }
+.run-diagnostics pre { max-height: 360px; max-width: 100%; overflow: auto; font-size: .7rem; }

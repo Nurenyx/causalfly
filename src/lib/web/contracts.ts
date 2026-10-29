@@ -2,11 +2,14 @@ import type { ExperimentSpec } from "../experiment/types";
 import type { CompactEvidencePayload } from "../meta/compact-evidence";
 import type { ScientificAnalysis } from "../meta/schemas";
 import type { PerceptionRecord } from "../perception/contracts";
+import type { RunDiagnostics } from "./flight-recorder-types";
 
 export type ExecutionMode = "META LIVE" | "FAKE META CLIENT";
 
 /** Model-authored text stays separate from engine-produced evidence. */
 export interface WebExperimentResult {
+  run_id?: string;
+  diagnostics?: RunDiagnostics;
   researchQuestion: string;
   mode: ExecutionMode;
   spec: ExperimentSpec;
@@ -17,7 +20,7 @@ export interface WebExperimentResult {
 
 export type WebExperimentResponse =
   | { ok: true; result: WebExperimentResult }
-  | { ok: false; error: string; kind: "validation" | "configuration" | "provider" };
+  | { ok: false; error: string; kind: "validation" | "configuration" | "provider"; run_id?: string; diagnostics?: RunDiagnostics };
 
 export interface WebStatus {
   mode: ExecutionMode | null;
@@ -43,6 +46,8 @@ export interface StimulusOverride {
   amplitude: number;
 }
 export interface GuidedDesign {
+  run_id?: string;
+  diagnostics?: RunDiagnostics;
   perceptionInput?: PerceptionRecord;
   id: string;
   researchQuestion: string;
@@ -51,5 +56,5 @@ export interface GuidedDesign {
   runtimeCalls: readonly RuntimeCall[];
   stimulusOverride?: StimulusOverride;
 }
-export type GuidedResponse = { ok: true; design: GuidedDesign; result?: MeasuredExperimentResult } |
-  { ok: false; kind: "validation" | "configuration" | "provider"; error: string };
+export type GuidedResponse = { ok: true; design: GuidedDesign; result?: MeasuredExperimentResult; diagnostics?: RunDiagnostics } |
+  { ok: false; kind: "validation" | "configuration" | "provider"; error: string; run_id?: string; diagnostics?: RunDiagnostics };

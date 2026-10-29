@@ -7,6 +7,7 @@ import { MAX_VIDEO_BYTES, SAM_MODEL, type PerceptionResponse } from "../percepti
 import { offlinePerceptionFixture } from "../perception/fixture";
 import { inspectVideo, validateVideoFile } from "../perception/media";
 import { perceptionReceipt, retainPerception } from "../perception/store";
+import { FlightRecorder } from "./flight-recorder";
 
 const conceptSchema = z.string().trim().min(1).max(80).regex(/^[\p{L}\p{N} '-]+$/u, "Use one short object concept, such as hand.");
 // UI request token suppresses duplicate in-flight uploads, with no retained media or masks.
@@ -14,8 +15,12 @@ const inFlight = new Set<string>();
 const recent = new Map<string, number>();
 
 export async function perceptionAction(request: Request, deps: { analyze?: typeof analyzeSamVideo; inspect?: typeof inspectVideo } = {}): Promise<Response> {
+  let recorder: FlightRecorder | undefined = undefined;
   const reply = (body: PerceptionResponse, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
-  const fail = (error: string, status = 400, kind: "validation" | "configuration" | "provider" = "validation") => reply({ ok: false, error, kind }, status);
+  const fail = (error: string, status = 400, kind: "validation" | "configuration" | "provider" = "validation") => {
+    recorder?.event("error.recorded", { code: `perception.${kind}` });
+    return reply({ ok: false, error, kind, ...(recorder ? { run_id: recorder.run_id, diagnostics: recorder.snapshot() } : {}) }, status);
+  };
   const origin = request.headers.get("origin");
   // Next can use localhost in Request.url while preserving 127.0.0.1 in Host.
   const externalUrl = new URL(request.url);
@@ -27,14 +32,19 @@ export async function perceptionAction(request: Request, deps: { analyze?: typeo
   if (inFlight.has(token) || recent.has(token)) return fail("This analysis request was already submitted. Use Retry for a new attempt.", 409);
   if (inFlight.size >= 2) return fail("Perception is busy. Try again when the current request finishes.", 429);
   inFlight.add(token);
+  recorder = new FlightRecorder();
+  let samRequested = false;
   try {
     if (request.headers.get("Content-Type")?.startsWith("application/json")) {
       // Offline fixtures are a separate explicit operation, never a live error fallback.
       const body = await boundedBody(request, 256);
       const parsed = z.strictObject({ mode: z.literal("fixture") }).safeParse(JSON.parse(body.toString("utf8")));
       if (!parsed.success) return fail("Choose an explicit offline fixture or upload a video for SAM LIVE.");
-      const perception = retainPerception(offlinePerceptionFixture(randomUUID()));
-      return reply({ ok: true, perception, receipt: perceptionReceipt(perception) });
+      const perception = retainPerception({ ...offlinePerceptionFixture(randomUUID()), run_id: recorder.run_id });
+      recorder.model("perceive", SAM_MODEL, perception.mode);
+      recorder.perception(perception);
+      recorder.event("stimulus.derived", { perceptionId: perception.id, amplitude: perception.measurement.amplitude, trackedFrames: perception.measurement.frames.length, mode: perception.mode });
+      return reply({ ok: true, perception, receipt: perceptionReceipt(perception), diagnostics: recorder.snapshot() });
     }
     // Reject invalid configuration before buffering user media.
     if (!deps.analyze) samConfiguration(readMetaEnvironment());
@@ -49,11 +59,17 @@ export async function perceptionAction(request: Request, deps: { analyze?: typeo
     // Send a generic name to Meta, not a potentially identifying local filename.
     const isMov = /\.mov$/i.test(file.name);
     const upload = new File([bytes], isMov ? "stimulus.mov" : "stimulus.mp4", { type: isMov ? "video/quicktime" : "video/mp4" });
+    recorder.model("perceive", SAM_MODEL, "SAM LIVE");
+    recorder.event("sam.requested", { model: SAM_MODEL, mode: "SAM LIVE" }); samRequested = true;
     const result = await (deps.analyze ?? analyzeSamVideo)(upload, parsed.data, media);
-    const perception = retainPerception({ id: randomUUID(), model: SAM_MODEL, mode: "SAM LIVE", concept: parsed.data, media, measurement: result.measurement,
+    const perception = retainPerception({ run_id: recorder.run_id, id: randomUUID(), model: SAM_MODEL, mode: "SAM LIVE", concept: parsed.data, media, measurement: result.measurement,
       provenance: { ...result.provenance, mediaSha256: createHash("sha256").update(bytes).digest("hex") } });
-    return reply({ ok: true, perception, receipt: perceptionReceipt(perception), overlay: result.overlay });
+    recorder.perception(perception);
+    recorder.event("sam.completed", { perceptionId: perception.id, trackedFrames: perception.measurement.frames.length });
+    recorder.event("stimulus.derived", { amplitude: perception.measurement.amplitude });
+    return reply({ ok: true, perception, receipt: perceptionReceipt(perception), overlay: result.overlay, diagnostics: recorder.snapshot() });
   } catch (error) {
+    if (samRequested) recorder.event(error instanceof Error && /no matching object/i.test(error.message) ? "sam.no_match" : "sam.failed", { code: "perception.unsuccessful" });
     if (error instanceof SamError) return fail(error.message, error.kind === "configuration" ? 503 : 502, error.kind);
     if (error instanceof Error && /Choose|Use a clip|distinct video|Unable to read|Body too large/.test(error.message)) return fail(error.message);
     return fail("Unable to read the video request. Choose a short MP4/MOV and try again.");

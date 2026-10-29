@@ -12,6 +12,8 @@ import { EvidenceView } from "./evidence-view";
 import { PerceptionPanel } from "./perception-panel";
 import type { Dispatch, SetStateAction } from "react";
 import type { PerceptionSession } from "@/lib/web/perception-session";
+import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
+import { ExperimentTrust } from "./experiment-trust";
 
 interface Props {
   question: string;
@@ -27,7 +29,7 @@ interface Props {
   onDesignPerception?: (perceptionId: string, receipt?: string) => void;
   perceptionSession?: PerceptionSession;
   onPerceptionSession?: Dispatch<SetStateAction<PerceptionSession>>;
-  onPerceptionFailure?: (message: string) => void;
+  onPerceptionFailure?: (message: string, diagnostics?: RunDiagnostics) => void;
   perceptionWorkflowError?: string;
   actionError?: { target: string; detail: string };
   onPerceptionBusy?: (busy: boolean) => void;
@@ -83,6 +85,7 @@ export function GuidedExperiment(props: Props) {
 
     {currentResult && <div className="demo-measured-stage">
       <div id="demo-result"><ResultStory result={currentResult} emphasis /></div>
+      <ExperimentTrust diagnostics={currentResult.diagnostics} />
       <GuidedUnderstanding result={currentResult} busy={busy} explaining={pending === "interpret"} enabled={Boolean(mode)} onExplain={props.onExplain} onNext={props.onNext} />
       <div className="demo-advanced" aria-label="Advanced experiment details">
         <details onToggle={event => { const open = event.currentTarget.open; setDetails(previous => ({ ...previous, comparison: open })); }}><summary>View detailed comparison</summary>{details.comparison && <ComparisonMeasurements result={currentResult} onEvidence={showEvidence} />}</details>

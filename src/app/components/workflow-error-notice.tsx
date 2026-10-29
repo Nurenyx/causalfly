@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
 
-export interface WorkflowFailure { id: number; summary: string; detail: string; target: string }
+export interface WorkflowFailure { id: number; summary: string; detail: string; target: string; run_id?: string; diagnostics?: RunDiagnostics }
 
 /** A reserved viewport rail, independent of the user's current scroll position. */
 export function WorkflowErrorNotice({ failure, onDismiss, onLocate }: { failure: WorkflowFailure; onDismiss: () => void; onLocate: () => void }) {
