@@ -10,11 +10,11 @@ import { EvidenceView } from "./components/evidence-view";
 import { DataSourcePanel, useFruitFlySource } from "./components/data-source-panel";
 import { FruitFlyEvidenceView } from "./components/fruitfly-evidence";
 import { LiveSessionWorkspace } from "./components/live-session";
-import { ObservatoryPreview } from "./components/observatory-preview";
+import { GuidedExperiment } from "./components/guided-experiment";
 import { FruitFlyScientist } from "./components/fruitfly-analysis";
 import { CompareDashboard } from "./components/compare-dashboard";
 import { ScientistView } from "./components/ai-scientist";
-import { WorkflowProgress, CompareRequirements, DesignReview } from "./components/guided-workflow";
+import { WorkflowProgress, CompareRequirements } from "./components/guided-workflow";
 import { fruitFlyExampleQuestion } from "@/lib/web/observational-question";
 import { dataSources, type DataSourceKind } from "@/lib/sources/contracts";
 import { createObservationalAction } from "@/lib/web/observational-action";
@@ -42,38 +42,43 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   const currentSession = fruitFly.snapshot.evidence?.telemetry.sessionId;
   const currentMeta = fruitFlyMeta.result?.evidence.sessionId === currentSession && fruitFlyMeta.result?.analysis.exactQuestion === fruitFlyAskedQuestion && Boolean(fruitFlyMeta.result);
   const stages = workflowProgress({ external, workspace, question, design, result, hasTelemetry, hasQuestion: Boolean(fruitFlyAskedQuestion), hasMeta: currentMeta, pending });
-  const activeStage = workspace === "compare" ? "COMPARE" : workspace === "scientist" ? "INTERPRET" : workspace === "evidence" ? "EVIDENCE" : workspace === "live" ? "OBSERVE" : stages.find(s => s.state === "ACTIVE")?.label ?? "ASK / DESIGN";
+  const activeStage = !external && workspace === "observatory" ? pending === "design" ? "DESIGN" : pending === "run" ? "TEST" : pending === "interpret" || result?.analysis && design?.researchQuestion === question ? "UNDERSTAND" : result && design?.researchQuestion === question ? "TEST" : design?.researchQuestion === question ? "DESIGN" : "ASK" : workspace === "compare" ? "COMPARE" : workspace === "scientist" ? "INTERPRET" : workspace === "evidence" ? "EVIDENCE" : workspace === "live" ? "OBSERVE" : stages.find(s => s.state === "ACTIVE")?.label ?? "ASK / DESIGN";
   const identity = external ? currentSession ?? "Awaiting session" : design?.spec.id ?? "New experiment";
   const busy = Boolean(pending);
   const phase = workspace === "scientist" || workspace === "evidence" ? "UNDERSTAND" : workspace === "live" || workspace === "compare" || design && question.trim() === design.researchQuestion.trim() && workspace === "observatory" ? "TEST" : "ASK";
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [workspace]);
 
+  useEffect(() => {
+    const target = result?.analysis ? "demo-understand" : result ? "demo-result" : design ? "demo-design" : undefined;
+    if (target) document.getElementById(target)?.scrollIntoView({ block: "start", behavior: "smooth" });
+  }, [design, result]);
+
   function navigate(next: Workspace) { dispatch({ type: "navigate", workspace: next }); }
   function selectSource(next: DataSourceKind) { if (next === "SYNTHETIC_FIXTURE") fruitFly.disconnect(); setSource(next); setError(""); setNotice(""); }
   function useNextQuestion(next: string) { dispatch({ type: "next-question", question: next }); setNotice("Proposed follow-up loaded. Request a new design explicitly; the current experiment remains retained until a new design succeeds."); }
-  async function execute(action: "design" | "run" | "interpret") {
+  async function execute(action: "design" | "run" | "interpret", researchQuestion = question) {
     if (inFlight.current || external || (action !== "design" && !design)) return;
     inFlight.current = true; setPending(action); setError("");
     try {
-      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion: question } : { action, id: design!.id }) });
+      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion } : { action, id: design!.id }) });
       const data = await response.json() as GuidedResponse;
       if (!data.ok) setError(data.error);
       else if (!response.ok) setError("Request failed. Retained evidence is unchanged.");
       else if (action === "design") { dispatch({ type: "designed", design: data.design }); setNotice("Design validated. Review the proposal and approve the matched run."); }
-      else if (data.result) { dispatch({ type: action === "interpret" ? "interpreted" : "completed", result: data.result }); setNotice(action === "run" ? "Measured comparison ready. Meta has not interpreted these results yet." : "Interpretation and follow-up proposal ready. Measurements remain unchanged."); }
+      else if (data.result) { dispatch({ type: action === "interpret" ? "interpreted" : "completed", result: data.result, workspace: "observatory" }); setNotice(action === "run" ? "Measured comparison ready. Meta has not interpreted these results yet." : "Interpretation and follow-up proposal ready. Measurements remain unchanged."); }
     } catch { setError("Unable to reach CausalFly. Retry the explicit action; retained evidence is unchanged."); }
     finally { inFlight.current = false; setPending(""); }
   }
   const analysisEnabled = Boolean(mode && fruitFlyAskedQuestion?.trim() && fruitFly.snapshot.evidence && fruitFly.snapshot.retentionId);
   function analyzeObservation() { if (analysisEnabled) void analyzeFruitFly(fruitFlyAskedQuestion!, fruitFly.snapshot, fruitFly.frames); }
   const needsDesign = !design || question.trim() !== design.researchQuestion.trim();
-  const nextLabel = external ? !fruitFlyAskedQuestion ? "Save session question" : !hasTelemetry ? "Connect / observe session" : !currentMeta ? "Review local interpretation" : "View proposed next experiment" : needsDesign ? "Design with Meta" : !result ? "Approve & run test" : !result.analysis ? "Explain with Meta" : "View proposed next experiment";
+  const nextLabel = external ? !fruitFlyAskedQuestion ? "Save session question" : !hasTelemetry ? "Connect / observe session" : !currentMeta ? "Review local interpretation" : "View proposed next experiment" : needsDesign ? "Design with Meta" : !result ? "Approve & Run Experiment" : !result.analysis ? "Explain with Meta" : "View proposed next experiment";
   function nextAction() {
     if (external) navigate(!fruitFlyAskedQuestion ? "observatory" : !hasTelemetry ? "live" : "scientist");
     else if (needsDesign) { if (workspace === "observatory") void execute("design"); else navigate("observatory"); }
     else if (!result) { if (workspace === "observatory") void execute("run"); else navigate("observatory"); }
     else if (!result.analysis) void execute("interpret");
-    else { navigate("scientist"); requestAnimationFrame(() => document.querySelector(".next-experiment")?.scrollIntoView({ block: "center", behavior: "smooth" })); }
+    else { navigate("observatory"); requestAnimationFrame(() => document.querySelector(".next-experiment")?.scrollIntoView({ block: "center", behavior: "smooth" })); }
   }
   const metaProps = { state: currentMeta || fruitFlyMeta.pending || fruitFlyMeta.error ? fruitFlyMeta : { pending: false }, enabled: analysisEnabled, onAnalyze: analyzeObservation };
 
@@ -82,16 +87,16 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     <aside className="sidebar" aria-label="CausalFly navigation">
       <Link className="brand" href="/" aria-label="CausalFly home"><span>◈</span><span>Causal<span className="brand-accent">Fly</span><small>Scientific experiment<br />workbench</small></span></Link>
       <span className="sidebar-caption">RESEARCH WORKSPACE</span>
-      <nav aria-label="Experiment workspaces">{navigation.map(view => <button key={view.id} type="button" aria-label={view.label} aria-current={(workspace === view.id || view.id === "observatory" && ["compare", "scientist"].includes(workspace)) ? "page" : undefined} className={(workspace === view.id || view.id === "observatory" && ["compare", "scientist"].includes(workspace)) ? "active" : ""} onClick={() => { if (view.id === "live") selectSource("FRUITFLY_XR"); navigate(view.id === "observatory" && result && !needsDesign ? "compare" : view.id); }}><span aria-hidden="true">{view.icon}</span><span>{view.label}</span></button>)}</nav>
+      <nav aria-label="Experiment workspaces">{navigation.map(view => <button key={view.id} type="button" aria-label={view.label} disabled={busy} aria-current={(workspace === view.id || view.id === "observatory" && ["compare", "scientist"].includes(workspace)) ? "page" : undefined} className={(workspace === view.id || view.id === "observatory" && ["compare", "scientist"].includes(workspace)) ? "active" : ""} onClick={() => { if (view.id === "live") selectSource("FRUITFLY_XR"); navigate(view.id); }}><span aria-hidden="true">{view.icon}</span><span>{view.label}</span></button>)}</nav>
       <DataSourcePanel source={source} snapshot={fruitFly.snapshot} disabled={busy} onSelect={selectSource} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} />
-      {busy && <p className="trace-note">Source selection pauses while the explicit experiment request completes.</p>}
+      {busy && <p className="trace-note">Navigation and source selection pause while the explicit experiment request completes.</p>}
       <div className="workflow-role-key"><span className="eyebrow">EVIDENCE FIRST</span><p className="cyan-text">◈ Engine measures</p><p className="amber-text">✧ Meta reasons</p><p>Ask CausalFly guides you through both.</p></div>
       <div className="sidebar-footer"><span className="sidebar-caption">META MUSE / RUNTIME</span><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "CONFIGURATION NEEDED"}</Badge><p>Designer · Interpreter · Next-experiment planner</p><small>Explicit requests only</small></div>
     </aside>
     <div className="workspace">
-      <header className="topbar"><div><span className="breadcrumb">{external ? "OBSERVATIONAL SESSION" : "CONTROLLED EXPERIMENT"} / {activeStage}</span><h1>{external ? "A brain map in motion." : "Explore cause and effect."}</h1><p className="workflow-identity">{external ? "Watch a simulated brain. Ask what to test next." : "Change one signal. Measure the difference. Decide what to test next."}</p></div><div className="header-badges"><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "META CONFIGURATION NEEDED"}</Badge><Badge tone="cyan">{dataSources[source].label.toUpperCase()}</Badge></div></header>
-      <WorkflowProgress stages={stages} phase={phase} external={external} onNavigate={navigate} />
-      <div className="workflow-next" data-initial={!external && !design && workspace === "observatory"}><div><span className="eyebrow">{busy ? "REQUEST IN PROGRESS" : "NEXT"}</span><p>{busy ? `${pending.toUpperCase()} · ${pending === "run" ? "Deterministic engine only" : "Explicit model request"}` : nextLabel}</p></div><button type="button" className="primary-button" disabled={busy || !external && needsDesign && (!question.trim() || !mode) || !external && Boolean(result && !result.analysis && !mode)} onClick={nextAction}>{busy ? "Working…" : nextLabel} ↗</button></div>
+      <header className="topbar"><div><span className="breadcrumb">{external ? "OBSERVATIONAL SESSION" : "CONTROLLED EXPERIMENT"} / {activeStage}</span><h1>{external ? "A brain map in motion." : workspace === "observatory" ? "CausalFly Experiment" : "Explore cause and effect."}</h1><p className="workflow-identity">{external ? "Watch a simulated brain. Ask what to test next." : "Change one signal. Measure the difference. Decide what to test next."}</p></div><div className="header-badges"><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "META CONFIGURATION NEEDED"}</Badge><Badge tone="cyan">{dataSources[source].label.toUpperCase()}</Badge></div></header>
+      {(external || workspace !== "observatory") && <WorkflowProgress stages={stages} phase={phase} external={external} onNavigate={navigate} />}
+      {(external || workspace !== "observatory") && <div className="workflow-next" data-initial={!external && !design && workspace === "observatory"}><div><span className="eyebrow">{busy ? "REQUEST IN PROGRESS" : "NEXT"}</span><p>{busy ? `${pending.toUpperCase()} · ${pending === "run" ? "Deterministic engine only" : "Explicit model request"}` : nextLabel}</p></div><button type="button" className="primary-button" disabled={busy || !external && needsDesign && (!question.trim() || !mode) || !external && Boolean(result && !result.analysis && !mode)} onClick={nextAction}>{busy ? "Working…" : nextLabel} ↗</button></div>}
       {!mode && <p className="workflow-notice">Meta configuration is required for design or interpretation. Existing measurements remain inspectable.</p>}
       {notice && <p className="workflow-notice" role="status">{notice}</p>}
       {error && <div className="error-panel" role="alert"><strong>Action could not complete</strong><p>{error}</p></div>}
@@ -102,12 +107,13 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
             <LiveSessionWorkspace snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} onEvidence={() => navigate("evidence")} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} onInterpret={() => navigate(fruitFlyAskedQuestion ? "scientist" : "observatory")} />
             <p className="trace-note">XR PREVIEW · The current bridge supplies no video or image feed. Published soma geometry and received telemetry are shown above.</p>
           </>}
-        </> : workspace === "live" ? <section className="panel"><h2>Observe a connectome simulation.</h2><p>Live Session uses the FruitFly XR read-only telemetry source. Your synthetic experiment stays retained when switching sources.</p><button type="button" className="primary-button" onClick={() => selectSource("FRUITFLY_XR")}>Select FruitFly XR ↗</button></section> : workspace === "compare" ? result ? <CompareDashboard key={design?.id ?? result.spec.id} result={result} onNext={useNextQuestion} onFullAnalysis={() => navigate("scientist")} onExplain={() => void execute("interpret")} explainDisabled={busy || !mode} onEvidence={() => navigate("evidence")} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : workspace === "scientist" ? result ? <><CompareDashboard key={design?.id ?? result.spec.id} result={result} onNext={useNextQuestion} onFullAnalysis={() => document.getElementById("full-scientific-analysis")?.scrollIntoView()} onExplain={() => void execute("interpret")} explainDisabled={busy || !mode} onEvidence={() => navigate("evidence")} /><details className="panel full-scientific-analysis" id="full-scientific-analysis"><summary>Scientific interpretation, hypothesis & limitations</summary><ScientistView result={result} onNext={useNextQuestion} /></details></> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : workspace === "evidence" ? result ? <EvidenceView result={result} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : <>
-          <div className="experiment-intro"><span className="eyebrow cyan-text">YOUR FIRST EXPERIMENT</span><p>Ask a what-if question. Meta designs a test you can run and inspect.</p></div>
-          <div className="design-workspace"><div><section className="panel question-panel"><form onSubmit={event => { event.preventDefault(); void execute("design"); }}><label htmlFor="research-question">What would you like to find out?</label><textarea id="research-question" required maxLength={8000} rows={2} value={question} onChange={event => dispatch({ type: "question", question: event.target.value })} aria-describedby="question-help" /><div className="form-footer"><p id="question-help">Try the suggested question. No scientific background needed.</p><button className="primary-button" type="submit" disabled={busy || !question.trim() || !mode}>{pending === "design" ? "Designing…" : "Design with Meta"} ↗</button></div>{!question.trim() && <small>Enter a research question to enable design.</small>}{mode === "FAKE META CLIENT" && <p className="fake-note">Offline demo: fixed test and template explanation. No live Meta response.</p>}</form></section>
-          {design && <DesignReview design={design} busy={busy} onRun={() => void execute("run")} />}
-          <ObservatoryPreview result={result} onCompare={() => navigate("compare")} /></div>
-          <aside className="panel workflow-scientist"><span className="eyebrow amber-text">ASK CAUSALFLY · POWERED BY META</span><h2>Your question.<br />A testable answer.</h2><ol><li><strong>01 / META DESIGNS</strong><p>Choose one signal to turn off. Keep everything else the same.</p><Badge tone={design ? "green" : "amber"}>{design ? "DESIGN RETAINED" : "AWAITING REQUEST"}</Badge></li><li><strong>02 / CAUSALFLY MEASURES</strong><p>See the signal before and after, side by side.</p><Badge tone={result ? "green" : "muted"}>{result ? "EVIDENCE READY" : "REQUIRES MATCHED RUN"}</Badge></li><li><strong>03 / META EXPLAINS</strong><p>Understand the result and choose what to test next.</p><Badge tone={result?.analysis ? "green" : "muted"}>{result?.analysis ? "PROPOSAL READY" : "REQUIRES INTERPRETATION"}</Badge></li></ol><p className="trace-note">A small simulated network, not a real brain. Ask CausalFly stays with you at every step.</p><button type="button" className="text-button" onClick={() => navigate("compare")}>What makes a fair test? ↗</button></aside></div>
+        </> : workspace === "live" ? <section className="panel"><h2>Observe a connectome simulation.</h2><p>Live Session uses the FruitFly XR read-only telemetry source. Your synthetic experiment stays retained when switching sources.</p><button type="button" className="primary-button" onClick={() => selectSource("FRUITFLY_XR")}>Select FruitFly XR ↗</button></section> : workspace === "compare" ? result ? <CompareDashboard key={design?.id ?? result.spec.id} result={result} onNext={useNextQuestion} onFullAnalysis={() => navigate("scientist")} onExplain={() => void execute("interpret")} explainDisabled={busy || !mode} onEvidence={() => navigate("evidence")} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : workspace === "scientist" ? result ? <ScientistView result={result} onNext={useNextQuestion} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : workspace === "evidence" ? result ? <EvidenceView result={result} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : <>
+          <GuidedExperiment question={question} design={design} result={result} pending={pending} mode={mode}
+            onQuestion={question => dispatch({ type: "question", question })}
+            onDemo={() => { dispatch({ type: "question", question: defaultQuestion }); void execute("design", defaultQuestion); }}
+            onDesign={() => void execute("design")} onRun={() => void execute("run")} onExplain={() => void execute("interpret")}
+            onNext={useNextQuestion} onCompare={() => navigate("compare")} onAnalysis={() => navigate("scientist")} onEvidence={() => navigate("evidence")}
+            onConnectome={() => { selectSource("FRUITFLY_XR"); navigate("live"); }} />
         </>}
       </main>
       <footer className="scientific-disclaimer">◇ {external ? "FruitFly XR · published connectome structure with simulated dynamics; not recordings from a living fly." : "Synthetic engineering fixture · not a biological model or Drosophila finding."}</footer>

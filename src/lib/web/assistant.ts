@@ -9,7 +9,7 @@ export const workspaceLabels: Record<Workspace, string> = { observatory: "Experi
 export const observationalBoundary = "Observational only · simulated neural dynamics over published connectome structure, not living-fly recordings. CausalFly does not currently send interventions to FruitFly XR. Decoder output does not prove physical movement or successful escape.";
 
 export interface AssistantAction { label: string; question?: string; workspace?: Workspace; synthetic?: boolean; design?: boolean }
-export function assistantActions(source: DataSourceKind, workspace: Workspace): AssistantAction[] {
+export function assistantActions(source: DataSourceKind, workspace: Workspace, hasResult = false): AssistantAction[] {
   if (source === "FRUITFLY_XR") {
     if (workspace === "compare") return [
       { label: "Explain what is missing", question: "What is missing for a controlled comparison?" },
@@ -28,7 +28,7 @@ export function assistantActions(source: DataSourceKind, workspace: Workspace): 
       { label: "What should we test next?", question: "What evidence should we collect in the next session?" },
     ];
   }
-  if (workspace === "compare" || workspace === "scientist") return [
+  if (workspace === "compare" || workspace === "scientist" || hasResult) return [
     { label: "Explain the measured difference", question: "Explain the measured difference" },
     { label: "What changed under intervention?", question: "What changed under intervention?" },
     { label: "Inspect evidence", workspace: "evidence" }, { label: "Suggest the next experiment", question: "Suggest the next experiment" },
@@ -45,14 +45,14 @@ export function syntheticAssistantAnswer(question: string, result: WebExperiment
   const answer: AssistantAnswer = {
     summary: "The retained evidence does not support answering that question locally.", facts: [],
     limitations: "Synthetic engineering fixture; not a biological model or Drosophila finding. Local answers do not infer unmeasured results.",
-    next: "Review your question in Observatory, then explicitly choose Design & Run Experiment. The existing validated design and deterministic measurement workflow will run.",
+    next: "Review your question in Experiment, choose Design with Meta, then approve the proposed test before running it.",
     provenance: result ? `Retained experiment ${result.spec.id} · engine ${result.provenance.control.engineVersion}` : "No measured experiment retained",
   };
   if (/network represent/i.test(question)) return { ...answer, summary: "A hand-authored, two-pathway engineering test network.", facts: ["A stimulus feeds primary and alternate paths into the motor output. Node names have no biological identities."] };
   if (/what will be measured/i.test(question)) return { ...answer, summary: "Matched control and single-silence intervention trials measure output peak, threshold-crossing step and threshold outcome.", facts: ["Deltas are perturbed minus control. A missing crossing is not zero latency."] };
   if (!result) return { ...answer, summary: "No measured experiment is retained yet." };
-  if (/next experiment/i.test(question)) return { ...answer, summary: "A new experiment needs an explicit, validated design.", next: "Open full analysis to review the existing AI next-experiment suggestion, then load it into Observatory. Suggestions are not findings." };
-  if (!/measured difference|under intervention|current evidence|summari[sz]e/i.test(question)) return answer;
+  if (/next experiment|test next/i.test(question)) return { ...answer, summary: "A new experiment needs an explicit, validated design.", next: result.analysis ? `Meta proposal: ${result.analysis.nextExperiment.researchQuestion} Use it as the next question in Experiment. This proposal is not a measured finding.` : "Choose Explain with Meta to request a bounded interpretation and next-test proposal from the retained evidence." };
+  if (!/measured difference|under intervention|current evidence|summari[sz]e|what changed|response.*slow|response.*delay|why.*response|show.*evidence/i.test(question)) return answer;
   const c = result.measuredEvidence;
   return { ...answer, summary: `Measured control versus silence intervention on ${result.spec.perturbation.targetNodeId}.`, facts: [
     `Output peak: ${c.control.outputPeakActivity} → ${c.perturbed.outputPeakActivity}; delta ${c.deltas.outputPeakActivity}.`,

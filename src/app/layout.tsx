@@ -4,6 +4,7 @@ import "./globals.css";
 import "./components/instrument-system.css";
 import "./components/source-workspaces.css";
 import "./components/guided-workflow.css";
+import "./components/guided-experiment.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

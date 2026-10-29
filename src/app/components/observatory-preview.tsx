@@ -11,7 +11,7 @@ export function ResearchWorkflow() {
   ].map(([label, detail], index) => <li key={label}><span className="section-index">0{index + 1}</span><div><strong>{label}</strong><small>{detail}</small></div><span className="workflow-arrow" aria-hidden="true">→</span></li>)}</ol>;
 }
 
-function FixtureTopology() {
+export function FixtureTopology() {
   const positions: Record<string, [number, number]> = { stimulus: [55, 115], primary_a: [210, 45], primary_b: [410, 45], alternate_a: [175, 180], alternate_b: [310, 180], alternate_c: [445, 180], motor: [565, 115] };
   return <figure className="fixture-topology"><figcaption className="eyebrow">DECLARED TOPOLOGY / NO ACTIVITY DATA</figcaption><svg viewBox="0 0 620 225" role="img" aria-label="Declared seven-node synthetic fixture topology. No experiment measurements yet.">
     {syntheticDemoNetwork.edges.map(({ from, to, weight }) => <g key={`${from}-${to}`}><path d={`M ${positions[from].join(" ")} L ${positions[to].join(" ")}`} fill="none" stroke="var(--cf-border-strong)" /><text x={(positions[from][0] + positions[to][0]) / 2} y={(positions[from][1] + positions[to][1]) / 2 - 8} textAnchor="middle">{weight}</text></g>)}

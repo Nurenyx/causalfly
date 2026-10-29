@@ -41,24 +41,24 @@ export interface WorkspaceState {
 
 export type WorkspaceAction =
   | { type: "designed"; design: GuidedDesign }
-  | { type: "interpreted"; result: WebExperimentResult }
+  | { type: "interpreted"; result: WebExperimentResult; workspace?: Workspace }
   | { type: "navigate"; workspace: Workspace }
   | { type: "question"; question: string }
   | { type: "fruitfly-question"; question: string }
   | { type: "fruitfly-ask"; question: string; hasEvidence: boolean }
-  | { type: "completed"; result: WebExperimentResult }
+  | { type: "completed"; result: WebExperimentResult; workspace?: Workspace }
   | { type: "next-question"; question: string };
 
 /** UI state transitions cannot submit experiments or mutate evidence. */
 export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction): WorkspaceState {
   switch (action.type) {
     case "designed": return { ...state, design: action.design, result: null, workspace: "observatory" };
-    case "interpreted": return { ...state, result: action.result, workspace: "scientist" };
+    case "interpreted": return { ...state, result: action.result, workspace: action.workspace ?? "scientist" };
     case "navigate": return { ...state, workspace: action.workspace };
     case "question": return { ...state, question: action.question };
     case "fruitfly-question": return { ...state, fruitFlyQuestion: action.question };
     case "fruitfly-ask": return { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, workspace: action.hasEvidence ? "scientist" : "observatory" };
-    case "completed": return { ...state, result: action.result, workspace: "compare" };
+    case "completed": return { ...state, result: action.result, workspace: action.workspace ?? "compare" };
     case "next-question": return { ...state, question: action.question, workspace: "observatory" };
   }
 }

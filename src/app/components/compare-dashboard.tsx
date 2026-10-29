@@ -21,7 +21,7 @@ function ConditionPanel({ trial, step, maxStep, maxValue }: { trial: CompactTria
   </article>;
 }
 
-export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence, onExplain, explainDisabled }: { result: WebExperimentResult; onNext: (question: string) => void; onFullAnalysis: () => void; onEvidence: () => void; onExplain?: () => void; explainDisabled?: boolean }) {
+export function ComparisonMeasurements({ result, onEvidence, guided = false }: { result: WebExperimentResult; onEvidence: () => void; guided?: boolean }) {
   const { control, perturbed, provenance } = result.measuredEvidence;
   const steps = playbackSteps(control, perturbed);
   const [index, setIndex] = useState(() => Math.max(0, steps.indexOf(control.activity.find((sample) => sample.nodes[control.provenance.network.outputNodeId] === control.outputPeakActivity)?.step ?? steps[0])));
@@ -35,17 +35,18 @@ export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence, o
     return () => window.clearInterval(timer);
   }, [playing, steps.length]);
   const matched = Object.values(provenance.matchedConditions).every(Boolean);
-  return <div className="experiment-result"><ResultStory result={result} /><div className="compare-layout">
-    <div className="compare-center">
+  return <div className={`compare-center${guided ? " demo-comparison" : ""}`}>
       <div className="compare-title"><h2>Silencing <span className="intervention-target">{result.spec.perturbation.targetNodeId}</span></h2><Badge tone={matched ? "green" : "red"}>{matched ? "✓ MATCHED CONDITIONS" : "CONDITION MISMATCH"}</Badge></div>
-      <p className="compare-question"><span>HYPOTHESIS</span>{result.spec.hypothesis}</p>
+      {!guided && <p className="compare-question"><span>HYPOTHESIS</span>{result.spec.hypothesis}</p>}
       <ExperimentPlayback steps={steps} index={index} playing={playing} onToggle={() => setPlaying((value) => !value)} onSeek={(next) => { setPlaying(false); setIndex(next); }} />
       <div className="condition-grid"><ConditionPanel trial={control} step={step} maxStep={maxStep} maxValue={maxValue} /><ConditionPanel trial={perturbed} step={step} maxStep={maxStep} maxValue={maxValue} /></div>
-      <div className="measured-heading"><h2>Measured deltas</h2><span>PERTURBED − CONTROL</span></div>
-      <ObservationMetrics result={result} compact />
-      <PropagationTimeline result={result} step={step} />
+      {guided ? <details className="demo-measurement-details"><summary>Inspect measured deltas & signal timeline</summary><ObservationMetrics result={result} compact /><PropagationTimeline result={result} step={step} /></details> : <><div className="measured-heading"><h2>Measured deltas</h2><span>PERTURBED − CONTROL</span></div><ObservationMetrics result={result} compact /><PropagationTimeline result={result} step={step} /></>}
       <div className="evidence-link-bar"><span>{matched ? "✓ Engine measurements · matched condition provenance" : "Condition mismatch · inspect provenance"}</span><button type="button" className="text-button" onClick={onEvidence}>Inspect evidence ↗</button></div>
-    </div>
-    <AiScientistRail result={result} onNext={onNext} onFullAnalysis={onFullAnalysis} onExplain={onExplain} explainDisabled={explainDisabled} />
-  </div></div>;
+  </div>;
+}
+
+
+/** Advanced comparison remains available; the guided page composes the same measurements. */
+export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence, onExplain, explainDisabled }: { result: WebExperimentResult; onNext: (question: string) => void; onFullAnalysis: () => void; onEvidence: () => void; onExplain?: () => void; explainDisabled?: boolean }) {
+  return <div className="experiment-result"><ResultStory result={result} /><div className="compare-layout"><ComparisonMeasurements result={result} onEvidence={onEvidence} /><AiScientistRail result={result} onNext={onNext} onFullAnalysis={onFullAnalysis} onExplain={onExplain} explainDisabled={explainDisabled} /></div></div>;
 }
