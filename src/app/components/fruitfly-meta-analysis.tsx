@@ -11,9 +11,9 @@ export function FruitFlyMetaAnalysis({ state, enabled, onAnalyze }: FruitFlyMeta
   const result = state.result;
   const analysis = result?.analysis;
   return <section className="panel xr-meta-runtime" aria-label="Meta observational scientist" aria-busy={state.pending}>
-    <header><div><span className="eyebrow amber-text">META MUSE</span><h3>{result?.mode === "META LIVE" ? "LIVE AI ANALYSIS" : result ? "OFFLINE TEMPLATE" : "Your on-demand AI scientist"}</h3></div><Badge tone="amber">{result?.mode ?? "EXPLICIT ACTION ONLY"}</Badge></header>
-    <p>Interpret the exact question using a frozen window of retained simulation evidence.</p>
-    <button type="button" className="primary-button" disabled={!enabled || state.pending} onClick={onAnalyze}>{state.pending ? "ANALYZING WITH META…" : state.error ? "RETRY META ANALYSIS" : "ANALYZE WITH META"}</button>
+    <header><div><span className="eyebrow amber-text">META MUSE</span><h3>{result?.mode === "META LIVE" ? "LIVE AI ANALYSIS" : result ? "OFFLINE TEMPLATE" : "Ask CausalFly to explain"}</h3></div><Badge tone="amber">{result?.mode ?? "EXPLICIT ACTION ONLY"}</Badge></header>
+    <p>Interpret the exact question using a frozen window of retained simulation evidence. Meta also proposes what to test next.</p>
+    <button type="button" className="primary-button" disabled={!enabled || state.pending} onClick={onAnalyze}>{state.pending ? "EXPLAINING WITH META…" : state.error ? "RETRY META ANALYSIS" : "EXPLAIN WITH META"}</button>
     {!enabled && <small>Submit a question and receive a server-retained FruitFly snapshot to enable analysis.</small>}
     {state.error && <p role="alert" className="xr-meta-error">{state.error}</p>}
     {analysis && result && <div className="xr-meta-result">

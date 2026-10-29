@@ -196,12 +196,12 @@ code, .eyebrow, .badge, .section-index, dt, .sidebar-caption, .breadcrumb, .prim
   margin-bottom: 14px;
 }
 
-nav  {
+.sidebar nav  {
   display: grid;
   gap: 7px;
 }
 
-nav button  {
+.sidebar nav button  {
   min-height: 45px;
   width: 100%;
   border: 1px solid transparent;
@@ -216,18 +216,18 @@ nav button  {
   font-size: 13px;
 }
 
-nav button > span  {
+.sidebar nav button > span  {
   width: 19px;
   font-size: 21px;
 }
 
-nav button:hover:not(:disabled), nav button.active  {
+.sidebar nav button:hover:not(:disabled), .sidebar nav button.active  {
   color: var(--cyan);
   background: linear-gradient(90deg, #15313e, #10202d);
   border-color: #285062;
 }
 
-nav button i  {
+.sidebar nav button i  {
   width: 4px;
   height: 4px;
   border-radius: 50%;
@@ -1085,10 +1085,10 @@ dt  {
   .brand > span { font-size: 17px; }
   .brand small { font-size: 9px; }
   .sidebar > .sidebar-caption, .source-card, .sidebar-footer { display: none; }
-  nav { grid-template-columns: repeat(4, 1fr); gap: 3px; }
-  nav button { min-height: 40px; padding: 8px 4px; justify-content: center; gap: 5px; font-size: 10px; }
-  nav button > span { width: 14px; font-size: 17px; }
-  nav button i { display: none; }
+  .sidebar nav { grid-template-columns: repeat(4, 1fr); gap: 3px; }
+  .sidebar nav button { min-height: 40px; padding: 8px 4px; justify-content: center; gap: 5px; font-size: 10px; }
+  .sidebar nav button > span { width: 14px; font-size: 17px; }
+  .sidebar nav button i { display: none; }
   .workspace { margin: 0; }
   .topbar { padding: 18px; }
   .main-content { padding: 20px 15px; }
@@ -1163,9 +1163,9 @@ dt  {
 .instrument-shell .brand svg { width: 34px; fill: var(--cf-bg-deep); }
 .instrument-shell .brand small { font-size: 11px; letter-spacing: .2px; line-height: 1.5; color: var(--cf-text-secondary); }
 .instrument-shell .sidebar-caption { color: var(--cf-text-secondary); }
-.instrument-shell nav button { font-size: 15px; min-height: 48px; color: var(--cf-text-secondary); }
-.instrument-shell nav button.active { color: var(--cf-text); border-color: var(--cf-border-strong); background: linear-gradient(90deg, var(--cf-panel-strong), var(--cf-bg-elevated)); box-shadow: inset 2px 0 var(--cf-cyan); }
-.instrument-shell nav button.active > span { color: var(--cf-cyan-bright); }
+.instrument-shell .sidebar nav button { font-size: 15px; min-height: 48px; color: var(--cf-text-secondary); }
+.instrument-shell .sidebar nav button.active { color: var(--cf-text); border-color: var(--cf-border-strong); background: linear-gradient(90deg, var(--cf-panel-strong), var(--cf-bg-elevated)); box-shadow: inset 2px 0 var(--cf-cyan); }
+.instrument-shell .sidebar nav button.active > span { color: var(--cf-cyan-bright); }
 .instrument-shell .source-picker { margin-top: 24px; border-top: 1px solid var(--cf-border); padding-top: 18px; }
 .instrument-shell .source-picker fieldset { gap: 4px; }
 .instrument-shell .source-picker .sidebar-caption { font-size: 12px; letter-spacing: .6px; margin-bottom: 10px; }
@@ -1198,7 +1198,7 @@ dt  {
   .instrument-shell .brand svg { width: 24px; }
   .instrument-shell .brand > span { min-width: 0; font-size: 21px; letter-spacing: 0; }
   .instrument-shell .brand small { font-size: 9px; letter-spacing: 0; }
-  .instrument-shell nav button { gap: 8px; padding-left: 9px; padding-right: 9px; font-size: 14px; white-space: nowrap; }
+  .instrument-shell .sidebar nav button { gap: 8px; padding-left: 9px; padding-right: 9px; font-size: 14px; white-space: nowrap; }
 }
 @media (max-width: 600px) {
   .sidebar nav { grid-template-columns: repeat(3, 1fr); }
@@ -1206,7 +1206,7 @@ dt  {
   .live-shell .main-content { padding: 12px; }
   .instrument-shell .brand { margin-bottom: 12px; padding-bottom: 12px; }
   .instrument-shell .brand > span { font-size: 21px; }
-  .instrument-shell nav button { font-size: 11px; min-height: 40px; }
+  .instrument-shell .sidebar nav button { font-size: 11px; min-height: 40px; }
   .instrument-shell .source-picker { margin-top: 14px; padding-top: 12px; }
   .instrument-shell .source-picker fieldset { grid-template-columns: 1fr 1fr; }
   .instrument-shell .source-option { padding: 7px 5px; gap: 7px; }

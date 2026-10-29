@@ -1,3 +1,4 @@
+import { nodeLabel } from "@/lib/web/display-labels";
 import { useId } from "react";
 import type { CompactTrialSummary } from "@/lib/meta/compact-evidence";
 import { activityAtStep } from "@/lib/web/dashboard";
@@ -52,7 +53,7 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
           <circle cx={x} cy={y} r="19" fill="#091823" stroke="currentColor" strokeWidth={id === silenced ? 2.5 : 1} opacity={id === silenced ? 1 : .35 + intensity * .65} />
           <circle cx={x} cy={y} r="25" fill="none" stroke="currentColor" strokeWidth=".6" strokeDasharray="3 5" opacity={id === silenced ? .5 : .12 + intensity * .4} />
           {id === silenced ? <path d={`M${x - 8},${y - 8} l16,16 m0,-16 l-16,16`} stroke="currentColor" strokeWidth="4" /> : <circle cx={x} cy={y} r={4 + intensity * 5} fill="currentColor" opacity={.15 + intensity * .85} />}
-          <text x={x} y={y + 43} textAnchor="middle">{id}</text>
+          <text x={x} y={y + 43} textAnchor="middle">{nodeLabel(id)}</text>
           <text x={x} y={y - 33} textAnchor="middle" className={id === silenced ? "silenced-label" : "node-value"}>{id === silenced ? "SILENCED" : value ?? "—"}</text>
           <title>{`${id}: ${value === undefined ? "no retained sample" : `normalized activity ${value}`} at step ${step}${id === silenced ? "; declared silence intervention" : ""}`}</title>
         </g>;

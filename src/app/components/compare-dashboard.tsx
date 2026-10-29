@@ -1,3 +1,4 @@
+import { ResultStory } from "./result-story";
 import { useEffect, useState } from "react";
 import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import type { CompactTrialSummary } from "@/lib/meta/compact-evidence";
@@ -13,14 +14,14 @@ import { measurementLabels } from "@/lib/web/display-labels";
 
 function ConditionPanel({ trial, step, maxStep, maxValue }: { trial: CompactTrialSummary; step: number; maxStep: number; maxValue: number }) {
   return <article className={`condition-panel ${trial.condition.toLowerCase()}`} aria-label={`${trial.condition} measurements`}>
-    <header className="condition-header"><h3 title={trial.condition}><span className="status-dot" />{trial.condition === "CONTROL" ? "CONTROL" : "INTERVENTION"}</h3><span>{trial.provenance.appliedPerturbation ? `silence / ${trial.provenance.appliedPerturbation.targetNodeId}` : "baseline / intact network"}</span></header>
+    <header className="condition-header"><h3 title={trial.condition}><span className="status-dot" />{trial.condition === "CONTROL" ? "BEFORE / CONTROL" : "AFTER / INTERVENTION"}</h3><span>{trial.provenance.appliedPerturbation ? `silence / ${trial.provenance.appliedPerturbation.targetNodeId}` : "baseline / intact network"}</span></header>
     <SyntheticNetworkViz trial={trial} step={step} />
     <ActivityChart trial={trial} step={step} maxStep={maxStep} maxValue={maxValue} />
     <dl className="condition-summary"><div><dt title={measurementLabels.outputPeakActivity.technical}>{measurementLabels.outputPeakActivity.label}</dt><dd>{trial.outputPeakActivity}</dd></div><div><dt title={measurementLabels.outputThresholdCrossingStep.technical}>{measurementLabels.outputThresholdCrossingStep.label}</dt><dd>{crossing(trial.outputThresholdCrossingStep)}</dd></div><div><dt title={measurementLabels.outcome.technical}>{measurementLabels.outcome.label}</dt><dd className="condition-outcome">{trial.outcome === "THRESHOLD_REACHED" ? "Threshold reached" : "Threshold not reached"}</dd></div></dl>
   </article>;
 }
 
-export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence }: { result: WebExperimentResult; onNext: (question: string) => void; onFullAnalysis: () => void; onEvidence: () => void }) {
+export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence, onExplain, explainDisabled }: { result: WebExperimentResult; onNext: (question: string) => void; onFullAnalysis: () => void; onEvidence: () => void; onExplain?: () => void; explainDisabled?: boolean }) {
   const { control, perturbed, provenance } = result.measuredEvidence;
   const steps = playbackSteps(control, perturbed);
   const [index, setIndex] = useState(() => Math.max(0, steps.indexOf(control.activity.find((sample) => sample.nodes[control.provenance.network.outputNodeId] === control.outputPeakActivity)?.step ?? steps[0])));
@@ -34,7 +35,7 @@ export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence }:
     return () => window.clearInterval(timer);
   }, [playing, steps.length]);
   const matched = Object.values(provenance.matchedConditions).every(Boolean);
-  return <div className="compare-layout">
+  return <div className="experiment-result"><ResultStory result={result} /><div className="compare-layout">
     <div className="compare-center">
       <div className="compare-title"><h2>Silencing <span className="intervention-target">{result.spec.perturbation.targetNodeId}</span></h2><Badge tone={matched ? "green" : "red"}>{matched ? "✓ MATCHED CONDITIONS" : "CONDITION MISMATCH"}</Badge></div>
       <p className="compare-question"><span>HYPOTHESIS</span>{result.spec.hypothesis}</p>
@@ -45,6 +46,6 @@ export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence }:
       <PropagationTimeline result={result} step={step} />
       <div className="evidence-link-bar"><span>{matched ? "✓ Engine measurements · matched condition provenance" : "Condition mismatch · inspect provenance"}</span><button type="button" className="text-button" onClick={onEvidence}>Inspect evidence ↗</button></div>
     </div>
-    <AiScientistRail result={result} onNext={onNext} onFullAnalysis={onFullAnalysis} />
-  </div>;
+    <AiScientistRail result={result} onNext={onNext} onFullAnalysis={onFullAnalysis} onExplain={onExplain} explainDisabled={explainDisabled} />
+  </div></div>;
 }

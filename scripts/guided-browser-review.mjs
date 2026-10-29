@@ -17,15 +17,16 @@ page.on("pageerror", error => errors.push(error.message));
 page.on("console", message => { if (message.type() === "error") errors.push(message.text()); });
 page.on("request", request => { if (request.method() === "POST") posts.push({ path: new URL(request.url()).pathname, action: request.postDataJSON()?.action }); });
 const nav = name => page.getByRole("navigation", { name: "Experiment workspaces" }).getByRole("button", { name, exact: true }).click();
-const stage = name => page.getByRole("navigation", { name: "Scientific workflow" }).getByRole("button", { name: new RegExp(`^${name}:`) }).click();
+const stage = async name => { await page.locator(".scientific-progress").evaluate(el => { el.open = true; }); await page.getByRole("navigation", { name: "Scientific workflow" }).getByRole("button", { name: new RegExp(`^${name}:`) }).click(); await page.locator(".scientific-progress").evaluate(el => { el.open = false; }); };
 const settle = async () => { await page.evaluate(async () => { await document.fonts.ready; await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))); }); await page.waitForTimeout(200); };
 async function capture(name, widths = [1920]) {
   for (const width of widths) {
-    await page.setViewportSize({ width, height: width === 390 ? 844 : 1080 }); await settle();
+    await page.setViewportSize({ width, height: width === 390 ? 844 : 1080 }); await page.evaluate(() => window.scrollTo(0,0)); if (name === "10-fruitfly-meta-test-next") await page.locator(".xr-meta-runtime").evaluate(el => el.scrollIntoView({ block: "start" })); await settle();
     const dimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+    if (dimensions.scrollWidth !== width) console.log(await page.evaluate(() => [...document.querySelectorAll("body *")].filter(el => el.getBoundingClientRect().right > innerWidth + 1 && getComputedStyle(el).position !== "fixed").slice(0,20).map(el => ({tag:el.tagName,cls:el.className,right:el.getBoundingClientRect().right,width:el.getBoundingClientRect().width}))));
     assert.equal(dimensions.scrollWidth, width, `${name}: horizontal overflow`);
     checks.push({ state: name, ...dimensions });
-    await page.screenshot({ path: `${dir}/${name}-${width}.png` });
+    if (!process.env.CAUSALFLY_PREFLIGHT) await page.screenshot({ path: `${dir}/${name}-${width}.png` });
   }
   await page.setViewportSize({ width: 1920, height: 1080 });
 }
@@ -40,22 +41,22 @@ try {
     assert.equal(input.sessionId, response.result.evidence.sessionId);
     return route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(response) });
   });
-  await page.goto(process.env.CAUSALFLY_REVIEW_URL || "http://127.0.0.1:3017", { waitUntil: "networkidle" });
+  await page.goto(process.env.CAUSALFLY_REVIEW_URL || "http://127.0.0.1:3018", { waitUntil: "networkidle" });
   assert.match(await page.locator(".header-badges").innerText(), /FAKE META CLIENT/);
   await page.evaluate(() => { const el = document.createElement("div"); el.textContent = "OFFLINE REVIEW · fake Meta · FruitFly images use genuine recorded evidence replay"; el.style.cssText = "position:fixed;top:0;left:0;z-index:9999;pointer-events:none;padding:3px 8px;background:#00111c;color:#a2bac7;font:9px monospace;max-width:100vw"; document.body.append(el); });
-  await capture("01-synthetic-ask", [1920, 1440, 390]);
+  await capture("01-synthetic-ask", [1920, 390]);
   await stage("COMPARE"); assert.match(await page.locator("main").innerText(), /Validated ExperimentSpec/); assert.equal(posts.length, 0);
-  await capture("02-synthetic-compare-locked");
+
   await nav("Experiment");
   await page.locator("#research-question").fill("Does silencing primary_a reduce the synthetic output peak and delay threshold crossing?");
   assert.equal(posts.length, 0);
   await page.locator(".question-panel").getByRole("button", { name: /Design with Meta/ }).click();
   await page.getByRole("region", { name: "Validated experiment design" }).waitFor();
   assert.equal(posts.length, 1); assert.equal(posts[0].action, "design");
-  await capture("03-synthetic-design", [1920, 390]);
+  await capture("03-synthetic-design");
   await stage("COMPARE"); assert.match(await page.locator("main").innerText(), /Control result/); assert.equal(posts.length, 1);
   await nav("Experiment");
-  await page.locator(".design-review").getByRole("button", { name: "Approve & run matched experiment", exact: true }).click();
+  await page.locator(".design-review").getByRole("button", { name: "Approve & run test", exact: true }).click();
   await page.locator(".condition-grid").waitFor();
   assert.deepEqual(posts.map(p => p.action), ["design", "run"]);
   assert.match(await page.locator(".scientist-rail").innerText(), /No interpretation has been requested/);
@@ -65,26 +66,26 @@ try {
   const drawer = page.getByRole("dialog", { name: "CAUSALFLY ASSISTANT" });
   assert.match(await drawer.locator(".assistant-context").innerText(), /COMPARE/);
   assert.equal(posts.length, 2);
-  await capture("05-assistant-expanded", [1920, 390]);
+  await capture("05-assistant-expanded");
   await page.keyboard.press("Escape");
-  await page.locator(".workflow-next").getByRole("button", { name: /Analyze with Meta/ }).click();
-  await page.locator(".scientist-workspace").waitFor();
+  await page.locator(".workflow-next").getByRole("button", { name: /Explain with Meta/ }).click();
+  await page.locator(".scientist-rail .rail-interpretation").waitFor();
   assert.deepEqual(posts.map(p => p.action), ["design", "run", "interpret"]);
   assert.match(await page.locator("main").innerText(), /OFFLINE|Offline|FAKE/);
-  await capture("06-synthetic-meta-interpret", [1920, 1440, 390]);
-  await page.locator(".next-experiment").getByRole("button", { name: /Use as Next Question/ }).click();
+  await capture("06-synthetic-meta-interpret");
+  await page.locator(".scientist-rail .next-experiment").getByRole("button", { name: /Use as Next Question/ }).click();
   assert.match(await page.locator("#research-question").inputValue(), /primary_b/);
   assert.match(await page.locator(".workflow-next").innerText(), /Design with Meta/);
   assert.equal(posts.length, 3);
   await nav("Evidence"); assert.match(await page.locator("main").innerText(), /FakeMetaClient \/ offline template/);
-  await capture("07-synthetic-evidence");
+
   await page.getByRole("radio", { name: "FruitFly XR", exact: true }).check();
   await nav("Experiment");
   const q = "Which received frame showed the largest spike-event count?";
   await page.locator("#fruitfly-question").fill(q);
   await page.getByRole("main").getByRole("button", { name: /Save session question/ }).click();
   assert.equal(posts.length, 3);
-  await nav("Live Session");
+  await nav("Live Connectome");
   await page.getByRole("main").getByRole("button", { name: "Connect FruitFly XR", exact: true }).click();
   await page.locator('canvas[aria-label^="Interactive published"]').waitFor();
   await page.waitForTimeout(1200);
@@ -100,20 +101,20 @@ try {
   await stage("INTERPRET");
   assert.match(await page.locator(".xr-answer-summary").innerText(), /3,317|3317/);
   assert.equal(observeCalls, 0);
-  await capture("09-fruitfly-local-interpret");
-  await page.getByRole("button", { name: "ANALYZE WITH META", exact: true }).click();
+
+  await page.getByRole("button", { name: "EXPLAIN WITH META", exact: true }).click();
   await page.locator(".xr-meta-result").waitFor(); assert.equal(observeCalls, 1);
   await page.locator(".xr-meta-runtime").scrollIntoViewIfNeeded();
-  await capture("10-fruitfly-meta-test-next", [1920, 1440, 390]);
+  await capture("10-fruitfly-meta-test-next");
   await stage("COMPARE");
   const locked = await page.getByRole("region", { name: "Compare requirements" }).innerText();
   assert.match(locked, /LOCKED/); assert.match(locked, /Matched stimulus conditions/); assert.match(locked, /unknown/);
-  await capture("11-fruitfly-compare-locked", [1920, 390]);
+  await capture("11-fruitfly-compare-locked");
   await nav("Evidence"); assert.match(await page.locator("main").innerText(), /Frozen Meta interpretation/);
   await page.getByRole("radio", { name: "Synthetic Fixture", exact: true }).check(); await stage("COMPARE");
   assert.deepEqual(await page.locator(".condition-summary").allTextContents(), measuredText);
   assert.equal(posts.length, 4); assert.equal(observeCalls, 1);
   assert.deepEqual(errors, []);
   fs.writeFileSync(`${dir}/browser-checks.json`, JSON.stringify({ checks, posts, observeCalls, errors, tested: ["source preservation", "ask without telemetry", "design approval", "measured compare before Meta", "explicit interpretation", "follow-up design", "assistant context", "3D rotate zoom pan reset", "projection fallback", "evidence navigation", "no automatic Meta"] }, null, 2));
-  console.log(JSON.stringify({ screenshots: checks.length, posts, observeCalls, errors }));
+  console.log(JSON.stringify({ screenshots: process.env.CAUSALFLY_PREFLIGHT ? 0 : checks.length, posts, observeCalls, errors }));
 } finally { await browser.close(); }

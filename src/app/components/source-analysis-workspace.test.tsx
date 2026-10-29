@@ -62,7 +62,7 @@ test("FruitFly AI Scientist is observational and Meta control needs an explicit 
   assert.match(html, /did not apply an intervention/);
   assert.match(html, /not recordings from a living fly/);
   assert.match(html, /SUGGESTIONS \/ NOT FINDINGS/);
-  assert.match(html, /<button[^>]*disabled=""[^>]*>ANALYZE WITH META/);
+  assert.match(html, /<button[^>]*disabled=""[^>]*>EXPLAIN WITH META/);
   assert.match(html, /Interpret the exact question using a frozen window/);
 });
 
@@ -85,7 +85,7 @@ test("empty FruitFly analysis waits for evidence and does not manufacture readou
 
 test("Synthetic Compare retains full controlled comparison, playback, charts and propagation", () => {
   const html = render("SYNTHETIC_FIXTURE", "compare");
-  for (const expected of [/CONTROL/, /INTERVENTION/, /primary_a/, /Play recorded activity/, /activity-chart/, /Causal propagation/, /measured-deltas/, /AI SCIENTIST/]) assert.match(html, expected);
+  for (const expected of [/CONTROL/, /INTERVENTION/, /primary_a/, /Play recorded activity/, /activity-chart/, /Causal propagation/, /measured-deltas/, /ASK CAUSALFLY/]) assert.match(html, expected);
   assert.doesNotMatch(html, /COMPARISON UNAVAILABLE|OBSERVATIONAL ANALYSIS/);
 });
 

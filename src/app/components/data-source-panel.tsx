@@ -44,6 +44,6 @@ export function DataSourcePanel({ source, snapshot, disabled, onSelect, onConnec
       })}
     </fieldset>
     {external && <div className="source-connection"><p role="status">{snapshot.message}</p><button type="button" className="secondary-button" onClick={active ? onDisconnect : onConnect}>{snapshot.state === "CONNECTING" ? "Cancel connection" : active ? "Disconnect" : snapshot.state === "ERROR" ? "Retry connection" : "Connect FruitFly XR"}</button><p>Read-only simulated dynamics. Not living-fly recordings.</p></div>}
-    <p id="source-scope-note" className="source-scope-note">FruitFly XR powers Live Session, observational AI Scientist and Evidence. Controlled experiments and Compare use Synthetic Fixture.</p>
+    <p id="source-scope-note" className="source-scope-note">Synthetic: run a controlled test. FruitFly XR: observe a connectome simulation.</p>
   </div>;
 }

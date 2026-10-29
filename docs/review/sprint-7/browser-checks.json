@@ -1,0 +1,101 @@
+{
+  "checks": [
+    {
+      "state": "01-synthetic-ask",
+      "width": 1920,
+      "scrollWidth": 1920
+    },
+    {
+      "state": "01-synthetic-ask",
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "state": "03-synthetic-design",
+      "width": 1920,
+      "scrollWidth": 1920
+    },
+    {
+      "state": "04-synthetic-measured-compare",
+      "width": 1920,
+      "scrollWidth": 1920
+    },
+    {
+      "state": "04-synthetic-measured-compare",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "state": "04-synthetic-measured-compare",
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "state": "05-assistant-expanded",
+      "width": 1920,
+      "scrollWidth": 1920
+    },
+    {
+      "state": "06-synthetic-meta-interpret",
+      "width": 1920,
+      "scrollWidth": 1920
+    },
+    {
+      "state": "08-fruitfly-observe",
+      "width": 1920,
+      "scrollWidth": 1920
+    },
+    {
+      "state": "08-fruitfly-observe",
+      "width": 1440,
+      "scrollWidth": 1440
+    },
+    {
+      "state": "08-fruitfly-observe",
+      "width": 390,
+      "scrollWidth": 390
+    },
+    {
+      "state": "10-fruitfly-meta-test-next",
+      "width": 1920,
+      "scrollWidth": 1920
+    },
+    {
+      "state": "11-fruitfly-compare-locked",
+      "width": 1920,
+      "scrollWidth": 1920
+    }
+  ],
+  "posts": [
+    {
+      "path": "/api/experiments",
+      "action": "design"
+    },
+    {
+      "path": "/api/experiments",
+      "action": "run"
+    },
+    {
+      "path": "/api/experiments",
+      "action": "interpret"
+    },
+    {
+      "path": "/api/sources/fruitfly/analyze"
+    }
+  ],
+  "observeCalls": 1,
+  "errors": [],
+  "tested": [
+    "source preservation",
+    "ask without telemetry",
+    "design approval",
+    "measured compare before Meta",
+    "explicit interpretation",
+    "follow-up design",
+    "assistant context",
+    "3D rotate zoom pan reset",
+    "projection fallback",
+    "evidence navigation",
+    "no automatic Meta"
+  ]
+}
