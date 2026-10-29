@@ -35,6 +35,7 @@ export interface WorkspaceState {
   question: string;
   fruitFlyQuestion?: string;
   fruitFlyAskedQuestion?: string;
+  fruitFlyQuestionSessionId?: string;
   result: WebExperimentResult | null;
   design?: GuidedDesign;
 }
@@ -45,7 +46,8 @@ export type WorkspaceAction =
   | { type: "navigate"; workspace: Workspace }
   | { type: "question"; question: string }
   | { type: "fruitfly-question"; question: string }
-  | { type: "fruitfly-ask"; question: string; hasEvidence: boolean }
+  | { type: "fruitfly-ask"; question: string; sessionId?: string }
+  | { type: "fruitfly-session"; sessionId: string }
   | { type: "completed"; result: WebExperimentResult; workspace?: Workspace }
   | { type: "next-question"; question: string };
 
@@ -57,7 +59,8 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
     case "navigate": return { ...state, workspace: action.workspace };
     case "question": return { ...state, question: action.question };
     case "fruitfly-question": return { ...state, fruitFlyQuestion: action.question };
-    case "fruitfly-ask": return { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, workspace: action.hasEvidence ? "scientist" : "observatory" };
+    case "fruitfly-ask": return action.question.trim() ? { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, fruitFlyQuestionSessionId: action.sessionId, workspace: "live" } : state;
+    case "fruitfly-session": return state.fruitFlyAskedQuestion !== undefined && !state.fruitFlyQuestionSessionId ? { ...state, fruitFlyQuestionSessionId: action.sessionId } : state;
     case "completed": return { ...state, result: action.result, workspace: action.workspace ?? "compare" };
     case "next-question": return { ...state, question: action.question, workspace: "observatory" };
   }

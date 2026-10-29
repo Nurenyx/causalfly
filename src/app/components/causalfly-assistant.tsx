@@ -9,14 +9,17 @@ import { assistantActions, captureAssistantQuestion, observationalBoundary, synt
 import { observationalRequestKey } from "@/lib/web/observational-action";
 import { observationalAnalysis } from "@/lib/web/observational-analysis";
 import { Badge } from "./workspace-ui";
+import { MetaRequestLabel } from "./meta-request-label";
 
 interface Props {
+  investigationQuestion?: string;
+  pendingTask?: string;
   workflowContext?: { stage: string; identity: string; next: string; onNext: () => void };
   source: DataSourceKind; workspace: Workspace; snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null;
   result: WebExperimentResult | null; mode: ExecutionMode | null; meta: ObservationalMetaState; busy: boolean;
   onAnalyze: (question: string, snapshot: FruitFlySnapshot, frames: readonly FruitFlyEvidence[]) => Promise<void>;
   onNavigate: (workspace: Workspace) => void; onSynthetic: () => void; onDesign: (question: string) => void;
-  onFullAnalysis: (question?: string) => void;
+  onFullAnalysis: () => void;
 }
 
 function NetworkMark() {
@@ -93,26 +96,28 @@ export function CausalFlyAssistant(props: Props) {
       <dl className="assistant-context" aria-label="Assistant context">
         <div><dt>SOURCE</dt><dd>{dataSources[source].label}</dd></div><div><dt>CONTEXT / STAGE</dt><dd>{props.workflowContext?.stage ?? workspaceLabels[workspace]}</dd></div>
         {props.workflowContext && <div><dt>EXPERIMENT / SESSION</dt><dd>{props.workflowContext.identity}</dd></div>}
+        {external && props.investigationQuestion && <div><dt>INVESTIGATION QUESTION</dt><dd className="exact-question">{props.investigationQuestion}</dd></div>}
         <div><dt>EVIDENCE</dt><dd>{retained}</dd></div><div><dt>META STATUS</dt><dd>{mode === "META LIVE" ? "Live configured · on demand" : mode === "FAKE META CLIENT" ? "Offline / fake client" : "Configuration needed"}</dd></div>
       </dl>
       <div className="assistant-analysis-status"><span className={matchingMeta?.pending ? "assistant-status-dot pending" : "assistant-status-dot"} /><span>{external && matchingMeta?.pending ? "Meta analysis in progress · frozen window" : "Local / deterministic · Meta requires explicit action"}</span></div>
       <div className="assistant-scroll" ref={scroll}>
         {!external && result?.analysis && <section className="assistant-meta"><Badge tone="amber">{result.mode === "META LIVE" ? "META GENERATED" : "OFFLINE FAKE TEMPLATE"}</Badge><h3>EXPLANATION FOR THIS TEST</h3><p>{result.analysis.interpretation}</p><details><summary>Proposed next experiment</summary><p>{result.analysis.nextExperiment.researchQuestion}</p><small>Proposal, not a measurement. Review before requesting a new design.</small><button type="button" className="text-button" onClick={() => { onDesign(result.analysis!.nextExperiment.researchQuestion); close(); }}>Use as next question ↗</button></details></section>}
-        {props.workflowContext && <section className="assistant-start"><span className="eyebrow amber-text">RECOMMENDED NEXT ACTION</span><p>Meta designs and explains on request. CausalFly measures the evidence.</p><button type="button" className="primary-button" disabled={busy} onClick={() => { props.workflowContext!.onNext(); close(); }}>{busy ? "Request in progress…" : props.workflowContext.next} ↗</button></section>}
+        {props.workflowContext && <section className="assistant-start"><span className="eyebrow amber-text">RECOMMENDED NEXT ACTION</span><p>Meta designs and explains on request. CausalFly measures the evidence.</p><button type="button" className="primary-button" disabled={busy} aria-busy={busy} onClick={() => { props.workflowContext!.onNext(); if (external || !["Design with Meta", "Explain with Meta"].includes(props.workflowContext!.next)) close(); }}><MetaRequestLabel pending={busy && props.pendingTask !== "run"} task={props.pendingTask === "design" ? "design" : "explain"}>{busy ? "Running experiment…" : props.workflowContext.next} ↗</MetaRequestLabel></button></section>}
         <section className="assistant-start"><span className="eyebrow cyan-text">{external ? "OBSERVE. QUESTION. VERIFY." : "ASK. INTERVENE. UNDERSTAND."}</span><h3>{external ? workspace === "compare" ? "Matched trials come first." : "Follow the evidence." : "From question to experiment."}</h3><p>{external ? workspace === "compare" ? "Controlled comparison requires matched trials. Retained FruitFly telemetry does not supply a matched control and intervention." : "A quick read of your retained simulation evidence, with its limits in view." : "Explore the fixture, inspect measurements, or prepare a validated experiment."}</p>
+          {external && props.investigationQuestion && <button type="button" className="text-button" onClick={() => ask(props.investigationQuestion!)}>Ask about my investigation question ↗</button>}
           <div className="assistant-actions">{assistantActions(source, workspace, Boolean(result)).map(action => <button type="button" key={action.label} onClick={() => act(action)} disabled={busy}><span>{action.label}</span><span aria-hidden="true">↗</span></button>)}</div>
         </section>
         {answer && <div className="assistant-response" aria-live="polite" aria-atomic="false"><div className="assistant-question"><span className="eyebrow">QUESTION / FROZEN AT SUBMISSION</span><p>{asked}</p></div><AssistantLocalAnswer answer={answer} />
           {external && fruitFlyAsked && <section className="assistant-meta" aria-label="Optional Meta analysis" aria-busy={Boolean(matchingMeta?.pending)}>
             <div className="assistant-meta-heading"><span className="eyebrow amber-text">OPTIONAL INTERPRETATION</span><Badge tone="amber">{provider?.mode === "META LIVE" ? "META MUSE / LIVE" : provider ? "OFFLINE / FAKE TEMPLATE" : "EXPLICIT ACTION ONLY"}</Badge></div>
             <p>{provider ? "Validated response for this exact question and frozen window." : "Send this exact question and frozen retained window through the existing Meta scientist."}</p>
-            {!provider && <button type="button" className="primary-button" disabled={!frozenKey || meta.pending || !mode} onClick={() => { void onAnalyze(fruitFlyAsked.question, fruitFlyAsked.snapshot, fruitFlyAsked.frames); }}>{matchingMeta?.pending ? "Analyzing with Meta…" : matchingMeta?.error ? "Retry Meta analysis" : "Explain with Meta"}</button>}
+            {!provider && <button type="button" className="primary-button" disabled={!frozenKey || meta.pending || !mode} aria-busy={Boolean(matchingMeta?.pending)} onClick={() => { void onAnalyze(fruitFlyAsked.question, fruitFlyAsked.snapshot, fruitFlyAsked.frames); }}><MetaRequestLabel pending={Boolean(matchingMeta?.pending)} task="explain">{matchingMeta?.error ? "Retry Meta analysis" : "Explain with Meta"}</MetaRequestLabel></button>}
             {!frozenKey && <small>Server-retained evidence is required. Receive telemetry and submit again.</small>}
             {meta.pending && !matchingMeta?.pending && <small>Another explicit analysis is in progress.</small>}
             {matchingMeta?.error && <p role="alert" className="assistant-error">{matchingMeta.error} Your frozen local evidence is preserved.</p>}
             {provider && <><section><h3>INTERPRETATION</h3><p>{provider.analysis.interpretation}</p><Badge tone="amber">{provider.analysis.evidenceSufficiency}</Badge></section><section className="assistant-limits"><h3>LIMITATIONS</h3><ul>{provider.analysis.limitations.map((item, i) => <li key={i}>{item}</li>)}</ul></section><section><h3>WHAT TO TEST NEXT</h3><p>{provider.analysis.nextExperiment.title}</p><p>{provider.analysis.nextExperiment.rationale}</p><small>SUGGESTION / NOT A FINDING</small></section></>}
           </section>}
-          <div className="assistant-inline-nav"><button type="button" disabled={busy} onClick={() => onFullAnalysis(external ? fruitFlyAsked?.question : undefined)}>Open full analysis ↗</button><button type="button" disabled={busy} onClick={() => onNavigate("evidence")}>Inspect evidence ↗</button>{!external && <button type="button" disabled={busy} onClick={() => { onDesign(asked!); close(); }}>Review question in Experiment ↗</button>}</div>
+          <div className="assistant-inline-nav"><button type="button" disabled={busy} onClick={() => onFullAnalysis()}>{external ? "Open investigation analysis" : "Open full analysis"} ↗</button><button type="button" disabled={busy} onClick={() => onNavigate("evidence")}>Inspect evidence ↗</button>{!external && <button type="button" disabled={busy} onClick={() => { onDesign(asked!); close(); }}>Review question in Experiment ↗</button>}</div>
         </div>}
         <p className="assistant-boundary">{external ? observationalBoundary : "AI proposes and interprets. Deterministic systems measure. Immutable evidence remains in the detailed workspaces. This fixture is not a biological model."}</p>
       </div>

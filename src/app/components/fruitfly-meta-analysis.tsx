@@ -1,5 +1,6 @@
 import type { ObservationalMetaState } from "@/lib/web/observational-contracts";
 import { Badge } from "./workspace-ui";
+import { MetaRequestLabel } from "./meta-request-label";
 
 export interface FruitFlyMetaProps {
   state: ObservationalMetaState;
@@ -13,7 +14,7 @@ export function FruitFlyMetaAnalysis({ state, enabled, onAnalyze }: FruitFlyMeta
   return <section className="panel xr-meta-runtime" aria-label="Meta observational scientist" aria-busy={state.pending}>
     <header><div><span className="eyebrow amber-text">META MUSE</span><h3>{result?.mode === "META LIVE" ? "LIVE AI ANALYSIS" : result ? "OFFLINE TEMPLATE" : "Ask CausalFly to explain"}</h3></div><Badge tone="amber">{result?.mode ?? "EXPLICIT ACTION ONLY"}</Badge></header>
     <p>Interpret the exact question using a frozen window of retained simulation evidence. Meta also proposes what to test next.</p>
-    <button type="button" className="primary-button" disabled={!enabled || state.pending} onClick={onAnalyze}>{state.pending ? "EXPLAINING WITH META…" : state.error ? "RETRY META ANALYSIS" : "EXPLAIN WITH META"}</button>
+    <button type="button" className="primary-button" disabled={!enabled || state.pending} aria-busy={state.pending} onClick={onAnalyze}><MetaRequestLabel pending={state.pending} task="explain">{state.error ? "RETRY META ANALYSIS" : "EXPLAIN WITH META"}</MetaRequestLabel></button>
     {!enabled && <small>Submit a question and receive a server-retained FruitFly snapshot to enable analysis.</small>}
     {state.error && <p role="alert" className="xr-meta-error">{state.error}</p>}
     {analysis && result && <div className="xr-meta-result">

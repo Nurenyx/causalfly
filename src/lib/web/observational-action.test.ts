@@ -17,7 +17,7 @@ test("question submission and navigation perform zero requests; explicit action 
     return Response.json({ ok: false, kind: "provider", error: "raw server error must not render" }, { status: 502 });
   };
   const analyze = createObservationalAction(s => states.push(s), request);
-  let state = workspaceReducer({ workspace: "observatory", question: "synthetic", result: null }, { type: "fruitfly-ask", question: " Exact? ", hasEvidence: true });
+  let state = workspaceReducer({ workspace: "observatory", question: "synthetic", result: null }, { type: "fruitfly-ask", question: " Exact? ", sessionId: "unit-session" });
   state = workspaceReducer(state, { type: "navigate", workspace: "evidence" });
   assert.equal(state.fruitFlyAskedQuestion, " Exact? ");
   assert.equal(calls, 0);

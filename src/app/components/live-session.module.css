@@ -8,12 +8,12 @@
 .sessionIdentity > .microLabel { color: var(--cf-text); font-size: 15px; font-weight: 600; letter-spacing: .8px; }
 .sessionIdentity > .microLabel > span { color: var(--cf-text-secondary); font-size: 13px; font-weight: 400; letter-spacing: 0; }
 .sessionTitle { grid-column: 1; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-start; gap: 7px; }
-.liveBadge { display: inline-flex; align-items: center; gap: 13px; color: var(--cf-green); font-size: 38px; font-weight: 650; letter-spacing: .5px; line-height: 1.1; white-space: nowrap; text-shadow: 0 0 20px #00DFA04D; }
+.liveBadge { display: inline-flex; align-items: center; gap: 10px; color: var(--cf-green); font-size: 24px; font-weight: 650; letter-spacing: .5px; line-height: 1.1; white-space: nowrap; text-shadow: 0 0 20px #00DFA04D; }
 .liveBadge i, .connection i, .projectionTop i, .provenance i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 12px currentColor; }
 .liveBadge i { width: 15px; height: 15px; }
 .sessionBar[data-state="historical"] { border-top-color: var(--cf-amber); }
 .sessionBar[data-state="historical"] .liveBadge { color: var(--cf-amber-bright); text-shadow: 0 0 22px #F0D04033; }
-.sessionBar[data-state="waiting"] .liveBadge { color: var(--cf-text-secondary); font-size: 30px; text-shadow: none; }
+.sessionBar[data-state="waiting"] .liveBadge { color: var(--cf-text-secondary); font-size: 24px; text-shadow: none; }
 .sessionBar[data-state="waiting"] .liveBadge i { background: none; border: 2px solid currentColor; box-shadow: none; }
 .sessionBar[data-state="error"] { border-top-color: var(--cf-red); }
 .sessionBar[data-state="error"] .liveBadge { color: var(--cf-red); }
@@ -210,7 +210,7 @@
   .sessionMetrics > div { min-width: 70px; padding-left: 12px; }
   .sessionMetrics dd { font-size: 24px; }
   .sessionMetrics dt { font-size: 11px; }
-  .liveBadge { font-size: 32px; }
+  .liveBadge { font-size: 24px; }
   .sessionBar[data-state="waiting"] .liveBadge { font-size: 24px; }
   .panelHeading { padding: 10px 12px; }
   .panelHeading h2 { font-size: 15px; }
@@ -261,7 +261,7 @@
   .sessionMetrics dd { font-size: 25px; }
   .statusStrip { flex-wrap: wrap; gap: 5px; font-size: 11px; }
   .sessionIdentity code { font-size: 10px; }
-  .liveBadge { font-size: 32px; }
+  .liveBadge { font-size: 24px; }
   .anatomyCanvas { height: 340px; }
   .projectionTop { font-size: 9px; }
   .projectionTop > span:last-child { max-width: 125px; text-align: right; }

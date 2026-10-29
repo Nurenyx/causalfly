@@ -1,9 +1,11 @@
 import type { FruitFlySnapshot } from "@/lib/sources/contracts";
 import { Badge, EvidenceFlow, SectionTitle } from "./workspace-ui";
 
-export function FruitFlyEvidenceView({ snapshot }: { snapshot: FruitFlySnapshot }) {
+export function FruitFlyEvidenceView({ snapshot, question }: { snapshot: FruitFlySnapshot; question?: string }) {
   const evidence = snapshot.evidence;
   return <div className="evidence-view">
+    <header className="evidence-purpose"><h2>Verify what happened.</h2><p>Simulation measurements, source provenance and AI interpretation remain separate.</p></header>
+    {question && <p className="workflow-investigation"><span className="eyebrow">INVESTIGATION QUESTION / RETAINED SESSION</span><span>{question}</span></p>}
     <div className="evidence-heading"><div><span className="eyebrow">FRUITFLY XR / CHAIN OF CUSTODY</span><h2>Trace the simulation evidence.</h2></div><Badge tone="muted">READ-ONLY TELEMETRY</Badge></div>
     {evidence && <EvidenceFlow stages={[{ label: "PUBLISHED CONNECTOME", detail: evidence.provenance.structuralSource }, { label: "FRUITFLY XR SIMULATION", detail: "Simulated neural dynamics" }, { label: "TELEMETRY FRAME", detail: `Sequence ${evidence.telemetry.sequence} · ${evidence.telemetry.simulationMs} model ms` }, { label: "CAUSALFLY EVIDENCE", detail: "Validated received snapshot" }]} />}
     <section className="panel"><SectionTitle index="01" title="FruitFly XR evidence"><Badge tone={snapshot.state === "DATA RECEIVED" ? "green" : "muted"}>{snapshot.state}</Badge></SectionTitle>

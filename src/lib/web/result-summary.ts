@@ -9,7 +9,7 @@ export function resultSummary(result: MeasuredExperimentResult) {
   const delay = deltas.outputThresholdCrossingSteps;
   const response = delay === null ? "Response timing not comparable" : delay === 0 ? "Response timing unchanged" : `Response ${delay > 0 ? "delayed" : "earlier"} by ${Math.abs(delay)} ${Math.abs(delay) === 1 ? "step" : "steps"}`;
   const headline = deltas.outputPeakActivity < 0 && delay !== null && delay > 0
-    ? "Silencing this part of the network weakened the output signal and delayed the response."
+    ? "Silencing one pathway weakened the signal and made it arrive later."
     : `${signal}. ${response}.`;
   return { signal, response, percentage, headline, detail: "Peak output signal relative to control. Response means first output-threshold crossing; steps are simulation updates, not seconds." };
 }

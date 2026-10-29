@@ -26,26 +26,42 @@ test("FruitFly submission preserves exact whitespace, punctuation and question; 
   t.mock.method(globalThis, "fetch", async () => { requests++; throw new Error("No requests allowed"); });
   const question = "  Which frame had the most spike events?\nKeep this EXACT.  ";
   const synthetic = { workspace: "observatory" as const, question: "Synthetic question", result: null };
-  const state = workspaceReducer(synthetic, { type: "fruitfly-ask", question, hasEvidence: true });
+  const state = workspaceReducer(synthetic, { type: "fruitfly-ask", question, sessionId: "unit-session" });
   assert.equal(state.fruitFlyAskedQuestion, question);
   assert.equal(state.fruitFlyQuestion, question);
-  assert.equal(state.workspace, "scientist");
+  assert.equal(state.workspace, "live");
   assert.equal(state.question, synthetic.question);
   assert.equal(state.result, synthetic.result);
   assert.equal(answer(question).question, question);
   assert.equal(requests, 0);
 });
-test("question without evidence stays in Observatory and remains preserved", () => {
-  const state = workspaceReducer({ workspace: "observatory", question: "Synthetic", result: null }, { type: "fruitfly-ask", question: "Original", hasEvidence: false });
-  assert.equal(state.workspace, "observatory");
+test("question without evidence stays in Live Connectome and remains preserved", () => {
+  const state = workspaceReducer({ workspace: "observatory", question: "Synthetic", result: null }, { type: "fruitfly-ask", question: "Original" });
+  assert.equal(state.workspace, "live");
   assert.equal(state.fruitFlyAskedQuestion, "Original");
 });
 test("editing a draft does not overwrite the submitted question or synthetic draft", () => {
-  const asked = workspaceReducer({ workspace: "observatory", question: "Synthetic", result: null }, { type: "fruitfly-ask", question: "Asked", hasEvidence: true });
+  const asked = workspaceReducer({ workspace: "observatory", question: "Synthetic", result: null }, { type: "fruitfly-ask", question: "Asked", sessionId: "unit-session" });
   const draft = workspaceReducer(asked, { type: "fruitfly-question", question: "Draft" });
   assert.equal(draft.fruitFlyAskedQuestion, "Asked");
   assert.equal(draft.fruitFlyQuestion, "Draft");
   assert.equal(draft.question, "Synthetic");
+});
+
+test("investigation binds to the first received session and stays associated after navigation or a new session", (t) => {
+  t.mock.method(globalThis, "fetch", async () => { assert.fail("Setting an investigation cannot call Meta"); });
+  const initial = { workspace: "live" as const, question: "Synthetic", result: null };
+  const set = workspaceReducer(initial, { type: "fruitfly-ask", question: " Exact question? " });
+  const bound = workspaceReducer(set, { type: "fruitfly-session", sessionId: "session-a" });
+  assert.equal(bound.fruitFlyAskedQuestion, " Exact question? ");
+  assert.equal(bound.fruitFlyQuestionSessionId, "session-a");
+  assert.equal(workspaceReducer(bound, { type: "navigate", workspace: "evidence" }).fruitFlyQuestionSessionId, "session-a");
+  const changed = workspaceReducer(bound, { type: "fruitfly-session", sessionId: "session-b" });
+  assert.equal(changed.fruitFlyQuestionSessionId, "session-a");
+  const reset = workspaceReducer(changed, { type: "fruitfly-ask", question: "Next?", sessionId: "session-b" });
+  assert.equal(reset.fruitFlyQuestionSessionId, "session-b");
+  assert.equal(reset.workspace, "live");
+  assert.equal(workspaceReducer(reset, { type: "fruitfly-ask", question: " " }), reset);
 });
 test("maximum spike-event query reports the supplied maximum, not latest or display count", () => {
   const result = answer("Which frame had the most spike events?");

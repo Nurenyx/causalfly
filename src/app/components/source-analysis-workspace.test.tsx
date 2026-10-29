@@ -62,7 +62,7 @@ test("FruitFly AI Scientist is observational and Meta control needs an explicit 
   assert.match(html, /did not apply an intervention/);
   assert.match(html, /not recordings from a living fly/);
   assert.match(html, /SUGGESTIONS \/ NOT FINDINGS/);
-  assert.match(html, /<button[^>]*disabled=""[^>]*>EXPLAIN WITH META/);
+  assert.match(html, /<button[^>]*disabled=""[^>]*><span[^>]*>EXPLAIN WITH META/);
   assert.match(html, /Interpret the exact question using a frozen window/);
 });
 

@@ -15,7 +15,7 @@ const compact = createCompactEvidence(createEvidencePayload({ researchQuestion: 
 const design: GuidedDesign = { id: "review-design", researchQuestion: question, mode: "FAKE META CLIENT", spec: compact.experimentSpec, runtimeCalls: [] };
 const measured: MeasuredExperimentResult = { researchQuestion: question, mode: design.mode, spec: design.spec, measuredEvidence: compact.comparison, provenance: compact.provenance };
 const forbidden = () => { assert.fail("Rendering a workflow must not submit or navigate"); };
-const props = { question, pending: "", mode: "FAKE META CLIENT" as const, result: null, onQuestion: forbidden, onDemo: forbidden, onDesign: forbidden, onRun: forbidden, onExplain: forbidden, onNext: forbidden, onCompare: forbidden, onAnalysis: forbidden, onEvidence: forbidden, onConnectome: forbidden };
+const props = { question, pending: "", mode: "FAKE META CLIENT" as const, result: null, onQuestion: forbidden, onDemo: forbidden, onDesign: forbidden, onRun: forbidden, onExplain: forbidden, onNext: forbidden, onCompare: forbidden, onConnectome: forbidden };
 
 test("initial story offers demo and own-question paths without measured or AI findings", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
@@ -37,7 +37,24 @@ test("measured result and explanation action coexist with real recorded comparis
   const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} />);
   for (const text of [/Signal reduced 50%/, /Step 3/, /Step 4/, /Unchanged/, /MEASURED BY CAUSALFLY/, /Explain with Meta/, /Play recorded activity/, /View detailed comparison/, /Inspect provenance &amp; raw evidence/, /Show how we measured this/]) assert.match(html, text);
   assert.doesNotMatch(html, /INTERPRETED BY META AI/);
+  assert.match(html, /Threshold still reached/);
+  assert.match(html, /Silencing one pathway weakened the signal and made it arrive later\./);
+  for (const label of ["View detailed comparison", "View full analysis", "Inspect provenance &amp; raw evidence"]) assert.ok(html.includes(`<summary>${label}</summary>`));
   assert.equal(JSON.stringify(measured), before);
+});
+
+test("each initiating Meta control carries a spinner, accessible status and duplicate protection", () => {
+  const designing = renderToStaticMarkup(<GuidedExperiment {...props} pending="design" />);
+  const controls = designing.match(/<button\b[^>]*>[\s\S]*?<\/button>/g) ?? [];
+  const designControls = controls.filter(button => button.includes("META IS DESIGNING YOUR TEST..."));
+  assert.equal(designControls.length, 2);
+  const explaining = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} pending="interpret" />);
+  const explainControl = explaining.match(/<button\b[^>]*>[\s\S]*?<\/button>/g)?.find(button => button.includes("META IS EXPLAINING YOUR EVIDENCE..."));
+  assert.ok(explainControl);
+  for (const control of [...designControls, explainControl]) {
+    for (const attribute of ['disabled=""', 'aria-busy="true"', 'class="spinner"', 'role="status"', 'aria-live="polite"']) assert.ok(control.includes(attribute), attribute);
+  }
+  assert.doesNotMatch(designing + explaining, /class="demo-request"/);
 });
 
 test("explanation and proposal stay on Experiment; a follow-up preserves earlier measurements", async () => {

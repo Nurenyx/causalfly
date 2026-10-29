@@ -27,10 +27,10 @@ export function workflowProgress({ external, workspace, question, design, result
   hasTelemetry: boolean; hasQuestion: boolean; hasMeta: boolean; pending: string;
 }): WorkflowStage[] {
   if (external) return [
-    { id: "ask", label: "ASK", state: hasQuestion ? "COMPLETE" : workspace === "observatory" ? "ACTIVE" : "READY", reason: hasQuestion ? "Session question saved." : "Save a question to guide observation.", workspace: "observatory" },
+    { id: "ask", label: "QUESTION", state: hasQuestion ? "COMPLETE" : ["observatory", "live"].includes(workspace) ? "ACTIVE" : "READY", reason: hasQuestion ? "Investigation question set." : "Set a question to guide observation.", workspace: "live" },
     { id: "observe", label: "OBSERVE", state: hasTelemetry ? "COMPLETE" : workspace === "live" ? "ACTIVE" : "READY", reason: hasTelemetry ? "Received simulation evidence is retained." : "Connect FruitFly XR and start a trial in its client.", workspace: "live" },
     { id: "trace", label: "TRACE / EVIDENCE", state: !hasTelemetry ? "LOCKED" : workspace === "evidence" ? "ACTIVE" : "COMPLETE", reason: hasTelemetry ? "Inspect immutable received telemetry and provenance." : "Receive a validated frame first.", workspace: "evidence" },
-    { id: "interpret", label: "INTERPRET", state: !hasTelemetry || !hasQuestion ? "LOCKED" : hasMeta ? "COMPLETE" : workspace === "scientist" ? "ACTIVE" : "READY", reason: !hasQuestion ? "Save a session question first." : !hasTelemetry ? "Retained telemetry is required." : "Local interpretation first; Meta analysis is explicit.", workspace: "scientist" },
+    { id: "interpret", label: "INTERPRET", state: !hasTelemetry || !hasQuestion ? "LOCKED" : hasMeta ? "COMPLETE" : workspace === "scientist" ? "ACTIVE" : "READY", reason: !hasQuestion ? "Set an investigation question first." : !hasTelemetry ? "Retained telemetry is required." : "Local interpretation first; Meta analysis is explicit.", workspace: "scientist" },
     { id: "next", label: "TEST NEXT", state: hasMeta ? "COMPLETE" : hasTelemetry && hasQuestion ? "READY" : "LOCKED", reason: hasMeta ? "Review the proposed follow-up and its required evidence." : "Analyze retained evidence to request a proposal. Proposals are not measurements.", workspace: "scientist" },
     { id: "compare", label: "COMPARE", state: "LOCKED", reason: "No matched control / intervention pair or intervention provenance. Observation alone cannot unlock Compare.", workspace: "compare" },
   ];

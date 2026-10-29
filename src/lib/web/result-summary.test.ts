@@ -16,7 +16,7 @@ test("plain-English summary derives percentage and delay without changing engine
   const result = measured(); const original = JSON.stringify(result);
   assert.equal(resultSummary(result).signal, "Signal reduced 50%");
   assert.equal(resultSummary(result).response, "Response delayed by 1 step");
-  assert.equal(resultSummary(result).headline, "Silencing this part of the network weakened the output signal and delayed the response.");
+  assert.equal(resultSummary(result).headline, "Silencing one pathway weakened the signal and made it arrive later.");
   assert.equal(JSON.stringify(result), original);
 });
 test("zero baseline and absent threshold crossings never become percentages or zero latency", () => {
@@ -24,5 +24,5 @@ test("zero baseline and absent threshold crossings never become percentages or z
   assert.equal(resultSummary(measured(0)).signal, "No baseline signal to compare");
   assert.equal(resultSummary(measured(0)).response, "Response timing not comparable");
   assert.equal(resultSummary(measured(1, 3)).response, "Response timing not comparable");
-  assert.doesNotMatch(resultSummary(measured(1, 3)).headline, /delayed the response/);
+  assert.doesNotMatch(resultSummary(measured(1, 3)).headline, /made it arrive later/);
 });

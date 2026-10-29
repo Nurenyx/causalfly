@@ -5,6 +5,7 @@ import type { FruitFlyEvidence, FruitFlySnapshot } from "@/lib/sources/contracts
 import { LIVE_FRAME_LIMIT, number, sessionStatus, sessionTimeline } from "@/lib/sources/live-session";
 import { ConnectomeActivityView, InstrumentPanel, LiveMetricChart } from "./live-visualizations";
 import styles from "./live-session.module.css";
+import { liveEventSummary } from "@/lib/web/live-event-summary";
 
 type Status = ReturnType<typeof sessionStatus>;
 export function LiveSessionHeader({ snapshot, status, onConnect, onDisconnect }: { snapshot: FruitFlySnapshot; status: Status; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
@@ -51,7 +52,7 @@ export function AiObserverRail({ evidence, historical, onEvidence, onInterpret }
     ...(t.inputSequence < 0 ? ["No input reference reported."] : !t.inputFresh ? [`Input reference ${number(t.inputSequence)} is not fresh.`] : []),
     ...(t.droppedDisplayFrames || t.droppedSubscriberMessages ? ["Producer reports dropped data. Inspect stream health."] : []),
   ];
-  return <aside className={styles.observer} aria-label="AI Observer"><InstrumentPanel title="AI OBSERVER" tag="LOCAL OBSERVER">
+  return <aside className={styles.observer} aria-label="Received observations"><InstrumentPanel title="RECEIVED OBSERVATIONS" tag="LOCAL / DETERMINISTIC">
     <section className={styles.observerCard}><h3>WHAT HAPPENED?</h3>{t ? <ul className={styles.observations}><li><i>⌁</i><p><strong>{number(t.totalSpikeEvents)}</strong><span>Simulated spike events</span></p></li><li><i>◉</i><p><strong>{number(t.activeNeuronCount)}</strong><span>Active simulated neurons</span></p></li><li><i>↗</i><p><strong>{t.motorMode}</strong><span>Motor decoder output</span></p></li><li><i>⋮</i><p><strong>{number(t.displaySpikeEvents)} <small>/ {number(t.totalSpikeEvents)}</small></strong><span>Events supplied for display</span></p></li></ul> : <p className={styles.observerEmpty}>Observations begin with the first validated frame.</p>}</section>
     <section className={styles.streamNotes}><h3>STREAM NOTES</h3>{notes.length ? <ul>{notes.map(note => <li key={note}>{note}</li>)}</ul> : <p>No stream caveats reported.</p>}</section>
     <section className={styles.investigate}><h3>✦ &nbsp; WORTH INVESTIGATING</h3><strong>{!t ? "Start a simulation trial" : historical ? "Review the retained decoder states" : !t.inputFresh || t.inputSequence < 0 ? "Check input freshness before interpreting" : t.displayTruncated ? "Inspect totals beyond the display sample" : "Compare decoder states across received ticks"}</strong><button type="button" onClick={onEvidence}>Open Evidence <span aria-hidden="true">↗</span></button></section>
@@ -61,6 +62,7 @@ export function AiObserverRail({ evidence, historical, onEvidence, onInterpret }
 
 export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConnect, onDisconnect, onInterpret }: { snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
   const status = sessionStatus(snapshot, now ?? 0);
+  const event = liveEventSummary(snapshot, frames);
   const receivedAt = snapshot.evidence?.receivedAt;
   const sessionId = snapshot.evidence?.telemetry.sessionId;
   const [transport, setTransport] = useState({ connected: status.connected, sessionId, reconnectedAt: null as number | null });
@@ -70,8 +72,10 @@ export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConn
     setTransport({ connected: status.connected, sessionId, reconnectedAt: sessionId !== transport.sessionId ? null : status.connected && !transport.connected && sessionId ? now : transport.reconnectedAt });
   }
   return <div className={styles.session}>
+    <ol className="live-value-cues" aria-label="Live Connectome workflow"><li><strong>OBSERVE</strong>Watch simulated neural activity.</li><li><strong>CAPTURE</strong>Retain the interesting event.</li><li><strong>UNDERSTAND</strong>Ask what happened and what to test next.</li></ol>
     <LiveSessionHeader snapshot={snapshot} status={status} onConnect={onConnect} onDisconnect={onDisconnect} />
     <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{status.historical && receivedAt ? `LAST RECEIVED ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{frames.length} / {LIVE_FRAME_LIMIT} received frames</span></div>
+    {event && <section className="live-event-highlight" aria-label="Retained event"><span className="eyebrow">{event.label}</span><p>{event.headline}</p><small>Received simulation frames only · gaps unobserved · no causal claim</small><button type="button" className="text-button" onClick={onInterpret ?? onEvidence}>Understand this event ↗</button></section>}
     <div className={styles.layout}><div className={styles.instruments}><ConnectomeActivityView frames={frames} historical={status.historical} /><section className={styles.activity} aria-label="Received simulation activity"><LiveMetricChart frames={frames} metric="spikes" /><LiveMetricChart frames={frames} metric="active" /><p className={styles.chartNote}>Counts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states</p></section><EventTimeline frames={frames} historical={status.historical} receivedAt={receivedAt} reconnectedAt={transport.reconnectedAt} /><div className={styles.lowerPanels}><SimulationOutput frames={frames} /><StreamHealth evidence={snapshot.evidence} ageMs={status.ageMs} onEvidence={onEvidence} /></div></div><AiObserverRail evidence={snapshot.evidence} historical={status.historical} onEvidence={onEvidence} onInterpret={onInterpret} /></div>
   </div>;
 }

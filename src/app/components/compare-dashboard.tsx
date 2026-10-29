@@ -48,6 +48,6 @@ export function ComparisonMeasurements({ result, onEvidence, guided = false }: {
 
 
 /** Advanced comparison remains available; the guided page composes the same measurements. */
-export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence, onExplain, explainDisabled }: { result: WebExperimentResult; onNext: (question: string) => void; onFullAnalysis: () => void; onEvidence: () => void; onExplain?: () => void; explainDisabled?: boolean }) {
-  return <div className="experiment-result"><ResultStory result={result} /><div className="compare-layout"><ComparisonMeasurements result={result} onEvidence={onEvidence} /><AiScientistRail result={result} onNext={onNext} onFullAnalysis={onFullAnalysis} onExplain={onExplain} explainDisabled={explainDisabled} /></div></div>;
+export function CompareDashboard({ result, onNext, onFullAnalysis, onEvidence, onExplain, explainDisabled, explaining }: { result: WebExperimentResult; onNext: (question: string) => void; onFullAnalysis: () => void; onEvidence: () => void; onExplain?: () => void; explainDisabled?: boolean; explaining?: boolean }) {
+  return <div className="experiment-result"><ResultStory result={result} /><div className="compare-layout"><ComparisonMeasurements result={result} onEvidence={onEvidence} /><AiScientistRail result={result} onNext={onNext} onFullAnalysis={onFullAnalysis} onExplain={onExplain} explainDisabled={explainDisabled} explaining={explaining} /></div></div>;
 }

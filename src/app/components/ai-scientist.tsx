@@ -2,6 +2,7 @@ import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/
 import { displayObservation } from "@/lib/web/dashboard";
 import { Badge, SectionTitle } from "./workspace-ui";
 import { ObservationMetrics } from "./observation-metrics";
+import { MetaRequestLabel } from "./meta-request-label";
 
 type ScientistProps = { result: WebExperimentResult; onNext: (question: string) => void };
 
@@ -19,9 +20,9 @@ function ModeNote({ result }: { result: WebExperimentResult }) {
   return <p className="scientist-intro">{result.mode === "FAKE META CLIENT" ? "FAKE META CLIENT · Offline template, not a Meta model response. The fake designer uses the demo specification regardless of the question." : "Meta model interpretation · downstream of measured evidence."} AI-authored conclusions are not measured telemetry.</p>;
 }
 
-export function AiScientistRail({ result, onNext, onFullAnalysis, onExplain, explainDisabled }: ScientistProps & { onFullAnalysis: () => void; onExplain?: () => void; explainDisabled?: boolean }) {
+export function AiScientistRail({ result, onNext, onFullAnalysis, onExplain, explainDisabled, explaining = false }: ScientistProps & { onFullAnalysis: () => void; onExplain?: () => void; explainDisabled?: boolean; explaining?: boolean }) {
   const { analysis } = result;
-  if (!analysis) return <aside className="scientist-rail"><header className="rail-header"><h2>ASK CAUSALFLY</h2><Badge tone="amber">META READY</Badge></header><section className="rail-section"><h3>WHAT DOES THIS RESULT MEAN?</h3><p>The engine measured the change. Ask Meta to explain the evidence, its limits, and what to test next.</p><button className="primary-button" type="button" disabled={explainDisabled} onClick={onExplain ?? onFullAnalysis}>Explain with Meta ↗</button>{explainDisabled && <small>Wait for the current request or configure Meta to continue.</small>}<p className="trace-note">No interpretation has been requested. The measurements stay unchanged.</p></section></aside>;
+  if (!analysis) return <aside className="scientist-rail"><header className="rail-header"><h2>ASK CAUSALFLY</h2><Badge tone="amber">META READY</Badge></header><section className="rail-section"><h3>WHAT DOES THIS RESULT MEAN?</h3><p>The engine measured the change. Ask Meta to explain the evidence, its limits, and what to test next.</p><button className="primary-button" type="button" disabled={explainDisabled} aria-busy={explaining} onClick={onExplain ?? onFullAnalysis}><MetaRequestLabel pending={explaining} task="explain">Explain with Meta ↗</MetaRequestLabel></button>{explainDisabled && <small>Wait for the current request or configure Meta to continue.</small>}<p className="trace-note">No interpretation has been requested. The measurements stay unchanged.</p></section></aside>;
   return <aside className="scientist-rail" aria-label="AI Scientist interpretation">
     <header className="rail-header"><span className="scientist-icon" aria-hidden="true">✧</span><div><h2>ASK CAUSALFLY</h2><p>{result.mode === "META LIVE" ? "META MUSE / LIVE AI ANALYSIS" : "Offline template"}</p></div><Badge tone="amber">{result.mode === "FAKE META CLIENT" ? "FAKE" : "META LIVE"}</Badge></header>
     <p className="rail-mode-note">{result.mode === "FAKE META CLIENT" ? "OFFLINE TEMPLATE · Not a Meta model response" : "AI INTERPRETATION · Downstream of evidence"}</p>

@@ -69,6 +69,40 @@
 .workflow-requirements small { margin-left: auto; color: var(--cf-text-secondary); }
 .workflow-requirements p { color: var(--cf-text-secondary); line-height: 1.7; margin-bottom: 22px; }
 .session-question { margin-bottom: 16px; }
+.investigation-action { display: flex; align-items: center; gap: 18px; }
+.guided-shell .investigation-action textarea { min-height: 48px; flex: 1; padding: 12px; font-size: 15px; }
+.investigation-action .primary-button { margin: 0; }
+.session-question[data-set="true"] { padding: 12px 18px; }
+.session-question[data-set="true"] form { display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 18px; }
+.session-question[data-set="true"] small { margin-top: 0; }
+.session-question[data-set="true"] .primary-button:disabled { opacity: 1; color: var(--cf-green); background: #00dfa00d; border-color: #00dfa055; }
+.simple-progress li[data-complete="true"] { border-color: var(--cf-green); }
+.simple-progress li[data-complete="true"] button > span,.simple-progress em { color: var(--cf-green); }
+.simple-progress em { margin-left: 10px; font-size: 9px; font-style: normal; }
+.workflow-investigation { margin: 0 30px 16px; padding-left: 14px; border-left: 2px solid var(--cf-green); overflow-wrap: anywhere; }
+.workflow-investigation > span { display: block; }
+.workflow-investigation > span:last-child { margin-top: 6px; white-space: pre-wrap; font-size: 15px; color: var(--cf-text); }
+.evidence-view .workflow-investigation { margin: 0; }
+.evidence-purpose h2 { font-size: 30px; margin-bottom: 8px; }
+.evidence-purpose p { font-size: 13px; color: var(--cf-text-secondary); }
+.live-value-cues { display: flex; flex-wrap: wrap; gap: 10px 28px; list-style: none; padding: 0; margin: 0 0 14px; color: var(--cf-text-secondary); font-size: 11px; }
+.live-value-cues strong { margin-right: 9px; color: var(--cf-cyan); font-size: 10px; letter-spacing: 1px; }
+.live-event-highlight { position: relative; padding: 16px 220px 16px 18px; border-left: 3px solid var(--cf-amber); background: linear-gradient(90deg,#f0d0400d,transparent); }
+.live-event-highlight .eyebrow { color: var(--cf-amber); font-size: 9px; }
+.live-event-highlight p { font-size: 18px; line-height: 1.5; margin: 6px 0; color: var(--cf-text); }
+.live-event-highlight small { font-size: 10px; color: var(--cf-text-secondary); }
+.live-event-highlight button { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 12px; }
+.primary-button > .meta-request-label { display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: inherit; line-height: 1.4; overflow-wrap: anywhere; }
+.primary-button:has(.meta-request-label) { white-space: normal; }
+.primary-button[aria-busy="true"]:disabled { opacity: 1; cursor: progress; }
+.exact-question { white-space: pre-wrap; }
+@media (max-width: 800px) {
+ .session-question[data-set="true"] form { flex-direction: column; align-items: stretch; }
+ .investigation-action { flex-direction: column; align-items: stretch; gap: 10px; }
+ .workflow-investigation { margin-inline: 16px; }
+ .live-event-highlight { padding-right: 18px; }
+ .live-event-highlight button { position: static; transform: none; margin-top: 10px; }
+}
 .result-story { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: center; padding: 20px 24px; margin-bottom: 18px; border: 1px solid var(--cf-border-strong); background: radial-gradient(ellipse at top left,#003342,#00101a 65%); }
 .result-story h2 { font-size: clamp(26px,2.6vw,44px); line-height: 1.15; letter-spacing: -1.2px; margin: 10px 0 6px; }
 .result-story > div > p { font-size: 18px; color: var(--cf-magenta-bright); }

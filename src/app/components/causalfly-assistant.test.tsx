@@ -25,3 +25,12 @@ test("launcher and accessible closed drawer exist across both sources and all fi
     if (source === "FRUITFLY_XR") assert.doesNotMatch(html, /primary_a|THRESHOLD_REACHED/);
   }
 });
+
+test("the retained investigation question reaches the assistant without starting local or Meta analysis", () => {
+  const question = "  What changed before ESCAPE?\nKeep exact.  ";
+  const html = renderToStaticMarkup(<CausalFlyAssistant investigationQuestion={question} source="FRUITFLY_XR" workspace="live" snapshot={disconnectedFruitFly()} frames={[]} now={null} result={null} mode="FAKE META CLIENT" meta={{ pending: false }} busy={false} onAnalyze={async () => assert.fail("Setting context must not call Meta")} onNavigate={noop} onSynthetic={noop} onDesign={noop} onFullAnalysis={noop} />);
+  assert.ok(html.includes(question));
+  assert.match(html, /INVESTIGATION QUESTION/);
+  assert.match(html, /Ask about my investigation question/);
+  assert.doesNotMatch(html, /QUESTION \/ FROZEN AT SUBMISSION/);
+});
