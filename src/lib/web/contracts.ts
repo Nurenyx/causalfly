@@ -33,13 +33,20 @@ export interface RuntimeCall {
 export type MeasuredExperimentResult = Omit<WebExperimentResult, "analysis"> & {
   analysis?: ScientificAnalysis;
   runtimeCalls?: readonly RuntimeCall[];
+  stimulusOverride?: StimulusOverride;
 };
+export interface StimulusOverride {
+  sourceDesignId: string;
+  originalAmplitude: number;
+  amplitude: number;
+}
 export interface GuidedDesign {
   id: string;
   researchQuestion: string;
   mode: ExecutionMode;
   spec: ExperimentSpec;
   runtimeCalls: readonly RuntimeCall[];
+  stimulusOverride?: StimulusOverride;
 }
 export type GuidedResponse = { ok: true; design: GuidedDesign; result?: MeasuredExperimentResult } |
   { ok: false; kind: "validation" | "configuration" | "provider"; error: string };

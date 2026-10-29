@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { GuidedExperiment } from "./guided-experiment";
+import { DesignReview } from "./guided-workflow";
 import { demoExperimentSpec } from "../../lib/experiment/demo";
 import { syntheticDemoNetwork } from "../../lib/experiment/network";
 import { createEvidencePayload } from "../../lib/meta/evidence";
@@ -19,7 +20,7 @@ const props = { question, pending: "", mode: "FAKE META CLIENT" as const, result
 
 test("initial story offers demo and own-question paths without measured or AI findings", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
-  for (const text of [/Discover what changes/, /Run Demo Experiment/, /Ask Your Own Question/, /Design with Meta/, /Explore a real connectome simulation/, /OFFLINE DEMO/]) assert.match(html, text);
+  for (const text of [/Ask what changes a nervous system/, /Embodied experiment/, /Visual embodiment of synthetic output/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Explore a real connectome simulation/, /OFFLINE DEMO/]) assert.match(html, text);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY|Approve &amp; Run Experiment|Explain with Meta/);
 });
 
@@ -47,7 +48,7 @@ test("each initiating Meta control carries a spinner, accessible status and dupl
   const designing = renderToStaticMarkup(<GuidedExperiment {...props} pending="design" />);
   const controls = designing.match(/<button\b[^>]*>[\s\S]*?<\/button>/g) ?? [];
   const designControls = controls.filter(button => button.includes("META IS DESIGNING YOUR TEST..."));
-  assert.equal(designControls.length, 2);
+  assert.equal(designControls.length, 1);
   const explaining = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} pending="interpret" />);
   const explainControl = explaining.match(/<button\b[^>]*>[\s\S]*?<\/button>/g)?.find(button => button.includes("META IS EXPLAINING YOUR EVIDENCE..."));
   assert.ok(explainControl);
@@ -86,4 +87,26 @@ test("live responses attribute design, interpretation and proposal separately fr
   const html = renderToStaticMarkup(<GuidedExperiment {...props} mode="META LIVE" design={liveDesign} result={{ ...measured, mode: "META LIVE", analysis }} />);
   for (const text of [/MEASURED BY CAUSALFLY/, /INTERPRETED WITH META MUSE/, /NEXT TEST PROPOSED BY META MUSE/, /Meta interpretation · not a measurement/, /requires a new design and your approval/]) assert.match(html, text);
   assert.doesNotMatch(html, /<details[^>]*\bopen(?:=|>)/);
+});
+
+test("hero starts with one recorded condition and requires explicit approval for stimulus changes", () => {
+  const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} />);
+  assert.match(html, /data-comparing="false"/);
+  assert.match(html, /One fly\. Two controlled runs\./);
+  assert.match(html, /STIMULUS STRENGTH/);
+  assert.match(html, /id="stimulus-strength"[^>]*min="0"[^>]*max="1"[^>]*step="0.05"/);
+  assert.match(html, /Compare runs/);
+  assert.match(html, /PLAYBACK: CONTROL → INTERVENTION/);
+  assert.equal((html.match(/class="embodied-signal control"/g) ?? []).length, 1);
+  assert.equal((html.match(/class="embodied-signal perturbed"/g) ?? []).length, 0);
+  assert.doesNotMatch(html, /Add Fly/);
+  assert.match(html, />Replay<\/button>/);
+  assert.match(html, />Reset<\/button>/);
+});
+
+test("expanded approval settings show the selected amplitude and distinguish it from Meta's proposal", () => {
+  const html = renderToStaticMarkup(<DesignReview design={design} stimulusAmplitude={.6} busy={false} onRun={forbidden} />);
+  assert.match(html, /<dt>Stimulus amplitude<\/dt><dd>0\.6<\/dd>/);
+  assert.match(html, /selected by you/);
+  assert.equal(design.spec.stimulus.amplitude, 1);
 });

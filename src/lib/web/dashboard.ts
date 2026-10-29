@@ -48,7 +48,7 @@ export type WorkspaceAction =
   | { type: "fruitfly-question"; question: string }
   | { type: "fruitfly-ask"; question: string; sessionId?: string }
   | { type: "fruitfly-session"; sessionId: string }
-  | { type: "completed"; result: WebExperimentResult; workspace?: Workspace }
+  | { type: "completed"; result: WebExperimentResult; design?: GuidedDesign; workspace?: Workspace }
   | { type: "next-question"; question: string };
 
 /** UI state transitions cannot submit experiments or mutate evidence. */
@@ -61,7 +61,7 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
     case "fruitfly-question": return { ...state, fruitFlyQuestion: action.question };
     case "fruitfly-ask": return action.question.trim() ? { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, fruitFlyQuestionSessionId: action.sessionId, workspace: "live" } : state;
     case "fruitfly-session": return state.fruitFlyAskedQuestion !== undefined && !state.fruitFlyQuestionSessionId ? { ...state, fruitFlyQuestionSessionId: action.sessionId } : state;
-    case "completed": return { ...state, result: action.result, workspace: action.workspace ?? "compare" };
+    case "completed": return { ...state, design: action.design ?? state.design, result: action.result, workspace: action.workspace ?? "compare" };
     case "next-question": return { ...state, question: action.question, workspace: "observatory" };
   }
 }

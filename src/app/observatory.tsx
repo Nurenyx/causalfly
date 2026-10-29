@@ -53,23 +53,23 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [workspace]);
 
   useEffect(() => {
-    const target = result?.analysis ? "demo-understand" : result ? "demo-result" : design ? "demo-design" : undefined;
+    const target = result ? "demo-watch" : design ? "demo-design" : undefined;
     if (target) document.getElementById(target)?.scrollIntoView({ block: "start", behavior: "smooth" });
   }, [design, result]);
 
   function navigate(next: Workspace) { dispatch({ type: "navigate", workspace: next }); }
   function selectSource(next: DataSourceKind) { if (next === "SYNTHETIC_FIXTURE") fruitFly.disconnect(); setSource(next); setError(""); setNotice(""); }
-  function useNextQuestion(next: string) { dispatch({ type: "next-question", question: next }); setNotice("Proposed follow-up loaded. Request a new design explicitly; the current experiment remains retained until a new design succeeds."); }
-  async function execute(action: "design" | "run" | "interpret", researchQuestion = question) {
+  function useNextQuestion(next: string) { dispatch({ type: "next-question", question: next }); setNotice("Next question ready. Request a new Meta design."); requestAnimationFrame(() => document.getElementById("demo-question")?.scrollIntoView({ block: "start", behavior: "smooth" })); }
+  async function execute(action: "design" | "run" | "interpret", researchQuestion = question, stimulusAmplitude?: number) {
     if (inFlight.current || external || (action !== "design" && !design)) return;
     inFlight.current = true; setPending(action); setError("");
     try {
-      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion } : { action, id: design!.id }) });
+      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion } : { action, id: design!.id, ...(action === "run" && stimulusAmplitude !== undefined && stimulusAmplitude !== design!.spec.stimulus.amplitude ? { stimulusAmplitude } : {}) }) });
       const data = await response.json() as GuidedResponse;
       if (!data.ok) setError(data.error);
       else if (!response.ok) setError("Request failed. Retained evidence is unchanged.");
-      else if (action === "design") { dispatch({ type: "designed", design: data.design }); setNotice("Design validated. Review the proposal and approve the matched run."); }
-      else if (data.result) { dispatch({ type: action === "interpret" ? "interpreted" : "completed", result: data.result, workspace: "observatory" }); setNotice(action === "run" ? "Measured comparison ready. Meta has not interpreted these results yet." : "Interpretation and follow-up proposal ready. Measurements remain unchanged."); }
+      else if (action === "design") { dispatch({ type: "designed", design: data.design }); setNotice("Design validated. Approve to run."); }
+      else if (data.result) { dispatch(action === "run" ? { type: "completed", result: data.result, design: data.design, workspace: "observatory" } : { type: "interpreted", result: data.result, workspace: "observatory" }); setNotice(action === "run" ? "Measurement ready. Play control, then intervention." : "Interpretation ready. Choose the next test."); }
     } catch { setError("Unable to reach CausalFly. Retry the explicit action; retained evidence is unchanged."); }
     finally { inFlight.current = false; setPending(""); }
   }
@@ -119,7 +119,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
           <GuidedExperiment question={question} design={design} result={result} pending={pending} mode={mode}
             onQuestion={question => dispatch({ type: "question", question })}
             onDemo={() => { dispatch({ type: "question", question: defaultQuestion }); void execute("design", defaultQuestion); }}
-            onDesign={() => void execute("design")} onRun={() => void execute("run")} onExplain={() => void execute("interpret")}
+            onDesign={() => void execute("design")} onRun={strength => void execute("run", question, strength)} onExplain={() => void execute("interpret")}
             onNext={useNextQuestion} onCompare={() => navigate("compare")}
             onConnectome={() => { selectSource("FRUITFLY_XR"); navigate("live"); }} />
         </>}

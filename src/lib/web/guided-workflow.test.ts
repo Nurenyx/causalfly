@@ -80,3 +80,52 @@ test("observational evidence never unlocks causal comparison; state transitions 
   assert.equal(stages.find(s => s.id === "run")?.state, "READY");
   assert.equal(stages.find(s => s.id === "compare")?.state, "LOCKED");
 });
+
+test("approved stimulus strength forks validated immutable evidence without another Meta call", async () => {
+  const { calls, deps } = fixture();
+  const original = await runGuidedAction({ action: "design", researchQuestion: "Silence the primary pathway" }, deps); assert.ok(original.ok);
+  const first = await runGuidedAction({ action: "run", id: original.design.id }, deps); assert.ok(first.ok && first.result);
+  const interpreted = await runGuidedAction({ action: "interpret", id: original.design.id }, deps); assert.ok(interpreted.ok && interpreted.result?.analysis);
+  const before = JSON.stringify(interpreted.result);
+  const noMeta = { createClient: () => { throw new Error("Changing stimulus must only execute the engine"); } };
+  const changed = await runGuidedAction({ action: "run", id: original.design.id, stimulusAmplitude: .6 }, noMeta);
+  assert.ok(changed.ok && changed.result);
+  assert.notEqual(changed.design.id, original.design.id);
+  assert.notEqual(changed.design.spec.id, original.design.spec.id);
+  assert.equal(changed.design.spec.stimulus.amplitude, .6);
+  assert.deepEqual(changed.design.spec.perturbation, original.design.spec.perturbation);
+  assert.equal(changed.result.measuredEvidence.control.outputPeakActivity, .6);
+  assert.equal(changed.result.measuredEvidence.perturbed.outputPeakActivity, .3);
+  assert.equal(changed.result.measuredEvidence.perturbed.outputThresholdCrossingStep, null);
+  assert.equal(changed.result.analysis, undefined, "Old interpretation cannot follow changed measurements");
+  assert.ok(Object.values(changed.result.measuredEvidence.provenance.matchedConditions).every(Boolean));
+  for (const trial of [changed.result.measuredEvidence.control, changed.result.measuredEvidence.perturbed]) {
+    assert.equal(trial.provenance.experiment.stimulus.amplitude, .6);
+    assert.equal(trial.activity[0].nodes.stimulus, .6);
+  }
+  assert.deepEqual(changed.result.stimulusOverride, { sourceDesignId: original.design.id, originalAmplitude: 1, amplitude: .6 });
+  const repeated = await runGuidedAction({ action: "run", id: original.design.id, stimulusAmplitude: .6 }, noMeta); assert.ok(repeated.ok);
+  assert.equal(repeated.result, changed.result, "Duplicate approved runs reuse retained evidence");
+  const retained = await runGuidedAction({ action: "run", id: original.design.id }, noMeta); assert.ok(retained.ok);
+  assert.equal(retained.result, interpreted.result);
+  assert.equal(JSON.stringify(retained.result), before);
+  assert.ok(Object.isFrozen(changed.result.measuredEvidence));
+  assert.deepEqual(calls, ["design", "interpret"]);
+  const state = workspaceReducer({ workspace: "observatory", question: original.design.researchQuestion, design: original.design, result: first.result }, { type: "completed", result: changed.result, design: changed.design, workspace: "observatory" });
+  assert.equal(state.design, changed.design);
+  assert.equal(state.result, changed.result);
+});
+
+test("invalid stimulus adjustments cannot execute or reach Meta; zero stimulus stays a real zero-input run", async () => {
+  const { calls, deps } = fixture();
+  const designed = await runGuidedAction({ action: "design", researchQuestion: "A bounded stimulus test" }, deps); assert.ok(designed.ok);
+  for (const stimulusAmplitude of [-.1, 1.1, .123, NaN, Infinity, "0.5"]) {
+    const response = await runGuidedAction({ action: "run", id: designed.design.id, stimulusAmplitude }, deps);
+    assert.equal(response.ok, false);
+  }
+  const zero = await runGuidedAction({ action: "run", id: designed.design.id, stimulusAmplitude: 0 }, deps); assert.ok(zero.ok && zero.result);
+  assert.equal(zero.result.measuredEvidence.control.outputPeakActivity, 0);
+  assert.equal(zero.result.measuredEvidence.perturbed.outputPeakActivity, 0);
+  assert.equal(zero.result.measuredEvidence.control.outcome, "THRESHOLD_NOT_REACHED");
+  assert.deepEqual(calls, ["design"]);
+});

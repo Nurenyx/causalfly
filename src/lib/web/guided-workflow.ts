@@ -7,17 +7,17 @@ import { designExperiment } from "../meta/experiment-designer";
 import { createEvidencePayload, type EvidencePayload } from "../meta/evidence";
 import { createCompactEvidence } from "../meta/compact-evidence";
 import { interpretEvidence } from "../meta/scientific-interpreter";
-import { researchQuestionSchema } from "../meta/schemas";
+import { researchQuestionSchema, validateExperimentProposal } from "../meta/schemas";
 import { readMetaEnvironment, type MetaClient, type MetaEnvironment } from "../meta/client";
 import { configuredClient, safeWebProviderError } from "./workflow";
 import type { GuidedDesign, GuidedResponse, MeasuredExperimentResult, RuntimeCall } from "./contracts";
 
 const requestSchema = z.discriminatedUnion("action", [
   z.strictObject({ action: z.literal("design"), researchQuestion: researchQuestionSchema }),
-  z.strictObject({ action: z.literal("run"), id: z.string().uuid() }),
+  z.strictObject({ action: z.literal("run"), id: z.string().uuid(), stimulusAmplitude: z.number().min(0).max(1).multipleOf(0.05).optional() }),
   z.strictObject({ action: z.literal("interpret"), id: z.string().uuid() }),
 ]);
-type RecordEntry = { design: GuidedDesign; evidence?: EvidencePayload; result?: MeasuredExperimentResult; expires: number; pending?: boolean };
+type RecordEntry = { design: GuidedDesign; evidence?: EvidencePayload; result?: MeasuredExperimentResult; expires: number; pending?: boolean; variants?: Map<number, string> };
 // Opaque capabilities, bounded process-local retention. Never accept client-supplied evidence.
 const records = new Map<string, RecordEntry>();
 const ttl = 2 * 60 * 60 * 1000;
@@ -27,14 +27,31 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
   if (!parsed.success) return { ok: false, kind: "validation", error: "Choose design with a question, or run / interpret with a retained design ID." };
   for (const [id, entry] of records) if (entry.expires < Date.now() && !entry.pending) records.delete(id);
   const action = parsed.data;
-  const entry = action.action === "design" ? undefined : records.get(action.id);
+  let entry = action.action === "design" ? undefined : records.get(action.id);
   if (action.action !== "design" && !entry) return { ok: false, kind: "validation", error: "This design expired or the server restarted. Design the experiment again; displayed evidence remains available for inspection." };
   if (entry?.pending) return { ok: false, kind: "validation", error: "This experiment already has an explicit request in progress." };
+  if (action.action === "run" && entry && action.stimulusAmplitude !== undefined && action.stimulusAmplitude !== entry.design.spec.stimulus.amplitude) {
+    // Explicit approval forks a validated design; earlier evidence and analysis stay frozen.
+    const parent = entry;
+    const amplitude = action.stimulusAmplitude;
+    const cachedId = parent.variants?.get(amplitude);
+    entry = cachedId ? records.get(cachedId) : undefined;
+    if (!entry) {
+      const { spec } = validateExperimentProposal({ ...parent.design.spec, id: `stimulus-${randomUUID()}`, stimulus: { amplitude } }, syntheticDemoNetwork);
+      const design = freezeRecord({ ...parent.design, id: randomUUID(), spec, stimulusOverride: { sourceDesignId: parent.design.stimulusOverride?.sourceDesignId ?? parent.design.id, originalAmplitude: parent.design.stimulusOverride?.originalAmplitude ?? parent.design.spec.stimulus.amplitude, amplitude } });
+      if (records.size >= 100) { const oldest = [...records].find(([id, value]) => id !== action.id && !value.pending); if (oldest) records.delete(oldest[0]); }
+      entry = { design, expires: Date.now() + ttl };
+      records.set(design.id, entry);
+      parent.variants ??= new Map();
+      parent.variants.set(amplitude, design.id);
+    }
+  }
   if (action.action === "run" && entry) {
+    if (entry.pending) return { ok: false, kind: "validation", error: "This experiment already has an explicit request in progress." };
     if (!entry.result) {
       entry.evidence = createEvidencePayload({ researchQuestion: entry.design.researchQuestion, networkDefinition: syntheticDemoNetwork, experimentSpec: entry.design.spec });
       const compact = createCompactEvidence(entry.evidence);
-      entry.result = freezeRecord({ researchQuestion: compact.researchQuestion, mode: entry.design.mode, spec: entry.design.spec, measuredEvidence: compact.comparison, provenance: compact.provenance, runtimeCalls: entry.design.runtimeCalls });
+      entry.result = freezeRecord({ researchQuestion: compact.researchQuestion, mode: entry.design.mode, spec: entry.design.spec, measuredEvidence: compact.comparison, provenance: compact.provenance, runtimeCalls: entry.design.runtimeCalls, ...(entry.design.stimulusOverride ? { stimulusOverride: entry.design.stimulusOverride } : {}) });
     }
     return { ok: true, design: entry.design, result: entry.result };
   }
