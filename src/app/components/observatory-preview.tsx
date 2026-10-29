@@ -1,4 +1,4 @@
-import type { WebExperimentResult } from "@/lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { syntheticDemoNetwork } from "@/lib/experiment/network";
 import { Badge, SectionTitle } from "./workspace-ui";
 import { SyntheticNetworkViz } from "./synthetic-network-viz";

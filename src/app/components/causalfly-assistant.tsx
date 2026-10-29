@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { dataSources, type DataSourceKind, type FruitFlyEvidence, type FruitFlySnapshot } from "@/lib/sources/contracts";
-import type { ExecutionMode, WebExperimentResult } from "@/lib/web/contracts";
+import type { ExecutionMode, MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import type { Workspace } from "@/lib/web/dashboard";
 import type { ObservationalMetaState } from "@/lib/web/observational-contracts";
 import { assistantActions, captureAssistantQuestion, observationalBoundary, syntheticAssistantAnswer, workspaceLabels, type AssistantAction, type AssistantAnswer, type AssistantQuestion } from "@/lib/web/assistant";
@@ -11,6 +11,7 @@ import { observationalAnalysis } from "@/lib/web/observational-analysis";
 import { Badge } from "./workspace-ui";
 
 interface Props {
+  workflowContext?: { stage: string; identity: string; next: string; onNext: () => void };
   source: DataSourceKind; workspace: Workspace; snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null;
   result: WebExperimentResult | null; mode: ExecutionMode | null; meta: ObservationalMetaState; busy: boolean;
   onAnalyze: (question: string, snapshot: FruitFlySnapshot, frames: readonly FruitFlyEvidence[]) => Promise<void>;
@@ -90,11 +91,13 @@ export function CausalFlyAssistant(props: Props) {
     }}>
       <header className="assistant-header"><div className="assistant-brand"><NetworkMark /><div><span className="eyebrow">YOUR CONTEXTUAL INSTRUMENT</span><h2 id="assistant-title">CAUSALFLY ASSISTANT</h2></div></div><button type="button" className="assistant-close" onClick={close} aria-label="Close CausalFly Assistant" autoFocus>×</button></header>
       <dl className="assistant-context" aria-label="Assistant context">
-        <div><dt>SOURCE</dt><dd>{dataSources[source].label}</dd></div><div><dt>CONTEXT</dt><dd>{workspaceLabels[workspace]}</dd></div>
+        <div><dt>SOURCE</dt><dd>{dataSources[source].label}</dd></div><div><dt>CONTEXT / STAGE</dt><dd>{props.workflowContext?.stage ?? workspaceLabels[workspace]}</dd></div>
+        {props.workflowContext && <div><dt>EXPERIMENT / SESSION</dt><dd>{props.workflowContext.identity}</dd></div>}
         <div><dt>EVIDENCE</dt><dd>{retained}</dd></div><div><dt>META STATUS</dt><dd>{mode === "META LIVE" ? "Live configured · on demand" : mode === "FAKE META CLIENT" ? "Offline / fake client" : "Configuration needed"}</dd></div>
       </dl>
       <div className="assistant-analysis-status"><span className={matchingMeta?.pending ? "assistant-status-dot pending" : "assistant-status-dot"} /><span>{external && matchingMeta?.pending ? "Meta analysis in progress · frozen window" : "Local / deterministic · Meta requires explicit action"}</span></div>
       <div className="assistant-scroll" ref={scroll}>
+        {props.workflowContext && <section className="assistant-start"><span className="eyebrow amber-text">RECOMMENDED NEXT ACTION</span><p>Ask CausalFly is your local guide. Meta Scientist designs experiments and interprets evidence when explicitly requested.</p><button type="button" className="primary-button" disabled={busy} onClick={() => { props.workflowContext!.onNext(); close(); }}>{busy ? "Request in progress…" : props.workflowContext.next} ↗</button></section>}
         <section className="assistant-start"><span className="eyebrow cyan-text">{external ? "OBSERVE. QUESTION. VERIFY." : "ASK. INTERVENE. UNDERSTAND."}</span><h3>{external ? workspace === "compare" ? "Matched trials come first." : "Follow the evidence." : "From question to experiment."}</h3><p>{external ? workspace === "compare" ? "Controlled comparison requires matched trials. Retained FruitFly telemetry does not supply a matched control and intervention." : "A quick read of your retained simulation evidence, with its limits in view." : "Explore the fixture, inspect measurements, or prepare a validated experiment."}</p>
           <div className="assistant-actions">{assistantActions(source, workspace).map(action => <button type="button" key={action.label} onClick={() => act(action)} disabled={busy}><span>{action.label}</span><span aria-hidden="true">↗</span></button>)}</div>
         </section>

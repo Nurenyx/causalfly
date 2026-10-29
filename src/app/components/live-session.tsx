@@ -7,7 +7,7 @@ import { ConnectomeActivityView, InstrumentPanel, LiveMetricChart } from "./live
 import styles from "./live-session.module.css";
 
 type Status = ReturnType<typeof sessionStatus>;
-export function LiveSessionHeader({ snapshot, status, onConnect, onDisconnect }: { snapshot: FruitFlySnapshot; status: Status; onConnect: () => void; onDisconnect: () => void }) {
+export function LiveSessionHeader({ snapshot, status, onConnect, onDisconnect }: { snapshot: FruitFlySnapshot; status: Status; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
   const t = snapshot.evidence?.telemetry;
   const activeConnection = status.connected || snapshot.state === "CONNECTING";
   return <section className={styles.sessionBar} data-state={snapshot.state === "ERROR" ? "error" : status.historical ? "historical" : status.live ? "live" : "waiting"} aria-label="FruitFly XR session status">
@@ -43,7 +43,7 @@ export function StreamHealth({ evidence, ageMs, onEvidence }: { evidence: FruitF
   ].map(([label, value]) => <div key={label} data-issue={Boolean(t && ((label === "Display drops" && t.droppedDisplayFrames > 0) || (label === "Subscriber drops" && t.droppedSubscriberMessages > 0) || (label === "Input freshness" && (!t.inputFresh || t.inputSequence < 0)) || (label === "Latest-frame age" && (ageMs === null || ageMs >= 5000))))}><dt>{label}</dt><dd><i />{value}</dd></div>)}</dl><button className={styles.evidenceLink} onClick={onEvidence}>View diagnostics ↗</button></InstrumentPanel>;
 }
 
-export function AiObserverRail({ evidence, historical, onEvidence }: { evidence: FruitFlyEvidence | null; historical: boolean; onEvidence: () => void }) {
+export function AiObserverRail({ evidence, historical, onEvidence, onInterpret }: { evidence: FruitFlyEvidence | null; historical: boolean; onEvidence: () => void; onInterpret?: () => void }) {
   const t = evidence?.telemetry;
   const notes = !t ? ["Waiting for a validated simulation frame."] : [
     ...(historical ? ["Last snapshot only. No current activity claimed."] : []),
@@ -55,11 +55,11 @@ export function AiObserverRail({ evidence, historical, onEvidence }: { evidence:
     <section className={styles.observerCard}><h3>WHAT HAPPENED?</h3>{t ? <ul className={styles.observations}><li><i>⌁</i><p><strong>{number(t.totalSpikeEvents)}</strong><span>Simulated spike events</span></p></li><li><i>◉</i><p><strong>{number(t.activeNeuronCount)}</strong><span>Active simulated neurons</span></p></li><li><i>↗</i><p><strong>{t.motorMode}</strong><span>Motor decoder output</span></p></li><li><i>⋮</i><p><strong>{number(t.displaySpikeEvents)} <small>/ {number(t.totalSpikeEvents)}</small></strong><span>Events supplied for display</span></p></li></ul> : <p className={styles.observerEmpty}>Observations begin with the first validated frame.</p>}</section>
     <section className={styles.streamNotes}><h3>STREAM NOTES</h3>{notes.length ? <ul>{notes.map(note => <li key={note}>{note}</li>)}</ul> : <p>No stream caveats reported.</p>}</section>
     <section className={styles.investigate}><h3>✦ &nbsp; WORTH INVESTIGATING</h3><strong>{!t ? "Start a simulation trial" : historical ? "Review the retained decoder states" : !t.inputFresh || t.inputSequence < 0 ? "Check input freshness before interpreting" : t.displayTruncated ? "Inspect totals beyond the display sample" : "Compare decoder states across received ticks"}</strong><button type="button" onClick={onEvidence}>Open Evidence <span aria-hidden="true">↗</span></button></section>
-    <div className={styles.metaReserved}><button type="button" disabled aria-describedby="meta-reserved">✧ &nbsp; Analyze with Meta <span>ON DEMAND</span></button><p id="meta-reserved">Not available for live telemetry · no automatic calls.</p></div>
+    <div className={styles.metaReserved}><button type="button" onClick={onInterpret ?? onEvidence}>✧ &nbsp; Review interpretation <span>ON DEMAND</span></button><p>Local first. Meta requires a question and frozen retained evidence.</p></div>
   </InstrumentPanel><section className={styles.provenance} data-verified={Boolean(evidence)}><span className={styles.microLabel}>{evidence ? "VALIDATED CONNECTOME SOURCE" : "SOURCE PROVENANCE"}</span><strong><i />{evidence ? evidence.provenance.dataset : "Awaiting source verification"}</strong>{evidence && <dl><div><dd>{number(evidence.provenance.neurons)}</dd><dt>neurons</dt></div><div><dd>{number(evidence.provenance.edges)}</dd><dt>structural edges</dt></div></dl>}<p>Published structure <span> / </span> Simulated dynamics</p><p>Not recordings from a living fly</p></section></aside>;
 }
 
-export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConnect, onDisconnect }: { snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void }) {
+export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConnect, onDisconnect, onInterpret }: { snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
   const status = sessionStatus(snapshot, now ?? 0);
   const receivedAt = snapshot.evidence?.receivedAt;
   const sessionId = snapshot.evidence?.telemetry.sessionId;
@@ -72,6 +72,6 @@ export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConn
   return <div className={styles.session}>
     <LiveSessionHeader snapshot={snapshot} status={status} onConnect={onConnect} onDisconnect={onDisconnect} />
     <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{status.historical && receivedAt ? `LAST RECEIVED ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{frames.length} / {LIVE_FRAME_LIMIT} received frames</span></div>
-    <div className={styles.layout}><div className={styles.instruments}><ConnectomeActivityView frames={frames} historical={status.historical} /><section className={styles.activity} aria-label="Received simulation activity"><LiveMetricChart frames={frames} metric="spikes" /><LiveMetricChart frames={frames} metric="active" /><p className={styles.chartNote}>Counts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states</p></section><EventTimeline frames={frames} historical={status.historical} receivedAt={receivedAt} reconnectedAt={transport.reconnectedAt} /><div className={styles.lowerPanels}><SimulationOutput frames={frames} /><StreamHealth evidence={snapshot.evidence} ageMs={status.ageMs} onEvidence={onEvidence} /></div></div><AiObserverRail evidence={snapshot.evidence} historical={status.historical} onEvidence={onEvidence} /></div>
+    <div className={styles.layout}><div className={styles.instruments}><ConnectomeActivityView frames={frames} historical={status.historical} /><section className={styles.activity} aria-label="Received simulation activity"><LiveMetricChart frames={frames} metric="spikes" /><LiveMetricChart frames={frames} metric="active" /><p className={styles.chartNote}>Counts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states</p></section><EventTimeline frames={frames} historical={status.historical} receivedAt={receivedAt} reconnectedAt={transport.reconnectedAt} /><div className={styles.lowerPanels}><SimulationOutput frames={frames} /><StreamHealth evidence={snapshot.evidence} ageMs={status.ageMs} onEvidence={onEvidence} /></div></div><AiObserverRail evidence={snapshot.evidence} historical={status.historical} onEvidence={onEvidence} onInterpret={onInterpret} /></div>
   </div>;
 }

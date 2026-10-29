@@ -1,4 +1,4 @@
-import type { WebExperimentResult } from "@/lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { Badge, EvidenceFlow, SectionTitle } from "./workspace-ui";
 
 export function ExperimentMetadata({ result }: { result: WebExperimentResult }) {
@@ -14,6 +14,7 @@ export function EvidenceView({ result }: { result: WebExperimentResult }) {
     ["outputThreshold", "Same threshold"], ["onlyDeclaredPerturbationDiffers", "Only declared perturbation differs"],
   ];
   return <div className="evidence-view">
+    <section className="panel"><SectionTitle index="AI" title="Interpretation & runtime provenance"><Badge tone="amber">SEPARATE FROM MEASUREMENTS</Badge></SectionTitle>{result.runtimeCalls?.map(call => <p key={call.task}>{call.task.toUpperCase()} · {call.mode} · {call.model}<br /><small>Explicit request: {call.requestedAt} · completed: {call.completedAt}</small></p>)}<p>{result.analysis ? "Interpretation and next-experiment proposal are model-authored, not measurements." : "Interpretation has not been requested. Engine evidence is available independently."}</p>{result.analysis && <details><summary>Inspect interpretation, limitations & proposed next experiment</summary><pre>{JSON.stringify(result.analysis, null, 2)}</pre></details>}</section>
     <div className="evidence-heading"><div><span className="eyebrow">SYNTHETIC FIXTURE / CHAIN OF CUSTODY</span><h2>Every result has a source.</h2></div><Badge tone="muted">ENGINEERING EVIDENCE</Badge></div>
     <EvidenceFlow stages={[{ label: "SYNTHETIC NETWORK", detail: control.provenance.network.id }, { label: "DETERMINISTIC ENGINE", detail: control.provenance.engineVersion }, { label: "MATCHED TRACES", detail: "Control + declared perturbation" }, { label: "CAUSALFLY EVIDENCE", detail: "Full-trace measurements · retained samples" }]} />
     <section className="panel proposal-panel"><SectionTitle index="01" title="Experiment specification"><div className="proposal-badges"><Badge tone="amber">AI PROPOSED{result.mode === "FAKE META CLIENT" ? " / FAKE" : ""}</Badge><Badge tone="green">VALIDATED BY CAUSALFLY</Badge></div></SectionTitle><p className="submitted-question"><span>QUESTION RUN</span>{result.researchQuestion}</p><p className="hypothesis"><span className="eyebrow">HYPOTHESIS</span>{result.spec.hypothesis}</p><ExperimentMetadata result={result} /><p className="trace-note">Specification ID: {result.spec.id} · Seed recorded; engine has no random operations.</p></section>

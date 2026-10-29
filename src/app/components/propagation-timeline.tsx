@@ -1,4 +1,4 @@
-import type { WebExperimentResult } from "@/lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { propagationTiming, signed } from "@/lib/web/dashboard";
 
 export function PropagationTimeline({ result, step: currentStep }: { result: WebExperimentResult; step: number }) {

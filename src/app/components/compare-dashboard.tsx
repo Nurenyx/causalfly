@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { WebExperimentResult } from "@/lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import type { CompactTrialSummary } from "@/lib/meta/compact-evidence";
 import { crossing, playbackSteps } from "@/lib/web/dashboard";
 import { SyntheticNetworkViz } from "./synthetic-network-viz";

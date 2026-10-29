@@ -22,3 +22,24 @@ export interface WebStatus {
   mode: ExecutionMode | null;
   error?: string;
 }
+
+export interface RuntimeCall {
+  task: "design" | "interpret";
+  mode: ExecutionMode;
+  model: string;
+  requestedAt: string;
+  completedAt: string;
+}
+export type MeasuredExperimentResult = Omit<WebExperimentResult, "analysis"> & {
+  analysis?: ScientificAnalysis;
+  runtimeCalls?: readonly RuntimeCall[];
+};
+export interface GuidedDesign {
+  id: string;
+  researchQuestion: string;
+  mode: ExecutionMode;
+  spec: ExperimentSpec;
+  runtimeCalls: readonly RuntimeCall[];
+}
+export type GuidedResponse = { ok: true; design: GuidedDesign; result?: MeasuredExperimentResult } |
+  { ok: false; kind: "validation" | "configuration" | "provider"; error: string };

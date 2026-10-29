@@ -1,5 +1,5 @@
 import type { DataSourceKind, FruitFlySnapshot, FruitFlyEvidence } from "@/lib/sources/contracts";
-import type { WebExperimentResult } from "@/lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { CompareDashboard } from "./compare-dashboard";
 import { ScientistView } from "./ai-scientist";
 import { FruitFlyCompare, FruitFlyScientist } from "./fruitfly-analysis";

@@ -6,7 +6,7 @@ import { syntheticDemoNetwork } from "../../lib/experiment/network";
 import { createEvidencePayload } from "../../lib/meta/evidence";
 import { createCompactEvidence } from "../../lib/meta/compact-evidence";
 import { FakeMetaClient } from "../../lib/meta/fake-client";
-import type { WebExperimentResult } from "../../lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "../../lib/web/contracts";
 import type { ScientificAnalysis } from "../../lib/meta/schemas";
 import { disconnectedFruitFly, type FruitFlyEvidence, type FruitFlySnapshot } from "../../lib/sources/contracts";
 import { connectomeHash, FruitFlyNormalizer } from "../../lib/sources/fruitfly-protocol";

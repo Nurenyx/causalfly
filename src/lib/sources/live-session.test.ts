@@ -236,5 +236,7 @@ test("serialized display data contains no secrets, invented movement, anatomy or
   const ui = readFileSync("src/app/components/live-session.tsx", "utf8");
   assert.doesNotMatch(ui, /Hz|mm\/s|m\/s|velocity|heading|escape trajectory|stimulus expansion rate|biological firing rate|real neural activity/);
   assert.match(ui, /Not recordings from a living fly/);
-  assert.match(ui, /disabled aria-describedby="meta-reserved"/);
+  assert.match(ui, /onClick=\{onInterpret \?\? onEvidence\}/);
+  assert.match(ui, /Meta requires a question and frozen retained evidence/);
+  assert.doesNotMatch(ui, /fetch\(|\.complete\(/);
 });

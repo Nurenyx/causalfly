@@ -1,4 +1,4 @@
-import type { WebExperimentResult } from "@/lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { crossing, signed } from "@/lib/web/dashboard";
 import { measurementLabels } from "@/lib/web/display-labels";
 import { MeasuredDeltaCard } from "./measured-delta-card";

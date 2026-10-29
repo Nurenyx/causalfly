@@ -1,4 +1,4 @@
-import type { WebExperimentResult } from "@/lib/web/contracts";
+import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { displayObservation } from "@/lib/web/dashboard";
 import { Badge, SectionTitle } from "./workspace-ui";
 import { ObservationMetrics } from "./observation-metrics";
@@ -10,6 +10,7 @@ function AnalysisList({ items }: { items: readonly string[] }) {
 }
 
 function NextExperiment({ result, onNext }: ScientistProps) {
+  if (!result.analysis) return null;
   const next = result.analysis.nextExperiment;
   return <div className="next-experiment"><div><h3>NEXT EXPERIMENT</h3><p className="next-question">{next.researchQuestion}</p><span className="next-target">Proposed silence target: <code>{next.proposedPerturbationTarget ?? "Not specified"}</code></span><p className="next-rationale">{next.rationale}</p></div><button type="button" className="secondary-button" onClick={() => onNext(next.researchQuestion)}>Use as Next Question <span aria-hidden="true">↗</span></button></div>;
 }
@@ -20,6 +21,7 @@ function ModeNote({ result }: { result: WebExperimentResult }) {
 
 export function AiScientistRail({ result, onNext, onFullAnalysis }: ScientistProps & { onFullAnalysis: () => void }) {
   const { analysis } = result;
+  if (!analysis) return <aside className="scientist-rail"><header className="rail-header"><h2>META SCIENTIST</h2><Badge tone="amber">READY TO INTERPRET</Badge></header><section className="rail-section"><h3>MEASUREMENTS ARE READY</h3><p>Matched control and intervention results are retained. Meta can assess hypothesis support, identify limitations, and propose the next experiment.</p><p>Engine evidence stays immutable. No interpretation has been requested.</p><button className="primary-button" type="button" onClick={onFullAnalysis}>Review interpretation step ↗</button></section></aside>;
   return <aside className="scientist-rail" aria-label="AI Scientist interpretation">
     <header className="rail-header"><span className="scientist-icon" aria-hidden="true">✧</span><div><h2>AI SCIENTIST</h2><p>{result.mode === "META LIVE" ? "META MUSE / LIVE AI ANALYSIS" : "Offline template"}</p></div><Badge tone="amber">{result.mode === "FAKE META CLIENT" ? "FAKE" : "META LIVE"}</Badge></header>
     <p className="rail-mode-note">{result.mode === "FAKE META CLIENT" ? "OFFLINE TEMPLATE · Not a Meta model response" : "AI INTERPRETATION · Downstream of evidence"}</p>
@@ -33,6 +35,7 @@ export function AiScientistRail({ result, onNext, onFullAnalysis }: ScientistPro
 
 export function ScientistView({ result, onNext }: ScientistProps) {
   const { analysis } = result;
+  if (!analysis) return <section className="panel"><span className="eyebrow amber-text">META SCIENTIFIC INTERPRETER</span><h2>Measured evidence is ready.</h2><p>Use Analyze with Meta above to interpret this frozen comparison and propose a follow-up experiment. No Meta request occurs when opening this stage.</p></section>;
   const support = analysis.supportsHypothesis === null ? "INCONCLUSIVE" : analysis.supportsHypothesis ? "SUPPORTED IN THIS FIXTURE" : "NOT SUPPORTED IN THIS FIXTURE";
   return <div className="scientist-workspace" aria-labelledby="scientist-heading">
     {result.mode === "META LIVE" && <div className="meta-live-banner"><span className="eyebrow">META MUSE</span><strong>LIVE AI ANALYSIS</strong><Badge tone="amber">META LIVE</Badge></div>}
