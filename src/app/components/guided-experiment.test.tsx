@@ -25,7 +25,7 @@ test("initial story offers demo and own-question paths without measured or AI fi
 
 test("validated proposal presents approval while measurements remain unavailable", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} />);
-  assert.match(html, /META AI — EXPERIMENT DESIGN/);
+  assert.match(html, /OFFLINE DESIGN TEMPLATE/);
   assert.match(html, /Approve &amp; Run Experiment/);
   assert.match(html, /Review hypothesis, target &amp; all test settings/);
   assert.equal((html.match(/data-complete="true"/g) ?? []).length, 2);
@@ -35,7 +35,7 @@ test("validated proposal presents approval while measurements remain unavailable
 test("measured result and explanation action coexist with real recorded comparison", () => {
   const before = JSON.stringify(measured);
   const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} />);
-  for (const text of [/Signal reduced 50%/, /Step 3/, /Step 4/, /Unchanged/, /MEASURED BY CAUSALFLY/, /Explain with Meta/, /Play recorded activity/, /View detailed comparison/, /Inspect raw evidence/]) assert.match(html, text);
+  for (const text of [/Signal reduced 50%/, /Step 3/, /Step 4/, /Unchanged/, /MEASURED BY CAUSALFLY/, /Explain with Meta/, /Play recorded activity/, /View detailed comparison/, /Inspect provenance &amp; raw evidence/, /Show how we measured this/]) assert.match(html, text);
   assert.doesNotMatch(html, /INTERPRETED BY META AI/);
   assert.equal(JSON.stringify(measured), before);
 });
@@ -48,7 +48,8 @@ test("explanation and proposal stay on Experiment; a follow-up preserves earlier
   assert.equal(state.workspace, "observatory");
   assert.equal(state.result?.measuredEvidence, measured.measuredEvidence);
   const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={result} />);
-  for (const text of [/What changed/, /Why it matters/, /Meta proposes the next test/, /Use as Next Question/, /OFFLINE AI TEMPLATE/]) assert.match(html, text);
+  for (const text of [/What changed/, /Why it matters/, /What should we test next/, /Use as Next Question/, /OFFLINE AI TEMPLATE/, /Limitations &amp; alternative explanations/]) assert.match(html, text);
+  assert.doesNotMatch(html, /INTERPRETED WITH META MUSE|NEXT TEST PROPOSED BY META MUSE/);
   assert.equal((html.match(/data-complete="true"/g) ?? []).length, 4);
   const next = workspaceReducer(state, { type: "next-question", question: analysis.nextExperiment.researchQuestion });
   const nextHtml = renderToStaticMarkup(<GuidedExperiment {...props} question={next.question} design={next.design} result={next.result} />);
@@ -57,4 +58,15 @@ test("explanation and proposal stay on Experiment; a follow-up preserves earlier
   assert.equal(next.result, state.result);
   const run = workspaceReducer({ ...state, result: null }, { type: "completed", result: measured, workspace: "observatory" });
   assert.equal(run.workspace, "observatory");
+});
+
+test("live responses attribute design, interpretation and proposal separately from measurement", async () => {
+  const analysis = JSON.parse(await new FakeMetaClient().complete({ task: "interpret", system: "", inputJson: JSON.stringify(compact), responseSchema: {} }));
+  const liveDesign = { ...design, mode: "META LIVE" as const };
+  const proposed = renderToStaticMarkup(<GuidedExperiment {...props} mode="META LIVE" design={liveDesign} />);
+  assert.match(proposed, /DESIGNED WITH META MUSE/);
+  assert.doesNotMatch(proposed, /MEASURED BY CAUSALFLY/);
+  const html = renderToStaticMarkup(<GuidedExperiment {...props} mode="META LIVE" design={liveDesign} result={{ ...measured, mode: "META LIVE", analysis }} />);
+  for (const text of [/MEASURED BY CAUSALFLY/, /INTERPRETED WITH META MUSE/, /NEXT TEST PROPOSED BY META MUSE/, /Meta interpretation · not a measurement/, /requires a new design and your approval/]) assert.match(html, text);
+  assert.doesNotMatch(html, /<details[^>]*\bopen(?:=|>)/);
 });

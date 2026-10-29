@@ -1,4 +1,5 @@
 import { nodeLabel } from "@/lib/web/display-labels";
+import { useId } from "react";
 import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { syntheticDemoNetwork } from "@/lib/experiment/network";
 import { Badge, SectionTitle } from "./workspace-ui";
@@ -12,10 +13,12 @@ export function ResearchWorkflow() {
 }
 
 export function FixtureTopology() {
+  const glow = useId().replace(/:/g, "");
   const positions: Record<string, [number, number]> = { stimulus: [55, 115], primary_a: [210, 45], primary_b: [410, 45], alternate_a: [175, 180], alternate_b: [310, 180], alternate_c: [445, 180], motor: [565, 115] };
   return <figure className="fixture-topology"><figcaption className="eyebrow">DECLARED TOPOLOGY / NO ACTIVITY DATA</figcaption><svg viewBox="0 0 620 225" role="img" aria-label="Declared seven-node synthetic fixture topology. No experiment measurements yet.">
+    <defs><filter id={glow} x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="7" /></filter></defs>
     {syntheticDemoNetwork.edges.map(({ from, to, weight }) => <g key={`${from}-${to}`}><path d={`M ${positions[from].join(" ")} L ${positions[to].join(" ")}`} fill="none" stroke="var(--cf-border-strong)" /><text x={(positions[from][0] + positions[to][0]) / 2} y={(positions[from][1] + positions[to][1]) / 2 - 8} textAnchor="middle">{weight}</text></g>)}
-    {syntheticDemoNetwork.nodes.map(({ id }) => <g key={id}><circle cx={positions[id][0]} cy={positions[id][1]} r="12" stroke="var(--cyan)" fill="var(--cf-bg-elevated)" /><text x={positions[id][0]} y={positions[id][1] + 29} textAnchor="middle">{nodeLabel(id)}</text></g>)}
+    {syntheticDemoNetwork.nodes.map(({ id }) => <g key={id}><circle cx={positions[id][0]} cy={positions[id][1]} r="20" fill="var(--cyan)" opacity=".3" filter={`url(#${glow})`} /><circle cx={positions[id][0]} cy={positions[id][1]} r="12" stroke="var(--cyan)" fill="var(--cf-bg-elevated)" /><circle cx={positions[id][0]} cy={positions[id][1]} r="3" fill="var(--cyan)" /><text x={positions[id][0]} y={positions[id][1] + 29} textAnchor="middle">{nodeLabel(id)}</text></g>)}
   </svg><p>Hand-authored engineering network · schematic layout · edge labels are declared weights.</p></figure>;
 }
 

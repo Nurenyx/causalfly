@@ -10,6 +10,7 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
   const silenced = appliedPerturbation?.targetNodeId;
   const sample = activityAtStep(trial, step);
   const upstream = activityAtStep(trial, step - 1);
+  const priorUpstream = activityAtStep(trial, step - 2);
   const positions: Record<string, [number, number]> = {
     stimulus: [56, 133], primary_a: [204, 59], primary_b: [405, 59],
     alternate_a: [171, 204], alternate_b: [305, 204], alternate_c: [439, 204], motor: [558, 133],
@@ -30,24 +31,29 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
         const [x1, y1] = positions[from];
         const [x2, y2] = positions[to];
         const blocked = from === silenced || to === silenced;
-        const alternate = !!silenced && (from.startsWith("alternate") || to.startsWith("alternate"));
-        const drive = blocked ? 0 : Math.min(1, Math.abs((upstream?.nodes[from] ?? 0) * weight));
-        const color = blocked ? "var(--red)" : alternate ? "var(--amber)" : "var(--cyan)";
+        // Edge emphasis is derived, not measured flow. Require BOTH adjacent
+        // retained samples; never bridge an omitted sample or a blocked target.
+        const drive = blocked || !((sample?.nodes[to] ?? 0) > 0) ? 0 : Math.min(1, Math.max(0, (upstream?.nodes[from] ?? 0) * weight));
+        const trail = blocked || !((upstream?.nodes[to] ?? 0) > 0) ? 0 : Math.min(1, Math.max(0, (priorUpstream?.nodes[from] ?? 0) * weight));
+        const color = blocked ? "var(--cf-magenta)" : "var(--cf-cyan)";
         const path = `M${x1 + 17},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2 - 22},${y2}`;
-        return <g key={`${from}-${to}`} className={`viz-edge${blocked ? " interrupted" : ""}`} style={{ color }} data-upstream-activity={upstream?.nodes[from]}>
+        return <g key={`${from}-${to}`} className={`viz-edge${blocked ? " interrupted" : ""}`} style={{ color }} data-edge={`${from}-${to}`} data-drive={drive} data-trail={trail} data-upstream-activity={upstream?.nodes[from]}>
+          {trail > 0 && <path className="edge-trail" d={path} strokeWidth="3" opacity={trail * .16} />}
           {drive > 0 && <path d={path} strokeWidth={6 + drive * 5} opacity={drive * .5} filter={`url(#${uid}-glow)`} />}
           <path d={path} strokeWidth={1.5 + drive * 2.8} opacity={blocked ? .65 : .22 + drive * .78} />
           <path d={`M${x2 - 30},${y2 - 5} L${x2 - 22},${y2} L${x2 - 30},${y2 + 5}`} opacity={.3 + drive * .7} />
           <text x={(x1 + x2) / 2} y={(y1 + y2) / 2 - 13} textAnchor="middle">{weight}</text>
-          <title>{`${from} → ${to}; weight ${weight}. ${blocked ? "Interrupted by declared silence." : `Emphasis: recorded upstream activity at step ${step - 1} × weight; not a measured edge flow.`}`}</title>
+          <title>{`${from} → ${to}; weight ${weight}. ${blocked ? "Interrupted by declared silence." : `Derived emphasis: upstream activity at step ${step - 1} × weight, only with recorded positive destination at step ${step}; not measured edge flow. Dim trail: prior recorded transition.`}`}</title>
         </g>;
       })}
       {network.nodes.map(({ id }) => {
         const [x, y] = positions[id];
         const value = sample?.nodes[id];
         const intensity = Math.min(1, Math.abs(value ?? 0));
-        const color = id === silenced ? "var(--red)" : silenced && id.startsWith("alternate") ? "var(--amber)" : id === "motor" && silenced ? "var(--red)" : "var(--cyan)";
-        return <g key={id} className={`viz-node${id === silenced ? " silenced-node" : ""}`} style={{ color }} data-node={id} data-activity={value}>
+        const previous = Math.min(1, Math.abs(upstream?.nodes[id] ?? 0));
+        const color = id === silenced || id === network.outputNodeId && silenced ? "var(--cf-magenta)" : "var(--cf-cyan)";
+        return <g key={id} className={`viz-node${id === silenced ? " silenced-node" : ""}${id === network.outputNodeId ? " output-node" : ""}`} style={{ color }} data-node={id} data-activity={value} data-previous-activity={upstream?.nodes[id]}>
+          {id !== silenced && previous > 0 && <circle className="node-trail" cx={x} cy={y} r="28" fill="none" stroke="currentColor" strokeWidth="3" opacity={previous * .2}><title>Faint ring: previous recorded step, not current activity.</title></circle>}
           <circle className="node-halo" cx={x} cy={y} r={27 + intensity * 17} fill="currentColor" opacity={intensity * .32} filter={`url(#${uid}-glow)`} />
           <circle className="node-halo" cx={x} cy={y} r={22 + intensity * 9} fill="currentColor" opacity={intensity * .12} />
           <circle cx={x} cy={y} r="19" fill="#091823" stroke="currentColor" strokeWidth={id === silenced ? 2.5 : 1} opacity={id === silenced ? 1 : .35 + intensity * .65} />
@@ -59,6 +65,6 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
         </g>;
       })}
     </svg>
-    <div className="network-legend"><span><i className="cyan-dot" />Recorded activity</span>{silenced && <><span><i className="red-dot" />Silenced</span><span><i className="amber-dot" />Alternate path</span></>}<span className="network-weight-note">Edges: provenance weights</span></div>
+    <div className="network-legend"><span><i className="cyan-dot" />Recorded activity</span>{silenced && <span><i className="red-dot" />Silenced</span>}<span className="network-weight-note">Faint ring: previous step · edges: declared weights</span></div>
   </figure>;
 }
