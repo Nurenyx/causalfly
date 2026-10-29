@@ -40,7 +40,7 @@ test("measured result and explanation action coexist with real recorded comparis
   assert.doesNotMatch(html, /INTERPRETED BY META AI/);
   assert.match(html, /Threshold still reached/);
   assert.match(html, /Silencing one pathway weakened the signal and made it arrive later\./);
-  for (const label of ["View detailed comparison", "View full analysis", "Inspect provenance &amp; raw evidence"]) assert.ok(html.includes(`<summary>${label}</summary>`));
+  for (const label of ["View detailed comparison", "VIEW TECHNICAL ANALYSIS", "Inspect provenance &amp; raw evidence"]) assert.ok(html.includes(`<summary>${label}</summary>`));
   assert.equal(JSON.stringify(measured), before);
 });
 

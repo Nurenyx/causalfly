@@ -6,6 +6,7 @@ import "./components/source-workspaces.css";
 import "./components/guided-workflow.css";
 import "./components/guided-experiment.css";
 import "./components/embodied-experiment.css";
+import "./components/perception-panel.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

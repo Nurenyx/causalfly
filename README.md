@@ -528,6 +528,8 @@ See [`docs/HACKATHON-DISCLOSURE.md`](docs/HACKATHON-DISCLOSURE.md) for the repos
 
 ## Security
 
+Sprint 8B adds optional **Real-world perception** inside Experiment: short video → Meta SAM 3.1 → deterministic visual-expansion measurement → explicit stimulus acceptance → approved matched runs → separate Muse interpretation. Synthetic remains the default. See [SAM perception architecture, mapping, limits, and offline/live validation](docs/sam-perception.md).
+
 Never commit:
 
 - `.env.local`;

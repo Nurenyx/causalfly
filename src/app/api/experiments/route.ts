@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       const { done, value } = await reader.read();
       if (done) break;
       size += value.byteLength;
-      if (size > 64_000) {
+      if (size > 512_000) {
         await reader.cancel();
         throw new Error("Body too large");
       }

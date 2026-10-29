@@ -1,6 +1,7 @@
 import type { ExperimentSpec } from "../experiment/types";
 import type { CompactEvidencePayload } from "../meta/compact-evidence";
 import type { ScientificAnalysis } from "../meta/schemas";
+import type { PerceptionRecord } from "../perception/contracts";
 
 export type ExecutionMode = "META LIVE" | "FAKE META CLIENT";
 
@@ -31,6 +32,7 @@ export interface RuntimeCall {
   completedAt: string;
 }
 export type MeasuredExperimentResult = Omit<WebExperimentResult, "analysis"> & {
+  perceptionInput?: PerceptionRecord;
   analysis?: ScientificAnalysis;
   runtimeCalls?: readonly RuntimeCall[];
   stimulusOverride?: StimulusOverride;
@@ -41,6 +43,7 @@ export interface StimulusOverride {
   amplitude: number;
 }
 export interface GuidedDesign {
+  perceptionInput?: PerceptionRecord;
   id: string;
   researchQuestion: string;
   mode: ExecutionMode;

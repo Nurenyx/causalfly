@@ -23,7 +23,11 @@ Write for a technically literate reader with no neuroscience background. Start t
 9. Activity arrays are compact selections: every non-zero node-activity step and the first final quiescent step
    when available (or the initial sample for an entirely quiescent trial). Omitted samples are zero-only;
    step indices and measurements are unchanged. The observation window is the original maxSteps,
-   not the number of retained samples. Compaction does not mean the engine stopped early.`;
+   not the number of retained samples. Compaction does not mean the engine stopped early.
+10. perceptionInput, when supplied, is INPUT provenance, never causal evidence. Meta SAM tracks geometry;
+    CausalFly alone calculates its apparent-size features and fixed stimulus mapping. Never alter, recalculate,
+    or replace those values. They are a visual expansion proxy, not biological angular expansion or a living
+    fly perceiving the clip. An OFFLINE SAM FIXTURE is synthetic geometry, never a live detection.`;
 
 export async function interpretEvidence(client: MetaClient, evidence: EvidencePayload) {
   assertEngineEvidence(evidence);

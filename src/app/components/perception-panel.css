@@ -1,0 +1,58 @@
+.perception-panel { margin: 1.1rem 0; border: 1px solid #244050; border-radius: 12px; background: #071522; overflow: hidden; }
+.perception-source { display: flex; gap: .65rem; align-items: center; flex-wrap: wrap; padding: .8rem 1rem; }
+.perception-source button { padding: .55rem .8rem; border: 1px solid #315267; border-radius: 6px; font-size: .8rem; color: #c4d8e4; background: #0a1e2d; }
+.perception-source button[aria-pressed=true] { border-color: #ffba42; color: #ffd080; background: #ffba4212; }
+.perception-source small { margin-left: auto; color: #a7bbc9; font-size: .7rem; }
+.perception-content { padding: 1.2rem; border-top: 1px solid #244050; }
+.perception-content h3 { font-size: 1.3rem; margin: .4rem 0 1rem; }
+.perception-upload { display: flex; align-items: end; flex-wrap: wrap; gap: .8rem; }
+.perception-upload label { display: grid; gap: .35rem; font-size: .75rem; }
+.perception-upload input { max-width: 240px; color: #dceaf3; }
+.perception-upload input:not([type=file]) { border: 1px solid #315267; border-radius: 5px; padding: .6rem; background: #0a1e2d; }
+.perception-upload small { flex-basis: 100%; color: #a7bbc9; }
+.perception-content small { display: block; font-size: .72rem; }
+.perception-error { margin: .8rem 0; color: #ffacac; }
+.perception-preview, .perception-player, .perception-offline { margin: 1rem auto; max-width: 760px; padding: .7rem; background: #020c13; border: 1px solid #765b31; border-radius: 10px; }
+.perception-preview video, .perception-player canvas, .perception-offline svg { width: 100%; max-height: 400px; display: block; object-fit: contain; }
+.perception-preview small, .perception-player > small { padding-top: .5rem; }
+.perception-player-controls { display: flex; align-items: center; gap: .7rem; margin: .65rem 0; }
+.perception-player-controls input { flex: 1; min-width: 40px; accent-color: #ffba42; }
+.perception-player-controls output { font-size: .65rem; white-space: nowrap; color: #ffd080; }
+.perception-offline strong { display: block; color: #ffba42; font-size: .75rem; }
+.perception-offline label { display: flex; align-items: center; gap: .7rem; font-size: .75rem; color: #ffd080; }
+.perception-offline input { flex: 1; }
+.perception-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding: 1rem 0; margin: .6rem 0; border-top: 1px solid #244050; }
+.perception-metrics dt { font-size: .63rem; color: #8db2c7; letter-spacing: .06em; }
+.perception-metrics dd { margin: .4rem 0 0; color: #4de5f8; font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.perception-metrics small { margin-top: .3rem; color: #a7bbc9; font-size: .7rem; }
+.perception-chain { display: flex; flex-wrap: wrap; align-items: center; gap: 1.4rem; list-style: none; margin: .2rem 0 1rem; padding: .8rem; border-radius: 6px; background: #0d2432; }
+.perception-chain li { position: relative; font-size: .65rem; color: #a7bbc9; }
+.perception-chain li + li::before { content: '→'; position: absolute; left: -1rem; color: #ffba42; }
+.perception-chain li:last-child { color: #4de5f8; }
+.perception-chain li[data-active=true] { color: #ffd080; font-weight: 700; }
+.perception-result-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.perception-result-header h3 { margin-bottom: .35rem; }
+.perception-ready { padding: .8rem 0; color: #63efba; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+.perception-ready output { color: #4de5f8; margin-left: .6rem; font-size: 1.4rem; }
+.demo-experiment[data-perception-mode=true] .demo-progress ol { grid-template-columns: repeat(5,minmax(0,1fr)); }
+.demo-experiment[data-perception-mode=true] .hero-question-action .primary-button { background: transparent; color: #c4d8e4; border: 1px solid #315267; box-shadow: none; }
+.result-validity { margin: .8rem 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1.2rem; }
+.result-validity summary { font-size: .65rem; color: #a7bbc9; }
+.result-validity p { max-width: 600px; font-size: .78rem; line-height: 1.6; margin-top: .5rem; }
+.workflow-error-notice { position: fixed; inset: 0 0 auto; z-index: 60; display: flex; align-items: center; justify-content: center; gap: .7rem 1rem; flex-wrap: wrap; padding: .7rem 1rem; border-bottom: 1px solid #e98181; background: #301b25; color: #ffe1df; box-shadow: 0 3px 12px #0008; }
+.workflow-error-notice strong { font-size: .85rem; }
+.workflow-error-notice button { font-size: .75rem; padding: .4rem .6rem; text-decoration: underline; border-radius: 4px; }
+.guided-shell { padding-top: var(--workflow-error-offset, 0px); }
+.guided-shell .demo-progress { top: var(--workflow-error-offset, 0px); }
+#perception-source, #demo-watch, #demo-question, #demo-understand { scroll-margin-top: calc(var(--workflow-error-offset, 0px) + 100px); }
+.perception-content > .primary-button { margin-bottom: .7rem; }
+.perception-details, .perception-offline-option { margin-top: .8rem; font-size: .75rem; color: #a7bbc9; }
+.perception-details p { margin: .7rem 0; line-height: 1.65; }
+.perception-details code { display: block; overflow-wrap: anywhere; color: #4de5f8; }
+.perception-details pre { max-height: 420px; overflow: auto; margin: .8rem 0; padding: .8rem; background: #020c13; font-size: .7rem; }
+.world-perception-source { padding: .7rem 1rem; color: #ffd080; background: #ffba4212; border-top: 1px solid #765b31; font-size: .72rem; }
+.world-perception-source span { display: block; margin-top: .25rem; color: #4de5f8; }
+.perception-panel button:disabled { opacity: .5; cursor: not-allowed; }
+@media (prefers-reduced-motion: no-preference) { .perception-chain li { animation: perception-arrive .5s ease both; } .perception-chain li:nth-child(2) { animation-delay: .15s; } .perception-chain li:nth-child(3) { animation-delay: .3s; } .perception-chain li:nth-child(4) { animation-delay: .45s; } }
+@keyframes perception-arrive { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: none; } }
+@media (max-width: 720px) { .perception-metrics { grid-template-columns: repeat(2, 1fr); } .perception-source small { flex-basis: 100%; margin: 0; } .perception-chain { flex-wrap: wrap; } .perception-player-controls { flex-wrap: wrap; } .perception-upload input { max-width: 100%; } }

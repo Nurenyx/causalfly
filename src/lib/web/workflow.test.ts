@@ -151,7 +151,7 @@ test("invalid web input is rejected before client construction", async () => {
 });
 
 test("route rejects malformed and oversized request bodies with safe messages", async () => {
-  for (const body of ["{", JSON.stringify({ researchQuestion: "x".repeat(65_000) })]) {
+  for (const body of ["{", JSON.stringify({ researchQuestion: "x".repeat(512_001) })]) {
     const response = await POST(new Request("http://localhost/api/experiments", { method: "POST", body }));
     assert.equal(response.status, 400);
     assert.deepEqual(await response.json(), { ok: false, kind: "validation", error: "Submit a JSON object containing a research question of at most 8,000 characters." });
