@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3132",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "test": "tsx --conditions=react-server --test src/lib/experiment/*.test.ts src/lib/meta/*.test.ts src/lib/perception/*.test.ts src/lib/web/*.test.ts src/lib/sources/*.test.ts && tsx --test src/app/components/*.test.tsx",
@@ -29,13 +29,14 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@tailwindcss/turbopack": "^4",
+    "@tailwindcss/postcss": "4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "0.186.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
+    "postcss": "8.5.23",
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5"

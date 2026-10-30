@@ -4,11 +4,15 @@ Intended hostname: **causalfly.nurenyx.ai**. This guide prepares a deployment; n
 
 ## Deployment contract
 
-Use a managed Node.js Web App with Next.js, repository root as application root, and Node **24.x**, matching the tested local major and package engines. Install with `npm ci`, build with `npm run build`, start with `npm start`. Keep `.next` and `public` in the release. Do not use static export: server routes are required. Next uses the platform-injected `PORT`; do not set a custom public listening port. No Docker, custom server, inbound WebSocket listener, or background worker is required. Build currently downloads Google fonts and needs outbound internet.
+Use a managed Node.js Web App with Next.js, repository root as application root, and Node **24.x**, matching the tested local major and package engines. Install with `npm ci`, build with `npm run build` (executes `next build --webpack`), start with `npm start`. Keep `.next` and `public` in the release. Do not use static export: server routes are required. Next uses the platform-injected `PORT`; do not set a custom public listening port. No Docker, custom server, inbound WebSocket listener, or background worker is required. Build currently downloads Google fonts and needs outbound internet.
 
 For a future human-approved deployment, connect the GitHub repository in Hostinger, inspect the selected branch and commit, and select the reviewed release explicitly. The checkout for this review is `feat/sprint-11a-production-alpha`; the supplied brief's older branch name does not describe this checkout. GitHub sees committed content only: this uncommitted review cannot be deployed from GitHub yet. Avoid enabling automatic deployment from a working sprint branch. Add the hostname and complete DNS/TLS setup through the hosting control panel.
 
 Provider references checked 2026-10-30: [managed Node.js/GitHub deployment](https://www.hostinger.com/support/how-to-deploy-a-nodejs-website-in-hostinger/), [Node version selection](https://www.hostinger.com/support/how-to-select-the-node-js-version-for-your-application/). Account plan, deployment permissions, and platform resource/timeout limits still require verification in hPanel.
+
+## Production bundler and CSS
+
+Keep Hostinger's Build Command as `npm run build`. Next.js 16.4.3 production builds explicitly use webpack because [Hostinger requires webpack for Next.js 16.3.3 and newer](https://www.hostinger.com/support/how-to-fix-next-js-16-turbopack-build-errors-on-hostinger/). The former Turbopack-only CSS loader is replaced with the official Tailwind v4 PostCSS plugin in `postcss.config.mjs`; global Tailwind imports and standard Next CSS Modules remain unchanged. `npm run dev` continues using Next's default Turbopack on manual port 3132. Node stays 24.x. Ensure build-time devDependencies are installed, including `@tailwindcss/postcss` and `postcss`.
 
 ## Environment inventory
 
