@@ -110,7 +110,7 @@ test("injected SAM success records track identity and carries the perception ID 
       provenance: { ...fixture.provenance, parser: "@meta-sam/parser@0.1.0", warnings: ["test_warning"], responseId: "response-fixture", requestId: undefined } }),
   });
   const p = await response.json(); assert.equal(p.ok, true);
-  assert.deepEqual(types(p.diagnostics), ["run.created", "sam.requested", "warning.recorded", "sam.completed", "stimulus.derived"]);
+  assert.deepEqual(types(p.diagnostics), ["run.created", "meta.scene.selected", "sam.requested", "warning.recorded", "sam.completed", "stimulus.derived"]);
   assert.doesNotMatch(JSON.stringify(p.diagnostics), /PRIVATE_VIDEO_BYTES|PRIVATE_FILENAME|PRIVATE_PROVIDER_OUTPUT|receipt|overlay/);
   const d = await runGuidedAction({ action: "design", researchQuestion: question, perceptionId: p.perception.id, perceptionReceipt: p.receipt }, deps); assert.ok(d.ok);
   const r = await measure(d.design.id);

@@ -5,6 +5,7 @@ import type { PerceptionRecord } from "../perception/contracts";
 
 export type RunEventType =
   | "run.created" | "question.submitted"
+  | "meta.scene.requested" | "meta.scene.completed" | "meta.scene.failed" | "meta.scene.selected"
   | "sam.requested" | "sam.completed" | "sam.no_match" | "sam.failed"
   | "stimulus.derived" | "stimulus.accepted"
   | "meta.design.requested" | "meta.design.completed" | "meta.design.rejected" | "meta.design.failed"
@@ -18,7 +19,7 @@ export interface RunEvent {
   readonly type: RunEventType;
   readonly at: string;
   /** Allowlisted identifiers and codes only; never provider bodies, errors or media. */
-  readonly metadata: Readonly<Partial<Record<"code" | "model" | "mode" | "perceptionId" | "trackedFrames" | "amplitude" | "designId" | "parentRunId", string | number>>>;
+  readonly metadata: Readonly<Partial<Record<"code" | "model" | "mode" | "perceptionId" | "trackedFrames" | "amplitude" | "designId" | "parentRunId" | "sceneId" | "concept" | "provider" | "selection" | "candidateCount" | "samResultId", string | number>>>;
 }
 
 export interface RunManifest {
@@ -29,7 +30,7 @@ export interface RunManifest {
   readonly createdAt: string;
   readonly measuredAt?: string;
   readonly updatedAt: string;
-  readonly models: readonly { task: "design" | "interpret" | "perceive"; model: string; mode: string }[];
+  readonly models: readonly { task: "design" | "interpret" | "perceive" | "scene"; model: string; mode: string }[];
   readonly perception?: PerceptionRecord;
   /** Exact stable serialized specification, independent of display IDs. */
   readonly spec?: ExperimentSpec;

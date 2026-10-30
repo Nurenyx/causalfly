@@ -55,4 +55,46 @@
 .perception-panel button:disabled { opacity: .5; cursor: not-allowed; }
 @media (prefers-reduced-motion: no-preference) { .perception-chain li { animation: perception-arrive .5s ease both; } .perception-chain li:nth-child(2) { animation-delay: .15s; } .perception-chain li:nth-child(3) { animation-delay: .3s; } .perception-chain li:nth-child(4) { animation-delay: .45s; } }
 @keyframes perception-arrive { from { opacity: 0; transform: translateX(-5px); } to { opacity: 1; transform: none; } }
+.meta-scene { margin-top: .7rem; min-width: 0; }
+.meta-role-chain { display: flex; flex-wrap: wrap; gap: 1rem; list-style: none; margin: .5rem 0; padding: .6rem; background: #0d2432; border-radius: 6px; }
+.meta-role-chain li { font-size: .65rem; position: relative; }
+.meta-role-chain li + li::before { content: '→'; color: #ffba42; position: absolute; left: -.8rem; }
+.meta-role-chain small { color: #a7bbc9; margin-top: .15rem; }
+.scene-status { color: #ffd080; font-size: .7rem; font-weight: 700; margin: .5rem 0; }
+.scene-summary { font-size: .75rem; color: #c4d8e4; margin: .5rem 0; }
+.scene-candidates { display: grid; gap: .4rem; margin: .5rem 0; }
+.scene-candidates label { display: flex; align-items: start; gap: .6rem; border: 1px solid #315267; border-radius: 6px; padding: .6rem; cursor: pointer; }
+.scene-candidates label[data-selected=true] { background: #ffba4212; border-color: #ffba42; }
+.scene-candidates input { accent-color: #ffba42; margin-top: .15rem; }
+.scene-candidates strong { font-size: .8rem; }
+.scene-candidates small { color: #a7bbc9; line-height: 1.4; margin-top: .2rem; }
+.scene-limitations { font-size: .65rem; color: #a7bbc9; margin: .5rem 0; }
+.scene-manual { display: grid; gap: .35rem; font-size: .75rem; margin-block: .5rem; }
+.scene-manual input { min-width: 0; padding: .5rem; color: #dceaf3; border: 1px solid #315267; background: #0a1e2d; border-radius: 5px; }
+.meta-scene .scene-track { display: block; width: 100%; margin-block: .6rem; }
+.perception-offline-option button, .perception-offline-option a { display: block; margin-top: .6rem; }
+.perception-offline-option a { text-decoration: underline; }
+.perception-local-media { margin-top: .7rem; font-size: .65rem; color: #a7bbc9; }
+.research-cockpit .perception-compact[data-scene=true][data-success=false] { flex-shrink: 0; max-height: calc(100% - 130px); }
+.research-cockpit .embodied-world-column:has(.perception-compact[data-scene=true][data-success=false]) .embodied-arena { min-height: 100px; }
+.research-cockpit .perception-compact[data-scene=true][data-success=false] .perception-result-header { display: none; }
+.research-cockpit .meta-role-chain { gap: 1rem; padding: 5px; margin-top: 0; }
+.research-cockpit .meta-role-chain li { font-size: 8px; }
+.research-cockpit .meta-role-chain small { font-size: 8px; }
+.research-cockpit .scene-summary { font-size: 10px; margin-block: 4px; }
+.research-cockpit .perception-compact .scene-summary { display: none; }
+.research-cockpit .scene-candidates { max-height: 140px; overflow-y: auto; }
+.research-cockpit .scene-candidates label { padding: 6px; }
+.research-cockpit .scene-candidates strong { font-size: 11px; }
+.research-cockpit .scene-candidates small { font-size: 9px; }
+.research-cockpit .meta-scene > .eyebrow { font-size: 8px; overflow-wrap: anywhere; }
+.research-cockpit .meta-scene > .text-button { font-size: 9px; padding: 3px 0; display: block; }
+.research-cockpit .meta-scene > .scene-track { min-height: 32px; font-size: 10px; margin-block: 5px; }
+.research-cockpit .scene-status { font-size: 9px; margin-block: 5px; }
+.research-cockpit .scene-limitations { font-size: 8px; margin-block: 4px; }
+@media (max-width: 600px) {
+  .research-cockpit .embodied-world-column:has(.perception-compact[data-scene=true][data-success=false]) { height: auto; min-height: 430px; }
+  .research-cockpit .perception-compact[data-scene=true][data-success=false] { max-height: none; }
+  .research-cockpit .embodied-world-column:has(.perception-compact[data-scene=true][data-success=false]) .embodied-arena { min-height: 200px; }
+}
 @media (max-width: 720px) { .perception-metrics { grid-template-columns: repeat(2, 1fr); } .perception-source small { flex-basis: 100%; margin: 0; } .perception-chain { flex-wrap: wrap; } .perception-player-controls { flex-wrap: wrap; } .perception-upload input { max-width: 100%; } }

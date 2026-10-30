@@ -11,7 +11,8 @@
     "sam:smoke": "tsx --conditions=react-server scripts/sam-smoke.ts",
     "experiment:demo": "tsx scripts/experiment-demo.ts",
     "experiment:ai-demo": "tsx --conditions=react-server scripts/experiment-ai-demo.ts",
-    "meta:smoke": "tsx --conditions=react-server scripts/meta-smoke.ts"
+    "meta:smoke": "tsx --conditions=react-server scripts/meta-smoke.ts",
+    "meta:scene-smoke": "tsx --conditions=react-server scripts/meta-scene-smoke.ts"
   },
   "dependencies": {
     "@meta-sam/parser": "0.1.0",

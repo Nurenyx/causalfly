@@ -8,13 +8,11 @@ import styles from "./live-session.module.css";
 import { liveEventSummary } from "@/lib/web/live-event-summary";
 
 type Status = ReturnType<typeof sessionStatus>;
-export function LiveSessionHeader({ snapshot, status, onConnect, onDisconnect }: { snapshot: FruitFlySnapshot; status: Status; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
+export function LiveSessionHeader({ snapshot, status }: { snapshot: FruitFlySnapshot; status: Status; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
   const t = snapshot.evidence?.telemetry;
-  const activeConnection = status.connected || snapshot.state === "CONNECTING";
   return <section className={styles.sessionBar} data-state={snapshot.state === "ERROR" ? "error" : status.historical ? "historical" : status.live ? "live" : "waiting"} aria-label="FruitFly XR session status">
     <div className={styles.sessionIdentity}><span className={styles.microLabel}>FRUITFLY XR <span> / Connectome simulation</span></span><div className={styles.sessionTitle}><span className={styles.liveBadge} role="status"><i />{snapshot.state === "ERROR" ? "ERROR" : status.historical ? "LAST SNAPSHOT" : status.live ? "LIVE" : "WAITING FOR DATA"}</span><span className={styles.connection} data-connected={status.connected} data-error={snapshot.state === "ERROR"}><i />{status.connected ? "CONNECTED" : snapshot.state}</span></div><p title={t?.sessionId}>Session <code>{t?.sessionId ?? "Awaiting first frame"}</code></p></div>
     <dl className={styles.sessionMetrics}><div><dt>Model time</dt><dd>{t ? <>{number(t.simulationMs)}<small> ms</small></> : "—"}</dd></div><div><dt>Simulation tick</dt><dd>{t ? number(t.neuralTick) : "—"}</dd></div><div><dt>Sequence</dt><dd>{t ? number(t.sequence) : "—"}</dd></div><div><dt>Stream health</dt><dd className={styles.healthLabel}>{status.historical ? "No current frames" : status.live ? t && (t.droppedDisplayFrames || t.droppedSubscriberMessages || !t.inputFresh) ? "Check diagnostics" : "Receiving data" : status.connected ? "Waiting for frames" : snapshot.state === "ERROR" ? "Connection error" : "Offline"}</dd></div></dl>
-    <button type="button" className={styles.connectionButton} onClick={activeConnection ? onDisconnect : onConnect}>{activeConnection ? snapshot.state === "CONNECTING" ? "Cancel" : "Disconnect" : "Connect FruitFly XR"}</button>
   </section>;
 }
 
@@ -72,7 +70,6 @@ export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConn
     setTransport({ connected: status.connected, sessionId, reconnectedAt: sessionId !== transport.sessionId ? null : status.connected && !transport.connected && sessionId ? now : transport.reconnectedAt });
   }
   return <div className={styles.session}>
-    <ol className="live-value-cues" aria-label="Live Connectome workflow"><li><strong>OBSERVE</strong>Watch simulated neural activity.</li><li><strong>CAPTURE</strong>Retain the interesting event.</li><li><strong>UNDERSTAND</strong>Ask what happened and what to test next.</li></ol>
     <LiveSessionHeader snapshot={snapshot} status={status} onConnect={onConnect} onDisconnect={onDisconnect} />
     <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{status.historical && receivedAt ? `LAST RECEIVED ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{frames.length} / {LIVE_FRAME_LIMIT} received frames</span></div>
     {event && <section className="live-event-highlight" aria-label="Retained event"><span className="eyebrow">{event.label}</span><p>{event.headline}</p><small>Received simulation frames only · gaps unobserved · no causal claim</small><button type="button" className="text-button" onClick={onInterpret ?? onEvidence}>Understand this event ↗</button></section>}

@@ -1,0 +1,79 @@
+{
+  "checks": [
+    {
+      "state": "video-selected",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "video-selected",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "video-selected",
+      "width": 390,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "candidates",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "candidates",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "candidates",
+      "width": 390,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "tracked-stimulus",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "tracked-stimulus",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "tracked-stimulus",
+      "width": 390,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "completed-interpretation",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "completed-interpretation",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "completed-interpretation",
+      "width": 390,
+      "noHorizontalOverflow": true
+    }
+  ],
+  "sceneCallsIntercepted": 1,
+  "samCallsIntercepted": 2,
+  "paidProviderCalls": 0,
+  "screenshots": 5,
+  "errors": [],
+  "posts": [
+    "/api/perception/scene",
+    "/api/perception",
+    "/api/perception/scene",
+    "/api/perception",
+    "/api/perception",
+    "/api/experiments",
+    "/api/experiments",
+    "/api/experiments"
+  ]
+}

@@ -7,6 +7,8 @@ import { nodeLabel, signalValue } from "@/lib/web/display-labels";
 import { MetaRequestLabel } from "./meta-request-label";
 import { DesignReview } from "./guided-workflow";
 import { ExperimentTrust } from "./experiment-trust";
+import type { SceneRecord } from "@/lib/perception/scene";
+import { InfoTooltip, cockpitHelp } from "./info-tooltip";
 
 function excerpt(value: string, length = 130) {
   if (value.length <= length) return value;
@@ -14,18 +16,22 @@ function excerpt(value: string, length = 130) {
 }
 
 /** The scientist is a presentation of the existing explicit design/interpret actions. */
-export function CockpitScientist({ design, result, mode, pending, question, strength, perception, perceptionMode, onRun, onExplain, onNext, onAnalysis }: {
+export function CockpitScientist({ design, result, mode, pending, question, strength, perception, perceptionMode, scene, inputStale = false, questionEditing = false, onDesign, onRun, onExplain, onNext, onAnalysis }: {
   design?: GuidedDesign; result: MeasuredExperimentResult | null; mode: ExecutionMode | null;
   pending: string; question: string; strength: number; perception?: PerceptionRecord; perceptionMode: boolean;
+  scene?: SceneRecord;
+  inputStale?: boolean; questionEditing?: boolean; onDesign?: () => void;
   onRun: () => void; onExplain: () => void; onNext: (question: string) => void; onAnalysis: () => void;
 }) {
   const busy = Boolean(pending), live = mode === "META LIVE", analysis = result?.analysis;
   const unaccepted = perceptionMode && perception && perception.id !== design?.perceptionInput?.id;
   let action: ReactNode;
-  if (perceptionMode && (!perception || unaccepted)) {
-    action = <p className="scientist-direction">{perception ? "Use the measured stimulus in the world panel to prepare this test." : "Choose a short clip in the world panel, then analyze with SAM 3.1."}</p>;
+  if (questionEditing) {
+    action = <p className="scientist-direction">Use this question to save it. Then request a Meta design.</p>;
+  } else if (perceptionMode && (!perception || unaccepted)) {
+    action = <p className="scientist-direction">{perception ? "Use the measured stimulus in the world panel to prepare this test." : scene ? "Choose a concept, then explicitly track it with SAM 3.1." : "Choose a short clip, then Discover with Meta in the world panel."}</p>;
   } else if (!design) {
-    action = <><button className="primary-button" type="submit" form="cockpit-question-form" disabled={busy || !question.trim() || !mode} aria-busy={pending === "design"}><MetaRequestLabel pending={pending === "design"} task="design">Design with Meta ↗</MetaRequestLabel></button><small>Explicit request · review before running</small></>;
+    action = <><button className="primary-button" type="button" onClick={onDesign} disabled={busy || !question.trim() || !mode} aria-busy={pending === "design"}><MetaRequestLabel pending={pending === "design"} task="design">{inputStale ? "Redesign with Meta ↗" : "Design with Meta ↗"}</MetaRequestLabel></button><small>{inputStale ? "Input changed · review a new design before running" : "Explicit request · review before running"}</small></>;
   } else if (!result) {
     action = <div className="embodied-run-action"><button className="primary-button" type="button" disabled={busy} aria-busy={pending === "run"} onClick={onRun}>{pending === "run" ? "Running matched conditions…" : "Approve & Run Experiment"}</button><small>Same input · only the declared pathway changes</small></div>;
   } else if (!analysis) {
@@ -36,10 +42,11 @@ export function CockpitScientist({ design, result, mode, pending, question, stre
   return <aside className="cockpit-scientist" id="demo-understand" aria-label="Meta AI Scientist" aria-busy={pending === "design" || pending === "interpret"}>
     <header><span className="scientist-glyph" aria-hidden="true">✧</span><div><h2>META AI SCIENTIST</h2><p>{live ? "MUSE / ON DEMAND" : mode ? "OFFLINE / FIXED TEMPLATE" : "CONFIGURATION NEEDED"}</p></div></header>
     <div className="scientist-sections">
+      {perceptionMode && !design && <section><span className="cockpit-kicker">META / SCENE UNDERSTANDING</span><h3>{scene ? `${scene.result.candidates.length} trackable concept${scene.result.candidates.length === 1 ? "" : "s"}.` : "Understand the scene."}</h3><p>{scene ? scene.mode === "META LIVE" ? "Muse Spark proposed visible objects. You choose what SAM tracks." : "OFFLINE SCENE-UNDERSTANDING FIXTURE · no live Meta response." : "Muse Spark proposes objects. SAM tracks your selection. CausalFly measures change."}</p></section>}
       {perception && !analysis && <section className="scientist-perception"><span className="cockpit-kicker">PERCEPTION / {perception.mode === "SAM LIVE" ? "META SAM 3.1" : "OFFLINE GEOMETRY"}</span><p>{perception.mode === "SAM LIVE" ? "SAM tracked the object." : "Fixture track retained; no live detection."} CausalFly derived a <strong className="cyan-text">{perception.measurement.amplitude.toFixed(3)}</strong> stimulus.</p></section>}
-      {!result && <section id="demo-design"><span className="cockpit-kicker">EXPERIMENT DESIGN</span><h3>{design ? `Silence ${nodeLabel(design.spec.perturbation.targetNodeId)}.` : "One question. One controlled test."}</h3><p>{design ? "Matched input. Intact control vs one silenced pathway." : "Meta proposes the intervention. You approve. CausalFly measures."}</p>{design && <><span className="scientist-validation">✓ DESIGN CHECKED</span><details className="cockpit-design-details"><summary>Review Meta design & settings</summary><DesignReview design={design} stimulusAmplitude={strength} busy={busy} onRun={onRun} /></details></>}</section>}
-      {result && <section className="scientist-meaning"><span className="cockpit-kicker">{analysis ? live ? "INTERPRETED WITH META MUSE" : "OFFLINE AI TEMPLATE" : "ENGINE MEASUREMENT"}</span><h3>{analysis ? "Why it matters" : "What changed?"}</h3><p>{analysis ? excerpt(analysis.interpretation) : resultSummary(result).headline}</p><small>{analysis ? live ? "Meta interpretation · not a measurement" : "Offline template · not a live Meta response" : "Measured facts · this synthetic test only"}</small></section>}
-      {analysis && <section className="scientist-next next-experiment"><span className="cockpit-kicker">{live ? "NEXT TEST PROPOSED BY META MUSE" : "OFFLINE NEXT-TEST TEMPLATE"}</span><h3>What should we test next?</h3><p className="next-question">{analysis.nextExperiment.researchQuestion}</p></section>}
+      {!result && <section id="demo-design"><span className="cockpit-kicker">META / EXPERIMENT DESIGN</span><h3>{design ? `Silence ${nodeLabel(design.spec.perturbation.targetNodeId)}.` : inputStale ? "Input changed. Redesign required." : "One question. One controlled test."}</h3><p>{design ? "Matched input. Intact control vs one silenced pathway." : "Meta proposes the intervention. You approve. CausalFly measures."}</p>{design && <><span className="scientist-validation">✓ DESIGN CHECKED</span><details className="cockpit-design-details"><summary>Review Meta design & settings</summary><DesignReview design={design} stimulusAmplitude={strength} busy={busy} onRun={onRun} hideRunAction /></details></>}</section>}
+      {result && <section className="scientist-meaning"><span className="cockpit-kicker">{analysis ? live ? "META / EVIDENCE INTERPRETATION" : "OFFLINE AI TEMPLATE" : "ENGINE MEASUREMENT"}</span><h3>{analysis ? "Why it matters" : "What changed?"}</h3><p>{analysis ? excerpt(analysis.interpretation) : resultSummary(result).headline}</p><small>{analysis ? live ? "Meta interpretation · not a measurement" : "Offline template · not a live Meta response" : "Measured facts · this synthetic test only"}</small></section>}
+      {analysis && <section className="scientist-next next-experiment"><span className="cockpit-kicker">{live ? "META / NEXT EXPERIMENT" : "OFFLINE NEXT-TEST TEMPLATE"}</span><h3>What should we test next?</h3><p className="next-question">{analysis.nextExperiment.researchQuestion}</p></section>}
       {!design && !perception && <div className="scientist-loop" aria-label="Experiment roles"><div><span>01</span><p><strong>Meta designs</strong><small>A testable intervention</small></p></div><div><span>02</span><p><strong>Engine measures</strong><small>Matched control + intervention</small></p></div><div><span>03</span><p><strong>Meta interprets</strong><small>Evidence → next question</small></p></div></div>}
     </div>
     <div className="scientist-action">{action}</div>
@@ -56,7 +63,7 @@ export function CockpitReadouts({ result, design, perceived }: { result: Measure
   const matched = validation?.sameInputs && validation.sameParameters && validation.interventionApplied;
   const run = result?.run_id ?? design?.run_id ?? diagnostics?.manifest.run_id;
   const timeline = [
-    ["PERCEIVE", perceived, perceived ? "Retained track" : "Synthetic input"],
+    ["INPUT", perceived, perceived ? "Retained track" : "Synthetic · no perception required"],
     ["DESIGN", Boolean(design), "Validated design"],
     ["RUN", Boolean(result), "Engine measurement"],
     ["INTERPRET", Boolean(result?.analysis), "AI interpretation"],
@@ -69,7 +76,7 @@ export function CockpitReadouts({ result, design, perceived }: { result: Measure
       <article><h3>OUTCOME</h3><strong className="readout-outcome">{evidence ? evidence.perturbed.outcome === "THRESHOLD_REACHED" ? evidence.control.outcome === "THRESHOLD_REACHED" ? "Threshold still reached" : "Threshold reached" : "Threshold not reached" : "Awaiting test"}</strong><small>{evidence ? evidence.deltas.outcomeChanged ? "Changed under intervention" : "Unchanged" : "Control + intervention required"}</small></article>
       <article className="readout-trust"><h3>EXPERIMENT TRUST</h3><p className={matched ? "validated-text" : ""}>{result ? matched ? "✓ Matched conditions" : "◇ Inspect conditions" : "○ Awaiting matched runs"}</p><p className={validation?.measurementsImmutable ? "validated-text" : ""}>{result ? validation?.measurementsImmutable ? "✓ Engine measured" : "◇ Engine evidence available" : "○ Awaiting engine measurement"}</p><small>◇ {result?.analysis ? "AI interpretation retained" : "AI interpretation not requested"}</small><small>⚠ REAL-FLY VALIDATION — Not established</small></article>
     </div>
-    <footer className="cockpit-recorder"><div className="cockpit-run"><span>FLIGHT RECORDER</span><code title={run}>{run ?? "Run ID assigned on explicit request"}</code></div><ol aria-label="Run timeline">{timeline.map(([label, complete, detail]) => <li key={label} data-complete={complete}><span>{complete ? "✓" : "○"}</span><strong>{label}</strong><small>{complete ? detail : label === "PERCEIVE" && !design?.perceptionInput ? "Optional" : "Pending"}</small></li>)}</ol></footer>
+    <footer className="cockpit-recorder"><div className="cockpit-run"><span>FLIGHT RECORDER <InfoTooltip label="Flight Recorder">{cockpitHelp.recorder}</InfoTooltip></span><code title={run}>{run ?? "Run ID assigned on explicit request"}</code></div><ol aria-label="Run timeline">{timeline.map(([label, complete, detail]) => <li key={label} data-complete={complete}><span>{complete ? "✓" : "○"}</span><strong>{label}</strong><small>{complete ? detail : label === "INPUT" && !design?.perceptionInput ? "Optional" : "Pending"}</small></li>)}</ol></footer>
     {result?.diagnostics && <details className="cockpit-trust-details"><summary>VIEW PROVENANCE / VALIDATION & DIAGNOSTICS</summary><ExperimentTrust diagnostics={result.diagnostics} /></details>}
   </section>;
 }

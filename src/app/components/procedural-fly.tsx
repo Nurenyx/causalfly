@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { CatmullRomCurve3, DoubleSide, Quaternion, Shape, Vector2, Vector3, type Group } from "three";
+import { Box3, CatmullRomCurve3, DoubleSide, Quaternion, Shape, Vector2, Vector3, type Group } from "three";
+import { canonicalFlyTransform } from "@/lib/web/fly-model";
 
 type Point = [number, number, number];
 const CUTICLE = "#554334", JOINT = "#8d7450";
@@ -36,17 +37,25 @@ function Wing({ side, response }: { side: number; response: number }) {
 export function ProceduralFly({ x, output }: { x: number; output: number | null }) {
   const response = output ?? 0;
   const body = useRef<Group>(null);
+  const geometry = useRef<Group>(null);
+  useLayoutEffect(() => {
+    if (!geometry.current) return;
+    geometry.current.scale.setScalar(1); geometry.current.position.set(0, 0, 0);
+    geometry.current.updateWorldMatrix(true, true);
+    const { scale, position } = canonicalFlyTransform(new Box3().setFromObject(geometry.current, true).applyMatrix4(geometry.current.parent!.matrixWorld.clone().invert()));
+    geometry.current.scale.setScalar(scale); geometry.current.position.copy(position);
+  }, []);
   const abdomen = useMemo(() => [[0, 0], [.25, .08], [.36, .25], [.39, .48], [.37, .7], [.3, .94], [.19, 1.17], [.07, 1.36], [0, 1.42]].map(([r, z]) => new Vector2(r, z)), []);
   useFrame(({ invalidate }, delta) => {
     if (!body.current) return;
     const blend = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 1 : 1 - Math.exp(-Math.min(delta, .1) * 10);
-    const targetY = .76 + response * .18, targetZ = response * .4;
+    const targetY = response * .18, targetZ = response * .4;
     body.current.position.y += (targetY - body.current.position.y) * blend;
     body.current.position.z += (targetZ - body.current.position.z) * blend;
     body.current.rotation.x += (response * -.1 - body.current.rotation.x) * blend;
     if (Math.abs(targetY - body.current.position.y) + Math.abs(targetZ - body.current.position.z) > .001) invalidate();
   });
-  return <group ref={body} name="procedural-fly" position={[x, .76, 0]}>
+  return <group ref={body} name="procedural-fly" position={[x, 0, 0]}><group ref={geometry}>
     <mesh castShadow name="thorax" position={[0, .03, -.32]} scale={[.43, .4, .55]}><sphereGeometry args={[1, 40, 28]} /><meshStandardMaterial color="#71664f" roughness={.72} /></mesh>
     <mesh castShadow name="head" position={[0, .08, -1]} scale={[.39, .31, .32]}><sphereGeometry args={[1, 36, 24]} /><meshStandardMaterial color="#978464" roughness={.67} /></mesh>
     <mesh castShadow name="abdomen" position={[0, -.02, .06]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1, .8]}><latheGeometry args={[abdomen, 48]} /><meshStandardMaterial color="#90744f" roughness={.62} /></mesh>
@@ -73,5 +82,5 @@ export function ProceduralFly({ x, output }: { x: number; output: number | null 
       {[-.56, -.36, -.15].map(z => <Rod key={z} from={[side * .2, .34, z]} to={[side * .32, .53, z + .03]} radius={.005} />)}
     </group>)}
     <mesh position={[0, -.15, -1.22]} rotation={[.35, 0, 0]}><capsuleGeometry args={[.065, .14, 4, 12]} /><meshStandardMaterial color="#65543e" roughness={.65} /></mesh>
-  </group>;
+  </group></group>;
 }

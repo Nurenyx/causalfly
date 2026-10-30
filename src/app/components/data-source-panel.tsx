@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { dataSources, type DataSourceKind, type FruitFlySnapshot } from "@/lib/sources/contracts";
 import { createLiveConnection, emptyLiveSession, receiveSnapshot } from "@/lib/sources/live-session";
 import { Badge } from "./workspace-ui";
@@ -27,9 +27,12 @@ export function DataSourcePanel({ source, snapshot, disabled, onSelect, onConnec
   source: DataSourceKind; snapshot: FruitFlySnapshot; disabled: boolean;
   onSelect: (source: DataSourceKind) => void; onConnect: () => void; onDisconnect: () => void;
 }) {
-  const external = source === "FRUITFLY_XR";
+  const [expanded, setExpanded] = useState(false);
+  const sourcePanelId = useId();
   const active = ["CONNECTING", "CONNECTED", "DATA RECEIVED"].includes(snapshot.state);
-  return <div className="source-card source-picker">
+  return <div className="source-card source-picker" data-expanded={expanded}>
+    <button className="mobile-source-toggle" type="button" aria-expanded={expanded} aria-controls={sourcePanelId} onClick={() => setExpanded(!expanded)}>Sources & connection <span>{dataSources[source].label} · {active ? "XR connected" : "XR disconnected"} {expanded ? "−" : "+"}</span></button>
+    <div id={sourcePanelId} className="source-panel-controls">
     <fieldset disabled={disabled} aria-describedby="source-scope-note">
       <legend className="sidebar-caption">DATA SOURCE</legend>
       {Object.values(dataSources).map((item) => {
@@ -43,7 +46,8 @@ export function DataSourcePanel({ source, snapshot, disabled, onSelect, onConnec
         </label>;
       })}
     </fieldset>
-    {external && <div className="source-connection"><p role="status">{snapshot.message}</p><button type="button" className="secondary-button" onClick={active ? onDisconnect : onConnect}>{snapshot.state === "CONNECTING" ? "Cancel connection" : active ? "Disconnect" : snapshot.state === "ERROR" ? "Retry connection" : "Connect FruitFly XR"}</button><p>Read-only simulated dynamics. Not living-fly recordings.</p></div>}
-    <p id="source-scope-note" className="source-scope-note">Synthetic: run a controlled test. FruitFly XR: observe a connectome simulation.</p>
+    <div className="source-connection" aria-label="FruitFly XR connection"><button disabled={disabled} type="button" className="secondary-button" onClick={active ? onDisconnect : onConnect}>{snapshot.state === "CONNECTING" ? "Cancel connection" : active ? "Disconnect" : "Connect FruitFly XR"}</button><details><summary>Connection details</summary><p role="status">{snapshot.message}</p><p>Read-only simulated dynamics. Not living-fly recordings.</p></details></div>
+    <p id="source-scope-note" className="source-scope-note">Controlled tests or observational simulation data.</p>
+    </div>
   </div>;
 }

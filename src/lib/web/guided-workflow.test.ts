@@ -13,6 +13,31 @@ function fixture() {
   return { calls, deps: { env: {}, createClient: () => client } };
 }
 
+test("explicit synthetic draft is supplied to Meta, enforced on the validated design, and shared by both runs", async () => {
+  const fake = new FakeMetaClient(); let supplied = "";
+  const d = await runGuidedAction({ action: "design", researchQuestion: "Does input affect output?", stimulusAmplitude: .6 }, {
+    env: {}, createClient: () => ({ mode: fake.mode, complete: request => { supplied = request.inputJson; return fake.complete(request); } }),
+  });
+  assert.ok(d.ok); assert.deepEqual(JSON.parse(supplied).requestedStimulus, { source: "user-selected-synthetic", amplitude: .6 });
+  assert.equal(d.design.spec.stimulus.amplitude, .6); assert.equal(d.design.stimulusOverride?.originalAmplitude, 1);
+  assert.equal(d.result, undefined, "Design is not execution");
+  const run = await runGuidedAction({ action: "run", id: d.design.id }, { createClient: () => assert.fail("Engine must not call Meta") });
+  assert.ok(run.ok && run.result); assert.equal(run.result.spec.stimulus.amplitude, .6);
+  assert.equal(run.result.measuredEvidence.control.outputPeakActivity, .6);
+  assert.equal(run.result.measuredEvidence.perturbed.outputPeakActivity, .3);
+  assert.ok(Object.values(run.result.measuredEvidence.provenance.matchedConditions).every(Boolean));
+  assert.ok(d.design.diagnostics?.events.some(e => e.type === "stimulus.accepted" && e.metadata.amplitude === .6));
+});
+
+test("invalid draft and attempted SAM amplitude overrides fail before model construction", async () => {
+  for (const amplitude of [-.1, 1.1, .333, "0.6"]) {
+    const r = await runGuidedAction({ action: "design", researchQuestion: "test", stimulusAmplitude: amplitude }, { createClient: () => assert.fail("Invalid input must not call Meta") });
+    assert.equal(r.ok, false);
+  }
+  const r = await runGuidedAction({ action: "design", researchQuestion: "test", perceptionId: "00000000-0000-4000-8000-000000000001", stimulusAmplitude: .6 }, { createClient: () => assert.fail("Measured input is locked") });
+  assert.equal(r.ok, false);
+});
+
 test("design, approved run and explicit interpretation are isolated; repeated requests are idempotent", async () => {
   const { calls, deps } = fixture();
   const designed = await runGuidedAction({ action: "design", researchQuestion: "Does silencing primary_a change output?" }, deps);

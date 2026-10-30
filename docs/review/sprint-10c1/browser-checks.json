@@ -1,0 +1,120 @@
+{
+  "checks": [
+    {
+      "state": "initial",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "initial",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "initial",
+      "width": 390,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "shared-shell",
+      "width": 1920,
+      "identicalNavigationAndBackgrounds": true
+    },
+    {
+      "state": "shared-shell",
+      "width": 1440,
+      "identicalNavigationAndBackgrounds": true
+    },
+    {
+      "state": "shared-shell",
+      "width": 390,
+      "identicalNavigationAndBackgrounds": true
+    },
+    {
+      "state": "question-edit",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "question-edit",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "question-edit",
+      "width": 390,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "measured-adjusted-input",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "measured-adjusted-input",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "measured-adjusted-input",
+      "width": 390,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome",
+      "width": 1920,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome",
+      "width": 1440,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome",
+      "width": 390,
+      "noHorizontalOverflow": true
+    }
+  ],
+  "sharedNavigationAndBackgrounds": true,
+  "inViewportCameraOnlyReset": true,
+  "noProceduralLoadingFlash": true,
+  "modelToggle": true,
+  "automaticFailureFallback": true,
+  "sourceReloadRecenters": true,
+  "questionSubmissionLocal": true,
+  "amplitudePersists": true,
+  "staleDesignInvalidated": true,
+  "oneApprovalCTA": true,
+  "centeredConditionSelector": true,
+  "helpMethods": [
+    "hover",
+    "focus",
+    "click",
+    "Escape"
+  ],
+  "cameraInitial": {
+    "center": [
+      -0.16819511415332725,
+      -0.006004264432647712,
+      0.08174641642825385
+    ],
+    "position": [
+      0.8821571910994982,
+      0.4714286015913638,
+      2.277937600138707
+    ],
+    "radius": 1.3432839936608219,
+    "aspect": 1.8395808293269231,
+    "shortAxisCoverage": 0.7799999936157418
+  },
+  "telemetryDoesNotMoveCamera": true,
+  "zeroPaidCalls": true,
+  "screenshots": 5,
+  "errors": [],
+  "experimentActions": [
+    "design",
+    "design",
+    "run"
+  ]
+}

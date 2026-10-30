@@ -6,7 +6,7 @@ CausalFly turns a natural-language question into a controlled experiment: change
 
 **Ask → Perceive → Design → Run → Measure → Understand → Test again**
 
-**Meta Muse** designs experiments, interprets measured evidence, and proposes the next test. **Meta SAM 3.1** segments and tracks visual input. **CausalFly** validates proposals, deterministically derives the stimulus, executes matched trials, and retains evidence and provenance.
+**Meta Muse Spark** discovers trackable objects in a selected video. **Meta Muse Wonder** designs experiments, interprets measured evidence, and proposes the next test. **Meta SAM 3.1** segments and tracks visual input. **CausalFly** validates proposals, deterministically derives the stimulus, executes matched trials, and retains evidence and provenance.
 
 > **AI proposes and interprets. CausalFly measures.**
 
@@ -20,7 +20,7 @@ $env:CAUSALFLY_FAKE_META = '1'
 npm run dev -- --hostname 127.0.0.1 --port 3000
 ```
 
-Open **http://127.0.0.1:3000** → **Experiment** → **Design with Meta** → **Approve & Run Experiment** → **Explain with Meta**. Confirm **FAKE META CLIENT**: design and explanation are offline templates. To include perception offline, use **Real-world perception → Offline validation → Load OFFLINE SAM FIXTURE**; the SAM analysis button still makes a live request, even in fake Muse mode.
+Open **http://127.0.0.1:3000** → **Experiment** → **Design with Meta** → **Approve & Run Experiment** → **Explain with Meta**. Confirm **FAKE META CLIENT**: design and explanation are offline templates. To include perception offline, use **Real-world perception → choose the calibration video → Offline demo / validation → Load OFFLINE SCENE-UNDERSTANDING FIXTURE → select red square → Load OFFLINE SAM FIXTURE**. Discover with Meta and tracking with SAM are explicit live actions even in fake experiment-design mode.
 
 [Demo runbook](docs/DEMO_RUNBOOK.md) · [3-minute video script](docs/DEMO_SCRIPT.md) · [Submission copy](docs/HACKATHON_SUBMISSION.md) · [Release review](docs/SPRINT_9_RELEASE_REVIEW.md)
 
@@ -36,6 +36,7 @@ The second visual proof, **Live Connectome**, displays published Drosophila CNS 
 
 | Layer | Responsibility |
 | --- | --- |
+| **Muse Spark** (`META_SCENE_MODEL`, example `muse-spark-1.3`) | Describe video and propose trackable objects; the user explicitly chooses a concept. |
 | **Meta Muse** (`muse-wonder-1.0` in the supplied configuration) | Propose an experiment; interpret engine evidence; propose the next experiment. Optional FruitFly analysis interprets retained observational evidence on explicit request. |
 | **Meta SAM 3.1** (`sam-3.1`) | Image/video object segmentation and tracking; this UI accepts short videos and retains perception input provenance. |
 | **CausalFly** | Validate Meta output; select a returned track; compute visual features and stimulus deterministically; execute and measure control vs intervention; own evidence, provenance, trust checks, and the flight recorder. |
@@ -47,7 +48,9 @@ Requests are explicit. Selecting media, navigating, connecting telemetry, or loa
 ```mermaid
 flowchart LR
     Q[Question] --> D[Meta Muse: design]
-    V[Video + concept] --> S[Meta SAM 3.1: perceive]
+    V[Video] --> P1[Muse Spark: scene understanding]
+    P1 --> U[User chooses concept]
+    U --> S[Meta SAM 3.1: perceive]
     S --> I[CausalFly: derive stimulus]
     I --> D
     D --> G[Validate + user approval]

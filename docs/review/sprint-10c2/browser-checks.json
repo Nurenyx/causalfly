@@ -1,0 +1,158 @@
+{
+  "checks": [
+    {
+      "state": "home",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "home",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "home",
+      "width": 390,
+      "height": 844,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "identical-primary-navigation",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "state": "identical-primary-navigation",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "state": "identical-primary-navigation",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "state": "experiment-measured",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "experiment-measured",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "experiment-measured",
+      "width": 390,
+      "height": 844,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome-understand",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome-understand",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome-understand",
+      "width": 390,
+      "height": 844,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "evidence",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "evidence",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "evidence",
+      "width": 390,
+      "height": 844,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome-observe",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome-observe",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true
+    },
+    {
+      "state": "connectome-observe",
+      "width": 390,
+      "height": 844,
+      "noHorizontalOverflow": true
+    }
+  ],
+  "actions": [
+    {
+      "action": "design",
+      "researchQuestion": "Does silencing primary_a reduce output with a weaker input?",
+      "stimulusAmplitude": 0.6
+    },
+    {
+      "action": "design",
+      "researchQuestion": "Does silencing primary_a reduce output with a weaker input?",
+      "stimulusAmplitude": 0.4
+    },
+    {
+      "action": "run",
+      "id": "c8457e22-e204-4cde-b201-643be73f162e"
+    }
+  ],
+  "errors": [],
+  "blockedExternalOrigins": [],
+  "liveMuseCalls": 0,
+  "liveSamCalls": 0,
+  "screenshots": 5,
+  "cameraInitial": {
+    "center": [
+      -0.16819511415332733,
+      -0.006004264432647712,
+      0.0817464164282539
+    ],
+    "position": [
+      0.8821571910994981,
+      0.4714286015913638,
+      2.277937600138707
+    ],
+    "radius": 1.3432839936608219,
+    "aspect": 1.7902439024390244,
+    "shortAxisCoverage": 0.7799999936157418
+  },
+  "sourceReloadRecenters": true,
+  "telemetryPreservesCamera": true,
+  "questionSubmissionExplicit": true,
+  "homeRetainsDraft": true,
+  "singleApproval": true,
+  "methodologyInitiallyClosed": true,
+  "statusInteractionMethods": [
+    "hover",
+    "focus",
+    "click",
+    "Escape"
+  ],
+  "liveUnderstandContained": true
+}

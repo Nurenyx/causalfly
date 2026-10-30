@@ -15,7 +15,7 @@ import { MAX_PERCEPTION_RECEIPT, PerceptionRetentionError, retainedPerception } 
 import { FlightRecorder, perceptionRecorder } from "./flight-recorder";
 
 const requestSchema = z.discriminatedUnion("action", [
-  z.strictObject({ action: z.literal("design"), researchQuestion: researchQuestionSchema, nextFromId: z.string().uuid().optional(), perceptionId: z.string().uuid().optional(), perceptionReceipt: z.string().max(MAX_PERCEPTION_RECEIPT).optional() }),
+  z.strictObject({ action: z.literal("design"), researchQuestion: researchQuestionSchema, stimulusAmplitude: z.number().min(0).max(1).multipleOf(.05).optional(), nextFromId: z.string().uuid().optional(), perceptionId: z.string().uuid().optional(), perceptionReceipt: z.string().max(MAX_PERCEPTION_RECEIPT).optional() }),
   z.strictObject({ action: z.literal("run"), id: z.string().uuid(), stimulusAmplitude: z.number().min(0).max(1).multipleOf(0.05).optional() }),
   z.strictObject({ action: z.literal("interpret"), id: z.string().uuid() }),
   z.strictObject({ action: z.literal("stimulus"), id: z.string().uuid(), perceptionId: z.string().uuid().nullable(), perceptionReceipt: z.string().max(MAX_PERCEPTION_RECEIPT).optional() }),
@@ -35,6 +35,7 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
   }
   for (const [id, entry] of records) if (entry.expires < Date.now() && !entry.pending) records.delete(id);
   const action = parsed.data;
+  if (action.action === "design" && action.perceptionId && action.stimulusAmplitude !== undefined) return { ok: false, kind: "validation", error: "SAM-derived input is measured and locked. Do not supply a synthetic amplitude with a perception result." };
   let entry = action.action === "design" ? undefined : records.get(action.id);
   let recorder = entry?.recorder ?? new FlightRecorder();
   const fail = (kind: "validation" | "configuration" | "provider", error: string, code = `${action.action}.${kind}`): GuidedResponse => {
@@ -130,12 +131,14 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
   const audit = (): RuntimeCall => ({ task: action.action === "design" ? "design" : "interpret", mode: client.mode, model: client.mode === "META LIVE" ? env.META_MODEL?.trim() ?? "Model unavailable" : "FakeMetaClient / offline template", requestedAt, completedAt: new Date().toISOString() });
   try {
     if (action.action === "design") {
-      const { spec: proposed } = await designExperiment(client, { researchQuestion: action.researchQuestion, networkDefinition: syntheticDemoNetwork, perceptionInput: requestedPerception });
+      const { spec: proposed } = await designExperiment(client, { researchQuestion: action.researchQuestion, networkDefinition: syntheticDemoNetwork, perceptionInput: requestedPerception, syntheticAmplitude: action.stimulusAmplitude });
       // The model sees the fixed input; only CausalFly assigns its authoritative amplitude.
-      const spec = requestedPerception ? validateExperimentProposal({ ...proposed, stimulus: { amplitude: requestedPerception.measurement.amplitude } }, syntheticDemoNetwork).spec : proposed;
+      const amplitude = requestedPerception?.measurement.amplitude ?? action.stimulusAmplitude;
+      const spec = amplitude === undefined ? proposed : validateExperimentProposal({ ...proposed, stimulus: { amplitude } }, syntheticDemoNetwork).spec;
+      if (action.stimulusAmplitude !== undefined) recorder.event("stimulus.accepted", { amplitude: action.stimulusAmplitude, code: "user_selected_synthetic_input" });
       const id = randomUUID();
       recorder.spec(spec); recorder.event("meta.design.completed", { designId: id });
-      const design = freezeRecord({ run_id: recorder.run_id, diagnostics: recorder.snapshot(), id, researchQuestion: action.researchQuestion, mode: client.mode, spec, runtimeCalls: [audit()], ...(requestedPerception ? { perceptionInput: requestedPerception, stimulusOverride: { sourceDesignId: id, originalAmplitude: proposed.stimulus.amplitude, amplitude: spec.stimulus.amplitude } } : {}) });
+      const design = freezeRecord({ run_id: recorder.run_id, diagnostics: recorder.snapshot(), id, researchQuestion: action.researchQuestion, mode: client.mode, spec, runtimeCalls: [audit()], ...(requestedPerception ? { perceptionInput: requestedPerception } : {}), ...(amplitude !== undefined ? { stimulusOverride: { sourceDesignId: id, originalAmplitude: proposed.stimulus.amplitude, amplitude: spec.stimulus.amplitude } } : {}) });
       if (records.size >= 100) { const oldest = [...records].find(([, value]) => !value.pending); if (oldest) records.delete(oldest[0]); }
       records.set(design.id, { recorder, design, expires: Date.now() + ttl });
       return { ok: true, design };

@@ -1,5 +1,56 @@
 # Meta runtime integration (Sprint 6A)
 
+## Sprint 10C: explicit scene understanding
+
+`META_SCENE_MODEL=muse-spark-1.3` independently configures scene discovery;
+`META_MODEL` retains the existing Muse Wonder design/interpretation model. Both
+reuse the server-only key and official `https://api.meta.ai/v1` base URL.
+There is no implicit scene model default or automatic paid request.
+
+Choose a video → **Discover with Meta** → choose a candidate → **Track [concept]
+with SAM 3.1** → accept the deterministically derived stimulus → design → approve
+and run → request interpretation. Manual concepts remain available. File selection,
+candidate arrival, and radio selection never start either provider automatically.
+
+`POST /api/perception/scene` takes multipart `video`, `mode=live|fixture`, and a UUID
+`X-Scene-Request`. After bounded upload/container validation it sends the original
+short video using Files `purpose=user_data` and Responses `input_file.file_id`.
+The model receives a strict `text.format` JSON schema; independent local strict
+validation rejects malformed, truncated, refused, wrongly typed or extra-field
+output. Up to five unique candidates carry `label`, `samPrompt`, `reason`, and
+numeric `confidence` in [0,1], alongside `summary` and `limitations`. Confidence is
+uncalibrated; candidates below 0.5 are withheld. Zero useful candidates is a
+recoverable result, never permission to track an invented object.
+
+Scene records are immutable, capped at 100, retained for two hours, and bound to
+the SHA-256 of the uploaded video. SAM checks the selected index against that
+record and passes exactly its validated `samPrompt`; manual override is separately
+recorded. Restarts/expiry require rediscovery or manual entry. SAM receipts,
+tracking/player, feature extraction and stimulus mapping remain intact.
+
+One explicit request makes one model attempt; no SDK retries or fake fallback.
+Uploads are deleted on success/failure with a one-hour expiry backstop. Diagnostics
+retain allowlisted attribution, confirmed concept, IDs, and measurement events;
+they omit video bytes, filenames, masks, prompts and raw provider output/errors.
+The scene/selection ledger continues into design, engine measurement and interpretation.
+
+**OFFLINE SCENE-UNDERSTANDING FIXTURE** is a separate explicit operation for the
+exact calibration clip bytes. It returns only the visible red square; it never
+claims a live Muse response. The independent offline SAM geometry fixture remains
+clearly labelled and is not overlaid on user media. `CAUSALFLY_FAKE_META=1` controls
+experiment templates; it does not silently convert live discovery or tracking.
+
+`npm run meta:scene-smoke` is a manual, one-attempt calibration smoke command, never
+part of the automated suite. It writes only model, success, latency and candidate
+labels to `docs/review/sprint-10c/live-smoke.json` when configured. Do not repeatedly
+run it to spend credits. Full sprint evidence and limitations are in the
+[Sprint 10C review](SPRINT_10C_META_PERCEPTION_ORCHESTRATION_REVIEW.md).
+
+API contracts verified against official [models](https://dev.meta.ai/docs/models),
+[video input](https://dev.meta.ai/docs/video-understanding),
+[Responses compatibility](https://dev.meta.ai/docs/protocols/responses), and
+[structured-output cookbook](https://dev.meta.ai/docs/cookbook/structured-output).
+
 Use Node.js 22 or newer, as required by the official OpenAI SDK.
 
 The synthetic CLI and web workflow design an experiment from a research question, validate its

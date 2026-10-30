@@ -6,7 +6,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import type { ConnectomeActivity, ConnectomeStructure, ActivityPoint } from "@/lib/sources/connectome-view";
 import styles from "./live-session.module.css";
-import { fitPerspectiveBounds, positionBounds } from "@/lib/web/camera-framing";
+import { fitPerspectivePositions, positionBounds } from "@/lib/web/camera-framing";
 
 const CAMERA: [number, number, number] = [1.1, 0.5, 2.3];
 const vertexShader = `
@@ -89,7 +89,7 @@ function PointLayer({ bounds, positions, points, current = false }: { bounds: TH
   </points>;
 }
 
-function CameraControls({ bounds, reset, onFailure }: { bounds: THREE.Box3; reset: number; onFailure: () => void }) {
+function CameraControls({ positions, reset, onFailure }: { positions: Float32Array; reset: number; onFailure: () => void }) {
   const { camera, gl, invalidate, size } = useThree();
   const controls = useRef<OrbitControls | null>(null);
   useLayoutEffect(() => {
@@ -122,15 +122,15 @@ function CameraControls({ bounds, reset, onFailure }: { bounds: THREE.Box3; rese
     // Clear any pending damping before restoring the deterministic default view.
     control.enableDamping = false; control.update();
     if (!(camera instanceof THREE.PerspectiveCamera)) return;
-    const fit = fitPerspectiveBounds(bounds, camera.fov, size.width / Math.max(1, size.height));
+    const fit = fitPerspectivePositions(positions, camera.fov, size.width / Math.max(1, size.height));
     camera.position.copy(fit.position); control.target.copy(fit.center);
     Object.assign(camera, { near: fit.near, far: fit.far }); camera.updateProjectionMatrix();
-    control.minDistance = fit.radius * 1.15; control.maxDistance = fit.distance * 4;
+    control.minDistance = Math.min(fit.radius * 1.15, fit.distance * .8); control.maxDistance = fit.distance * 4;
     control.update(); control.saveState();
     control.enableDamping = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    gl.domElement.setAttribute("data-camera-fit", JSON.stringify({ center: fit.center.toArray(), position: fit.position.toArray(), radius: fit.radius, aspect: size.width / Math.max(1, size.height) }));
+    gl.domElement.setAttribute("data-camera-fit", JSON.stringify({ center: fit.center.toArray(), position: fit.position.toArray(), radius: fit.radius, aspect: size.width / Math.max(1, size.height), shortAxisCoverage: fit.shortAxisCoverage }));
     invalidate();
-  }, [camera, reset, bounds, size.width, size.height, gl, invalidate]);
+  }, [camera, reset, positions, size.width, size.height, gl, invalidate]);
   useFrame(() => controls.current?.update());
   return null;
 }
@@ -141,7 +141,7 @@ function Connectome3D({ structure, activity, reset, onFailure }: { structure: Co
     <Canvas frameloop="demand" dpr={[1, 1.5]} camera={{ position: CAMERA, fov: 32, near: 0.01, far: 40 }}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }} fallback="Interactive 3D requires canvas support. Select Projection for a 2D view."
       onCreated={({ gl }) => { gl.domElement.tabIndex = 0; gl.domElement.setAttribute("role", "img"); gl.domElement.setAttribute("aria-label", "Interactive published soma coordinates. Drag to rotate, scroll to zoom, right-drag to pan. Arrow keys pan; Shift and arrows rotate."); }}>
-      <CameraControls bounds={bounds} reset={reset} onFailure={onFailure} />
+      <CameraControls positions={structure.positions} reset={reset} onFailure={onFailure} />
       <PointLayer bounds={bounds} positions={structure.positions} />
       <PointLayer bounds={bounds} positions={structure.positions} points={activity.recent} />
       <PointLayer bounds={bounds} positions={structure.positions} points={activity.current} current />

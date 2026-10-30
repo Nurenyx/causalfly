@@ -7,6 +7,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import type { MeasuredExperimentResult } from "@/lib/web/contracts";
 import { embodimentAtStep, loomingPose } from "@/lib/web/embodiment";
 import { HighFidelityFly } from "./high-fidelity-fly";
+import type { FlyModelKind, FlyModelStatus } from "@/lib/web/fly-model";
 
 const CYAN = "#29e7ff", MAGENTA = "#ff55b4";
 
@@ -34,7 +35,7 @@ function Camera({ reset, compare }: { reset: number; compare: boolean }) {
     orbit.enablePan = false; orbit.enableZoom = true;
     orbit.update(); orbit.saveState(); invalidate();
     gl.domElement.setAttribute("data-world-camera", JSON.stringify({ position: camera.position.toArray(), target: orbit.target.toArray(), width: size.width, height: size.height }));
-    const changed = () => invalidate();
+    const changed = () => { gl.domElement.setAttribute("data-world-camera-view", JSON.stringify({ position: camera.position.toArray(), target: orbit.target.toArray() })); invalidate(); };
     orbit.addEventListener("change", changed);
     return () => { orbit.removeEventListener("change", changed); orbit.dispose(); };
   }, [camera, gl, invalidate, compare, size.width, size.height]);
@@ -64,7 +65,7 @@ function LoomingStimulus({ intensity, playing, pulseKey, x }: { intensity: numbe
   </group>;
 }
 
-export default function EmbodiedWorld({ result, step, reset, compare, condition, playing, pulseKey, previewStrength = 0 }: { result: MeasuredExperimentResult | null; step: number; reset: number; compare: boolean; condition: "control" | "perturbed"; playing: boolean; pulseKey: string; previewStrength?: number }) {
+export default function EmbodiedWorld({ result, step, reset, compare, condition, playing, pulseKey, previewStrength = 0, model = "anatomical", onModelStatus }: { result: MeasuredExperimentResult | null; step: number; reset: number; compare: boolean; condition: "control" | "perturbed"; playing: boolean; pulseKey: string; previewStrength?: number; model?: FlyModelKind; onModelStatus?: (status: FlyModelStatus) => void }) {
   const conditions = compare ? ["control", "perturbed"] as const : [condition];
   return <WorldBoundary><Canvas shadows aria-label={compare ? "Control and intervention runs compared side by side" : "One fly replaying the selected synthetic condition"} frameloop="demand" dpr={[1, 1.75]} camera={{ position: [4.8, 3.1, 3.6], fov: 34 }} gl={{ antialias: true, alpha: false }} fallback={<div className="world-fallback">3D unavailable · use the recorded signal view.</div>} onCreated={({ gl }) => { gl.setClearColor("#04101a"); }}>
     <fog attach="fog" args={["#04101a", 15, 28]} />
@@ -80,7 +81,7 @@ export default function EmbodiedWorld({ result, step, reset, compare, condition,
       const color = run === "control" ? CYAN : MAGENTA;
       return <group key={run}>
         <mesh position={[x, .005, 0]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[2, 2.025, 96]} /><meshBasicMaterial color={color} transparent opacity={.28 + (state?.output ?? 0) * .6} /></mesh>
-        <HighFidelityFly x={x} output={state?.output ?? null} />
+        <HighFidelityFly x={x} output={state?.output ?? null} model={model} onStatus={onModelStatus} />
         <LoomingStimulus x={x} intensity={state?.stimulus ?? previewStrength} playing={playing} pulseKey={`${pulseKey}-${run}`} />
         <mesh position={[x, .02, -3.8]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[.025, 4]} /><meshBasicMaterial color="#ffd27a" transparent opacity={.45} /></mesh>
         {[-4.5, -3.4, -2.3].map(z => <mesh key={z} position={[x, .025, z]} rotation={[Math.PI / 2, 0, 0]}><coneGeometry args={[.11, .32, 3]} /><meshBasicMaterial color="#ffd27a" transparent opacity={.7} /></mesh>)}

@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { Box3, PerspectiveCamera, Vector3 } from "three";
-import { fitPerspectiveBounds, positionBounds } from "./camera-framing";
+import { fitPerspectiveBounds, fitPerspectivePositions, positionBounds } from "./camera-framing";
+import { readFileSync } from "node:fs";
+import { parseAnatomy } from "../sources/anatomy";
+import { buildConnectomeStructure } from "../sources/connectome-view";
 
 test("canonical camera targets actual offset bounds and fits every corner at desktop and mobile aspects", () => {
   const bounds = new Box3(new Vector3(4, -7, 12), new Vector3(8, -1, 15));
@@ -52,4 +55,36 @@ test("polished canonical fit increases projected bounds by about ten percent wit
     assert.ok(after / before > 1.09 && after / before < 1.15);
     assert.ok(after <= 1 / 1.02 + 1e-12, "two-percent fit margin retained");
   }
+});
+
+test("actual published soma fit occupies 78% of the short axis, centers the cloud, and preserves every coordinate", () => {
+  const anatomy = parseAnatomy(JSON.parse(readFileSync("public/anatomy/male-cns-v1.json", "utf8")));
+  const { positions } = buildConnectomeStructure(anatomy), before = positions.slice();
+  for (const aspect of [2.5, 1.8, 390 / 500]) {
+    const fit = fitPerspectivePositions(positions, 32, aspect);
+    const camera = new PerspectiveCamera(32, aspect, fit.near, fit.far);
+    camera.position.copy(fit.position); camera.lookAt(fit.center); camera.updateMatrixWorld();
+    let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    for (let i = 0; i < positions.length; i += 3) {
+      const p = new Vector3(positions[i], positions[i + 1], positions[i + 2]).project(camera);
+      assert.ok(Math.abs(p.x) <= .961 && Math.abs(p.y) <= .961 && Math.abs(p.z) < 1);
+      minX = Math.min(minX, p.x); maxX = Math.max(maxX, p.x); minY = Math.min(minY, p.y); maxY = Math.max(maxY, p.y);
+    }
+    const coverage = aspect >= 1 ? (maxY - minY) / 2 : (maxX - minX) / 2;
+    assert.ok(coverage >= .77 && coverage <= .781, String(coverage));
+    assert.ok(Math.abs(minX + maxX) < .01 && Math.abs(minY + maxY) < .01, "Actual projected extrema are centered");
+    assert.deepEqual(fitPerspectivePositions(positions, 32, aspect).position, fit.position, "Initial and reset use one canonical calculation");
+  }
+  assert.deepEqual(positions, before);
+});
+
+test("source offsets and resize change only canonical camera; activity has no fit input", () => {
+  const positions = new Float32Array([11, -4, 20, 14, 3, 22, 12, 1, 21]);
+  const initial = fitPerspectivePositions(positions, 32, 2.5);
+  const resized = fitPerspectivePositions(positions, 32, .7);
+  assert.notDeepEqual(resized.position, initial.position);
+  const reloaded = new Float32Array(positions.map((v, i) => v + (i % 3 === 0 ? 100 : 0)));
+  const fit = fitPerspectivePositions(reloaded, 32, 2.5);
+  assert.ok(Math.abs(fit.center.x - initial.center.x - 100) < 1e-9);
+  assert.ok(Number.isFinite(fitPerspectivePositions(new Float32Array(), 32, .7).distance));
 });

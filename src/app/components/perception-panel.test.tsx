@@ -12,9 +12,30 @@ import { syntheticDemoNetwork } from "../../lib/experiment/network";
 import { conceptForVideo, initialPerceptionSession } from "../../lib/web/perception-session";
 import { WorkflowErrorNotice } from "./workflow-error-notice";
 import { ResultValidity } from "./result-validity";
+import { offlineScene, type SceneRecord } from "../../lib/perception/scene";
 
 const f = offlinePerceptionFixture("offline-test");
 const forbidden = () => { assert.fail("Rendering must never upload, analyze, approve, or execute"); };
+const scene: SceneRecord = { id: "scene-test", run_id: "run-test", provider: "CausalFly fixture", model: "calibration-scene-v1", mode: "OFFLINE SCENE-UNDERSTANDING FIXTURE", mediaSha256: "test", result: offlineScene };
+test("video selection renders only explicit discovery with no automatic Muse or SAM invocation", () => {
+  const session = { ...initialPerceptionSession(), source: "perception" as const, file: new File(["clip"], "clip.mp4"), ready: true };
+  const html = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
+  assert.match(html, /VIDEO SELECTED/); assert.match(html, /DISCOVER WITH META/);
+  assert.doesNotMatch(html, /TRACK HAND WITH SAM/);
+});
+test("scene candidates require explicit selection; offline attribution and roles remain visible", () => {
+  const session = { ...initialPerceptionSession(), source: "perception" as const, scene };
+  const html = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
+  for (const label of [/OFFLINE SCENE-UNDERSTANDING FIXTURE/, /radiogroup/, /Suggested · select to confirm/, /MUSE SPARK/, /Object tracking/, /Deterministic measurement/]) assert.match(html, label);
+  assert.doesNotMatch(html, /checked=""|TRACK RED SQUARE WITH SAM/);
+});
+test("selected candidate enables exact explicit SAM CTA, and manual override replaces it", () => {
+  const session = { ...initialPerceptionSession(), source: "perception" as const, file: new File(["clip"], "clip.mp4"), ready: true, scene, selectedCandidate: 0 };
+  const render = (manual: boolean) => renderToStaticMarkup(<PerceptionPanel session={{ ...session, manual, concept: "blue cup" }} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
+  assert.match(render(false), /TRACK RED SQUARE WITH SAM 3.1/);
+  assert.match(render(true), /TRACK BLUE CUP WITH SAM 3.1/);
+  assert.doesNotMatch(render(true), /TRACK RED SQUARE WITH SAM 3.1/);
+});
 test("synthetic is the reliable default; rendering never calls SAM or exposes a fake detection", () => {
   const html = renderToStaticMarkup(<PerceptionPanel hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
   assert.match(html, /aria-pressed="true">Synthetic stimulus/);
@@ -73,7 +94,7 @@ test("accepted mapping locks manual strength and labels the embodied source with
   const design = { id: "draft", researchQuestion: "test", mode: "FAKE META CLIENT" as const, spec: { ...demoExperimentSpec, stimulus: { amplitude: .64 } }, runtimeCalls: [], perceptionInput: f };
   const html = renderToStaticMarkup(<EmbodiedExperiment design={design} result={null} busy={false} strength={.64} onStrength={forbidden} onRun={forbidden} />);
   assert.match(html, /PERCEPTION SOURCE: OFFLINE SAM FIXTURE/);
-  assert.match(html, /step="any"[^>]*disabled=""/);
+  assert.match(html, /MEASURED \/ LOCKED/); assert.doesNotMatch(html, /id="stimulus-strength"[^>]*type="range"/);
   assert.match(html, /AWAITING APPROVED TEST/); assert.match(html, /Approve &amp; Run Experiment/);
   assert.doesNotMatch(html, /RECORDED ENGINE DATA/);
 });

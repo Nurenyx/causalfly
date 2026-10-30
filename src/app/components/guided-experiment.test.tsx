@@ -20,7 +20,7 @@ const props = { question, pending: "", mode: "FAKE META CLIENT" as const, result
 
 test("initial story offers demo and own-question paths without measured or AI findings", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
-  for (const text of [/Ask what changes a nervous system/, /Embodied experiment/, /Visual embodiment of synthetic output/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
+  for (const text of [/RETAINED RESEARCH QUESTION/, /Embodied experiment/, /Visual embodiment of synthetic output/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY|Approve &amp; Run Experiment|Explain with Meta/);
   assert.match(html, /REAL-FLY VALIDATION — Not established/);
   assert.match(html, /Synthetic engineering fixture/);
@@ -32,8 +32,24 @@ test("validated proposal presents approval while measurements remain unavailable
   assert.match(html, /OFFLINE DESIGN TEMPLATE/);
   assert.match(html, /Approve &amp; Run Experiment/);
   assert.match(html, /Review hypothesis, target &amp; all test settings/);
+  assert.equal((html.match(/>Approve &amp; Run Experiment<\/button>/g) ?? []).length, 1, "Rail is the only approval action even inside expanded design markup");
   assert.equal((html.slice(0, html.indexOf('aria-label="Embodied experiment"')).match(/data-complete="true"/g) ?? []).length, 2);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY/);
+});
+
+test("changed synthetic input hides stale approval/evidence and preserves the draft and redesign action", () => {
+  const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} amplitude={.6} />);
+  assert.match(html, /INPUT CHANGED — REDESIGN REQUIRED/); assert.match(html, /Redesign with Meta/); assert.match(html, /value="0.6"/);
+  assert.doesNotMatch(html, /Approve &amp; Run Experiment|Signal reduced 50%/);
+  assert.match(html, /PREVIOUS TEST RETAINED/);
+});
+
+test("main workflow uses optional INPUT and model selector defaults to anatomical", () => {
+  const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
+  assert.match(html, />INPUT<\/strong>/); assert.match(html, /external perception skipped \/ not required/);
+  assert.doesNotMatch(html, />PERCEIVE</);
+  assert.match(html, /aria-pressed="true">Anatomical<\/button>/); assert.match(html, /Loading anatomical model/);
+  assert.match(html, /class="world-reset-view text-button" aria-label="Reset View"/);
 });
 
 test("measured result and explanation action coexist with real recorded comparison", () => {
@@ -88,7 +104,7 @@ test("live responses attribute design, interpretation and proposal separately fr
   assert.match(proposed, /DESIGNED WITH META MUSE/);
   assert.doesNotMatch(proposed, /MEASURED BY CAUSALFLY/);
   const html = renderToStaticMarkup(<GuidedExperiment {...props} mode="META LIVE" design={liveDesign} result={{ ...measured, mode: "META LIVE", analysis }} />);
-  for (const text of [/MEASURED BY CAUSALFLY/, /INTERPRETED WITH META MUSE/, /NEXT TEST PROPOSED BY META MUSE/, /Meta interpretation · not a measurement/, /requires a new design and your approval/]) assert.match(html, text);
+  for (const text of [/MEASURED BY CAUSALFLY/, /META \/ EVIDENCE INTERPRETATION/, /META \/ NEXT EXPERIMENT/, /Meta interpretation · not a measurement/, /requires a new design and your approval/]) assert.match(html, text);
   assert.doesNotMatch(html, /<details[^>]*\bopen(?:=|>)/);
 });
 

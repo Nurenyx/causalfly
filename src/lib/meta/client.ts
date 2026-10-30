@@ -20,6 +20,7 @@ export type MetaEnvironment = Readonly<{
   META_API_KEY?: string;
   META_BASE_URL?: string;
   META_MODEL?: string;
+  META_SCENE_MODEL?: string;
   META_TIMEOUT_MS?: string;
 }>;
 
@@ -28,6 +29,7 @@ export function readMetaEnvironment(): MetaEnvironment {
     META_API_KEY: process.env.META_API_KEY,
     META_BASE_URL: process.env.META_BASE_URL,
     META_MODEL: process.env.META_MODEL,
+    META_SCENE_MODEL: process.env.META_SCENE_MODEL,
     META_TIMEOUT_MS: process.env.META_TIMEOUT_MS,
   };
 }

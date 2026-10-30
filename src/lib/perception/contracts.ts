@@ -1,5 +1,6 @@
 import type { VideoSegmentationSnapshot } from "@meta-sam/parser";
 import type { RunDiagnostics } from "../web/flight-recorder-types";
+import type { SceneProvenance } from "./scene";
 
 export const SAM_MODEL = "sam-3.1" as const;
 export const MAX_VIDEO_BYTES = 20 * 1024 * 1024;
@@ -36,6 +37,7 @@ export interface PerceptionRecord {
   provenance: {
     requestedAt: string; completedAt: string; mediaSha256: string;
     responseId?: string; requestId?: string;
+    scene?: SceneProvenance;
     cleanup: "deleted" | "delete-failed-expires-in-1h" | "not-uploaded";
     parser: "@meta-sam/parser@0.1.0" | "offline-geometry-fixture";
     warnings: readonly string[];

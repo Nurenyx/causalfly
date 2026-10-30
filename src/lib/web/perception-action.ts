@@ -7,9 +7,11 @@ import { MAX_VIDEO_BYTES, SAM_MODEL, type PerceptionResponse } from "../percepti
 import { offlinePerceptionFixture } from "../perception/fixture";
 import { inspectVideo, validateVideoFile } from "../perception/media";
 import { perceptionReceipt, retainPerception } from "../perception/store";
-import { FlightRecorder } from "./flight-recorder";
+import { FlightRecorder, retainedRecorder } from "./flight-recorder";
+import { samConceptSchema, type SceneProvenance } from "../perception/scene";
+import { retainedScene } from "../perception/scene-store";
 
-const conceptSchema = z.string().trim().min(1).max(80).regex(/^[\p{L}\p{N} '-]+$/u, "Use one short object concept, such as hand.");
+const conceptSchema = samConceptSchema;
 // UI request token suppresses duplicate in-flight uploads, with no retained media or masks.
 const inFlight = new Set<string>();
 const recent = new Map<string, number>();
@@ -34,13 +36,29 @@ export async function perceptionAction(request: Request, deps: { analyze?: typeo
   inFlight.add(token);
   recorder = new FlightRecorder();
   let samRequested = false;
+  function selection(sceneId: unknown, candidate: unknown, concept: string, mediaHash?: string): SceneProvenance | undefined {
+    if (!sceneId) return;
+    if (typeof sceneId !== "string") throw new Error("Choose another Meta suggestion or discover the scene again.");
+    const scene = retainedScene(sceneId);
+    if (!scene) throw new Error("Choose Discover with Meta again: this scene result expired or the server restarted. Manual concept entry is also available.");
+    recorder = retainedRecorder(scene.run_id) ?? recorder;
+    if (mediaHash ? scene.mediaSha256 !== mediaHash : scene.mode !== "OFFLINE SCENE-UNDERSTANDING FIXTURE") throw new Error("Choose Discover with Meta again for the selected video. This suggestion belongs to a different clip.");
+    const manual = candidate === "manual";
+    if (!manual && (!/^\d$/.test(String(candidate)) || scene.result.candidates[Number(candidate)]?.samPrompt !== concept)) throw new Error("Choose a valid Meta suggestion or enter a different concept manually.");
+    recorder!.model("scene", scene.model, scene.mode);
+    recorder!.event("meta.scene.selected", { sceneId, concept, provider: scene.provider, selection: manual ? "manual" : "candidate", code: "explicit_user_confirmation" });
+    return { id: scene.id, provider: scene.provider, model: scene.model, mode: scene.mode, selection: manual ? "manual" : "candidate", selectedConcept: concept };
+  }
   try {
     if (request.headers.get("Content-Type")?.startsWith("application/json")) {
       // Offline fixtures are a separate explicit operation, never a live error fallback.
       const body = await boundedBody(request, 256);
-      const parsed = z.strictObject({ mode: z.literal("fixture") }).safeParse(JSON.parse(body.toString("utf8")));
+      const parsed = z.strictObject({ mode: z.literal("fixture"), sceneId: z.string().uuid().optional(), candidate: z.string().optional(), concept: conceptSchema.optional() }).safeParse(JSON.parse(body.toString("utf8")));
       if (!parsed.success) return fail("Choose an explicit offline fixture or upload a video for SAM LIVE.");
-      const perception = retainPerception({ ...offlinePerceptionFixture(randomUUID()), run_id: recorder.run_id });
+      const scene = selection(parsed.data.sceneId, parsed.data.candidate, parsed.data.concept ?? "test object");
+      if (scene && (scene.selection !== "candidate" || scene.selectedConcept !== "red square")) return fail("Choose the red square calibration candidate for the offline tracking fixture.");
+      const fixture = offlinePerceptionFixture(randomUUID());
+      const perception = retainPerception({ ...fixture, run_id: recorder!.run_id, ...(scene ? { concept: scene.selectedConcept, provenance: { ...fixture.provenance, scene } } : {}) });
       recorder.model("perceive", SAM_MODEL, perception.mode);
       recorder.perception(perception);
       recorder.event("stimulus.derived", { perceptionId: perception.id, amplitude: perception.measurement.amplitude, trackedFrames: perception.measurement.frames.length, mode: perception.mode });
@@ -56,16 +74,19 @@ export async function perceptionAction(request: Request, deps: { analyze?: typeo
     validateVideoFile(file);
     const bytes = new Uint8Array(await file.arrayBuffer());
     const media = await (deps.inspect ?? inspectVideo)(bytes);
+    const mediaSha256 = createHash("sha256").update(bytes).digest("hex");
+    const scene = selection(multipart.get("sceneId"), multipart.get("candidate"), parsed.data, mediaSha256);
+    if (!scene) recorder!.event("meta.scene.selected", { concept: parsed.data, selection: "manual", code: "explicit_user_confirmation" });
     // Send a generic name to Meta, not a potentially identifying local filename.
     const isMov = /\.mov$/i.test(file.name);
     const upload = new File([bytes], isMov ? "stimulus.mov" : "stimulus.mp4", { type: isMov ? "video/quicktime" : "video/mp4" });
     recorder.model("perceive", SAM_MODEL, "SAM LIVE");
-    recorder.event("sam.requested", { model: SAM_MODEL, mode: "SAM LIVE" }); samRequested = true;
+    recorder!.event("sam.requested", { model: SAM_MODEL, mode: "SAM LIVE", concept: parsed.data, code: "explicit_user_request" }); samRequested = true;
     const result = await (deps.analyze ?? analyzeSamVideo)(upload, parsed.data, media);
     const perception = retainPerception({ run_id: recorder.run_id, id: randomUUID(), model: SAM_MODEL, mode: "SAM LIVE", concept: parsed.data, media, measurement: result.measurement,
-      provenance: { ...result.provenance, mediaSha256: createHash("sha256").update(bytes).digest("hex") } });
+      provenance: { ...result.provenance, mediaSha256, ...(scene ? { scene } : {}) } });
     recorder.perception(perception);
-    recorder.event("sam.completed", { perceptionId: perception.id, trackedFrames: perception.measurement.frames.length });
+    recorder.event("sam.completed", { perceptionId: perception.id, trackedFrames: perception.measurement.frames.length, samResultId: perception.provenance.responseId ?? perception.id });
     recorder.event("stimulus.derived", { amplitude: perception.measurement.amplitude });
     return reply({ ok: true, perception, receipt: perceptionReceipt(perception), overlay: result.overlay, diagnostics: recorder.snapshot() });
   } catch (error) {
@@ -80,7 +101,7 @@ export async function perceptionAction(request: Request, deps: { analyze?: typeo
   }
 }
 
-async function boundedBody(request: Request, limit: number): Promise<Buffer> {
+export async function boundedBody(request: Request, limit: number): Promise<Buffer> {
   if (Number(request.headers.get("Content-Length")) > limit) throw new Error("Body too large. Use a video of at most 20 MiB.");
   const reader = request.body?.getReader();
   if (!reader) throw new Error("Missing body");

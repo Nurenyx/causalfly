@@ -1,4 +1,5 @@
 import type { PerceptionResponse } from "../perception/contracts";
+import type { SceneRecord } from "../perception/scene";
 
 export type PerceptionAnalysis = Extract<PerceptionResponse, { ok: true }>;
 /** Workspace-owned browser state: navigation and panel unmounts cannot discard the pending stimulus. */
@@ -11,6 +12,9 @@ export interface PerceptionSession {
   concept: string;
   ready: boolean;
   editing: boolean;
+  scene?: SceneRecord;
+  selectedCandidate?: number;
+  manual?: boolean;
 }
 export function initialPerceptionSession(): PerceptionSession {
   return { source: "synthetic", url: "", concept: "hand", ready: false, editing: false };

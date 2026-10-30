@@ -42,7 +42,7 @@ export class FlightRecorder {
   event(type: RunEventType, metadata: RunEvent["metadata"] = {}) {
     // Runtime allowlist as well as a typed boundary. No arbitrary object spread.
     const safe: Record<string, string | number> = {};
-    for (const key of ["code", "model", "mode", "perceptionId", "trackedFrames", "amplitude", "designId", "parentRunId"] as const) {
+    for (const key of ["code", "model", "mode", "perceptionId", "trackedFrames", "amplitude", "designId", "parentRunId", "sceneId", "concept", "provider", "selection", "candidateCount", "samResultId"] as const) {
       const value = metadata[key];
       if (typeof value === "string" || typeof value === "number" && Number.isFinite(value)) safe[key] = value;
     }
@@ -60,7 +60,7 @@ export class FlightRecorder {
     this.event("question.submitted");
   }
 
-  model(task: "design" | "interpret" | "perceive", model: string, mode: string) {
+  model(task: "design" | "interpret" | "perceive" | "scene", model: string, mode: string) {
     this.manifest = { ...this.manifest, models: [...this.manifest.models, { task, model, mode }] };
   }
 
@@ -131,6 +131,11 @@ export class FlightRecorder {
   snapshot(): RunDiagnostics {
     return freezeRecord(structuredClone({ schemaVersion: "causalfly-flight-recorder-v1" as const, manifest: this.manifest, events: this.events }));
   }
+}
+
+export function retainedRecorder(runId: string): FlightRecorder | undefined {
+  const entry = retained.get(runId);
+  return entry && entry.expires >= Date.now() ? entry.recorder : undefined;
 }
 
 /** Only called with IDs read from server-retained/signed perception records. */

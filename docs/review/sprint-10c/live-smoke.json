@@ -1,0 +1,9 @@
+{
+  "model": "muse-spark-1.3",
+  "validStructuredCandidates": true,
+  "latencyMs": 14370,
+  "candidateLabels": [
+    "central red square"
+  ],
+  "attempts": 1
+}
