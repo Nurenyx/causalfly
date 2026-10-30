@@ -13,10 +13,11 @@ export interface BridgeDependencies {
 }
 
 /** No default URL: configured only on the server, never supplied by a browser. */
-function configuredEndpoint(value: string | undefined) {
+export function configuredEndpoint(value: string | undefined, production = process.env.NODE_ENV === "production") {
   if (!value) throw new Error("Missing endpoint");
   const url = new URL(value);
   if (!["ws:", "wss:"].includes(url.protocol) || url.pathname !== "/observatory/v1" || url.username || url.password || url.search || url.hash) throw new Error("Invalid endpoint");
+  if (production && (url.protocol !== "wss:" || ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname))) throw new Error("Production requires a secure remote endpoint");
   return url.toString();
 }
 

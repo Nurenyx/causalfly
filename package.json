@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3132",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -12,7 +12,8 @@
     "experiment:demo": "tsx scripts/experiment-demo.ts",
     "experiment:ai-demo": "tsx --conditions=react-server scripts/experiment-ai-demo.ts",
     "meta:smoke": "tsx --conditions=react-server scripts/meta-smoke.ts",
-    "meta:scene-smoke": "tsx --conditions=react-server scripts/meta-scene-smoke.ts"
+    "meta:scene-smoke": "tsx --conditions=react-server scripts/meta-scene-smoke.ts",
+    "review:browser": "node scripts/production-alpha-browser-review.mjs"
   },
   "dependencies": {
     "@meta-sam/parser": "0.1.0",
@@ -38,5 +39,8 @@
     "tailwindcss": "^4",
     "tsx": "^4.23.15",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }

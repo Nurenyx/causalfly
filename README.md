@@ -10,17 +10,17 @@ CausalFly turns a natural-language question into a controlled experiment: change
 
 > **AI proposes and interprets. CausalFly measures.**
 
-Run the reliable offline demo with Node.js 22+ and npm (PowerShell):
+Run the reliable offline demo with Node.js 24 and npm (PowerShell):
 
 ```powershell
 git clone https://github.com/Nurenyx/causalfly.git
 Set-Location causalfly
 npm ci
 $env:CAUSALFLY_FAKE_META = '1'
-npm run dev -- --hostname 127.0.0.1 --port 3000
+npm run dev -- --hostname 127.0.0.1 --port 3132
 ```
 
-Open **http://127.0.0.1:3000** → **Experiment** → **Design with Meta** → **Approve & Run Experiment** → **Explain with Meta**. Confirm **FAKE META CLIENT**: design and explanation are offline templates. To include perception offline, use **Real-world perception → choose the calibration video → Offline demo / validation → Load OFFLINE SCENE-UNDERSTANDING FIXTURE → select red square → Load OFFLINE SAM FIXTURE**. Discover with Meta and tracking with SAM are explicit live actions even in fake experiment-design mode.
+Open **http://127.0.0.1:3132** → **Experiment** → **Design with Meta** → **Approve & Run Experiment** → **Explain with Meta**. Confirm **FAKE META CLIENT**: design and explanation are offline templates. To include perception offline, use **Real-world perception → choose the calibration video → Offline demo / validation → Load OFFLINE SCENE-UNDERSTANDING FIXTURE → select red square → Load OFFLINE SAM FIXTURE**. Discover with Meta and tracking with SAM are explicit live actions even in fake experiment-design mode.
 
 [Demo runbook](docs/DEMO_RUNBOOK.md) · [3-minute video script](docs/DEMO_SCRIPT.md) · [Submission copy](docs/HACKATHON_SUBMISSION.md) · [Release review](docs/SPRINT_9_RELEASE_REVIEW.md)
 
@@ -78,7 +78,7 @@ Next.js / React provide the workbench and server routes. TypeScript implements t
 
 ## Live Meta configuration
 
-Use Node.js 22+ (locally verified on Node 24). From the repository root, create a local environment file only if one does not exist:
+Use Node.js 24 (locally verified on Node 24). From the repository root, create a local environment file only if one does not exist:
 
 ```powershell
 if (!(Test-Path .env.local)) { Copy-Item .env.example .env.local }
@@ -97,10 +97,10 @@ Your Meta account must have access to the configured Muse model and `sam-3.1`. S
 
 ```powershell
 Remove-Item Env:CAUSALFLY_FAKE_META -ErrorAction SilentlyContinue
-npm run dev -- --hostname 127.0.0.1 --port 3000
+npm run dev -- --hostname 127.0.0.1 --port 3132
 ```
 
-Confirm **META LIVE** before presenting live Muse results. Restart the server after changing modes/configuration. For stable playback after validation, build once with `npm run build`, then substitute `npm run start -- --hostname 127.0.0.1 --port 3000` for the dev command. Build may need internet access for Google fonts.
+Confirm **META LIVE** before presenting live Muse results. Restart the server after changing modes/configuration. For stable playback after validation, build once with `npm run build`, then substitute `npm run start -- --hostname 127.0.0.1 --port 3132` for the dev command. Build may need internet access for Google fonts.
 
 ## SAM calibration demo
 
@@ -120,10 +120,14 @@ With an already-running local research service, configure the CausalFly server:
 
 ```powershell
 $env:FRUITFLY_XR_OBSERVATORY_URL = 'ws://127.0.0.1:8766/observatory/v1'
-npm run dev -- --hostname 127.0.0.1 --port 3000
+npm run dev -- --hostname 127.0.0.1 --port 3132
 ```
 
 Open **Live Connectome → Connect FruitFly XR**. The research subscription is read-only; it does not start a trial. An existing external organism client must provide a session for moving telemetry. Without it, show the bundled structural view and its waiting/disconnected state. CausalFly never sends interventions to the brain control channel. [Startup and recovery](docs/DEMO_RUNBOOK.md) · [Verified bridge protocol](docs/FRUITFLY-XR-BRIDGE.md)
+
+## Production alpha
+
+Target: **causalfly.nurenyx.ai**, a managed Next.js / Node.js web app. Standard `npm ci`, `npm run build`, and `npm start` commands apply. See the [Hostinger deployment guide](docs/DEPLOY_HOSTINGER.md) for configuration, port policy, health checks, and rollback. FruitFly XR remains optional; its [Sprint 11B Cloud Run plan](docs/CLOUD_RUN_FRUITFLY_BRIDGE_PLAN.md) is documentation only.
 
 ## Validation
 

@@ -71,6 +71,8 @@ export default function EmbodiedWorld({ result, step, reset, compare, condition,
     <fog attach="fog" args={["#04101a", 15, 28]} />
     <ambientLight intensity={.85} /><hemisphereLight args={["#c9dce0", "#0c1720", 2]} />
     <directionalLight castShadow position={[2, 7, -4]} color="#ead8b5" intensity={4.5} shadow-mapSize={[1024, 1024]} shadow-camera-left={-6} shadow-camera-right={6} shadow-camera-top={6} shadow-camera-bottom={-6} shadow-normalBias={.03} shadow-radius={3} />
+    {/* Neutral front-above fill only for anatomy; no extra shadow map or material edits. */}
+    {model === "anatomical" && <directionalLight position={[4, 6, -6]} color="#ffffff" intensity={2.8} />}
     <pointLight position={[4, 3, -3]} color="#bfd5de" intensity={30} />
     <pointLight position={[-3, 3, 3]} color="#81c9dd" intensity={14} />
     <mesh receiveShadow position={[0, -.035, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[16, 80]} /><meshStandardMaterial color="#030b10" metalness={.1} roughness={.96} /></mesh>
