@@ -13,11 +13,12 @@ export function healthStatus(env: MetaEnvironment, mode: string | undefined, fak
   return {
     status: "ok",
     runtimeMode: mode === "production" ? "production" : mode === "test" ? "test" : "development",
-    metaMode: fake ? "offline" : "live",
+    metaMode: fake ? "offline" : env.CAUSALFLY_META_ENABLED === "1" ? "live" : "disabled",
+    metaEnabled: env.CAUSALFLY_META_ENABLED === "1" && !fake,
     configuration: {
-      meta: available(() => readLiveConfiguration(env)),
-      sceneModel: available(() => sceneConfiguration(env)),
-      sam: available(() => samConfiguration(env)),
+      metaConfigured: available(() => readLiveConfiguration(env)),
+      sceneModelConfigured: available(() => sceneConfiguration(env)),
+      samConfigured: available(() => samConfiguration(env)),
       fruitFlyXR: available(() => configuredEndpoint(endpoint, mode === "production")),
     },
     providersChecked: false,

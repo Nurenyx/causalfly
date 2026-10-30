@@ -7,6 +7,8 @@ export interface PerceptionSession {
   source: "synthetic" | "perception";
   analysis?: PerceptionAnalysis;
   file?: File;
+  upload?: import("../perception/blob-contract").MediaReference;
+  transport?: string;
   analyzedFile?: File;
   url: string;
   concept: string;

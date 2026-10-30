@@ -77,7 +77,7 @@ test("each initiating Meta control carries a spinner, accessible status and dupl
   assert.doesNotMatch(designing + explaining, /class="demo-request"/);
 });
 
-test("explanation and proposal stay on Experiment; a follow-up preserves earlier measurements", async () => {
+test("explanation and proposal stay on Experiment; a follow-up archives earlier measurements", async () => {
   const fake = new FakeMetaClient();
   const analysis = JSON.parse(await fake.complete({ task: "interpret", system: "", inputJson: JSON.stringify(compact), responseSchema: {} }));
   const result = { ...measured, analysis };
@@ -90,9 +90,11 @@ test("explanation and proposal stay on Experiment; a follow-up preserves earlier
   assert.equal((html.slice(0, html.indexOf('aria-label="Embodied experiment"')).match(/data-complete="true"/g) ?? []).length, 4);
   const next = workspaceReducer(state, { type: "next-question", question: analysis.nextExperiment.researchQuestion });
   const nextHtml = renderToStaticMarkup(<GuidedExperiment {...props} question={next.question} design={next.design} result={next.result} />);
-  assert.match(nextHtml, /PREVIOUS TEST RETAINED/);
+  assert.doesNotMatch(nextHtml, /PREVIOUS TEST RETAINED/);
   assert.doesNotMatch(nextHtml, /Signal reduced 50%/);
-  assert.equal(next.result, state.result);
+  assert.equal(next.result, null);
+  assert.equal(next.history?.[0].result, state.result);
+  assert.equal(next.nextFromId, design.id);
   const run = workspaceReducer({ ...state, result: null }, { type: "completed", result: measured, workspace: "observatory" });
   assert.equal(run.workspace, "observatory");
 });

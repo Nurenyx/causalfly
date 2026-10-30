@@ -128,7 +128,7 @@ test("successful workspace result maps unchanged evidence to Compare", async () 
   }
 });
 
-test("next-question transition preserves result, populates Observatory, and performs no submission", async (t) => {
+test("next-question archives result, releases active evidence, and performs no submission", async (t) => {
   const response = await runWebExperiment({ researchQuestion: "Test synthetic fixture" }, { env: {}, createClient: () => new FakeMetaClient() });
   assert.ok(response.ok);
   t.mock.method(globalThis, "fetch", async () => { assert.fail("next-question navigation must not submit"); });
@@ -137,7 +137,9 @@ test("next-question transition preserves result, populates Observatory, and perf
     const next = workspaceReducer({ workspace, question: "previous", result: response.result }, { type: "next-question", question });
     assert.equal(next.workspace, "observatory");
     assert.equal(next.question, question);
-    assert.equal(next.result, response.result);
+    assert.equal(next.result, null);
+    assert.equal(next.history?.[0].result, response.result);
+    assert.equal(next.design, undefined);
   }
 });
 

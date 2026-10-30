@@ -1,8 +1,10 @@
 "use client";
 
+import { useDeveloperDiagnostics } from "./diagnostic-visibility";
 import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
 
 export function RunDiagnosticsDetails({ diagnostics }: { diagnostics: RunDiagnostics }) {
+  const developer = useDeveloperDiagnostics();
   function download() {
     const url = URL.createObjectURL(new Blob([JSON.stringify(diagnostics, null, 2)], { type: "application/json" }));
     const anchor = document.createElement("a");
@@ -10,11 +12,13 @@ export function RunDiagnosticsDetails({ diagnostics }: { diagnostics: RunDiagnos
     anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  return <details className="run-diagnostics"><summary>Run diagnostics</summary>
+  return <details className="run-diagnostics"><summary>Technical details / Flight Recorder</summary>
     <p>Run: <code>{diagnostics.manifest.run_id}</code></p>
-    <button type="button" className="secondary-button" onClick={download}>EXPORT RUN DIAGNOSTICS</button>
+    <p>Source: {diagnostics.manifest.source}. {diagnostics.events.length} recorded workflow events.</p>
+    <ul>{diagnostics.events.filter(event => event.type === "error.recorded" && event.metadata.code).map(event => <li key={event.sequence}>Recovery reference: {event.metadata.code}</li>)}</ul>
+    {developer && <><button type="button" className="secondary-button" onClick={download}>EXPORT RUN DIAGNOSTICS</button>
     <p className="trace-note">Local JSON · includes your question, evidence and AI text. Review before sharing.</p>
-    <details><summary>Inspect manifest & event ledger ({diagnostics.events.length})</summary><pre>{JSON.stringify(diagnostics, null, 2)}</pre></details>
+    <details><summary>Inspect manifest & event ledger ({diagnostics.events.length})</summary><pre>{JSON.stringify(diagnostics, null, 2)}</pre></details></>}
   </details>;
 }
 

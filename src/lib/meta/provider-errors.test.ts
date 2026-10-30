@@ -5,7 +5,7 @@ import { LiveMetaClient, type MetaRequest } from "./client";
 import { addMetaProviderErrorContext, formatMetaProviderError } from "./provider-errors";
 
 const config = {
-  META_API_KEY: "test-secret-key/with+characters",
+  CAUSALFLY_META_ENABLED: "1", META_API_KEY: "test-secret-key/with+characters",
   META_BASE_URL: "https://meta-test.invalid/v1",
   META_MODEL: "test-configured-model",
 };

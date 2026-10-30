@@ -1,6 +1,7 @@
 import "server-only";
 import { setTimeout as sleep } from "node:timers/promises";
 import OpenAI from "openai";
+import { MetaFailure } from "./failure";
 import { addMetaProviderErrorContext } from "./provider-errors";
 
 export interface MetaRequest {
@@ -17,6 +18,8 @@ export interface MetaClient {
 }
 
 export type MetaEnvironment = Readonly<{
+  CAUSALFLY_META_ENABLED?: string;
+  CAUSALFLY_FAKE_META?: string;
   META_API_KEY?: string;
   META_BASE_URL?: string;
   META_MODEL?: string;
@@ -26,12 +29,18 @@ export type MetaEnvironment = Readonly<{
 
 export function readMetaEnvironment(): MetaEnvironment {
   return {
+    CAUSALFLY_META_ENABLED: process.env.CAUSALFLY_META_ENABLED,
+    CAUSALFLY_FAKE_META: process.env.CAUSALFLY_FAKE_META,
     META_API_KEY: process.env.META_API_KEY,
     META_BASE_URL: process.env.META_BASE_URL,
     META_MODEL: process.env.META_MODEL,
     META_SCENE_MODEL: process.env.META_SCENE_MODEL,
     META_TIMEOUT_MS: process.env.META_TIMEOUT_MS,
   };
+}
+
+export function assertMetaEnabled(env: MetaEnvironment = readMetaEnvironment()) {
+  if (env.CAUSALFLY_META_ENABLED !== "1" || env.CAUSALFLY_FAKE_META === "1") throw new MetaFailure("CONFIGURATION_DISABLED", "Live Meta is disabled on this server. Use the explicit offline fixture.");
 }
 
 export function readLiveConfiguration(env: MetaEnvironment) {
@@ -81,6 +90,7 @@ function transientFailure(error: unknown): string | undefined {
 export class LiveMetaClient implements MetaClient {
   readonly mode = "META LIVE" as const;
   private readonly sdk: OpenAI;
+  private readonly environment: MetaEnvironment;
   private readonly model: string;
   private readonly transport: MetaTransportOptions;
 
@@ -89,7 +99,9 @@ export class LiveMetaClient implements MetaClient {
     fetchImplementation?: typeof fetch,
     transport: MetaTransportOptions = {},
   ) {
+    this.environment = env;
     const config = readLiveConfiguration(env);
+    assertMetaEnabled(env);
     this.model = config.model;
     this.transport = transport;
     this.sdk = new OpenAI({
@@ -109,6 +121,7 @@ export class LiveMetaClient implements MetaClient {
     const maxRetries = request.task === "observe" || this.transport.retry === false ? 0 : 2;
     for (let retry = 0; ; retry++) {
       try {
+        assertMetaEnabled(this.environment);
         completion = await this.sdk.chat.completions.create({
           model: this.model,
           messages: [
@@ -130,9 +143,9 @@ export class LiveMetaClient implements MetaClient {
         await (this.transport.sleep ?? sleep)(500 * 2 ** retry + jitter);
       }
     }
-    const choice = completion.choices[0];
-    if (choice?.finish_reason !== "stop" || choice.message.refusal || !choice.message.content) {
-      throw new Error("Meta returned an incomplete, refused, or empty response; no response accepted.");
+    const choice = Array.isArray(completion?.choices) ? completion.choices[0] : undefined;
+    if (choice?.finish_reason !== "stop" || !choice.message || choice.message.refusal || typeof choice.message.content !== "string" || !choice.message.content.trim()) {
+      throw new MetaFailure("INVALID_PROVIDER_RESPONSE", "Meta returned an incomplete, refused, or empty response; no response accepted.");
     }
     return choice.message.content;
   }

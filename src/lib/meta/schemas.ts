@@ -1,3 +1,4 @@
+import { MetaFailure } from "./failure";
 import { isDeepStrictEqual } from "node:util";
 import { z } from "zod";
 import { freezeRecord } from "../experiment/engine";
@@ -77,7 +78,7 @@ export function parseStructuredResponse(response: string): unknown {
   try {
     return JSON.parse(response) as unknown;
   } catch {
-    throw new Error("Meta response must be a complete JSON object; no experiment or analysis accepted.");
+    throw new MetaFailure("INVALID_PROVIDER_RESPONSE", "Meta response must be a complete JSON object; no experiment or analysis accepted.");
   }
 }
 

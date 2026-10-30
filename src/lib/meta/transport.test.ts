@@ -10,7 +10,7 @@ import { formatMetaProviderError } from "./provider-errors";
 import { runAiExperiment, type AiExperimentStage } from "./workflow";
 
 const config = {
-  META_API_KEY: "test-transport-secret-key",
+  CAUSALFLY_META_ENABLED: "1", META_API_KEY: "test-transport-secret-key",
   META_BASE_URL: "https://meta-test.invalid/v1",
   META_MODEL: "test-configured-model",
 };

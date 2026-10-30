@@ -30,6 +30,7 @@ export class FlightRecorder {
       run_id: this.run_id, ...(parent ? { parent_run_id: parent.run_id } : {}),
       source: previous?.manifest.source ?? "synthetic", createdAt: at, updatedAt: at,
       models: previous?.manifest.models.filter(m => m.task !== "interpret") ?? [],
+      ...(previous?.manifest.media ? { media: previous.manifest.media } : {}),
       ...(previous?.manifest.perception ? { perception: previous.manifest.perception } : {}),
       warnings: previous?.manifest.warnings ?? [], interpretation: { state: "not_requested" },
     };
@@ -42,7 +43,7 @@ export class FlightRecorder {
   event(type: RunEventType, metadata: RunEvent["metadata"] = {}) {
     // Runtime allowlist as well as a typed boundary. No arbitrary object spread.
     const safe: Record<string, string | number> = {};
-    for (const key of ["code", "model", "mode", "perceptionId", "trackedFrames", "amplitude", "designId", "parentRunId", "sceneId", "concept", "provider", "selection", "candidateCount", "samResultId"] as const) {
+    for (const key of ["mediaId", "code", "model", "mode", "perceptionId", "trackedFrames", "amplitude", "designId", "parentRunId", "sceneId", "concept", "provider", "selection", "candidateCount", "samResultId"] as const) {
       const value = metadata[key];
       if (typeof value === "string" || typeof value === "number" && Number.isFinite(value)) safe[key] = value;
     }
@@ -53,6 +54,10 @@ export class FlightRecorder {
       this.events = this.events.slice(-EVENT_LIMIT).map((event, i) => ({ ...event, sequence: i + 1 }));
       this.manifest = { ...this.manifest, warnings: [...new Set([...this.manifest.warnings, "Event retention limit reached; oldest events omitted."])] };
     }
+  }
+
+  media(identity: import("../perception/blob-contract").BlobMediaIdentity) {
+    this.manifest = { ...this.manifest, media: structuredClone(identity) };
   }
 
   question(question: string) {
@@ -72,8 +77,8 @@ export class FlightRecorder {
 
   perception(perception?: PerceptionRecord) {
     if (!perception) {
-      const { perception: _removed, ...manifest } = this.manifest;
-      void _removed;
+      const { perception: _removed, media: _removedMedia, ...manifest } = this.manifest;
+      void _removed; void _removedMedia;
       this.manifest = { ...manifest, source: "synthetic" };
       return;
     }
@@ -83,7 +88,9 @@ export class FlightRecorder {
       this.events = [...this.events, ...source.snapshot().events.filter(e => !keys.has(`${e.run_id}:${e.type}:${e.at}`))]
         .sort((a, b) => a.at.localeCompare(b.at)).map((event, i) => ({ ...event, sequence: i + 1 }));
     }
-    this.manifest = { ...this.manifest, source: perception.mode === "SAM LIVE" ? "SAM perception" : "offline perception fixture", perception: structuredClone(perception) };
+    const { media: _previousMedia, ...manifest } = this.manifest;
+    void _previousMedia;
+    this.manifest = { ...manifest, source: perception.mode === "SAM LIVE" ? "SAM perception" : "offline perception fixture", perception: structuredClone(perception), ...(perception.provenance.storage ? { media: structuredClone(perception.provenance.storage) } : {}) };
     for (const warning of perception.provenance.warnings) this.warning(warning);
   }
 

@@ -1,9 +1,10 @@
+import { referenceBody, fixtureResolver } from "./media-test-fixture";
 import test, { mock } from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID, createHash } from "node:crypto";
 import { FlightRecorder } from "./flight-recorder";
 import { runGuidedAction } from "./guided-workflow";
-import { perceptionAction } from "./perception-action";
+import { perceptionAction as realPerceptionAction } from "./perception-action";
 import { workspaceReducer } from "./dashboard";
 import { FakeMetaClient } from "../meta/fake-client";
 import { SamError } from "../meta/sam-client";
@@ -88,7 +89,7 @@ test("perceive-first fixture shares its run ID, retains formula and geometry, an
 test("SAM failures and no-match events are correlated and retain neither uploaded bytes nor raw errors", async () => {
   for (const noMatch of [true, false]) {
     const form = new FormData(); form.set("video", new File(["PRIVATE_VIDEO_BYTES"], "PRIVATE_FILENAME.mp4")); form.set("concept", "hand");
-    const response = await perceptionAction(new Request("http://localhost/api/perception", { method: "POST", headers: { "X-Perception-Request": randomUUID() }, body: form }), {
+    const response = await perceptionAction(new Request("http://localhost/api/perception", { method: "POST", headers: { "Content-Type": "application/json", "X-Perception-Request": randomUUID() }, body: referenceBody(form) }), {
       inspect: async () => offlinePerceptionFixture("x").media,
       analyze: async () => { if (noMatch) throw new SamError("SAM found no matching object. Try a clearer clip."); throw new Error("Bearer SECRET_TOKEN raw provider stack"); },
     });
@@ -104,7 +105,7 @@ test("SAM failures and no-match events are correlated and retain neither uploade
 test("injected SAM success records track identity and carries the perception ID into an approved run", async () => {
   const fixture = offlinePerceptionFixture("sam-success");
   const form = new FormData(); form.set("video", new File(["PRIVATE_VIDEO_BYTES"], "PRIVATE_FILENAME.mp4")); form.set("concept", "hand");
-  const response = await perceptionAction(new Request("http://localhost/api/perception", { method: "POST", headers: { "X-Perception-Request": randomUUID() }, body: form }), {
+  const response = await perceptionAction(new Request("http://localhost/api/perception", { method: "POST", headers: { "Content-Type": "application/json", "X-Perception-Request": randomUUID() }, body: referenceBody(form) }), {
     inspect: async () => fixture.media,
     analyze: async () => ({ measurement: fixture.measurement, overlay: { rawOutput: "PRIVATE_PROVIDER_OUTPUT" } as never,
       provenance: { ...fixture.provenance, parser: "@meta-sam/parser@0.1.0", warnings: ["test_warning"], responseId: "response-fixture", requestId: undefined } }),
@@ -173,3 +174,7 @@ test("event metadata is allowlisted and SAM geometry validation can fail without
   assert.equal(recorder.snapshot().manifest.validation?.derivedStimulusValid, false);
   assert.equal(recorder.snapshot().manifest.validation?.trackReturned, false);
 });
+
+
+process.env.CAUSALFLY_META_ENABLED = "1";
+function perceptionAction(request: Request, deps: NonNullable<Parameters<typeof realPerceptionAction>[1]> = {}) { return realPerceptionAction(request, { ...deps, resolve: fixtureResolver(deps.inspect) }); }

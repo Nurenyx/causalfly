@@ -235,3 +235,27 @@ test("plain-language labels preserve raw result names, values, analysis and evid
   assert.deepEqual(display.map((item) => item.value), [1, 3, "THRESHOLD_REACHED"]);
   assert.equal(JSON.stringify(response.result), before);
 });
+
+
+test("unavailable observatory produces explicit ERROR with zero fabricated telemetry", () => {
+  const b = bridge();
+  b.socket.dispatchEvent(new Event("error"));
+  assert.equal(b.last().state, "ERROR");
+  assert.equal(b.last().evidence, null);
+  assert.ok(b.snapshots.every(snapshot => snapshot.evidence === null));
+});
+
+test("available observatory accepts validated frames and disconnect preserves source provenance", () => {
+  const b = bridge();
+  b.socket.open();
+  b.socket.receive(hello);
+  b.socket.receive(frame);
+  assert.equal(b.last().state, "DATA RECEIVED");
+  const received = b.last().evidence;
+  assert.ok(received);
+  assert.equal(received.telemetry.sessionId, frame.sessionId);
+  assert.equal(received.provenance.transport, "observatory/v1");
+  b.disconnect();
+  assert.equal(b.last().state, "DISCONNECTED");
+  assert.equal(b.last().evidence, received);
+});

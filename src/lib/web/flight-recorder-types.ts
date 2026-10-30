@@ -4,6 +4,7 @@ import type { ScientificAnalysis } from "../meta/schemas";
 import type { PerceptionRecord } from "../perception/contracts";
 
 export type RunEventType =
+  | "media.selected" | "media.upload.authorized" | "media.upload.completed" | "media.validated"
   | "run.created" | "question.submitted"
   | "meta.scene.requested" | "meta.scene.completed" | "meta.scene.failed" | "meta.scene.selected"
   | "sam.requested" | "sam.completed" | "sam.no_match" | "sam.failed"
@@ -19,7 +20,7 @@ export interface RunEvent {
   readonly type: RunEventType;
   readonly at: string;
   /** Allowlisted identifiers and codes only; never provider bodies, errors or media. */
-  readonly metadata: Readonly<Partial<Record<"code" | "model" | "mode" | "perceptionId" | "trackedFrames" | "amplitude" | "designId" | "parentRunId" | "sceneId" | "concept" | "provider" | "selection" | "candidateCount" | "samResultId", string | number>>>;
+  readonly metadata: Readonly<Partial<Record<"mediaId" | "code" | "model" | "mode" | "perceptionId" | "trackedFrames" | "amplitude" | "designId" | "parentRunId" | "sceneId" | "concept" | "provider" | "selection" | "candidateCount" | "samResultId", string | number>>>;
 }
 
 export interface RunManifest {
@@ -32,6 +33,7 @@ export interface RunManifest {
   readonly updatedAt: string;
   readonly models: readonly { task: "design" | "interpret" | "perceive" | "scene"; model: string; mode: string }[];
   readonly perception?: PerceptionRecord;
+  readonly media?: import("../perception/blob-contract").BlobMediaIdentity;
   /** Exact stable serialized specification, independent of display IDs. */
   readonly spec?: ExperimentSpec;
   readonly specSha256?: string;

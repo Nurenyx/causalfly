@@ -1,0 +1,78 @@
+{
+  "health": {
+    "status": "ok",
+    "runtimeMode": "production",
+    "metaMode": "offline",
+    "metaEnabled": false,
+    "configuration": {
+      "metaConfigured": true,
+      "sceneModelConfigured": true,
+      "samConfigured": true,
+      "fruitFlyXR": false
+    },
+    "providersChecked": false,
+    "version": "0.1.0"
+  },
+  "calls": [
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "bytes": 0
+    },
+    {
+      "path": "/api/perception/scene",
+      "method": "POST",
+      "bytes": 18
+    },
+    {
+      "path": "/api/perception",
+      "method": "POST",
+      "bytes": 106
+    },
+    {
+      "path": "/api/experiments",
+      "method": "POST",
+      "bytes": 1312
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "bytes": 0
+    },
+    {
+      "path": "/api/experiments",
+      "method": "POST",
+      "bytes": 60
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "bytes": 0
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "bytes": 0
+    }
+  ],
+  "offlineEndToEnd": true,
+  "diagnosticExportSafe": true,
+  "deterministicPeaks": [
+    0.64,
+    0.32
+  ],
+  "directUploadBytes": 20971520,
+  "authorizationBytes": 82,
+  "referenceBytes": 51,
+  "storageMocked": true,
+  "providerRetryReusesUpload": true,
+  "uploadStages": [
+    "Preparing upload",
+    "Uploading — 0%",
+    "Uploading — 50%",
+    "Upload complete · ready"
+  ],
+  "liveMuseCalls": 0,
+  "liveSamCalls": 0,
+  "errors": []
+}

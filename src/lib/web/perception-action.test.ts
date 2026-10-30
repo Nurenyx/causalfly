@@ -1,8 +1,9 @@
+import { referenceBody, fixtureResolver } from "./media-test-fixture";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { perceptionAction } from "./perception-action";
+import { perceptionAction as realPerceptionAction } from "./perception-action";
 import { offlinePerceptionFixture } from "../perception/fixture";
 import { perceptionReceipt, retainPerception } from "../perception/store";
 import { inspectVideo, validateVideoFile } from "../perception/media";
@@ -14,7 +15,7 @@ import type { MetaRequest } from "../meta/client";
 const forbidden = async () => { assert.fail("Automated validation must not call Meta"); };
 function request(file?: File, concept = "hand", token = randomUUID()) {
   const form = new FormData(); if (file) form.set("video", file); form.set("concept", concept);
-  return new Request("http://localhost/api/perception", { method: "POST", headers: { "X-Perception-Request": token }, body: form });
+  return new Request("http://localhost/api/perception", { method: "POST", headers: { "Content-Type": "application/json", "X-Perception-Request": token }, body: referenceBody(form) });
 }
 test("explicit offline fixture calls no model and is unmistakably non-live", async () => {
   const response = await perceptionAction(new Request("http://localhost/api/perception", { method: "POST", headers: { "Content-Type": "application/json", "X-Perception-Request": randomUUID() }, body: '{"mode":"fixture"}' }), { analyze: forbidden, inspect: forbidden });
@@ -119,3 +120,7 @@ test("accepted perception forks a validated draft and new measurements, never co
   const synthetic = await runGuidedAction({ action: "stimulus", id: accepted.design.id, perceptionId: null }, deps);
   assert.ok(synthetic.ok); assert.equal(synthetic.result, undefined); assert.equal(synthetic.design.perceptionInput, undefined); assert.equal(synthetic.design.spec.stimulus.amplitude, 1);
 });
+
+
+process.env.CAUSALFLY_META_ENABLED = "1";
+function perceptionAction(request: Request, deps: NonNullable<Parameters<typeof realPerceptionAction>[1]> = {}) { return realPerceptionAction(request, { ...deps, resolve: fixtureResolver(deps.inspect) }); }

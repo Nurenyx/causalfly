@@ -12,7 +12,7 @@ import { runWebExperiment, safeWebProviderError } from "./workflow";
 
 const input = { researchQuestion: "Does silencing primary_a change this synthetic output?" };
 const config = {
-  META_API_KEY: "secret-web-test-key-never-return",
+  CAUSALFLY_META_ENABLED: "1", META_API_KEY: "secret-web-test-key-never-return",
   META_BASE_URL: "https://meta-test.invalid/v1",
   META_MODEL: "test-model",
 };
@@ -132,7 +132,7 @@ async function failingClient(error: unknown) {
 }
 
 test("configuration failures return a safe public error without making a call", async () => {
-  const response = await runWebExperiment(input, { env: { META_API_KEY: config.META_API_KEY }, createClient: (env) => createMetaClient("auto", env) });
+  const response = await runWebExperiment(input, { env: { CAUSALFLY_META_ENABLED: "1", META_API_KEY: config.META_API_KEY }, createClient: (env) => createMetaClient("auto", env) });
   assert.ok(!response.ok);
   assert.equal(response.kind, "configuration");
   assert.match(response.error, /configuration is incomplete or invalid/);

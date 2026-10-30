@@ -92,7 +92,7 @@ test("browser output from injected live transport contains no credentials, reque
     const body = JSON.parse(String(init?.body));
     return Response.json({ choices: [{ finish_reason: "stop", message: { role: "assistant", content: await fake.complete({ task: "observe", system: "", inputJson: body.messages[1].content, responseSchema: {} }) } }] });
   };
-  const result = await runWebObservation({ ...fixture(), researchQuestion: question }, { createClient: () => new LiveMetaClient({ META_API_KEY: "secret-sentinel", META_BASE_URL: "https://private-test.invalid/v1", META_MODEL: "private-test-model" }, transport) });
+  const result = await runWebObservation({ ...fixture(), researchQuestion: question }, { createClient: () => new LiveMetaClient({ CAUSALFLY_META_ENABLED: "1", META_API_KEY: "secret-sentinel", META_BASE_URL: "https://private-test.invalid/v1", META_MODEL: "private-test-model" }, transport) });
   assert.ok(result.ok);
   assert.equal(result.result.mode, "META LIVE");
   assert.doesNotMatch(JSON.stringify(result), /secret-sentinel|private-test|Authorization|responseSchema|OBSERVATIONAL_INSTRUCTIONS/);

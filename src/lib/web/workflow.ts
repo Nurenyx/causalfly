@@ -1,5 +1,6 @@
 import "server-only";
-import OpenAI from "openai";
+import { metaFailureCode } from "../meta/failure";
+import { developerDiagnosticsEnabled } from "./diagnostic-policy";
 import { z } from "zod";
 import { syntheticDemoNetwork } from "../experiment/network";
 import { freezeRecord } from "../experiment/engine";
@@ -17,26 +18,27 @@ const inputSchema = z.strictObject({ researchQuestion: researchQuestionSchema })
 const configurationError = "Meta Model API configuration is incomplete or invalid. Configure the server or use offline fake mode.";
 
 export function configuredClient(env: MetaEnvironment): MetaClient {
-  return createMetaClient(process.env.CAUSALFLY_FAKE_META === "1" ? "fake" : "auto", env);
+  return createMetaClient(env.CAUSALFLY_FAKE_META === "1" ? "fake" : "auto", env);
 }
 
 /** Configuration status only; constructing a client never makes a provider call. */
 export function getWebStatus(): WebStatus {
   try {
-    return { mode: configuredClient(readMetaEnvironment()).mode };
-  } catch {
-    return { mode: null, error: configurationError };
+    return { mode: configuredClient(readMetaEnvironment()).mode, developerDiagnostics: developerDiagnosticsEnabled() };
+  } catch (error) {
+    return { mode: null, metaDisabled: metaFailureCode(error) === "CONFIGURATION_DISABLED", error: metaFailureCode(error) === "CONFIGURATION_DISABLED" ? safeWebProviderError(error) : configurationError, developerDiagnostics: developerDiagnosticsEnabled() };
   }
 }
 
 /** Fixed public messages, never SDK messages, bodies, headers or prompts. */
 export function safeWebProviderError(error: unknown): string {
-  if (error instanceof OpenAI.APIConnectionTimeoutError) {
-    return "Meta Model API timed out. Please retry.";
-  }
-  if (error instanceof OpenAI.APIError && (error.status === 401 || error.status === 403)) {
-    return "Meta Model API authentication failed. Check the server configuration.";
-  }
+  const code = metaFailureCode(error);
+  if (code === "CONFIGURATION_DISABLED") return "Live Meta is disabled on this server. Enable it explicitly or choose the offline fixture.";
+  if (code === "PROVIDER_TIMEOUT") return "Meta Model API timed out. Please retry.";
+  if (code === "AUTHENTICATION_FAILED") return "Meta Model API authentication failed. Check the server configuration.";
+  if (code === "PROVIDER_RATE_LIMIT") return "Meta is temporarily rate limited. Wait a moment, then retry.";
+  if (code === "REQUEST_CANCELLED") return "The Meta request was cancelled. Retry when ready.";
+  if (code === "INVALID_PROVIDER_RESPONSE" || code === "SCHEMA_VALIDATION_FAILED") return "Meta returned an invalid design or interpretation. No output was accepted. Retry the explicit action.";
   return "The experiment could not be completed. Please retry. If this persists, check the server configuration.";
 }
 
@@ -59,9 +61,9 @@ export async function runWebExperiment(
   let client: MetaClient;
   try {
     client = (dependencies.createClient ?? configuredClient)(env);
-  } catch {
-    recorder.event("meta.design.failed", { code: "configuration" });
-    return fail("configuration", configurationError);
+  } catch (error) {
+    recorder.event("meta.design.failed", { code: metaFailureCode(error) === "CONFIGURATION_DISABLED" ? "CONFIGURATION_DISABLED" : "CONFIGURATION_INVALID" });
+    return fail("configuration", metaFailureCode(error) === "CONFIGURATION_DISABLED" ? safeWebProviderError(error) : configurationError);
   }
   let stage: "design" | "engine" | "interpret" = "design";
   const model = client.mode === "META LIVE" ? env.META_MODEL?.trim() ?? "Model unavailable" : "FakeMetaClient / offline template";
@@ -98,6 +100,7 @@ export async function runWebExperiment(
   } catch (error: unknown) {
     if (stage === "design") recorder.event(error instanceof z.ZodError || error instanceof Error && error.message === "Meta response must be a complete JSON object; no experiment or analysis accepted." ? "meta.design.rejected" : "meta.design.failed");
     if (stage === "interpret") recorder.interpretation("failed");
+    recorder.event("error.recorded", { code: metaFailureCode(error) });
     return fail("provider", safeWebProviderError(error));
   }
 }

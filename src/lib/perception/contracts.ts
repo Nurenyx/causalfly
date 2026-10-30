@@ -38,6 +38,7 @@ export interface PerceptionRecord {
     requestedAt: string; completedAt: string; mediaSha256: string;
     responseId?: string; requestId?: string;
     scene?: SceneProvenance;
+    storage?: import("./blob-contract").BlobMediaIdentity;
     cleanup: "deleted" | "delete-failed-expires-in-1h" | "not-uploaded";
     parser: "@meta-sam/parser@0.1.0" | "offline-geometry-fixture";
     warnings: readonly string[];

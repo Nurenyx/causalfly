@@ -240,3 +240,29 @@ test("serialized display data contains no secrets, invented movement, anatomy or
   assert.match(ui, /Meta requires a question and frozen retained evidence/);
   assert.doesNotMatch(ui, /fetch\(|\.complete\(/);
 });
+
+
+test("new investigation excludes prior telemetry and reconnect preserves its observation boundary", async () => {
+  const { frameIdentity, investigationWindow, interpretationBelongsToObservation } = await import("../web/investigation");
+  const { workspaceReducer } = await import("../web/dashboard");
+  const old = evidence(1);
+  const received = receiveSnapshot(emptyLiveSession(), snapshot(old));
+  const state = workspaceReducer({ workspace: "live", question: "Synthetic", result: null }, { type: "fruitfly-ask", question: "New observation?", startedAt: new Date(now + 1).toISOString(), excluded: received.frames.map(frameIdentity) });
+  assert.equal(investigationWindow(received.snapshot, received.frames, state.observation).snapshot.evidence, null);
+  assert.equal(investigationWindow(received.snapshot, received.frames, state.observation).frames.length, 0);
+  const oldInterpretation = { analysis: { exactQuestion: state.fruitFlyAskedQuestion }, evidence: { sessionId: old.telemetry.sessionId, frames: [{ sequence: old.telemetry.sequence }] } } as import("../web/observational-contracts").ObservationalResult;
+  assert.equal(interpretationBelongsToObservation(oldInterpretation, state.fruitFlyAskedQuestion, investigationWindow(received.snapshot, received.frames, state.observation).frames), false);
+  const disconnected = receiveSnapshot(received, snapshot(null, "DISCONNECTED"));
+  assert.equal(disconnected.snapshot.evidence, old);
+  assert.equal(sessionStatus(disconnected.snapshot, now + 2).live, false);
+  assert.equal(sessionStatus(disconnected.snapshot, now + 2).historical, true);
+  const reconnected = receiveSnapshot(disconnected, snapshot(evidence(2)));
+  const rebound = workspaceReducer(state, { type: "fruitfly-session", sessionId: reconnected.snapshot.evidence!.telemetry.sessionId });
+  assert.equal(rebound.observation, state.observation);
+  assert.equal(rebound.fruitFlyAskedQuestion, state.fruitFlyAskedQuestion);
+  const active = investigationWindow(reconnected.snapshot, reconnected.frames, rebound.observation);
+  assert.deepEqual(active.frames.map(frame => frame.telemetry.sequence), [2]);
+  assert.equal(active.snapshot.evidence, reconnected.snapshot.evidence);
+  const replay = { ...old, receivedAt: new Date(now + 100).toISOString() };
+  assert.equal(investigationWindow(snapshot(replay), [replay], rebound.observation).snapshot.evidence, null);
+});

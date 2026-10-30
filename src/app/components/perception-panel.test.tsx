@@ -30,11 +30,17 @@ test("scene candidates require explicit selection; offline attribution and roles
   assert.doesNotMatch(html, /checked=""|TRACK RED SQUARE WITH SAM/);
 });
 test("selected candidate enables exact explicit SAM CTA, and manual override replaces it", () => {
-  const session = { ...initialPerceptionSession(), source: "perception" as const, file: new File(["clip"], "clip.mp4"), ready: true, scene, selectedCandidate: 0 };
+  const session = { ...initialPerceptionSession(), source: "perception" as const, file: new File(["clip"], "clip.mp4"), ready: true, scene: { ...scene, mode: "META LIVE" as const, provider: "Meta" as const }, selectedCandidate: 0 };
   const render = (manual: boolean) => renderToStaticMarkup(<PerceptionPanel session={{ ...session, manual, concept: "blue cup" }} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
   assert.match(render(false), /TRACK RED SQUARE WITH SAM 3.1/);
   assert.match(render(true), /TRACK BLUE CUP WITH SAM 3.1/);
   assert.doesNotMatch(render(true), /TRACK RED SQUARE WITH SAM 3.1/);
+});
+test("offline candidates offer fixture tracking without a live-provider label", () => {
+  const session = { ...initialPerceptionSession(), source: "perception" as const, scene, selectedCandidate: 0 };
+  const html = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
+  assert.match(html, /LOAD OFFLINE TRACKING FIXTURE/);
+  assert.doesNotMatch(html, /TRACK RED SQUARE WITH SAM 3.1/);
 });
 test("synthetic is the reliable default; rendering never calls SAM or exposes a fake detection", () => {
   const html = renderToStaticMarkup(<PerceptionPanel hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
@@ -43,7 +49,7 @@ test("synthetic is the reliable default; rendering never calls SAM or exposes a 
 });
 test("offline perception is labelled, scoped to its own diagram, and requires an approved run", () => {
   const html = renderToStaticMarkup(<PerceptionPanel accepted={f} hasDesign busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
-  for (const label of [/META SAM 3.1 — PERCEPTION/, /NO LIVE DETECTION/, /8.0% → 40.0%/, /0.640/, /STIMULUS READY/, /PERCEPTION DETAILS/]) assert.match(html, label);
+  for (const label of [/OFFLINE TRACKING FIXTURE/, /NO LIVE DETECTION/, /8.0% → 40.0%/, /0.640/, /STIMULUS READY/, /PERCEPTION DETAILS/]) assert.match(html, label);
   assert.doesNotMatch(html, /<video|<canvas/);
   const summary = renderToStaticMarkup(<><PerceptionSummary perception={f} /><PerceptionDetails perception={f} /></>);
   assert.match(summary, /Input provenance only/); assert.match(summary, /not causal evidence/);

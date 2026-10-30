@@ -1,0 +1,14 @@
+{
+  "internal": true,
+  "actions": [
+    "design",
+    "run"
+  ],
+  "duplicateSuppression": true,
+  "designAwaitingApproval": true,
+  "provenanceVisible": true,
+  "rawExportVisible": true,
+  "exportDownloadVerified": true,
+  "errors": [],
+  "liveProviderCalls": 0
+}

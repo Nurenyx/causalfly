@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "apiStatus": 200,
+  "providerRequests": 1,
+  "providerHTTPStatus": 200,
+  "model": "muse-wonder-1.0",
+  "providerFinishReason": "stop",
+  "responseContainsCredential": false,
+  "failureCode": null,
+  "designValidated": true,
+  "mode": "META LIVE",
+  "uiAwaitingApproval": true,
+  "experimentActions": [
+    "design"
+  ],
+  "engineRan": false,
+  "duplicateProviderRequest": false
+}

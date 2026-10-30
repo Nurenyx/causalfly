@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { discoverScene, sceneConfiguration } from "./scene-client";
 import { offlineScene } from "../perception/scene";
-const env = { META_API_KEY: "unit-test-key-never-live", META_BASE_URL: "https://api.meta.ai/v1", META_MODEL: "muse-wonder-1.0", META_SCENE_MODEL: "muse-spark-1.3", META_TIMEOUT_MS: "1000" };
+const env = { CAUSALFLY_META_ENABLED: "1", META_API_KEY: "unit-test-key-never-live", META_BASE_URL: "https://api.meta.ai/v1", META_MODEL: "muse-wonder-1.0", META_SCENE_MODEL: "muse-spark-1.3", META_TIMEOUT_MS: "1000" };
 test("scene model is explicit and independent of existing Wonder design configuration", () => {
   assert.equal(sceneConfiguration(env).model, "muse-spark-1.3");
   assert.equal(env.META_MODEL, "muse-wonder-1.0");

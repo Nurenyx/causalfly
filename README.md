@@ -87,6 +87,7 @@ if (!(Test-Path .env.local)) { Copy-Item .env.example .env.local }
 Edit `.env.local` locally:
 
 ```dotenv
+CAUSALFLY_META_ENABLED=1
 META_API_KEY=<your Meta API key>
 META_BASE_URL=https://api.meta.ai/v1
 META_MODEL=muse-wonder-1.0
@@ -104,13 +105,13 @@ Confirm **META LIVE** before presenting live Muse results. Restart the server af
 
 ## SAM calibration demo
 
-In **Experiment**, keep the question “What happens if I silence the primary pathway?” Select **Real-world perception**, choose [`public/perception-calibration.mp4`](public/perception-calibration.mp4), enter **red square**, then click **Analyze with SAM 3.1**.
+In **Experiment**, keep the question “What happens if I silence the primary pathway?” Select **Real-world perception**, choose [`public/perception-calibration.mp4`](public/perception-calibration.mp4), enter **red square**, then use **Discover with Meta**, confirm a candidate, and choose the explicit SAM tracking action. Live video requires the private Blob setup below.
 
 The clip is generated calibration media, not recorded real-world footage. The prior live check returned **60 tracked frames** and amplitude **0.48755208333333333** (displayed **0.488**); a fresh provider response may differ. CausalFly computes the amplitude from the returned boxes; it does not hard-code the expected result. [Recorded check](docs/SPRINT_8B_REVIEW.md)
 
 Choose **Design Experiment With This Stimulus**, review the design, then **Approve & Run Experiment**. Inspect the measured result, request **Explain with Meta**, show the proposed next question, and open **Experiment Trust → Run diagnostics → EXPORT RUN DIAGNOSTICS**. The [runbook](docs/DEMO_RUNBOOK.md) includes exact steps and recovery.
 
-Offline perception instead uses a separate **four-frame geometry fixture**, amplitude **0.640**, with explicit fixture labels and no video analysis. `CAUSALFLY_FAKE_META=1` controls Muse only; use the fixture button to keep SAM offline.
+Offline perception instead uses a separate **four-frame geometry fixture**, amplitude **0.640**, with explicit fixture labels and no video analysis. `CAUSALFLY_FAKE_META=1` also blocks live scene/SAM requests and makes the primary perception buttons load explicitly labelled calibration/tracking fixtures. No Blob credentials are required for this path. `CAUSALFLY_META_ENABLED=0` (or unset) blocks every live provider entry point even when keys exist.
 
 ## Optional FruitFly XR local integration
 
@@ -127,7 +128,9 @@ Open **Live Connectome → Connect FruitFly XR**. The research subscription is r
 
 ## Production alpha
 
-Target: **causalfly.nurenyx.ai**, a managed Next.js / Node.js web app. Standard `npm ci`, `npm run build`, and `npm start` commands apply. See the [Hostinger deployment guide](docs/DEPLOY_HOSTINGER.md) for configuration, port policy, health checks, and rollback. FruitFly XR remains optional; its [Sprint 11B Cloud Run plan](docs/CLOUD_RUN_FRUITFLY_BRIDGE_PLAN.md) is documentation only.
+The current alpha runs on Vercel. Live perception uses direct, private Vercel Blob uploads with a 20 MiB application limit; video bytes never enter a normal CausalFly request. Follow the [Sprint 11B setup and review](docs/SPRINT_11B_PRODUCTION_HARDENING_REVIEW.md) for private-store/OIDC setup, signing secret, explicit cleanup and Firewall rules.
+
+Historical alternative target: **causalfly.nurenyx.ai**, a managed Next.js / Node.js web app. Standard `npm ci`, `npm run build`, and `npm start` commands apply. See the [Hostinger deployment guide](docs/DEPLOY_HOSTINGER.md) for configuration, port policy, health checks, and rollback. FruitFly XR remains optional; its [Sprint 11B Cloud Run plan](docs/CLOUD_RUN_FRUITFLY_BRIDGE_PLAN.md) is documentation only.
 
 ## Validation
 
@@ -154,3 +157,27 @@ Built by Nurenyx for the **Meta Global AI Developer Hackathon 2026**, beginning 
 [Full hackathon disclosure](docs/HACKATHON-DISCLOSURE.md) · [Submission copy](docs/HACKATHON_SUBMISSION.md)
 
 CausalFly code is **Apache-2.0**; see [LICENSE](LICENSE). The bundled published anatomy data retains **CC BY 4.0**; see [third-party notices and transformations](THIRD_PARTY_NOTICES.md). Dependencies retain their respective licenses. Copyright © 2026 Nurenyx.
+
+
+### Meta enablement and developer diagnostics
+
+Live experiment design requires all three Meta credentials/configuration fields plus
+`CAUSALFLY_META_ENABLED=1`. An unset or disabled switch blocks provider work and is
+reported as disabled configuration (HTTP 503), rather than a provider outage (502).
+`CAUSALFLY_FAKE_META=1` explicitly selects the offline template and never contacts Meta;
+failed live requests never fall back to fake output. Restart the server after changing
+local environment settings. Health checks report configuration, not provider reachability.
+
+Flight Recorder, scientific provenance, validation and human-readable Technical Details
+remain available to researchers. Raw diagnostic JSON export and the raw event ledger are
+hidden by default in production. Set the server-only
+`CAUSALFLY_DEVELOPER_DIAGNOSTICS=1` intentionally on an internal deployment to show them.
+Development exposes them by default; setting this flag to `0` hides them there too.
+This visibility switch is a product setting, not authentication. Diagnostic data remains
+allowlisted and must never contain credentials, provider headers/bodies or signed media URLs.
+
+Design failures record a safe code in Flight Recorder: `CONFIGURATION_DISABLED`,
+`CONFIGURATION_INVALID`, `AUTHENTICATION_FAILED`, `PROVIDER_TIMEOUT`,
+`PROVIDER_RATE_LIMIT`, `PROVIDER_HTTP_ERROR`, `INVALID_PROVIDER_RESPONSE`,
+`SCHEMA_VALIDATION_FAILED`, `REQUEST_CANCELLED`, or `UNKNOWN_PROVIDER_ERROR`.
+Provider output must still pass the unchanged strict schema before approval is offered.

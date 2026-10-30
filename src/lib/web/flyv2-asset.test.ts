@@ -41,6 +41,7 @@ test("FlyBody attribution, pinned source, sex and full upstream license survive 
   assert.equal(manifest.upstream_blend_sha256, source.source_sha256);
   assert.match(notice, /NOT authored from scratch/); assert.match(notice, /predate the/);
   assert.match(notice, /not sex-matched/); assert.match(notice, /NOT\s+measured biological/);
-  const licenseHash = createHash("sha256").update(readFileSync(`${root}LICENSE-FlyBody.txt`)).digest("hex");
+  // Git may convert this text asset to CRLF on Windows; upstream pins canonical LF bytes.
+  const licenseHash = createHash("sha256").update(readFileSync(`${root}LICENSE-FlyBody.txt`, "utf8").replace(/\r\n/g, "\n")).digest("hex");
   assert.equal(licenseHash, lock.files.find((file: { path: string }) => file.path === "LICENSE").sha256);
 });

@@ -130,7 +130,7 @@ test("synthetic local answers expose only actual engine measurements and do not 
   assert.ok(answer.facts[0].includes(String(compact.comparison.deltas.outputPeakActivity)));
   assert.match(answer.provenance, /engine/);
   assert.match(syntheticAssistantAnswer("Why does a living fly escape?", result).summary, /does not support/);
-  assert.match(syntheticAssistantAnswer("Explain the measured difference", null).summary, /No measured experiment/);
+  assert.match(syntheticAssistantAnswer("Explain the measured difference", null).summary, /This question has not been tested yet/);
   assert.match(syntheticAssistantAnswer("What does this network represent?", null).facts[0], /no biological identities/);
   assert.equal(JSON.stringify(result), before);
 });

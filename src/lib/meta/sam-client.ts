@@ -2,7 +2,7 @@ import "server-only";
 import OpenAI from "openai";
 import type { Stream } from "openai/core/streaming";
 import { parseVideoStream, recordsOfKind, type VideoSegmentationResult } from "@meta-sam/parser";
-import { readLiveConfiguration, readMetaEnvironment, type MetaEnvironment } from "./client";
+import { assertMetaEnabled, readLiveConfiguration, readMetaEnvironment, type MetaEnvironment } from "./client";
 import { SAM_MODEL, type VideoMetadata } from "../perception/contracts";
 import { extractFeatures, selectTrack } from "../perception/features";
 import type { TrackedBox } from "../perception/contracts";
@@ -34,6 +34,7 @@ export function measurementFromSam(result: VideoSegmentationResult, media: Video
 
 /** One provider attempt. The SDK handles SSE framing; Meta's parser handles its wire grammar. */
 export async function analyzeSamVideo(file: File, concept: string, media: VideoMetadata, options: { env?: MetaEnvironment; fetch?: typeof fetch } = {}) {
+  try { assertMetaEnabled(options.env); } catch { throw new SamError("Live Meta is disabled. Use the explicit offline fixture.", "configuration"); }
   const config = samConfiguration(options.env ?? readMetaEnvironment());
   const sdk = new OpenAI({ apiKey: config.apiKey, baseURL: config.baseURL, timeout: config.timeoutMs, maxRetries: 0, logLevel: "off", ...(options.fetch ? { fetch: options.fetch } : {}) });
   const requestedAt = new Date().toISOString();

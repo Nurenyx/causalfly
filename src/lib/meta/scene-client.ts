@@ -1,7 +1,7 @@
 import "server-only";
 import OpenAI from "openai";
 import { z } from "zod";
-import { readLiveConfiguration, readMetaEnvironment, type MetaEnvironment } from "./client";
+import { assertMetaEnabled, readLiveConfiguration, readMetaEnvironment, type MetaEnvironment } from "./client";
 import { sceneSchema } from "../perception/scene";
 
 export class SceneError extends Error {
@@ -18,6 +18,7 @@ export function sceneConfiguration(env: MetaEnvironment = readMetaEnvironment())
 
 /** Documented Meta Responses input_file. One model request; SDK retries disabled. */
 export async function discoverScene(file: File, options: { env?: MetaEnvironment; fetch?: typeof fetch } = {}) {
+  try { assertMetaEnabled(options.env); } catch { throw new SceneError("Live Meta is disabled. Use the explicit offline fixture.", "configuration"); }
   const config = sceneConfiguration(options.env);
   const sdk = new OpenAI({ apiKey: config.apiKey, baseURL: config.baseURL, timeout: config.timeoutMs, maxRetries: 0, logLevel: "off", ...(options.fetch ? { fetch: options.fetch } : {}) });
   const deadline = AbortSignal.timeout(config.timeoutMs);

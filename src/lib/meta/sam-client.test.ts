@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { analyzeSamVideo, measurementFromSam, samConfiguration } from "./sam-client";
 import { offlinePerceptionFixture } from "../perception/fixture";
 
-const env = { META_API_KEY: "unit-test-key-not-live", META_BASE_URL: "https://api.meta.ai/v1", META_TIMEOUT_MS: "1000" };
+const env = { CAUSALFLY_META_ENABLED: "1", META_API_KEY: "unit-test-key-not-live", META_BASE_URL: "https://api.meta.ai/v1", META_TIMEOUT_MS: "1000" };
 // Valid 27x60 mask from the official parser README conformance example.
 const mask = "<|mask;x=0;y=0;data=27,60,~!!!!M!0c[0o91w?q1!pIH4pPRVp2B3'7`e.ioeAf6-k/#Xd8%dX9x(|>";
 const text = `<0f>0<|box;x1=211;y1=228;x2=270;y2=254;w=320;h=334|>${mask}\n<1f>0<|box;x1=180;y1=200;x2=299;y2=253;w=320;h=334|>${mask}\n`;
@@ -35,8 +35,8 @@ function transport(output = text, terminal: "completed" | "incomplete" | "eof" |
 }
 test("SAM shares server Meta key/config but fixes model and authoritative base URL", () => {
   assert.equal(samConfiguration(env).model, "sam-3.1");
-  assert.equal(samConfiguration({ META_API_KEY: "test" }).baseURL, "https://api.meta.ai/v1");
-  for (const config of [{}, { ...env, META_API_KEY: "" }, { ...env, META_BASE_URL: "https://example.com/v1" }]) assert.throws(() => samConfiguration(config), /SAM LIVE requires/);
+  assert.equal(samConfiguration({ CAUSALFLY_META_ENABLED: "1", META_API_KEY: "test" }).baseURL, "https://api.meta.ai/v1");
+  for (const config of [{}, { ...env, CAUSALFLY_META_ENABLED: "1", META_API_KEY: "" }, { ...env, META_BASE_URL: "https://example.com/v1" }]) assert.throws(() => samConfiguration(config), /SAM LIVE requires/);
 });
 test("one upload and segmentation use real official parser, normalize inclusive corners, and delete media", async () => {
   const { fakeFetch, calls } = transport();

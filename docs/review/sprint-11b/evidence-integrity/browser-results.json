@@ -1,0 +1,116 @@
+{
+  "checks": [
+    {
+      "width": 1920,
+      "state": "synthetic-new-question"
+    },
+    {
+      "width": 1920,
+      "state": "evidence-after-new-question"
+    },
+    {
+      "width": 1920,
+      "state": "fruitfly-historical-after-question"
+    },
+    {
+      "width": 1920,
+      "state": "fruitfly-disconnected"
+    },
+    {
+      "width": 1920,
+      "state": "reconnect-question-identity-preserved"
+    },
+    {
+      "width": 1440,
+      "state": "synthetic-new-question"
+    },
+    {
+      "width": 1440,
+      "state": "evidence-after-new-question"
+    },
+    {
+      "width": 1440,
+      "state": "fruitfly-historical-after-question"
+    },
+    {
+      "width": 1440,
+      "state": "fruitfly-disconnected"
+    },
+    {
+      "width": 1440,
+      "state": "reconnect-question-identity-preserved"
+    },
+    {
+      "width": 390,
+      "state": "synthetic-new-question"
+    },
+    {
+      "width": 390,
+      "state": "evidence-after-new-question"
+    },
+    {
+      "width": 390,
+      "state": "fruitfly-historical-after-question"
+    },
+    {
+      "width": 390,
+      "state": "fruitfly-disconnected"
+    },
+    {
+      "width": 390,
+      "state": "reconnect-question-identity-preserved"
+    }
+  ],
+  "actions": [
+    {
+      "width": 1920,
+      "action": "design",
+      "researchQuestion": "Does silencing primary_a reduce output?",
+      "stimulusAmplitude": 1
+    },
+    {
+      "width": 1920,
+      "action": "run",
+      "id": "0a835579-d385-4632-82d0-424a16948d5b"
+    },
+    {
+      "width": 1920,
+      "action": "interpret",
+      "id": "0a835579-d385-4632-82d0-424a16948d5b"
+    },
+    {
+      "width": 1440,
+      "action": "design",
+      "researchQuestion": "Does silencing primary_a reduce output?",
+      "stimulusAmplitude": 1
+    },
+    {
+      "width": 1440,
+      "action": "run",
+      "id": "0a835579-d385-4632-82d0-424a16948d5b"
+    },
+    {
+      "width": 1440,
+      "action": "interpret",
+      "id": "0a835579-d385-4632-82d0-424a16948d5b"
+    },
+    {
+      "width": 390,
+      "action": "design",
+      "researchQuestion": "Does silencing primary_a reduce output?",
+      "stimulusAmplitude": 1
+    },
+    {
+      "width": 390,
+      "action": "run",
+      "id": "0a835579-d385-4632-82d0-424a16948d5b"
+    },
+    {
+      "width": 390,
+      "action": "interpret",
+      "id": "0a835579-d385-4632-82d0-424a16948d5b"
+    }
+  ],
+  "errors": [],
+  "liveProviderCalls": 0
+}

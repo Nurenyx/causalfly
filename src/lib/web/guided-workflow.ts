@@ -1,4 +1,5 @@
 import "server-only";
+import { metaFailureCode } from "../meta/failure";
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { freezeRecord } from "../experiment/engine";
@@ -117,10 +118,11 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
   const env = deps.env ?? readMetaEnvironment();
   let client: MetaClient;
   try { client = (deps.createClient ?? configuredClient)(env); }
-  catch {
-    if (action.action === "design") recorder.event("meta.design.failed", { code: "configuration" });
+  catch (error) {
+    const code = metaFailureCode(error) === "CONFIGURATION_DISABLED" ? "CONFIGURATION_DISABLED" : "CONFIGURATION_INVALID";
+    if (action.action === "design") recorder.event("meta.design.failed", { code });
     else recorder.interpretation("failed");
-    return fail("configuration", "Meta configuration is invalid. Correct the server configuration; no fake fallback was used.");
+    return fail("configuration", code === "CONFIGURATION_DISABLED" ? safeWebProviderError(error) : "Meta configuration is invalid. Correct the server configuration; no fake fallback was used.", code);
   }
   if (entry) entry.pending = true;
   const requestedAt = new Date().toISOString();
@@ -148,9 +150,9 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
     entry!.result = freezeRecord({ ...entry!.result!, diagnostics: recorder.snapshot(), mode: client.mode, analysis, runtimeCalls: [...entry!.design.runtimeCalls, audit()] });
     return { ok: true, design: entry!.design, result: entry!.result };
   } catch (error) {
-    if (action.action === "design") recorder.event(error instanceof z.ZodError || error instanceof Error && error.message === "Meta response must be a complete JSON object; no experiment or analysis accepted." ? "meta.design.rejected" : "meta.design.failed", { code: "design.unsuccessful" });
+    if (action.action === "design") recorder.event(error instanceof z.ZodError || error instanceof Error && error.message === "Meta response must be a complete JSON object; no experiment or analysis accepted." ? "meta.design.rejected" : "meta.design.failed", { code: metaFailureCode(error) });
     else recorder.interpretation("failed");
-    return fail("provider", safeWebProviderError(error));
+    return fail("provider", safeWebProviderError(error), metaFailureCode(error));
   }
   finally { if (entry) entry.pending = false; }
 }

@@ -1,5 +1,7 @@
 # Hostinger production alpha
 
+Historical alternative-host guide. The current alpha uses Vercel. [Sprint 11B](SPRINT_11B_PRODUCTION_HARDENING_REVIEW.md) supersedes its media transport and environment guidance: live providers require `CAUSALFLY_META_ENABLED=1`; live video requires private Vercel Blob, a server-only fallback credential on non-Vercel hosts, and `CAUSALFLY_MEDIA_SIGNING_SECRET`. Fake mode blocks live scene/SAM as well as using offline Muse templates.
+
 Intended hostname: **causalfly.nurenyx.ai**. This guide prepares a deployment; none has been performed.
 
 ## Deployment contract

@@ -21,7 +21,7 @@ const input = {
 };
 const eligibleTargets = ["primary_a", "primary_b", "alternate_a", "alternate_b", "alternate_c"];
 const config = {
-  META_API_KEY: "test-placeholder-key",
+  CAUSALFLY_META_ENABLED: "1", META_API_KEY: "test-placeholder-key",
   META_BASE_URL: "https://meta-test.invalid/v1",
   META_MODEL: "test-configured-model",
 };
@@ -298,8 +298,8 @@ test("live configuration lists every missing variable before making any request"
 });
 
 test("auto mode does not hide partial live configuration behind fake output", () => {
-  assert.throws(() => createMetaClient("auto", { META_API_KEY: "placeholder" }), /META_BASE_URL, META_MODEL/);
-  assert.equal(createMetaClient("fake", { META_API_KEY: "placeholder" }).mode, "FAKE META CLIENT");
+  assert.throws(() => createMetaClient("auto", { CAUSALFLY_META_ENABLED: "1", META_API_KEY: "placeholder" }), /META_BASE_URL, META_MODEL/);
+  assert.equal(createMetaClient("fake", { CAUSALFLY_META_ENABLED: "1", META_API_KEY: "placeholder" }).mode, "FAKE META CLIENT");
   assert.equal(createMetaClient("auto", config).mode, "META LIVE");
 });
 

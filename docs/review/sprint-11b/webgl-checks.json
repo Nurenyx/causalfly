@@ -1,0 +1,81 @@
+{
+  "stress": [
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 12,
+      "contextsAlive": 1
+    },
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 13,
+      "contextsAlive": 1
+    },
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 14,
+      "contextsAlive": 1
+    },
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 15,
+      "contextsAlive": 1
+    },
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 16,
+      "contextsAlive": 1
+    },
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 17,
+      "contextsAlive": 1
+    },
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 18,
+      "contextsAlive": 1
+    },
+    {
+      "canvases": 1,
+      "readyFly": 1,
+      "contextsCreated": 19,
+      "contextsAlive": 1
+    }
+  ],
+  "warnings": [
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "[.WebGL-0x3c3400aa2e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x3c3400aa2e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x3c3400aa2e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+    "[.WebGL-0x3c3400aa2e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+    "THREE.WebGLRenderer: Context Lost.",
+    "THREE.WebGLRenderer: WEBGL_lose_context extension not supported.",
+    "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+  ],
+  "visualRecoveryNoRerun": true
+}

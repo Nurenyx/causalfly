@@ -50,7 +50,7 @@ export function syntheticAssistantAnswer(question: string, result: WebExperiment
   };
   if (/network represent/i.test(question)) return { ...answer, summary: "A hand-authored, two-pathway engineering test network.", facts: ["A stimulus feeds primary and alternate paths into the motor output. Node names have no biological identities."] };
   if (/what will be measured/i.test(question)) return { ...answer, summary: "Matched control and single-silence intervention trials measure output peak, threshold-crossing step and threshold outcome.", facts: ["Deltas are perturbed minus control. A missing crossing is not zero latency."] };
-  if (!result) return { ...answer, summary: "No measured experiment is retained yet." };
+  if (!result) return { ...answer, summary: "This question has not been tested yet. Any retained evidence belongs to a previous investigation. Design and run this question first." };
   if (/next experiment|test next/i.test(question)) return { ...answer, summary: "A new experiment needs an explicit, validated design.", next: result.analysis ? `Meta proposal: ${result.analysis.nextExperiment.researchQuestion} Use it as the next question in Experiment. This proposal is not a measured finding.` : "Choose Explain with Meta to request a bounded interpretation and next-test proposal from the retained evidence." };
   if (!/measured difference|under intervention|current evidence|summari[sz]e|what changed|response.*slow|response.*delay|why.*response|show.*evidence/i.test(question)) return answer;
   const c = result.measuredEvidence;

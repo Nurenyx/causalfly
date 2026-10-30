@@ -32,6 +32,10 @@ export function propagationTiming(trial: CompactTrialSummary) {
 }
 
 export interface WorkspaceState {
+  investigationId?: number;
+  history?: readonly { investigationId: number; result: WebExperimentResult; design?: GuidedDesign }[];
+  nextFromId?: string;
+  observation?: { id: number; startedAt: string; excluded: readonly string[] };
   workspace: Workspace;
   question: string;
   fruitFlyQuestion?: string;
@@ -41,31 +45,34 @@ export interface WorkspaceState {
   design?: GuidedDesign;
 }
 
-export type WorkspaceAction =
+export type WorkspaceAction = (
   | { type: "diagnostics"; diagnostics: RunDiagnostics }
+  | { type: "begin"; question: string }
   | { type: "designed"; design: GuidedDesign }
   | { type: "interpreted"; result: WebExperimentResult; workspace?: Workspace }
   | { type: "navigate"; workspace: Workspace }
   | { type: "question"; question: string }
   | { type: "fruitfly-question"; question: string }
-  | { type: "fruitfly-ask"; question: string; sessionId?: string }
+  | { type: "fruitfly-ask"; question: string; sessionId?: string; startedAt?: string; excluded?: readonly string[] }
   | { type: "fruitfly-session"; sessionId: string }
   | { type: "completed"; result: WebExperimentResult; design?: GuidedDesign; workspace?: Workspace }
-  | { type: "next-question"; question: string };
+  | { type: "next-question"; question: string }) & { investigationId?: number };
 
 /** UI state transitions cannot submit experiments or mutate evidence. */
 export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction): WorkspaceState {
+  if (action.investigationId !== undefined && action.investigationId !== state.investigationId) return state;
   switch (action.type) {
     case "diagnostics": return state.result?.run_id === action.diagnostics.manifest.run_id ? { ...state, result: { ...state.result, diagnostics: action.diagnostics } } : state;
-    case "designed": return { ...state, design: action.design, result: null, workspace: "observatory" };
+    case "designed": return { ...state, history: archiveEvidence(state), design: action.design, result: null, workspace: "observatory" };
     case "interpreted": return { ...state, result: action.result, workspace: action.workspace ?? "scientist" };
     case "navigate": return { ...state, workspace: action.workspace };
-    case "question": return { ...state, question: action.question };
+    case "begin": return { ...startInvestigation(state, action.question), nextFromId: action.question === state.question ? state.nextFromId : undefined };
+    case "question": return action.question === state.question ? state : startInvestigation(state, action.question);
     case "fruitfly-question": return { ...state, fruitFlyQuestion: action.question };
-    case "fruitfly-ask": return action.question.trim() ? { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, fruitFlyQuestionSessionId: action.sessionId, workspace: "live" } : state;
+    case "fruitfly-ask": return action.question.trim() ? { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, fruitFlyQuestionSessionId: action.sessionId, observation: { id: (state.observation?.id ?? 0) + 1, startedAt: action.startedAt ?? new Date().toISOString(), excluded: action.excluded ?? [] }, workspace: "live" } : state;
     case "fruitfly-session": return state.fruitFlyAskedQuestion !== undefined && !state.fruitFlyQuestionSessionId ? { ...state, fruitFlyQuestionSessionId: action.sessionId } : state;
     case "completed": return { ...state, design: action.design ?? state.design, result: action.result, workspace: action.workspace ?? "compare" };
-    case "next-question": return { ...state, question: action.question, workspace: "observatory" };
+    case "next-question": return { ...startInvestigation(state, action.question), nextFromId: state.result?.analysis?.nextExperiment.researchQuestion === action.question ? state.design?.id : undefined, workspace: "observatory" };
   }
 }
 
@@ -85,4 +92,14 @@ export function displayObservation(observation: string) {
     PERTURBED_MINUS_CONTROL: "Perturbed minus control", maxSteps: "Observation window",
   };
   return observation.replace(/\b(outputPeakActivity|outputThresholdCrossingStep|outputThresholdCrossingSteps|outcomeChanged|PERTURBED_MINUS_CONTROL|maxSteps)\b/g, (field) => labels[field]);
+}
+
+/** Archive immutable evidence before releasing active design, result and interpretation. */
+function startInvestigation(state: WorkspaceState, question: string): WorkspaceState {
+  const history = archiveEvidence(state);
+  return { ...state, question, investigationId: (state.investigationId ?? 0) + 1, history, design: undefined, result: null, nextFromId: undefined };
+}
+
+function archiveEvidence(state: WorkspaceState) {
+  return state.result ? [...(state.history ?? []), { investigationId: state.investigationId ?? 0, result: state.result, design: state.design }] : state.history;
 }

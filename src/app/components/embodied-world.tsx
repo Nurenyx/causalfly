@@ -1,8 +1,8 @@
 "use client";
 
-import { Component, useEffect, useRef, type ReactNode } from "react";
+import { Component, useEffect, useRef, useState, type ReactNode } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { PerspectiveCamera, Vector3, type Group } from "three";
+import { PCFShadowMap, PerspectiveCamera, Vector3, type Group } from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import type { MeasuredExperimentResult } from "@/lib/web/contracts";
 import { embodimentAtStep, loomingPose } from "@/lib/web/embodiment";
@@ -15,6 +15,20 @@ class WorldBoundary extends Component<{ children: ReactNode }, { failed: boolean
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
   render() { return this.state.failed ? <div className="world-fallback">3D unavailable · recorded signals remain available alongside.</div> : this.props.children; }
+}
+
+/** Visual recovery never invokes the experiment engine or provider actions. */
+function ContextRecovery({ onLost }: { onLost: (lost: boolean) => void }) {
+  const { gl, invalidate } = useThree();
+  useEffect(() => {
+    const canvas = gl.domElement;
+    const lost = (event: Event) => { event.preventDefault(); onLost(true); };
+    const restored = () => { onLost(false); invalidate(); };
+    canvas.addEventListener("webglcontextlost", lost);
+    canvas.addEventListener("webglcontextrestored", restored);
+    return () => { canvas.removeEventListener("webglcontextlost", lost); canvas.removeEventListener("webglcontextrestored", restored); };
+  }, [gl, invalidate, onLost]);
+  return null;
 }
 
 function Camera({ reset, compare }: { reset: number; compare: boolean }) {
@@ -66,8 +80,10 @@ function LoomingStimulus({ intensity, playing, pulseKey, x }: { intensity: numbe
 }
 
 export default function EmbodiedWorld({ result, step, reset, compare, condition, playing, pulseKey, previewStrength = 0, model = "anatomical", onModelStatus }: { result: MeasuredExperimentResult | null; step: number; reset: number; compare: boolean; condition: "control" | "perturbed"; playing: boolean; pulseKey: string; previewStrength?: number; model?: FlyModelKind; onModelStatus?: (status: FlyModelStatus) => void }) {
+  const [contextLost, setContextLost] = useState(false);
+  const [visualRevision, setVisualRevision] = useState(0);
   const conditions = compare ? ["control", "perturbed"] as const : [condition];
-  return <WorldBoundary><Canvas shadows aria-label={compare ? "Control and intervention runs compared side by side" : "One fly replaying the selected synthetic condition"} frameloop="demand" dpr={[1, 1.75]} camera={{ position: [4.8, 3.1, 3.6], fov: 34 }} gl={{ antialias: true, alpha: false }} fallback={<div className="world-fallback">3D unavailable · use the recorded signal view.</div>} onCreated={({ gl }) => { gl.setClearColor("#04101a"); }}>
+  return <WorldBoundary><div style={{ position: "relative", width: "100%", height: "100%" }}><Canvas key={visualRevision} shadows={{ type: PCFShadowMap }} aria-label={compare ? "Control and intervention runs compared side by side" : "One fly replaying the selected synthetic condition"} frameloop="demand" dpr={[1, 1.75]} camera={{ position: [4.8, 3.1, 3.6], fov: 34 }} gl={{ antialias: true, alpha: false }} fallback={<div className="world-fallback">3D unavailable · use the recorded signal view.</div>} onCreated={({ gl }) => { gl.setClearColor("#04101a"); }}>
     <fog attach="fog" args={["#04101a", 15, 28]} />
     <ambientLight intensity={.85} /><hemisphereLight args={["#c9dce0", "#0c1720", 2]} />
     <directionalLight castShadow position={[2, 7, -4]} color="#ead8b5" intensity={4.5} shadow-mapSize={[1024, 1024]} shadow-camera-left={-6} shadow-camera-right={6} shadow-camera-top={6} shadow-camera-bottom={-6} shadow-normalBias={.03} shadow-radius={3} />
@@ -90,6 +106,7 @@ export default function EmbodiedWorld({ result, step, reset, compare, condition,
         <mesh position={[x, .01, -5.8]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[.43, .45, 64]} /><meshBasicMaterial color="#ffd27a" transparent opacity={.35} /></mesh>
       </group>;
     })}
+    <ContextRecovery onLost={setContextLost} />
     <Camera reset={reset} compare={compare} />
-  </Canvas></WorldBoundary>;
+  </Canvas>{contextLost && <div className="world-fallback" role="status" style={{ position: "absolute", inset: 0 }}>3D view interrupted. Scientific results are retained. <button type="button" onClick={() => { setContextLost(false); setVisualRevision(v => v + 1); }}>Restore visual view</button></div>}</div></WorldBoundary>;
 }

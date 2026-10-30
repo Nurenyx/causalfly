@@ -1,9 +1,10 @@
+import { referenceBody, fixtureResolver } from "./media-test-fixture";
 import test from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { sceneAction } from "./scene-action";
-import { perceptionAction } from "./perception-action";
+import { sceneAction as realSceneAction } from "./scene-action";
+import { perceptionAction as realPerceptionAction } from "./perception-action";
 import { offlineScene } from "../perception/scene";
 import { offlinePerceptionFixture } from "../perception/fixture";
 import { SceneError } from "../meta/scene-client";
@@ -14,22 +15,22 @@ const calibration = () => readFile("public/perception-calibration.mp4");
 async function request(mode = "live", token = randomUUID(), bytes?: Uint8Array) {
   bytes ??= await calibration();
   const form = new FormData(); form.set("video", new File([new Uint8Array(bytes)], "private-name.mp4", { type: "video/mp4" })); form.set("mode", mode);
-  return new Request("http://localhost/api/perception/scene", { method: "POST", headers: { "X-Scene-Request": token }, body: form });
+  return new Request("http://localhost/api/perception/scene", { method: "POST", headers: { "Content-Type": "application/json", "X-Scene-Request": token }, body: referenceBody(form) });
 }
 const valid = { discover: async (file: File) => { assert.equal(file.name, "stimulus.mp4"); return JSON.stringify(offlineScene); } };
 async function discovered() { const response = await sceneAction(await request(), valid); assert.equal(response.status, 200); return (await response.json()).scene; }
 async function track(sceneId: string, candidate: string, concept: string, bytes?: Uint8Array) {
   bytes ??= await calibration();
   const form = new FormData(); form.set("video", new File([new Uint8Array(bytes)], "clip.mp4")); form.set("sceneId", sceneId); form.set("candidate", candidate); form.set("concept", concept);
-  return new Request("http://localhost/api/perception", { method: "POST", headers: { "X-Perception-Request": randomUUID() }, body: form });
+  return new Request("http://localhost/api/perception", { method: "POST", headers: { "Content-Type": "application/json", "X-Perception-Request": randomUUID() }, body: referenceBody(form) });
 }
-test("explicit offline discovery is labeled and never calls Meta; filename alone cannot claim calibration", async () => {
+test("explicit offline discovery is labeled and never calls Meta; always uses the server calibration clip", async () => {
   const response = await sceneAction(await request("fixture"), { discover: forbidden }); const data = await response.json();
   assert.equal(response.status, 200); assert.equal(data.scene.mode, "OFFLINE SCENE-UNDERSTANDING FIXTURE"); assert.equal(data.scene.provider, "CausalFly fixture");
   assert.equal(data.scene.result.candidates[0].samPrompt, "red square");
   assert.equal(data.diagnostics.events.some((e: { type: string }) => e.type === "sam.requested"), false);
   const other = await sceneAction(await request("fixture", randomUUID(), Buffer.from("other video")), { discover: forbidden, inspect: async () => offlinePerceptionFixture("x").media });
-  assert.equal(other.status, 400); assert.match((await other.json()).error, /calibration/);
+  assert.equal(other.status, 200); assert.equal((await other.json()).scene.mediaSha256, data.scene.mediaSha256);
 });
 test("malformed, no-candidate, low-confidence and provider failures have distinct safe recovery", async () => {
   for (const [discover, kind] of [
@@ -85,3 +86,8 @@ test("manual override passes exactly the entered concept and recovery preserves 
   assert.equal(scene.result.candidates[0].samPrompt, "red square");
   assert.equal((await sceneAction(await request(), valid)).status, 200);
 });
+
+
+process.env.CAUSALFLY_META_ENABLED = "1";
+function perceptionAction(request: Request, deps: NonNullable<Parameters<typeof realPerceptionAction>[1]> = {}) { return realPerceptionAction(request, { ...deps, resolve: fixtureResolver(deps.inspect) }); }
+function sceneAction(request: Request, deps: NonNullable<Parameters<typeof realSceneAction>[1]> = {}) { return realSceneAction(request, { ...deps, resolve: fixtureResolver(deps.inspect) }); }
