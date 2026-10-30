@@ -1,0 +1,70 @@
+[
+  {
+    "lod": 0,
+    "errors": [],
+    "arena": {
+      "width": 592.15625,
+      "height": 346.1875
+    },
+    "resource": [
+      {
+        "duration": 164.20000004768372,
+        "bytes": 6309748
+      }
+    ],
+    "camera": {
+      "position": [
+        4.800000000000001,
+        3.0999999999999996,
+        -3.599999999999999
+      ],
+      "target": [
+        0,
+        0.55,
+        -0.15
+      ],
+      "width": 592.15625,
+      "height": 346.1875
+    },
+    "orbit": {
+      "drawCalls": 527,
+      "renderBursts": 40,
+      "durationMs": 4074.5999999046326,
+      "firstDrawDelayMs": 12.599999904632568
+    }
+  },
+  {
+    "lod": 1,
+    "errors": [],
+    "arena": {
+      "width": 592.15625,
+      "height": 346.1875
+    },
+    "resource": [
+      {
+        "duration": 117.39999997615814,
+        "bytes": 4194788
+      }
+    ],
+    "camera": {
+      "position": [
+        4.800000000000001,
+        3.0999999999999996,
+        -3.599999999999999
+      ],
+      "target": [
+        0,
+        0.55,
+        -0.15
+      ],
+      "width": 592.15625,
+      "height": 346.1875
+    },
+    "orbit": {
+      "drawCalls": 527,
+      "renderBursts": 40,
+      "durationMs": 2684,
+      "firstDrawDelayMs": 12.600000023841858
+    }
+  }
+]

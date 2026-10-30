@@ -20,8 +20,8 @@ const diagnostics: RunDiagnostics = {
 test("trust UI exposes separate signals, local export and honest replay and biological boundaries", () => {
   const before = JSON.stringify(diagnostics);
   const html = renderToStaticMarkup(<ExperimentTrust diagnostics={diagnostics} />);
-  for (const text of ["EXPERIMENT TRUST", "DETERMINISTIC MODEL RESULT", "REPLAYABLE INPUTS ✓", "Biological validation · Not established", "AI · Not requested", "Engine-owned", "EXPORT RUN DIAGNOSTICS", "run_trust_fixture", "not a signed attestation"]) assert.ok(html.includes(text), text);
-  assert.doesNotMatch(html, /REPLAY VERIFIED|confidence score|100%/);
+  for (const text of ["EXPERIMENT TRUST", "DETERMINISTIC MODEL RESULT", "REPLAYABLE INPUTS ✓", "REAL-FLY VALIDATION — Not established", "AI · Not requested", "Engine-owned", "EXPORT RUN DIAGNOSTICS", "run_trust_fixture", "not a signed attestation"]) assert.ok(html.includes(text), text);
+  assert.doesNotMatch(html, /REPLAY VERIFIED|confidence score|100%|Biological validation/);
   assert.equal(JSON.stringify(diagnostics), before);
   assert.equal(renderToStaticMarkup(<ExperimentTrust />), "");
 });

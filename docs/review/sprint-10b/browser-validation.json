@@ -1,0 +1,197 @@
+{
+  "checks": 68,
+  "passed": [
+    "offline provider selected",
+    "GLB loads once",
+    "navigation makes no provider calls",
+    "fly survives orbit and reset",
+    "SAM fixture only",
+    "exact deterministic output unchanged",
+    "measured reduction unchanged",
+    "recorded playback available",
+    "both comparison conditions visible",
+    "comparison clones cached model without another load",
+    "1440 no overflow",
+    "scientific provenance disclosed",
+    "390 no overflow",
+    "mobile canvas fits",
+    "mobile orbit retains model",
+    "mobile controls reachable",
+    "first load disconnected camera position 0",
+    "first load disconnected orbit target 0",
+    "first load disconnected camera position 1",
+    "first load disconnected orbit target 1",
+    "first load disconnected camera position 2",
+    "first load disconnected orbit target 2",
+    "structure-only disconnected state",
+    "orbit changes camera",
+    "telemetry arrival does not jump camera",
+    "telemetry does not reload structural source",
+    "reset after recorded telemetry camera position 0",
+    "reset after recorded telemetry orbit target 0",
+    "reset after recorded telemetry camera position 1",
+    "reset after recorded telemetry orbit target 1",
+    "reset after recorded telemetry camera position 2",
+    "reset after recorded telemetry orbit target 2",
+    "reset returns exactly to initial canonical fit",
+    "resize 1440 camera position 0",
+    "resize 1440 orbit target 0",
+    "resize 1440 camera position 1",
+    "resize 1440 orbit target 1",
+    "resize 1440 camera position 2",
+    "resize 1440 orbit target 2",
+    "reset 1440 camera position 0",
+    "reset 1440 orbit target 0",
+    "reset 1440 camera position 1",
+    "reset 1440 orbit target 1",
+    "reset 1440 camera position 2",
+    "reset 1440 orbit target 2",
+    "connectome 1440 no overflow",
+    "resize 390 camera position 0",
+    "resize 390 orbit target 0",
+    "resize 390 camera position 1",
+    "resize 390 orbit target 1",
+    "resize 390 camera position 2",
+    "resize 390 orbit target 2",
+    "reset 390 camera position 0",
+    "reset 390 orbit target 0",
+    "reset 390 camera position 1",
+    "reset 390 orbit target 1",
+    "reset 390 camera position 2",
+    "reset 390 orbit target 2",
+    "connectome 390 no overflow",
+    "source reload camera position 0",
+    "source reload orbit target 0",
+    "source reload camera position 1",
+    "source reload orbit target 1",
+    "source reload camera position 2",
+    "source reload orbit target 2",
+    "source remount recomputes canonical fit",
+    "no runtime errors",
+    "no external browser network requests"
+  ],
+  "errors": [],
+  "actions": [
+    "design",
+    "run",
+    "interpret"
+  ],
+  "assetRequests": 1,
+  "anatomyRequests": 2,
+  "cameraFits": [
+    {
+      "label": "first load disconnected",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "position": [
+        1.6901176904515136,
+        0.7682353138415969,
+        3.5338824436713456
+      ],
+      "radius": 1.3432839936608219,
+      "aspect": 1.7710336538461537
+    },
+    {
+      "label": "reset after recorded telemetry",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "position": [
+        1.6901176904515136,
+        0.7682353138415969,
+        3.5338824436713456
+      ],
+      "radius": 1.3432839936608219,
+      "aspect": 1.7710336538461537
+    },
+    {
+      "label": "resize 1440",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "position": [
+        1.6901176904515136,
+        0.7682353138415969,
+        3.5338824436713456
+      ],
+      "radius": 1.3432839936608219,
+      "aspect": 1.5098524305555556
+    },
+    {
+      "label": "reset 1440",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "position": [
+        1.6901176904515136,
+        0.7682353138415969,
+        3.5338824436713456
+      ],
+      "radius": 1.3432839936608219,
+      "aspect": 1.5098524305555556
+    },
+    {
+      "label": "resize 390",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "position": [
+        1.9737182328065996,
+        0.897144651275727,
+        4.126865395868344
+      ],
+      "radius": 1.3432839936608219,
+      "aspect": 1.0705882352941176
+    },
+    {
+      "label": "reset 390",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "position": [
+        1.9737182328065996,
+        0.897144651275727,
+        4.126865395868344
+      ],
+      "radius": 1.3432839936608219,
+      "aspect": 1.0705882352941176
+    },
+    {
+      "label": "source reload",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "position": [
+        1.6901176904515136,
+        0.7682353138415969,
+        3.5338824436713456
+      ],
+      "radius": 1.3432839936608219,
+      "aspect": 1.7710336538461537
+    }
+  ],
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "liveMuseCalls": 0,
+  "liveSamCalls": 0,
+  "externalBrainConnections": 0,
+  "viewports": [
+    1920,
+    1440,
+    390
+  ]
+}

@@ -1,11 +1,12 @@
 "use client";
 
-import { Component, memo, useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from "react";
+import { Component, memo, useLayoutEffect, useMemo, useRef, type ReactNode } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import type { ConnectomeActivity, ConnectomeStructure, ActivityPoint } from "@/lib/sources/connectome-view";
 import styles from "./live-session.module.css";
+import { fitPerspectiveBounds, positionBounds } from "@/lib/web/camera-framing";
 
 const CAMERA: [number, number, number] = [1.1, 0.5, 2.3];
 const vertexShader = `
@@ -13,11 +14,14 @@ const vertexShader = `
   uniform float pointSize;
   uniform float pixelRatio;
   uniform bool structureLayer;
+  uniform vec3 cloudCenter;
+  uniform float cloudRadius;
   varying float strength;
   varying float depth;
   void main() {
     vec4 view = modelViewMatrix * vec4(position, 1.0);
-    depth = clamp((5.0 + view.z) / 3.5, 0.0, 1.0);
+    float centerDepth = -(modelViewMatrix * vec4(cloudCenter, 1.0)).z;
+    depth = clamp((centerDepth + cloudRadius + view.z) / (2.0 * cloudRadius), 0.0, 1.0);
     strength = structureLayer ? 1.0 : emphasis;
     gl_Position = projectionMatrix * view;
     gl_PointSize = clamp(pointSize * pixelRatio * 3.2 / max(0.25, -view.z), 1.0, 32.0 * pixelRatio);
@@ -47,7 +51,7 @@ class ViewerBoundary extends Component<{ onFailure: () => void; children: ReactN
   render() { return this.state.failed ? null : this.props.children; }
 }
 
-function PointLayer({ positions, points, current = false }: { positions: Float32Array; points?: readonly ActivityPoint[]; current?: boolean }) {
+function PointLayer({ bounds, positions, points, current = false }: { bounds: THREE.Box3; positions: Float32Array; points?: readonly ActivityPoint[]; current?: boolean }) {
   const invalidate = useThree(s => s.invalidate);
   const pixelRatio = useThree(s => s.viewport.dpr);
   const geometry = useRef<THREE.BufferGeometry>(null);
@@ -59,7 +63,9 @@ function PointLayer({ positions, points, current = false }: { positions: Float32
   const uniforms = useMemo(() => ({
     pointSize: { value: dynamic ? current ? 9 : 6 : 1.3 }, pixelRatio: { value: pixelRatio },
     structureLayer: { value: !dynamic }, currentLayer: { value: current },
-  }), [dynamic, current, pixelRatio]);
+    cloudCenter: { value: bounds.getCenter(new THREE.Vector3()) },
+    cloudRadius: { value: Math.max(.01, bounds.getSize(new THREE.Vector3()).length() / 2) },
+  }), [dynamic, current, pixelRatio, bounds]);
   useLayoutEffect(() => {
     const g = geometry.current;
     if (!g) return;
@@ -83,19 +89,21 @@ function PointLayer({ positions, points, current = false }: { positions: Float32
   </points>;
 }
 
-function CameraControls({ reset, onFailure }: { reset: number; onFailure: () => void }) {
-  const { camera, gl, invalidate } = useThree();
+function CameraControls({ bounds, reset, onFailure }: { bounds: THREE.Box3; reset: number; onFailure: () => void }) {
+  const { camera, gl, invalidate, size } = useThree();
   const controls = useRef<OrbitControls | null>(null);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const control = new OrbitControls(camera, gl.domElement);
     controls.current = control;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const motion = () => { control.enableDamping = !reduced.matches; control.dampingFactor = 0.22; invalidate(); };
     motion(); reduced.addEventListener("change", motion);
-    control.minDistance = 0.45; control.maxDistance = 12;
     control.rotateSpeed = 0.65; control.zoomSpeed = 0.8; control.panSpeed = 0.8;
     control.saveState();
-    const changed = () => invalidate();
+    const changed = () => {
+      gl.domElement.setAttribute("data-camera-view", JSON.stringify({ position: camera.position.toArray(), target: control.target.toArray() }));
+      invalidate();
+    };
     control.addEventListener("change", changed);
     control.listenToKeyEvents(gl.domElement);
     const lost = (event: Event) => { event.preventDefault(); onFailure(); };
@@ -108,28 +116,35 @@ function CameraControls({ reset, onFailure }: { reset: number; onFailure: () => 
       controls.current = null;
     };
   }, [camera, gl, invalidate, onFailure]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const control = controls.current;
     if (!control) return;
     // Clear any pending damping before restoring the deterministic default view.
     control.enableDamping = false; control.update();
-    camera.position.set(...CAMERA); control.target.set(0, 0, 0); camera.lookAt(0, 0, 0);
-    control.update(); control.enableDamping = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!(camera instanceof THREE.PerspectiveCamera)) return;
+    const fit = fitPerspectiveBounds(bounds, camera.fov, size.width / Math.max(1, size.height));
+    camera.position.copy(fit.position); control.target.copy(fit.center);
+    Object.assign(camera, { near: fit.near, far: fit.far }); camera.updateProjectionMatrix();
+    control.minDistance = fit.radius * 1.15; control.maxDistance = fit.distance * 4;
+    control.update(); control.saveState();
+    control.enableDamping = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    gl.domElement.setAttribute("data-camera-fit", JSON.stringify({ center: fit.center.toArray(), position: fit.position.toArray(), radius: fit.radius, aspect: size.width / Math.max(1, size.height) }));
     invalidate();
-  }, [camera, reset, invalidate]);
+  }, [camera, reset, bounds, size.width, size.height, gl, invalidate]);
   useFrame(() => controls.current?.update());
   return null;
 }
 
 function Connectome3D({ structure, activity, reset, onFailure }: { structure: ConnectomeStructure; activity: ConnectomeActivity; reset: number; onFailure: () => void }) {
+  const bounds = useMemo(() => positionBounds(structure.positions), [structure.positions]);
   return <ViewerBoundary onFailure={onFailure}><div className={styles.threeCanvas} data-structure-count={structure.count} data-current-ids={activity.mapped} data-unmapped-ids={activity.unmapped} data-recent-ids={activity.recent.length}>
     <Canvas frameloop="demand" dpr={[1, 1.5]} camera={{ position: CAMERA, fov: 32, near: 0.01, far: 40 }}
       gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }} fallback="Interactive 3D requires canvas support. Select Projection for a 2D view."
       onCreated={({ gl }) => { gl.domElement.tabIndex = 0; gl.domElement.setAttribute("role", "img"); gl.domElement.setAttribute("aria-label", "Interactive published soma coordinates. Drag to rotate, scroll to zoom, right-drag to pan. Arrow keys pan; Shift and arrows rotate."); }}>
-      <CameraControls reset={reset} onFailure={onFailure} />
-      <PointLayer positions={structure.positions} />
-      <PointLayer positions={structure.positions} points={activity.recent} />
-      <PointLayer positions={structure.positions} points={activity.current} current />
+      <CameraControls bounds={bounds} reset={reset} onFailure={onFailure} />
+      <PointLayer bounds={bounds} positions={structure.positions} />
+      <PointLayer bounds={bounds} positions={structure.positions} points={activity.recent} />
+      <PointLayer bounds={bounds} positions={structure.positions} points={activity.current} current />
     </Canvas>
   </div></ViewerBoundary>;
 }

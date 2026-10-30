@@ -275,6 +275,14 @@
   .cockpit-boundary { flex-wrap: wrap; }
 }
 @media (max-width: 600px) {
+  .research-cockpit .world-stimulus-label,
+  .research-cockpit .world-stimulus-label span,
+  .research-cockpit .world-orbit-hint { font-size: 10px; }
+  .research-cockpit .world-condition-labels > span,
+  .research-cockpit .world-condition-labels small { font-size: 11px; }
+  .research-cockpit .embodied-caption,
+  .research-cockpit .embodied-caption summary { font-size: 11px; }
+  .research-cockpit .embodied-caption details[open] p { font-size: 12px; line-height: 1.6; }
   .cockpit-shell .topbar { padding: 14px; }
   .cockpit-shell .topbar h1 { font-size: 22px; }
   .cockpit-shell .header-badges { gap: 5px; }

@@ -1,0 +1,29 @@
+[
+  {
+    "mode": "slow",
+    "status": "ready",
+    "expectedAssetDiagnostics": [],
+    "unexpectedErrors": [],
+    "measurementVerified": false
+  },
+  {
+    "mode": "404",
+    "status": "fallback",
+    "expectedAssetDiagnostics": [
+      "Could not load /models/flyv2/FlyVisualV2_Web.glb: fetch for \"http://127.0.0.1:3132/models/flyv2/FlyVisualV2_Web.glb\" responded with 404: Not Found",
+      "Could not load /models/flyv2/FlyVisualV2_Web.glb: fetch for \"http://127.0.0.1:3132/models/flyv2/FlyVisualV2_Web.glb\" responded with 404: Not Found",
+      "Could not load /models/flyv2/FlyVisualV2_Web.glb: fetch for \"http://127.0.0.1:3132/models/flyv2/FlyVisualV2_Web.glb\" responded with 404: Not Found"
+    ],
+    "unexpectedErrors": [],
+    "measurementVerified": true
+  },
+  {
+    "mode": "corrupt",
+    "status": "fallback",
+    "expectedAssetDiagnostics": [
+      "Could not load /models/flyv2/FlyVisualV2_Web.glb: Unexpected token 'i', \"invalid glb\" is not valid JSON"
+    ],
+    "unexpectedErrors": [],
+    "measurementVerified": false
+  }
+]

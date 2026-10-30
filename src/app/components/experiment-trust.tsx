@@ -37,7 +37,7 @@ export function ExperimentTrust({ diagnostics }: { diagnostics?: RunDiagnostics 
       <li>{matched ? "✓ Matched conditions" : "⚠ Check conditions"}</li>
       <li>{v?.measurementsImmutable ? "✓" : "⚠"} Measurement · Engine-owned</li>
       <li>◇ AI · {m.interpretation.state === "completed" ? "Downstream of evidence" : m.interpretation.state === "failed" ? "Interpretation failed" : m.interpretation.state === "requested" ? "Interpretation requested" : "Not requested"}</li>
-      <li>⚠ Biological validation · Not established</li>
+      <li>⚠ REAL-FLY VALIDATION — Not established</li>
     </ul>
     <p>{v?.replayableInputs ? "REPLAYABLE INPUTS ✓" : "⚠ Replay inputs incomplete"}</p>
     <details><summary>Validation & scientific boundaries</summary>

@@ -39,3 +39,7 @@ Synthetic measurements are engineering demonstrations, not biological findings. 
 ## Repository scope
 
 CausalFly code is [Apache-2.0](../LICENSE). Published anatomy data remains CC BY 4.0, and dependencies retain their licenses. FruitFly XR / ConnectomeXR remains separate proprietary work with its own third-party notices. This release makes no changes to that repository, deploys no service, and adds no Quest streaming.
+
+## Sprint 10B visual asset disclosure
+
+The high-fidelity fly is a hackathon-created **web derivative/integration**, not newly authored anatomical mesh. Original FlyBody anatomy by the FlyBody contributors (Google DeepMind / HHMI Janelia; Vaxenburg et al., 2025), and the existing FruitFly XR FlyV2 derivative, predate the hackathon. The pinned source, full Apache-2.0 license, original provenance records and explicit web modifications are retained in [third-party notices](../THIRD_PARTY_NOTICES.md) and `public/models/flyv2/`. Female anatomical source; `male_modifications = []`; not sex-matched to the observational male CNS connectome. PBR appearance is authored, not measured optical/material data. FruitFly XR remains read-only. See [Sprint 10B review](SPRINT_10B_HIGH_FIDELITY_EMBODIMENT_REVIEW.md).

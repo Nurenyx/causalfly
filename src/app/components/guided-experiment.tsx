@@ -83,6 +83,6 @@ export function GuidedExperiment(props: Props) {
       <details ref={evidenceDetails} onToggle={event => { const open = event.currentTarget.open; setDetails(previous => ({ ...previous, evidence: open })); }}><summary>INSPECT EVIDENCE</summary>{details.evidence && <EvidenceView result={currentResult} />}</details>
     </div>}
     {!currentDesign && result && <div className="cockpit-retained"><span>PREVIOUS TEST RETAINED</span><button type="button" className="text-button" disabled={busy} onClick={props.onCompare}>View previous comparison →</button></div>}
-    <div className="cockpit-boundary"><p>CONTROLLED MODEL · Synthetic engineering fixture. Biological validation not established.</p><button className="text-button" type="button" disabled={busy} onClick={props.onConnectome}>Connectome observatory / simulated dynamics ↗</button></div>
+    <div className="cockpit-boundary"><p>CONTROLLED MODEL · Synthetic engineering fixture. REAL-FLY VALIDATION — Not established.</p><button className="text-button" type="button" disabled={busy} onClick={props.onConnectome}>Connectome observatory / simulated dynamics ↗</button></div>
   </div>;
 }

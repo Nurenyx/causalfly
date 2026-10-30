@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "conversion_date": "2026-10-29",
+  "blender": "5.2.1 LTS",
+  "source_asset": "clients/quest3/Assets/FruitFlyXR/Art/FlyV2/Runtime/FlyVisualV2_LOD1.fbx",
+  "source_asset_sha256": "d0ba405c0dc91a7256782cdf9cb4bd2a21982cbe2a96b218afa78481f886927b",
+  "fruitfly_xr_checkout": "32fa70e425fedaf50957bf72eb3d432f1bb52319",
+  "upstream_repository": "https://github.com/TuragaLab/flybody",
+  "upstream_commit": "d015e9bfe441bd90ae431bac24c55cb74bdbce26",
+  "upstream_blend_sha256": "88c13449572924557ee77e3da2a318643b8a987ac1c7a60b77ed164faa29bead",
+  "source_sex": "female",
+  "male_modifications": [],
+  "credit": "FlyBody model by the FlyBody contributors, developed by Google DeepMind and HHMI Janelia Research Campus; Vaxenburg et al., Nature 643, 1312-1320 (2025), doi:10.1038/s41586-025-09029-4.",
+  "license": "Apache-2.0",
+  "pre_hackathon": "Underlying FlyBody anatomical mesh and FruitFly XR FlyV2 derivative predate the hackathon. Only this web conversion and CausalFly integration were performed during the hackathon.",
+  "geometry": "Existing runtime LOD triangles and 92-bone rig preserved, no additional anatomical vertices or decimation; glTF splits vertices at material/normal/UV seams.",
+  "method": "Blender FBX import -> glTF PBR reconstruction with original 1024px atlases -> binary glTF export, no animation tracks, no compression decoder or CDN",
+  "appearance": "Authored wild-type-inspired PBR Beauty Pass 5. Wing membrane is mostly transparent with a low-weight microfacet reflection layer; there is no diffuse white membrane or glass-refraction model. This remains an engineered presentation approximation, not measured Drosophila thin-film optical data. Source anatomical/material partitions and vein geometry are preserved.",
+  "web_wings": "Double-sided neutral membrane, alpha 0.16; veins remain opaque source geometry. Compatible authored approximation, not measured optical data.",
+  "source_vertices": 29127,
+  "vertices": 29399,
+  "triangles": 55567,
+  "material_primitives": 3,
+  "joints": 93,
+  "bytes": 4194788,
+  "sha256": "367319802010fa501df94692e70458c96fb0cf0f8b7d0b0edd242c4959264696",
+  "textures": [
+    {
+      "name": "FlyV2_Normal",
+      "mime_type": "image/png",
+      "bytes": 968405,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "name": "FlyV2_BaseColor",
+      "mime_type": "image/png",
+      "bytes": 719117,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "name": "FlyV2_Roughness",
+      "mime_type": "image/png",
+      "bytes": 611912,
+      "width": 1024,
+      "height": 1024
+    }
+  ],
+  "retained_maps": [
+    "FlyV2_BaseColor.png",
+    "FlyV2_Normal.png",
+    "FlyV2_Roughness.png (repacked into glTF metallic-roughness G)"
+  ],
+  "omitted_map": "Unity MetallicSmoothness is redundant with the roughness atlas; metallic remains zero."
+}

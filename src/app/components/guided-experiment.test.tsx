@@ -22,6 +22,9 @@ test("initial story offers demo and own-question paths without measured or AI fi
   const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
   for (const text of [/Ask what changes a nervous system/, /Embodied experiment/, /Visual embodiment of synthetic output/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY|Approve &amp; Run Experiment|Explain with Meta/);
+  assert.match(html, /REAL-FLY VALIDATION — Not established/);
+  assert.match(html, /Synthetic engineering fixture/);
+  assert.doesNotMatch(html, /Biological validation/);
 });
 
 test("validated proposal presents approval while measurements remain unavailable", () => {
