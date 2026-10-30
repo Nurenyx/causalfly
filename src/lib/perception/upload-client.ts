@@ -38,4 +38,3 @@ export async function uploadVideo(file: File, progress: (stage: string) => void)
   return data.reference;
 
 }
-
