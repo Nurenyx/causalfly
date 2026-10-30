@@ -63,11 +63,6 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [workspace]);
   useEffect(() => () => { if (perceptionSession.url) URL.revokeObjectURL(perceptionSession.url); }, [perceptionSession.url]);
 
-  useEffect(() => {
-    const target = result ? "demo-result" : design?.perceptionInput ? "demo-watch" : design ? "demo-design" : undefined;
-    if (target) document.getElementById(target)?.scrollIntoView({ block: "start", behavior: "smooth" });
-  }, [design, result]);
-
   function navigate(next: Workspace) { dispatch({ type: "navigate", workspace: next }); }
   function selectSource(next: DataSourceKind) { if (next === "SYNTHETIC_FIXTURE") fruitFly.disconnect(); setSource(next); setError(""); setNotice(""); }
   function useNextQuestion(next: string) { dispatch({ type: "next-question", question: next }); setNotice("Next question ready. Request a new Meta design."); requestAnimationFrame(() => document.getElementById("demo-question")?.scrollIntoView({ block: "start", behavior: "smooth" })); }
@@ -125,7 +120,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   }
   const metaProps = { state: currentMeta || fruitFlyMeta.pending || fruitFlyMeta.error ? fruitFlyMeta : { pending: false }, enabled: analysisEnabled, onAnalyze: analyzeObservation };
 
-  return <div className={`app-shell instrument-shell guided-shell${workspace === "live" ? " live-shell" : ""}`}>
+  return <div className={`app-shell instrument-shell guided-shell${workspace === "live" ? " live-shell" : ""}${!external && workspace === "observatory" ? " cockpit-shell" : ""}`}>
     {failure && !external && <WorkflowErrorNotice key={failure.id} failure={failure} onDismiss={() => setFailure(undefined)} onLocate={locateFailure} />}
     <a href="#main" className="skip-link">Skip to workspace</a>
     <aside className="sidebar" aria-label="CausalFly navigation">
@@ -138,7 +133,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       <div className="sidebar-footer"><span className="sidebar-caption">META MUSE / RUNTIME</span><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "CONFIGURATION NEEDED"}</Badge><p>Designer · Interpreter · Next-experiment planner</p><small>Explicit requests only</small></div>
     </aside>
     <div className="workspace">
-      <header className="topbar"><div><span className="breadcrumb">{external ? "OBSERVATIONAL SESSION" : "CONTROLLED EXPERIMENT"} / {activeStage}</span><h1>{workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "observatory" ? "CausalFly Experiment" : "Explore cause and effect."}</h1><p className="workflow-identity">{external ? "Watch a simulated brain. Ask what to test next." : "Change one signal. Measure the difference. Decide what to test next."}</p></div><div className="header-badges"><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "META CONFIGURATION NEEDED"}</Badge><Badge tone="cyan">{dataSources[source].label.toUpperCase()}</Badge></div></header>
+      <header className="topbar"><div><span className="breadcrumb">{external ? "CONNECTOME OBSERVATORY / SIMULATED DYNAMICS" : "CONTROLLED MODEL"} / {activeStage}</span><h1>{workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "observatory" ? "Research cockpit" : "Explore cause and effect."}</h1><p className="workflow-identity">{external ? "Published structure · observational simulation telemetry" : "An AI scientist for embodied neural experiments."}</p></div><div className="header-badges"><Badge tone={mode === "META LIVE" ? "amber" : "muted"}>{mode ?? "META CONFIGURATION NEEDED"}</Badge><Badge tone="cyan">{dataSources[source].label.toUpperCase()}</Badge></div></header>
       {(external || workspace !== "observatory") && <WorkflowProgress stages={stages} phase={phase} external={external} onNavigate={navigate} />}
       {workspace !== "observatory" && workspace !== "live" && <div className="workflow-next"><div><span className="eyebrow">{busy ? "REQUEST IN PROGRESS" : "NEXT"}</span><p>{busy ? `${pending.toUpperCase()} · ${pending === "run" ? "Deterministic engine only" : "Explicit model request"}` : nextLabel}</p></div><button type="button" className="primary-button" disabled={busy || !external && needsDesign && (!question.trim() || !mode) || !external && Boolean(result && !result.analysis && !mode)} aria-busy={busy} onClick={nextAction}><MetaRequestLabel pending={busy && pending !== "run"} task={pending === "design" ? "design" : "explain"}>{busy ? "Running experiment…" : nextLabel} ↗</MetaRequestLabel></button></div>}
       {external && fruitFlyAskedQuestion && workspace !== "evidence" && <p className="workflow-investigation"><span className="eyebrow">INVESTIGATION QUESTION{currentSession ? " / RETAINED SESSION" : " / AWAITING SESSION"}</span><span>{fruitFlyAskedQuestion}</span></p>}

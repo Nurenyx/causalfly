@@ -44,6 +44,17 @@ test("existing design offers acceptance; pending design disables repeated reques
   const pending = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy designing accepting={false} onBusy={forbidden} onUse={forbidden} onDesign={forbidden} />);
   assert.match(pending, /disabled="" aria-busy="true"/); assert.match(pending, /META IS DESIGNING WITH THIS STIMULUS/);
 });
+
+test("accepted cockpit stimulus collapses media without dropping track evidence or adding an approval action", () => {
+  const session = { ...initialPerceptionSession(), source: "perception" as const, analysis: { ok: true as const, perception: f, receipt: "server-signed" } };
+  const before = renderToStaticMarkup(<PerceptionPanel compact session={session} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} onDesign={forbidden} />);
+  assert.doesNotMatch(before, /class="perception-retained-media"/);
+  const after = renderToStaticMarkup(<PerceptionPanel compact session={session} accepted={f} hasDesign busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
+  assert.match(after, /data-accepted="true"/);
+  assert.match(after, /<details class="perception-retained-media"><summary>VIEW RETAINED MEDIA \/ TRACK<\/summary>/);
+  for (const text of [/NO LIVE DETECTION/, /8.0% → 40.0%/, /0.640/, /box-expansion-v1/, /PERCEPTION DETAILS/]) assert.match(after, text);
+  assert.doesNotMatch(after, /type="file"|class="primary-button"|APPROVE &amp; RUN EXPERIMENT/);
+});
 test("calibration filename prefills its documented concept without overriding arbitrary-upload concepts", () => {
   assert.equal(conceptForVideo("perception-calibration.mp4", "hand"), "red square");
   assert.equal(conceptForVideo("my-hand.mov", "hand"), "hand");

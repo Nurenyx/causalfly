@@ -60,3 +60,29 @@ test("zero input and missing consecutive samples produce no invented glow", () =
   assert.match(missingCurrent, /No retained sample at this step/);
   assert.doesNotMatch(missingCurrent, /data-drive="(?!0")/);
 });
+
+test("long perception-derived signals round only visible labels and retain exact recorded values", () => {
+  const amplitude = 0.48755208333333333;
+  const { control } = trials(amplitude);
+  const before = JSON.stringify(control);
+  const html = renderToStaticMarkup(<SyntheticNetworkViz trial={control} step={3} />);
+  assert.match(html, /class="node-value">0\.488<\/text>/);
+  assert.ok(html.includes(`data-node="motor" data-activity="${amplitude}"`));
+  assert.ok(html.includes(`normalized activity ${amplitude} at step 3`));
+  assert.equal(JSON.stringify(control), before);
+});
+
+test("propagation pulses require playback and adjacent positive records; blocked and missing transitions stay quiet", () => {
+  const { control, perturbed } = trials();
+  const paused = renderToStaticMarkup(<SyntheticNetworkViz trial={control} step={1} />);
+  assert.doesNotMatch(paused, /class="edge-pulse"/);
+  const playing = renderToStaticMarkup(<SyntheticNetworkViz trial={control} step={1} playing />);
+  assert.match(playing, /class="edge-pulse"/);
+  const interrupted = renderToStaticMarkup(<SyntheticNetworkViz trial={perturbed} step={1} playing />);
+  const blocked = interrupted.match(/<g class="viz-edge interrupted"[\s\S]*?<\/g>/g) ?? [];
+  assert.equal(blocked.length, 2);
+  for (const edge of blocked) assert.doesNotMatch(edge, /class="edge-pulse"/);
+  const missing = { ...control, activity: control.activity.filter(sample => sample.step !== 2) };
+  assert.doesNotMatch(renderToStaticMarkup(<SyntheticNetworkViz trial={missing} step={3} playing />), /class="edge-pulse"/);
+  assert.doesNotMatch(renderToStaticMarkup(<SyntheticNetworkViz trial={trials(0).control} step={1} playing />), /class="edge-pulse"/);
+});

@@ -1,0 +1,407 @@
+/* Research cockpit: shared semantic palette, integrated instruments, desktop first. */
+.cockpit-shell { --cf-border: #25455570; }
+.cockpit-shell .topbar { min-height: 74px; padding: 12px 24px; background: linear-gradient(110deg,#071b28,#020d16); }
+.cockpit-shell .topbar h1 { font-size: 22px; line-height: 1.1; margin: 0; letter-spacing: -.8px; }
+.cockpit-shell .breadcrumb { font-size: 9px; line-height: 1; letter-spacing: 1.4px; margin-bottom: 5px; }
+.cockpit-shell .workflow-identity { font-size: 11px; line-height: 1.2; margin-top: 5px; }
+.cockpit-shell .main-content { padding: 10px 24px 14px !important; }
+.cockpit-shell .sidebar { background: linear-gradient(160deg,#061724,#020c13 60%); }
+.cockpit-shell .workflow-role-key { margin-top: 20px; }
+.cockpit-shell .workflow-role-key > p:last-child { display: none; }
+.cockpit-shell .workflow-notice { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.cockpit-shell .assistant-launcher { border-radius: 3px; padding: 8px 12px; bottom: 12px; right: 24px; box-shadow: none; background: #061923; color: #a2bac7; font-size: 10px; }
+.cockpit-shell .assistant-launcher svg { width: 21px; height: 21px; }
+.cockpit-shell .scientific-disclaimer { padding: 5px 24px 12px; font-size: 9px; }
+.research-cockpit { min-width: 0; }
+.research-cockpit button { transition: background .15s, border-color .15s, color .15s; }
+.research-cockpit .primary-button { background: #f1d64b; border: 1px solid #ffe26b; color: #09131a; box-shadow: 0 3px 18px #f0d04012; border-radius: 3px; font: 600 12px var(--font-geist-sans),sans-serif; min-height: 39px; padding: 10px 15px; }
+.research-cockpit .primary-button:hover:not(:disabled) { background: #ffe675; }
+.research-cockpit .secondary-button { background: #08212d; border: 1px solid #2b5363; border-radius: 3px; font-size: 10px; padding: 8px 12px; }
+.research-cockpit .text-button { font-size: 10px; }
+.cockpit-kicker { display: block; font: 9px/1.3 var(--font-geist-mono),monospace; letter-spacing: 1.2px; color: #87a8b9; }
+.validated-text { color: var(--cf-green); }
+.cockpit-command { display: flex; gap: 24px; align-items: center; padding: 7px 0 11px; }
+.cockpit-command form { min-width: 0; flex: 1; }
+.cockpit-shell .cockpit-command textarea { display: block; width: 100%; min-height: 0; height: 36px; padding: 4px 0; margin-top: 4px; background: transparent; border: 0; border-radius: 0; resize: vertical; font: 500 clamp(19px,1.45vw,27px)/1.2 var(--font-geist-sans),sans-serif; letter-spacing: -.65px; color: #eef7fc; }
+.cockpit-command-state { text-align: right; flex: 0 0 auto; }
+.cockpit-command-state > span { display: block; font: 8px var(--font-geist-mono),monospace; letter-spacing: .6px; }
+.cockpit-command-state .text-button { padding: 7px 0 0; color: #98b6c6; }
+.cockpit-progress { border-block: 1px solid #28485880; margin-bottom: 10px; }
+.cockpit-progress ol { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); padding: 0; margin: 0; list-style: none; }
+.cockpit-progress li { position: relative; min-width: 0; }
+.cockpit-progress li::after { content: ""; position: absolute; bottom: -1px; height: 2px; left: 0; right: 16px; background: transparent; }
+.cockpit-progress button { display: flex; align-items: center; gap: 10px; padding: 11px 8px; width: 100%; text-align: left; }
+.cockpit-progress button > span { color: #658899; font: 12px var(--font-geist-mono),monospace; }
+.cockpit-progress strong { font: 10px var(--font-geist-mono),monospace; letter-spacing: 1px; color: #9bb7c6; }
+.cockpit-progress small { font-size: 9px; color: #698a9c; margin-left: 4px; }
+.cockpit-progress [data-complete="true"] button > span { color: var(--cf-green); }
+.cockpit-progress [data-complete="true"]::after { background: #00dfa055; }
+.cockpit-progress [data-active="true"] { background: linear-gradient(90deg,#13c5eb0c,transparent); }
+.cockpit-progress [data-active="true"] strong,.cockpit-progress [data-active="true"] button > span { color: var(--cf-cyan); }
+.cockpit-progress [data-active="true"]::after { background: var(--cf-cyan); }
+.research-cockpit .embodied-experiment { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); border: 0; border-top: 1px solid #239fbe65; background: #04121e; box-shadow: 0 12px 50px #0003; }
+.research-cockpit .embodied-heading { padding: 9px 14px; border: 0; gap: 18px; }
+.research-cockpit .embodied-heading h2 { font-size: 14px; margin: 5px 0 0; letter-spacing: -.2px; }
+.research-cockpit .embodied-heading .eyebrow { font-size: 8px; letter-spacing: 1px; }
+.research-cockpit .embodied-heading > span { font-size: 8px; margin-left: auto; }
+.research-cockpit .embodied-inputs { display: flex; justify-content: end; padding: 7px 14px; border: 0; background: transparent; gap: 22px; }
+.research-cockpit .stimulus-control { width: min(280px,70%); }
+.research-cockpit .stimulus-control label { font-size: 8px; letter-spacing: .8px; color: #93bac9; }
+.research-cockpit .stimulus-control output { font-size: 14px; color: var(--cf-cyan); }
+.research-cockpit .stimulus-control input { height: 3px; margin: 6px 0; accent-color: var(--cf-cyan); }
+.research-cockpit .stimulus-control small { font-size: 8px; }
+.research-cockpit .embodied-stage { grid-column: 1/-1; display: grid; grid-template-columns: minmax(0,1.03fr) minmax(0,1.12fr) minmax(285px,.8fr); height: clamp(395px,39vh,440px); gap: 0; border-block: 1px solid #29475670; }
+.research-cockpit .embodied-world-column { display: flex; flex-direction: column; min-width: 0; min-height: 0; background: #04101a; }
+.cockpit-region-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #29475650; }
+.cockpit-region-title h3 { font: 10px var(--font-geist-mono),monospace; letter-spacing: 1px; }
+.cockpit-region-title > span { font: 8px var(--font-geist-mono),monospace; color: #7d9dad; }
+.research-cockpit .embodied-arena { flex: 1; min-height: 155px; height: auto; }
+.research-cockpit .world-stimulus-label { left: 14px; top: 14px; font-size: 8px; letter-spacing: .7px; color: #d6bd75; }
+.research-cockpit .world-stimulus-label span { font-size: 8px; margin-top: 5px; color: #a2b9c4; }
+.research-cockpit .world-condition-labels { bottom: 29px; left: 14px; right: 14px; }
+.research-cockpit .world-condition-labels > span { font-size: 9px; padding: 7px 10px; }
+.research-cockpit .world-condition-labels small { font-size: 9px; }
+.research-cockpit .world-orbit-hint { left: 14px; bottom: 10px; font-size: 7px; letter-spacing: 1px; }
+.research-cockpit .embodied-signals { padding: 0; display: flex; flex-direction: column; min-height: 0; background: radial-gradient(ellipse at 40% 30%,#0d2e4033,transparent 70%),#04131f; border-left: 1px solid #29475670; }
+.research-cockpit .signal-title { padding: 8px 14px 0; font-size: 8px; color: #718f9f; }
+.research-cockpit .signal-title small { font-size: 8px; }
+.research-cockpit .embodied-signal { padding: 0 12px; display: flex; flex-direction: column; min-height: 0; }
+.research-cockpit .embodied-signal > header { padding: 8px 2px !important; font-size: 9px !important; }
+.research-cockpit .embodied-signal > header b { font-size: 23px !important; }
+.research-cockpit .embodied-signal > header small { font-size: 7px; }
+.research-cockpit .network-figure { flex: 1; min-height: 0; height: 175px; display: flex; flex-direction: column; }
+.research-cockpit .network-figure figcaption { display: none; }
+.research-cockpit .synthetic-network { flex: 1; min-height: 0; width: 100%; height: 100%; }
+.research-cockpit .network-legend { padding: 5px 0 6px; gap: 10px; font-size: 7px; }
+.research-cockpit .network-weight-note { font-size: 7px; }
+.research-cockpit .embodied-preview { display: flex; flex-direction: column; justify-content: center; flex: 1; padding: 8px 16px; max-width: none; }
+.research-cockpit .fixture-topology { padding-top: 10px; }
+.research-cockpit .fixture-topology svg { height: 160px; }
+.research-cockpit .fixture-topology figcaption { font-size: 8px; }
+.research-cockpit .fixture-topology p { font-size: 9px; line-height: 1.5; }
+.research-cockpit .embodied-preview > p { font: 9px var(--font-geist-mono),monospace; letter-spacing: 1px; margin: 14px 0 7px; color: #add5e3; }
+.research-cockpit .embodied-preview > small { font-size: 10px; color: #82a1b3; }
+.network-preview-instrument { display: grid; gap: 8px; margin-top: 20px; padding-top: 12px; border-top: 1px solid #29475670; }
+.network-preview-instrument > span { display: flex; justify-content: space-between; gap: 10px; color: #829fad; font: 8px var(--font-geist-mono),monospace; }
+.network-preview-instrument b { color: #b2cad6; font-weight: 400; }
+.network-preview-instrument > span:nth-child(2) b { color: var(--cf-magenta); }
+.research-cockpit .activity-figure { margin: 6px 0 0; padding: 7px 0 0; border-top: 1px solid #29475670; flex: 0 0 155px; min-height: 0; }
+.research-cockpit .activity-figure figcaption { font-size: 8px; }
+.research-cockpit .activity-chart { height: 105px; width: 100%; }
+.research-cockpit .chart-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 7px; line-height: 1.2; padding: 0; }
+.research-cockpit .chart-legend b { margin-left: 0; }
+.research-cockpit .activity-figure > .trace-note { display: none; }
+.research-cockpit .world-perception-source { display: none; }
+.research-cockpit .embodied-condition-switch,.research-cockpit .experiment-playback,.research-cockpit .embodied-awaiting,.research-cockpit .embodied-caption { grid-column: 1/-1; }
+.research-cockpit .embodied-condition-switch { gap: 10px; padding: 5px 14px; font-size: 8px; border: 0; }
+.research-cockpit .embodied-condition-switch button { padding: 4px 10px; font-size: 9px; }
+.research-cockpit .embodied-condition-switch small { font-size: 8px; }
+.research-cockpit .experiment-playback { padding: 6px 14px; gap: 14px; border-top: 1px solid #29475650; }
+.research-cockpit .playback-button { padding: 7px 12px; font-size: 10px; min-height: 32px; }
+.research-cockpit .playback-track label { font-size: 7px; }
+.research-cockpit .playback-track input { height: 4px; }
+.research-cockpit .playback-step strong { font-size: 23px; }
+.research-cockpit .playback-step > span { font-size: 7px; }
+.research-cockpit .experiment-playback .text-button { padding: 6px; font-size: 9px; }
+.research-cockpit .embodied-caption { padding: 4px 14px; line-height: 1.3; font-size: 8px; border-color: #29475650; }
+.research-cockpit .embodied-caption summary { font-size: 8px; }
+.research-cockpit .embodied-caption details[open] { max-width: 780px; }
+.research-cockpit .embodied-awaiting { padding: 8px 14px; font-size: 8px; }
+.research-cockpit .embodied-awaiting .text-button { font-size: 9px; padding: 4px; }
+.cockpit-scientist { display: flex; flex-direction: column; min-height: 0; min-width: 0; padding: 0 18px 10px; border-left: 1px solid #d4b94840; background: linear-gradient(145deg,#d0b03a08,#07131e 65%); }
+.cockpit-scientist > header { display: flex; align-items: center; gap: 10px; padding: 13px 0 11px; border-bottom: 1px solid #d4b94835; }
+.scientist-glyph { color: #f7d75b; font-size: 25px; line-height: 1; }
+.cockpit-scientist h2 { font-size: 12px; font-weight: 600; letter-spacing: .4px; }
+.cockpit-scientist > header p { color: #aa9f74; font: 7px var(--font-geist-mono),monospace; letter-spacing: 1px; margin-top: 4px; }
+.scientist-sections { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #46606b transparent; }
+.scientist-sections > section { padding: 8px 0; }
+.scientist-sections > section + section { border-top: 1px solid #b1a96e20; }
+.cockpit-scientist .cockpit-kicker { color: #d3bd65; font-size: 8px; letter-spacing: .9px; }
+.cockpit-scientist h3 { font-size: clamp(16px,1.15vw,20px); line-height: 1.3; font-weight: 500; margin: 6px 0; letter-spacing: -.4px; }
+.scientist-sections p { font-size: 13px; line-height: 1.6; color: #c0ced6; }
+.scientist-sections small { display: block; color: #8ca1ac; font-size: 8px; margin-top: 8px; }
+.scientist-validation { display: block; color: var(--cf-green); font: 8px var(--font-geist-mono),monospace; margin-top: 10px; }
+.cockpit-design-details { font-size: 10px; color: #91adbb; margin-top: 10px; }
+.cockpit-design-details .design-review { padding: 12px; }
+.cockpit-design-details .design-review header { flex-wrap: wrap; }
+.cockpit-design-details .design-review h2 { font-size: 16px; }
+.cockpit-design-details .test-pair { grid-template-columns: 1fr; gap: 8px; padding: 0; }
+.cockpit-design-details .design-review dl { grid-template-columns: 1fr; }
+.scientist-loop { display: grid; gap: 10px; margin-top: 12px; }
+.scientist-loop > div { display: flex; align-items: center; gap: 13px; }
+.scientist-loop > div > span { font: 10px var(--font-geist-mono),monospace; color: #bda951; border-left: 1px solid #d4b94850; padding-left: 9px; }
+.scientist-loop strong { font-size: 12px; font-weight: 500; color: #e0e6e9; }
+.scientist-loop small { margin-top: 0; font-size: 10px; }
+.research-cockpit .scientist-next { background: transparent; border: 0; margin: 0; padding-inline: 0; display: block; }
+.research-cockpit .scientist-next h3 { font-size: 14px; margin-bottom: 7px; }
+.research-cockpit .scientist-next .next-question { color: #f0df9b; font-size: 13px; line-height: 1.45; margin: 0; }
+.scientist-action { padding-top: 10px; border-top: 1px solid #d4b94835; }
+.scientist-action .primary-button { width: 100%; }
+.scientist-action small { display: block; color: #9aaab0; font-size: 8px; text-align: center; margin-top: 6px; }
+.scientist-action .scientist-direction { font-size: 11px; line-height: 1.5; color: #e1c875; }
+.scientist-provider-note { color: #8c9ba4; font-size: 8px; line-height: 1.5; margin-top: 9px; }
+.research-cockpit .scientist-technical { padding: 9px 0 0; font-size: 8px; text-align: left; color: #b1b5a1; }
+.cockpit-analytics { padding-top: 10px; }
+.cockpit-result-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 10px; }
+.cockpit-result-heading h2 { font-size: clamp(25px,2.05vw,38px); font-weight: 500; letter-spacing: -1.3px; margin: 4px 0 0; line-height: 1.12; }
+.cockpit-analytics[data-result="true"] .cockpit-result-heading h2 { color: #f2f8fc; }
+.instrument-status { color: #8da9b9; font: 8px var(--font-geist-mono),monospace; letter-spacing: .5px; }
+.instrument-status.complete { color: var(--cf-green); }
+.cockpit-readouts { display: grid; grid-template-columns: 1.15fr 1.1fr 1fr 1.1fr; border-block: 1px solid #29475680; background: linear-gradient(110deg,#0b243333,transparent); }
+.cockpit-readouts > article { min-width: 0; padding: 13px 20px; border-left: 1px solid #29475680; }
+.cockpit-readouts > article:first-child { padding-left: 0; border: 0; }
+.cockpit-readouts h3 { font: 8px var(--font-geist-mono),monospace; color: #8dabbc; letter-spacing: 1.4px; margin-bottom: 8px; }
+.cockpit-readouts small { display: block; font-size: 9px; color: #8ea7b6; line-height: 1.6; }
+.readout-pair,.readout-response { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; margin-bottom: 4px; }
+.readout-pair strong { font: 30px var(--font-geist-mono),monospace; color: var(--cf-cyan); letter-spacing: -1.3px; }
+.readout-pair strong:last-child,.readout-response strong:last-child { color: var(--cf-magenta); }
+.readout-pair > span,.readout-response > span { color: #628493; font-size: 19px; }
+.readout-response strong { font: 19px var(--font-geist-mono),monospace; color: var(--cf-cyan); letter-spacing: -.9px; }
+.readout-outcome { display: block; font-size: 20px; line-height: 1.2; max-width: 210px; font-weight: 500; margin: 10px 0 7px; }
+.readout-bars { display: grid; gap: 3px; max-width: 150px; margin-top: 7px; }
+.readout-bars i { height: 3px; background: var(--cf-cyan); }
+.readout-bars i:last-child { background: var(--cf-magenta); }
+.readout-trust p { font-size: 11px; line-height: 1.8; }
+.readout-trust small { font-size: 8px; }
+.cockpit-recorder { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 10px 0; border-bottom: 1px solid #29475670; }
+.cockpit-run { min-width: 0; }
+.cockpit-run > span { display: block; font: 7px var(--font-geist-mono),monospace; color: #688b9e; letter-spacing: 1px; margin-bottom: 5px; }
+.cockpit-run code { display: block; font-size: 9px; color: #9ab5c5; overflow-wrap: anywhere; }
+.cockpit-recorder ol { display: flex; align-items: center; list-style: none; padding: 0; margin: 0; gap: 26px; }
+.cockpit-recorder li { display: grid; grid-template-columns: auto 1fr; gap: 4px 7px; position: relative; }
+.cockpit-recorder li:not(:last-child)::after { content: "→"; position: absolute; right: -19px; top: 0; font-size: 12px; color: #365562; }
+.cockpit-recorder li > span { grid-row: 1/3; color: #648391; font-size: 10px; }
+.cockpit-recorder li[data-complete="true"] > span { color: var(--cf-green); }
+.cockpit-recorder strong { color: #93afbe; font: 8px var(--font-geist-mono),monospace; letter-spacing: .5px; }
+.cockpit-recorder small { color: #6f8d9e; font-size: 8px; }
+.cockpit-trust-details { padding-top: 9px; font: 8px var(--font-geist-mono),monospace; color: #9cb3c1; }
+.cockpit-trust-details .experiment-trust { margin-top: 14px; font-family: var(--font-geist-sans),sans-serif; }
+.cockpit-advanced { display: flex; flex-wrap: wrap; gap: 8px 30px; padding: 11px 0; }
+.cockpit-advanced > details { font-size: 9px; color: #98b5c5; }
+.cockpit-advanced > details[open] { flex-basis: 100%; }
+.cockpit-advanced > details[open] > :not(summary) { margin-top: 15px; }
+.cockpit-boundary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0 0; }
+.cockpit-boundary p { color: #7895a6; font-size: 9px; }
+.cockpit-boundary .text-button { font-size: 9px; padding: 0; }
+.cockpit-retained { display: flex; gap: 20px; align-items: center; padding: 10px 0; font-size: 10px; color: #a0b5c1; }
+/* SAM stays within the world surface; successful analysis replaces upload setup. */
+.research-cockpit .perception-compact { padding: 0; margin: 0; background: #061823; border: 0; border-bottom: 1px solid #29475670; border-radius: 0; max-height: 65%; overflow-y: auto; scrollbar-width: thin; }
+.research-cockpit .perception-source { padding: 7px 12px; gap: 6px; }
+.research-cockpit .perception-source .eyebrow { font-size: 7px; margin-right: 2px; }
+.research-cockpit .perception-source button { font-size: 8px; padding: 5px 7px; }
+.research-cockpit .perception-source > small { display: none; }
+.research-cockpit .perception-content { padding: 9px 12px; border-top: 1px solid #29475670; }
+.research-cockpit .perception-result-header { margin-bottom: 8px; gap: 10px; }
+.research-cockpit .perception-compact[data-success="true"] .perception-result-header > div { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
+.research-cockpit .perception-compact[data-success="true"] .perception-result-header h3 { font-size: 11px; line-height: 1.2; margin: 0; }
+.research-cockpit .perception-result-header .eyebrow { font-size: 8px; }
+.research-cockpit .perception-result-header h3 { font-size: 13px; margin-top: 4px; }
+.research-cockpit .perception-result-header small { display: none; }
+.research-cockpit .perception-result-header .text-button { font-size: 8px; padding: 0; }
+.research-cockpit .perception-content > .eyebrow { display: none; }
+.research-cockpit .perception-chain { display: none; }
+.research-cockpit .perception-offline { width: 28%; float: left; margin: 0 10px 8px 0; padding: 5px; border-radius: 3px; }
+.research-cockpit .perception-offline > strong { font-size: 6px; margin-bottom: 5px; display: block; }
+.research-cockpit .perception-offline svg { width: 100%; height: 50px; }
+.research-cockpit .perception-offline label { font-size: 7px; }
+.research-cockpit .perception-offline input { width: 100%; height: 3px; margin: 6px 0; }
+.research-cockpit .perception-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 5px 0 7px; padding: 0; border: 0; }
+.research-cockpit .perception-metrics > div:nth-child(1),.research-cockpit .perception-metrics > div:nth-child(3) { display: none; }
+.research-cockpit .perception-metrics > div { border: 0; padding: 0; }
+.research-cockpit .perception-metrics dt { font-size: 6px; line-height: 1.5; }
+.research-cockpit .perception-metrics dd { font-size: 16px; line-height: 1.2; margin-top: 2px; }
+.research-cockpit .perception-metrics small { font-size: 7px; }
+.research-cockpit .perception-ready { display: none; }
+.research-cockpit .perception-ready output { font-size: 12px; }
+.research-cockpit .perception-details { clear: both; font-size: 8px; margin: 7px 0 0; }
+.research-cockpit .perception-compact .run-diagnostics { font-size: 8px; margin-top: 7px; }
+.research-cockpit .perception-content > .primary-button { width: 100%; font-size: 10px; min-height: 32px; clear: both; }
+.research-cockpit .perception-content > small { font-size: 8px; }
+.research-cockpit .perception-upload { gap: 8px; }
+.research-cockpit .perception-upload label { font-size: 9px; }
+.research-cockpit .perception-upload input { max-width: 100%; font-size: 9px; }
+.research-cockpit .perception-upload small { font-size: 8px; }
+.research-cockpit .perception-offline-option { font-size: 9px; margin-top: 10px; }
+.research-cockpit .perception-preview video,.research-cockpit .perception-player { max-height: 120px; }
+.research-cockpit .perception-player > :first-child { height: 90px !important; }
+.research-cockpit .perception-player-controls { font-size: 8px; padding: 5px 0; }
+.research-cockpit .scientist-perception { padding-block: 9px; }
+.research-cockpit .scientist-perception p { font-size: 11px; line-height: 1.5; margin-top: 6px; }
+@media (min-width: 1101px) {
+  .cockpit-shell { grid-template-columns: 176px minmax(0,1fr); }
+  .cockpit-shell .sidebar { width: 176px; padding-inline: 12px; }
+  .cockpit-shell .workspace { margin-left: 176px; }
+  .cockpit-shell .brand { gap: 7px; font-size: 23px; }
+  .cockpit-shell .brand > span { font-size: 21px; letter-spacing: -.5px; }
+  .cockpit-shell .brand small { font-size: 9px; }
+  .cockpit-shell .sidebar nav button { font-size: 12px; padding: 12px 10px; }
+}
+@media (max-width: 1550px) and (min-width: 1101px) {
+  .cockpit-shell .main-content { padding-inline: 18px !important; }
+  .cockpit-shell .topbar { padding-inline: 18px; }
+  .cockpit-progress small { display: none; }
+  .research-cockpit .embodied-stage { grid-template-columns: minmax(0,1fr) minmax(0,1.12fr) minmax(275px,.86fr); }
+  .research-cockpit .embodied-heading > span { font-size: 7px; }
+  .research-cockpit .embodied-heading h2 { font-size: 12px; }
+  .research-cockpit .embodied-heading .eyebrow { font-size: 7px; }
+  .research-cockpit .cockpit-scientist { padding-inline: 14px; }
+  .cockpit-scientist h3 { font-size: 16px; }
+  .scientist-sections p { font-size: 12px; }
+  .cockpit-scientist .scientist-next .next-question { font-size: 12px; }
+  .cockpit-readouts > article { padding-inline: 14px; }
+  .readout-pair strong { font-size: 26px; }
+  .readout-response strong { font-size: 16px; }
+  .readout-outcome { font-size: 18px; }
+  .research-cockpit .perception-source .eyebrow { display: none; }
+  .research-cockpit .network-weight-note { display: none; }
+  .research-cockpit .embodied-condition-switch small { display: none; }
+}
+@media (max-width: 1100px) {
+  .cockpit-command { display: block; }
+  .cockpit-command-state { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+  .cockpit-progress small { display: none; }
+  .research-cockpit .embodied-stage { grid-template-columns: minmax(0,1fr) minmax(0,1fr); height: auto; }
+  .research-cockpit .embodied-world-column,.research-cockpit .embodied-signals { height: 420px; }
+  .research-cockpit .cockpit-scientist { grid-column: 1/-1; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 0 24px; border: 0; border-top: 1px solid #d4b94840; padding: 0 18px 14px; }
+  .cockpit-scientist > header { grid-column: 1/-1; }
+  .scientist-sections { grid-row: 2/5; }
+  .scientist-action { align-self: center; border: 0; }
+  .scientist-provider-note { grid-column: 2; }
+  .scientist-loop { display: none; }
+  .cockpit-readouts { grid-template-columns: 1fr 1fr; }
+  .cockpit-readouts > article:nth-child(3) { border-left: 0; padding-left: 0; border-top: 1px solid #29475670; }
+  .cockpit-readouts > article:nth-child(4) { border-top: 1px solid #29475670; }
+  .cockpit-recorder { align-items: start; flex-direction: column; }
+  .cockpit-boundary { flex-wrap: wrap; }
+}
+@media (max-width: 600px) {
+  .cockpit-shell .topbar { padding: 14px; }
+  .cockpit-shell .topbar h1 { font-size: 22px; }
+  .cockpit-shell .header-badges { gap: 5px; }
+  .cockpit-shell .header-badges .badge { font-size: 7px; }
+  .cockpit-shell .main-content { padding: 10px 12px !important; }
+  .cockpit-shell .assistant-launcher { right: 12px; bottom: 10px; }
+  .cockpit-shell .cockpit-command textarea { height: 60px; font-size: 20px; line-height: 1.35; }
+  .cockpit-command-state > span { font-size: 7px; max-width: 150px; line-height: 1.6; }
+  .cockpit-command-state .text-button { font-size: 9px; }
+  .cockpit-progress button { flex-direction: column; gap: 5px; padding: 10px 1px; }
+  .cockpit-progress strong { font-size: 7px; letter-spacing: 0; }
+  .research-cockpit .embodied-experiment { grid-template-columns: minmax(0,1fr); }
+  .research-cockpit .embodied-heading { display: flex; grid-column: 1; }
+  .research-cockpit .embodied-heading > span { font-size: 7px; }
+  .research-cockpit .embodied-inputs { grid-column: 1; justify-content: space-between; border-top: 1px solid #29475650; }
+  .research-cockpit .embodied-stage { grid-template-columns: minmax(0,1fr); }
+  .research-cockpit .embodied-world-column { height: 430px; }
+  .research-cockpit .embodied-signals { height: 400px; border-left: 0; border-top: 1px solid #29475670; }
+  .research-cockpit .cockpit-scientist { display: flex; }
+  .scientist-sections { overflow: visible; }
+  .research-cockpit .scientist-sections p { font-size: 13px; }
+  .research-cockpit .scientist-action { width: 100%; }
+  .research-cockpit .network-figure { height: 170px; }
+  .research-cockpit .embodied-condition-switch > span { font-size: 7px; }
+  .research-cockpit .experiment-playback { flex-wrap: wrap; gap: 8px; }
+  .research-cockpit .playback-track { min-width: 130px; }
+  .research-cockpit .embodied-caption { flex-direction: column; gap: 7px; }
+  .cockpit-result-heading { align-items: start; flex-direction: column; gap: 9px; }
+  .cockpit-result-heading h2 { font-size: 29px; letter-spacing: -1px; }
+  .cockpit-readouts > article { padding: 13px 10px; }
+  .readout-pair { gap: 6px; }
+  .readout-pair strong { font-size: 22px; }
+  .readout-response { gap: 5px; }
+  .readout-response strong { font-size: 15px; }
+  .readout-outcome { font-size: 18px; }
+  .readout-trust p { font-size: 9px; }
+  .cockpit-recorder ol { gap: 19px; width: 100%; justify-content: space-between; }
+  .cockpit-recorder strong { font-size: 7px; }
+  .cockpit-recorder small { display: none; }
+  .cockpit-recorder li:not(:last-child)::after { right: -15px; }
+  .cockpit-boundary p { line-height: 1.6; }
+}
+/* 10A.1 — cinematic polish within the approved composition. */
+.research-cockpit .embodied-world-column,.research-cockpit .embodied-signals,.cockpit-scientist,.cockpit-result-heading { transition: background-color 350ms, box-shadow 350ms, border-color 350ms; }
+.research-cockpit .embodied-stage { border-block-color: #36556550; }
+.research-cockpit .cockpit-region-title { border-bottom-color: #29475635; }
+.research-cockpit .embodied-signals { border-left-color: #29475645; background: radial-gradient(ellipse at 46% 40%,#12435b38,transparent 75%),#04131e; }
+.research-cockpit .embodied-arena::after { box-shadow: inset 0 0 48px 8px #020d1745; }
+.research-cockpit .world-condition-labels { justify-content: start; bottom: 30px; }
+.research-cockpit .world-condition-labels > span { background: #020c13b0; backdrop-filter: blur(6px); border-left-width: 2px; }
+.research-cockpit[data-stage="ask"] .embodied-signals { background-color: #030f19; }
+.research-cockpit[data-stage="perceive"] .perception-compact { box-shadow: inset 2px 0 #e5c76a,0 8px 30px #0002; }
+.research-cockpit[data-stage="design"] .cockpit-scientist,.research-cockpit[data-stage="run"] .cockpit-scientist { border-left-color: #e6cd7755; background: linear-gradient(135deg,#b39a3614,#07131e 65%); }
+.research-cockpit:has(.embodied-experiment[data-playing="true"]) .embodied-signals { box-shadow: inset 0 0 55px #0dc5ec10; border-left-color: #28bcd965; }
+.research-cockpit:has(.embodied-experiment[data-playing="true"]) .cockpit-region-title h3 { color: #e6faff; }
+.research-cockpit[data-stage="understand"] .cockpit-result-heading { background: radial-gradient(ellipse at 18% 50%,#17b9d609,transparent 65%); }
+.research-cockpit[data-stage="understand"] .scientist-meaning { border-left: 2px solid #d7c26a70; padding-left: 12px; margin-top: 10px; }
+.research-cockpit .embodied-signal > header { padding-block: 6px !important; font-size: 10px !important; }
+.research-cockpit .embodied-signal > header b { font-size: 27px !important; letter-spacing: -1px; }
+.research-cockpit .synthetic-network .viz-node text { font-size: 17px; fill: #c9e5ef; paint-order: stroke; stroke: #05131e; stroke-width: 3px; }
+.research-cockpit .synthetic-network .node-value { font-size: 16px; fill: currentColor; }
+.research-cockpit .synthetic-network .silenced-label { font-size: 14px; fill: var(--cf-magenta); }
+.research-cockpit .synthetic-network .path-label { fill: #759aaa; letter-spacing: 1.5px; }
+.research-cockpit .output-node .node-value { font-size: 19px; font-weight: 600; }
+.research-cockpit .silenced-node { filter: drop-shadow(0 0 5px #ff4f8b30); }
+.edge-pulse { stroke: #dcfbff; stroke-linecap: round; animation: recorded-propagation 900ms cubic-bezier(.2,.65,.3,1) both; }
+@keyframes recorded-propagation { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.research-cockpit .activity-chart { height: 110px; }
+.research-cockpit .activity-chart text { font-size: 15px; fill: #abc7d7; }
+.research-cockpit .activity-chart .axis-title { font-size: 13px; }
+.research-cockpit .chart-legend { font-size: 8px; gap: 5px 9px; }
+.research-cockpit .activity-figure { border-top-color: #29475650; }
+.research-cockpit .perception-retained-media { clear: both; font-size: 9px; color: #adc1cd; }
+.research-cockpit .perception-retained-media[open] { padding-top: 3px; }
+.research-cockpit .perception-retained-media .perception-offline { float: none; width: 100%; max-width: 300px; margin: 10px 0; }
+.research-cockpit .perception-retained-media .perception-offline svg { height: 130px; }
+.research-cockpit .perception-compact[data-accepted="true"][data-success="true"] .perception-content { display: flex; flex-direction: column; gap: 7px; padding-block: 7px; }
+.research-cockpit .perception-compact[data-accepted="true"] .perception-result-header { margin: 0; }
+.research-cockpit .perception-compact[data-accepted="true"] .perception-metrics { order: 1; margin: 0; }
+.research-cockpit .perception-compact[data-accepted="true"] .perception-retained-media { order: 2; }
+.research-cockpit .perception-compact[data-accepted="true"] .perception-source { padding-block: 5px; }
+.research-cockpit .perception-metrics dt { font-size: 8px; letter-spacing: .5px; }
+.research-cockpit .perception-metrics small { font-size: 8px; }
+.research-cockpit .perception-result-header .eyebrow { font-size: 9px; letter-spacing: .4px; }
+.cockpit-scientist > header { padding-block: 11px; }
+.cockpit-scientist .cockpit-kicker { font-size: 9px; letter-spacing: .6px; }
+.scientist-sections small { font-size: 9px; }
+.research-cockpit .scientist-next .next-question { font-size: 14px; line-height: 1.5; color: #f2e1a4; }
+.research-cockpit .scientist-meaning h3 { font-size: 21px; font-weight: 550; }
+.research-cockpit .scientist-next h3 { font-size: 13px; color: #d5c27b; letter-spacing: .3px; }
+.research-cockpit .primary-button { font-size: 13px; box-shadow: 0 5px 22px #d5b83b10; }
+.cockpit-result-heading h2 { font-size: clamp(29px,2.2vw,42px); font-weight: 550; letter-spacing: -1.4px; }
+.cockpit-analytics[data-result="true"] .cockpit-result-heading h2 { text-transform: uppercase; }
+.cockpit-readouts h3 { font-size: 10px; letter-spacing: 1px; margin-bottom: 7px; }
+.cockpit-readouts > article { border-left-color: #29475655; padding-block: 11px; }
+.cockpit-readouts small { font-size: 10px; line-height: 1.5; }
+.readout-pair { gap: 13px; }
+.readout-trust small { font-size: 9px; }
+.cockpit-recorder strong { font-size: 9px; }
+.cockpit-recorder small { font-size: 9px; }
+@media (min-width: 1101px) and (max-width: 1550px) {
+  .research-cockpit .cockpit-scientist { padding-inline: 16px; }
+  .research-cockpit .scientist-sections p { font-size: 12px; line-height: 1.55; }
+  .research-cockpit .scientist-next .next-question { font-size: 13px; }
+  .research-cockpit .scientist-meaning h3 { font-size: 19px; }
+  .research-cockpit .cockpit-region-title > span { font-size: 9px; letter-spacing: 0; }
+  .research-cockpit .signal-title { font-size: 9px; letter-spacing: .7px; }
+  .research-cockpit .embodied-signal > header { font-size: 9px !important; gap: 6px; }
+  .research-cockpit .embodied-signal > header small { font-size: 8px; }
+  .research-cockpit .embodied-signal > header b { font-size: 25px !important; }
+  .readout-pair strong { font-size: 28px; }
+  .readout-response { gap: 8px; }
+  .readout-response strong { font-size: 17px; }
+  .readout-outcome { font-size: 19px; }
+  .readout-trust p { font-size: 11px; }
+  .research-cockpit .perception-result-header .text-button { font-size: 9px; }
+  .research-cockpit .perception-source button { font-size: 9px; }
+  .research-cockpit .secondary-button { font-size: 11px; }
+}
+@media (max-width: 600px) {
+  .research-cockpit .perception-metrics dt { font-size: 7px; }
+  .cockpit-readouts h3 { font-size: 9px; }
+  .cockpit-readouts small { font-size: 9px; }
+  .cockpit-result-heading h2 { font-size: 28px; }
+  .readout-pair { gap: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edge-pulse { animation: none !important; display: none; }
+  .research-cockpit * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}

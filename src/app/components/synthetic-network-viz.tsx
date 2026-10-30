@@ -1,10 +1,10 @@
-import { nodeLabel } from "@/lib/web/display-labels";
+import { nodeLabel, signalValue } from "@/lib/web/display-labels";
 import { useId } from "react";
 import type { CompactTrialSummary } from "@/lib/meta/compact-evidence";
 import { activityAtStep } from "@/lib/web/dashboard";
 
 /** Layout is schematic; every node, edge, weight and activity comes from evidence. */
-export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummary; step: number }) {
+export function SyntheticNetworkViz({ trial, step, playing = false }: { trial: CompactTrialSummary; step: number; playing?: boolean }) {
   const uid = useId().replace(/:/g, "");
   const { network, appliedPerturbation } = trial.provenance;
   const silenced = appliedPerturbation?.targetNodeId;
@@ -38,9 +38,10 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
         const color = blocked ? "var(--cf-magenta)" : "var(--cf-cyan)";
         const path = `M${x1 + 17},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2 - 22},${y2}`;
         return <g key={`${from}-${to}`} className={`viz-edge${blocked ? " interrupted" : ""}`} style={{ color }} data-edge={`${from}-${to}`} data-drive={drive} data-trail={trail} data-upstream-activity={upstream?.nodes[from]}>
-          {trail > 0 && <path className="edge-trail" d={path} strokeWidth="3" opacity={trail * .16} />}
+          {trail > 0 && <path className="edge-trail" d={path} strokeWidth="4" opacity={trail * .3} />}
           {drive > 0 && <path d={path} strokeWidth={6 + drive * 5} opacity={drive * .5} filter={`url(#${uid}-glow)`} />}
           <path d={path} strokeWidth={1.5 + drive * 2.8} opacity={blocked ? .65 : .22 + drive * .78} />
+          {playing && drive > 0 && <path key={`${step}-${from}-${to}`} className="edge-pulse" d={path} pathLength="1" strokeWidth="4" strokeDasharray=".1 .9" opacity={.45 + drive * .5}><title>Presentation pulse for an adjacent recorded transition; not measured edge flow.</title></path>}
           <path d={`M${x2 - 30},${y2 - 5} L${x2 - 22},${y2} L${x2 - 30},${y2 + 5}`} opacity={.3 + drive * .7} />
           <text x={(x1 + x2) / 2} y={(y1 + y2) / 2 - 13} textAnchor="middle">{weight}</text>
           <title>{`${from} → ${to}; weight ${weight}. ${blocked ? "Interrupted by declared silence." : `Derived emphasis: upstream activity at step ${step - 1} × weight, only with recorded positive destination at step ${step}; not measured edge flow. Dim trail: prior recorded transition.`}`}</title>
@@ -53,14 +54,17 @@ export function SyntheticNetworkViz({ trial, step }: { trial: CompactTrialSummar
         const previous = Math.min(1, Math.abs(upstream?.nodes[id] ?? 0));
         const color = id === silenced || id === network.outputNodeId && silenced ? "var(--cf-magenta)" : "var(--cf-cyan)";
         return <g key={id} className={`viz-node${id === silenced ? " silenced-node" : ""}${id === network.outputNodeId ? " output-node" : ""}`} style={{ color }} data-node={id} data-activity={value} data-previous-activity={upstream?.nodes[id]}>
+          <ellipse className="node-depth" cx={x + 2} cy={y + 13} rx="24" ry="10" fill="#00070c" opacity=".7" />
           {id !== silenced && previous > 0 && <circle className="node-trail" cx={x} cy={y} r="28" fill="none" stroke="currentColor" strokeWidth="3" opacity={previous * .2}><title>Faint ring: previous recorded step, not current activity.</title></circle>}
           <circle className="node-halo" cx={x} cy={y} r={27 + intensity * 17} fill="currentColor" opacity={intensity * .32} filter={`url(#${uid}-glow)`} />
           <circle className="node-halo" cx={x} cy={y} r={22 + intensity * 9} fill="currentColor" opacity={intensity * .12} />
-          <circle cx={x} cy={y} r="19" fill="#091823" stroke="currentColor" strokeWidth={id === silenced ? 2.5 : 1} opacity={id === silenced ? 1 : .35 + intensity * .65} />
+          <circle cx={x} cy={y} r={id === network.outputNodeId ? 22 : 19} fill="#091823" stroke="currentColor" strokeWidth={id === silenced ? 3 : 1.4} opacity={id === silenced ? 1 : .28 + intensity * .72} />
+          {id !== silenced && intensity > 0 && <circle className="node-activity-ring" cx={x} cy={y} r={id === network.outputNodeId ? 30 : 25} pathLength="1" strokeDasharray={`${intensity} 1`} transform={`rotate(-90 ${x} ${y})`} fill="none" stroke="currentColor" strokeWidth="2.5" opacity=".85" />}
+          {id === silenced && <path className="intervention-brackets" d={`M${x - 31},${y - 13}v-12h12 M${x + 31},${y + 13}v12h-12`} fill="none" stroke="currentColor" strokeWidth="2" />}
           <circle cx={x} cy={y} r="25" fill="none" stroke="currentColor" strokeWidth=".6" strokeDasharray="3 5" opacity={id === silenced ? .5 : .12 + intensity * .4} />
-          {id === silenced ? <path d={`M${x - 8},${y - 8} l16,16 m0,-16 l-16,16`} stroke="currentColor" strokeWidth="4" /> : <circle cx={x} cy={y} r={4 + intensity * 5} fill="currentColor" opacity={.15 + intensity * .85} />}
+          {id === silenced ? <path d={`M${x - 10},${y - 10} l20,20 m0,-20 l-20,20`} stroke="currentColor" strokeWidth="4" /> : <circle cx={x} cy={y} r={4 + intensity * 6} fill="currentColor" opacity={.1 + intensity * .9} />}
           <text x={x} y={y + 43} textAnchor="middle">{nodeLabel(id)}</text>
-          <text x={x} y={y - 33} textAnchor="middle" className={id === silenced ? "silenced-label" : "node-value"}>{id === silenced ? "SILENCED" : value ?? "—"}</text>
+          <text x={x} y={y - 33} textAnchor="middle" className={id === silenced ? "silenced-label" : "node-value"}>{id === silenced ? "SILENCED" : signalValue(value)}</text>
           <title>{`${id}: ${value === undefined ? "no retained sample" : `normalized activity ${value}`} at step ${step}${id === silenced ? "; declared silence intervention" : ""}`}</title>
         </g>;
       })}

@@ -20,7 +20,7 @@ const props = { question, pending: "", mode: "FAKE META CLIENT" as const, result
 
 test("initial story offers demo and own-question paths without measured or AI findings", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
-  for (const text of [/Ask what changes a nervous system/, /Embodied experiment/, /Visual embodiment of synthetic output/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Explore a real connectome simulation/, /OFFLINE DEMO/]) assert.match(html, text);
+  for (const text of [/Ask what changes a nervous system/, /Embodied experiment/, /Visual embodiment of synthetic output/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY|Approve &amp; Run Experiment|Explain with Meta/);
 });
 
@@ -29,18 +29,18 @@ test("validated proposal presents approval while measurements remain unavailable
   assert.match(html, /OFFLINE DESIGN TEMPLATE/);
   assert.match(html, /Approve &amp; Run Experiment/);
   assert.match(html, /Review hypothesis, target &amp; all test settings/);
-  assert.equal((html.match(/data-complete="true"/g) ?? []).length, 2);
+  assert.equal((html.slice(0, html.indexOf('aria-label="Embodied experiment"')).match(/data-complete="true"/g) ?? []).length, 2);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY/);
 });
 
 test("measured result and explanation action coexist with real recorded comparison", () => {
   const before = JSON.stringify(measured);
   const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} />);
-  for (const text of [/Signal reduced 50%/, /Step 3/, /Step 4/, /Unchanged/, /MEASURED BY CAUSALFLY/, /Explain with Meta/, /Play recorded activity/, /View detailed comparison/, /Inspect provenance &amp; raw evidence/, /Show how we measured this/]) assert.match(html, text);
+  for (const text of [/Signal reduced 50%/, /Step 3/, /Step 4/, /Unchanged/, /MEASURED BY CAUSALFLY/, /Explain with Meta/, /Play recorded activity/, /View detailed comparison/, /INSPECT EVIDENCE/, /Show how we measured this/]) assert.match(html, text);
   assert.doesNotMatch(html, /INTERPRETED BY META AI/);
   assert.match(html, /Threshold still reached/);
   assert.match(html, /Silencing one pathway weakened the signal and made it arrive later\./);
-  for (const label of ["View detailed comparison", "VIEW TECHNICAL ANALYSIS", "Inspect provenance &amp; raw evidence"]) assert.ok(html.includes(`<summary>${label}</summary>`));
+  for (const label of ["View detailed comparison", "VIEW TECHNICAL ANALYSIS", "INSPECT EVIDENCE"]) assert.ok(html.includes(`<summary>${label}</summary>`));
   assert.equal(JSON.stringify(measured), before);
 });
 
@@ -66,9 +66,9 @@ test("explanation and proposal stay on Experiment; a follow-up preserves earlier
   assert.equal(state.workspace, "observatory");
   assert.equal(state.result?.measuredEvidence, measured.measuredEvidence);
   const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={result} />);
-  for (const text of [/What changed/, /Why it matters/, /What should we test next/, /Use as Next Question/, /OFFLINE AI TEMPLATE/, /Limitations &amp; alternative explanations/]) assert.match(html, text);
+  for (const text of [/Signal reduced 50%/, /Why it matters/, /What should we test next/, /Use as next test/, /OFFLINE AI TEMPLATE/, /VIEW TECHNICAL ANALYSIS/]) assert.match(html, text);
   assert.doesNotMatch(html, /INTERPRETED WITH META MUSE|NEXT TEST PROPOSED BY META MUSE/);
-  assert.equal((html.match(/data-complete="true"/g) ?? []).length, 4);
+  assert.equal((html.slice(0, html.indexOf('aria-label="Embodied experiment"')).match(/data-complete="true"/g) ?? []).length, 4);
   const next = workspaceReducer(state, { type: "next-question", question: analysis.nextExperiment.researchQuestion });
   const nextHtml = renderToStaticMarkup(<GuidedExperiment {...props} question={next.question} design={next.design} result={next.result} />);
   assert.match(nextHtml, /PREVIOUS TEST RETAINED/);

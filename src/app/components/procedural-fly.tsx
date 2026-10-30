@@ -12,7 +12,7 @@ function Rod({ from, to, radius = .025, color = CUTICLE }: { from: Point; to: Po
     const a = new Vector3(...from), b = new Vector3(...to), direction = b.clone().sub(a);
     return { midpoint: a.add(b).multiplyScalar(.5), quaternion: new Quaternion().setFromUnitVectors(new Vector3(0, 1, 0), direction.clone().normalize()), length: direction.length() };
   }, [from, to]);
-  return <mesh position={midpoint} quaternion={quaternion}><cylinderGeometry args={[radius * .65, radius, length, 8]} /><meshStandardMaterial color={color} roughness={.62} /></mesh>;
+  return <mesh castShadow position={midpoint} quaternion={quaternion}><cylinderGeometry args={[radius * .65, radius, length, 8]} /><meshStandardMaterial color={color} roughness={.62} /></mesh>;
 }
 
 function Wing({ side, response }: { side: number; response: number }) {
@@ -26,8 +26,8 @@ function Wing({ side, response }: { side: number; response: number }) {
   ].map(points => new CatmullRomCurve3(points.map(p => new Vector3(...p as Point)))), []);
   return <group position={[side * .22, .41, -.42]} rotation={[0, side * (.17 + response * .08), side * response * .08]} scale={[side, 1, 1]}>
     <group rotation={[Math.PI / 2 - .035, 0, 0]}>
-      <mesh><shapeGeometry args={[outline, 32]} /><meshPhysicalMaterial color="#d5d9cf" metalness={.08} roughness={.25} transparent opacity={.44} side={DoubleSide} depthWrite={false} clearcoat={.8} /></mesh>
-      {veins.map((curve, i) => <mesh key={i}><tubeGeometry args={[curve, 24, i < 2 ? .009 : .005, 4, false]} /><meshStandardMaterial color="#776c53" transparent opacity={.7} roughness={.6} /></mesh>)}
+      <mesh><shapeGeometry args={[outline, 32]} /><meshPhysicalMaterial color="#b7c9c7" metalness={.02} roughness={.42} transparent opacity={.52} side={DoubleSide} depthWrite={false} clearcoat={.15} /></mesh>
+      {veins.map((curve, i) => <mesh key={i}><tubeGeometry args={[curve, 24, i < 2 ? .009 : .005, 4, false]} /><meshStandardMaterial color="#8d8d75" transparent opacity={.82} roughness={.6} /></mesh>)}
     </group>
   </group>;
 }
@@ -47,12 +47,12 @@ export function ProceduralFly({ x, output }: { x: number; output: number | null 
     if (Math.abs(targetY - body.current.position.y) + Math.abs(targetZ - body.current.position.z) > .001) invalidate();
   });
   return <group ref={body} name="procedural-fly" position={[x, .76, 0]}>
-    <mesh name="thorax" position={[0, .03, -.32]} scale={[.43, .4, .55]}><sphereGeometry args={[1, 40, 28]} /><meshStandardMaterial color="#9b865f" roughness={.72} /></mesh>
-    <mesh name="head" position={[0, .08, -1]} scale={[.39, .31, .32]}><sphereGeometry args={[1, 36, 24]} /><meshStandardMaterial color="#b8a37b" roughness={.67} /></mesh>
-    <mesh name="abdomen" position={[0, -.02, .06]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1, .8]}><latheGeometry args={[abdomen, 48]} /><meshStandardMaterial color="#af9254" roughness={.62} /></mesh>
-    {[[.33, .25], [.38, .47], [.37, .68], [.31, .9], [.21, 1.13], [.1, 1.32]].map(([r, z], i) => <mesh key={z} name={`abdominal-band-${i}`} position={[0, -.02, z + .06]} scale={[1, .8, 1]}><torusGeometry args={[r, .037, 8, 48]} /><meshStandardMaterial color="#302c25" roughness={.72} /></mesh>)}
+    <mesh castShadow name="thorax" position={[0, .03, -.32]} scale={[.43, .4, .55]}><sphereGeometry args={[1, 40, 28]} /><meshStandardMaterial color="#71664f" roughness={.72} /></mesh>
+    <mesh castShadow name="head" position={[0, .08, -1]} scale={[.39, .31, .32]}><sphereGeometry args={[1, 36, 24]} /><meshStandardMaterial color="#978464" roughness={.67} /></mesh>
+    <mesh castShadow name="abdomen" position={[0, -.02, .06]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1, .8]}><latheGeometry args={[abdomen, 48]} /><meshStandardMaterial color="#90744f" roughness={.62} /></mesh>
+    {[[.33, .25], [.38, .47], [.37, .68], [.31, .9], [.21, 1.13], [.1, 1.32]].map(([r, z], i) => <mesh key={z} name={`abdominal-band-${i}`} position={[0, -.02, z + .06]} scale={[1, .8, 1]}><torusGeometry args={[r, .037, 8, 48]} /><meshStandardMaterial color="#28251e" roughness={.72} /></mesh>)}
     {[-1, 1].map(side => <group key={side}>
-      <mesh name="compound-eye" position={[side * .31, .13, -1.04]} scale={[.24, .31, .3]} rotation={[0, side * -.16, 0]}><icosahedronGeometry args={[1, 3]} /><meshStandardMaterial color="#a93622" roughness={.38} metalness={.12} flatShading /></mesh>
+      <mesh name="compound-eye" position={[side * .31, .13, -1.04]} scale={[.24, .31, .3]} rotation={[0, side * -.16, 0]}><icosahedronGeometry args={[1, 3]} /><meshStandardMaterial color="#a12c23" roughness={.5} metalness={.05} flatShading /></mesh>
       <mesh position={[side * .14, .12, -1.34]} scale={[.08, .1, .14]}><sphereGeometry args={[1, 16, 12]} /><meshStandardMaterial color="#a88e64" roughness={.6} /></mesh>
       <Rod from={[side * .17, .19, -1.38]} to={[side * .31, .39, -1.54]} radius={.012} />
       {[0, 1, 2].map(i => <Rod key={i} from={[side * (.22 + .025 * i), .26 + .035 * i, -1.43 - .025 * i]} to={[side * (.34 + .025 * i), .27 + .045 * i, -1.52 - .035 * i]} radius={.004} />)}
