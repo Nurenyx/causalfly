@@ -18,7 +18,7 @@ Keep Hostinger's Build Command as `npm run build`. Next.js 16.4.3 production bui
 
 ## Environment inventory
 
-All application settings below are server-side. No `NEXT_PUBLIC_` credential exists. `.env.local` stays ignored; `.env.example` has placeholders only. Never upload local configuration or copy secrets into build logs.
+Application settings below are server-side except the public brain endpoint. No `NEXT_PUBLIC_` credential exists. `.env.local` stays ignored; `.env.example` has placeholders only. Never upload local configuration or copy secrets into build logs.
 
 | Name | Local development | Hostinger production | Offline validation | Secret |
 | --- | --- | --- | --- | --- |
@@ -28,7 +28,8 @@ All application settings below are server-side. No `NEXT_PUBLIC_` credential exi
 | `META_SCENE_MODEL` | Muse Spark scene model | Muse Spark scene model | Explicit scene fixture | No |
 | `META_TIMEOUT_MS` | Optional request timeout | Optional request timeout | No provider calls | No |
 | `CAUSALFLY_FAKE_META` | Optional labelled offline Muse mode | Leave unset for live; 1 only for labelled offline alpha | 1 | No |
-| `FRUITFLY_XR_OBSERVATORY_URL` | Optional local observatory | Empty until secure cloud service exists | Empty process override | No; credential-bearing URLs rejected |
+| `FRUITFLY_XR_OBSERVATORY_URL` | Optional local observatory | Verified secure wss:// observatory endpoint | Empty process override | No; credential-bearing URLs rejected |
+| `NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL` | Explicit local ws:// or secure wss:// brain endpoint | Secure wss://HOST/brain/v1, set before build | Empty; experimental neural input unavailable | No; public metadata, credentials/query strings forbidden |
 | `NODE_ENV` | Framework-managed development | Framework-managed production | Production preview / test runner | No |
 | `PORT` | Explicit local port below | Hosting-managed | 3142 | No |
 
@@ -60,3 +61,5 @@ There is no user authentication, shared-store isolation, or application-wide pai
 Record the approved commit and configuration names before deploying. Roll back by selecting the previous known-good commit/release in the GitHub deployment workflow, restoring its environment configuration securely, rebuilding/restarting, and repeating health/offline smoke checks. Restart loses in-memory records. Verify the actual hosting rollback controls before launch.
 
 FruitFly XR remains optional until Sprint 11B. The synthetic experiment does not depend on it. Production accepts a remote secure observatory URL, without assuming public port 8766. No backend deployment is included here.
+
+Current endpoint and temporary Funnel guidance: [weekend connectivity](WEEKEND_CONNECTIVITY_REVIEW.md). Browser brain URLs are frozen at build time; rebuild after changing them. Observatory remains independently server-side.

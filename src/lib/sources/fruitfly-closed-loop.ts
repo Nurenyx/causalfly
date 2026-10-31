@@ -22,13 +22,24 @@ export function brainStimulus(sessionId: string, sequence: number, capturedMs: n
 }
 export type BrainSocket = Pick<WebSocket, "send" | "close" | "addEventListener" | "bufferedAmount">;
 export interface BrainTransportEvidence {
-  endpoint: "ws://127.0.0.1:8765/brain/v1"; sceneUnitsToMetres: .1;
+  endpoint: string | null; sceneUnitsToMetres: .1;
   messages: { direction: "sent" | "received"; atMs: number; json: string }[]; status: string;
 }
-/** Explicitly opt-in local research client. Independent of the read-only observatory bridge.
+/** Public infrastructure metadata only; never accept credentials or URL payloads. */
+export function configuredBrainEndpoint(value: string | undefined, production = process.env.NODE_ENV === "production"): string | null {
+  if (!value || value !== value.trim() || /[\s\\?#]/.test(value) || !/^wss?:\/\//i.test(value)) return null;
+  try {
+    const url = new URL(value);
+    if (url.username || url.password || url.pathname !== "/brain/v1" || url.search || url.hash) return null;
+    const localDevelopment = !production && url.protocol === "ws:" && ["127.0.0.1", "localhost"].includes(url.hostname) && url.port === "8765";
+    return url.protocol === "wss:" || localDevelopment ? url.href : null;
+  } catch { return null; }
+}
+
+/** Explicitly opt-in research client. Independent of the read-only observatory bridge.
  * New instance per reset/reconnect; every callback checks its closed/session boundary. */
 export class ExperimentalBrainAdapter {
-  private socket: BrainSocket;
+  private socket: BrainSocket | null = null;
   private session: string | null = null;
   private sequence = 0;
   private outputSequence = 0;
@@ -39,10 +50,13 @@ export class ExperimentalBrainAdapter {
   private closed = false;
   private started: number;
   private lastReceived: number;
-  private record: BrainTransportEvidence = { endpoint: "ws://127.0.0.1:8765/brain/v1", sceneUnitsToMetres: .1, messages: [], status: "Connecting experimental local brain input" };
-  constructor(private onDrive: (drive: NeuralDrive | null) => void, private now = () => performance.now(), open: (url: string) => BrainSocket = url => new WebSocket(url), private wallNow = () => Date.now()) {
+  private record: BrainTransportEvidence = { endpoint: null, sceneUnitsToMetres: .1, messages: [], status: "Connecting experimental brain input" };
+  constructor(private onDrive: (drive: NeuralDrive | null) => void, private now = () => performance.now(), open: (url: string) => BrainSocket = url => new WebSocket(url), private wallNow = () => Date.now(), configuration = { endpoint: process.env.NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL, production: process.env.NODE_ENV === "production" }) {
     this.started = this.lastReceived = now();
-    this.socket = open(this.record.endpoint);
+    this.record.endpoint = configuredBrainEndpoint(configuration.endpoint, configuration.production);
+    if (!this.record.endpoint) { this.close("Live connectome control unavailable: brain endpoint missing or invalid"); return; }
+    try { this.socket = open(this.record.endpoint); }
+    catch { this.close("Live connectome control unavailable: connection failed"); return; }
     this.socket.addEventListener("message", event => {
       if (this.closed) return;
       try {
@@ -60,11 +74,11 @@ export class ExperimentalBrainAdapter {
         onDrive({ source: "FRUITFLY_XR", activity: null, decoder: escape ? "ESCAPE" : null, reference: { sessionId: t.sessionId, sequence: t.sequence, inputSequence: t.inputSequence, receivedAt: new Date(this.wallNow()).toISOString(), transport: "brain/v1" } });
       } catch { this.close("Experimental brain message rejected"); }
     });
-    this.socket.addEventListener("close", () => this.close("Experimental brain disconnected"));
-    this.socket.addEventListener("error", () => this.close("Experimental brain unavailable"));
+    this.socket.addEventListener("close", () => this.close("Live connectome control unavailable: disconnected"));
+    this.socket.addEventListener("error", () => this.close("Live connectome control unavailable: connection failed"));
   }
   publish(sensors: SensorFrame, stimulus: Stimulus | null) {
-    if (this.closed) return;
+    if (this.closed || !this.socket) return;
     const now = this.now();
     if (now - this.lastReceived > 5000 || now - this.started > 60000) { this.close("Experimental brain session ended; reset to reconnect"); return; }
     if (!this.session || now - this.lastSend < 50) return;
@@ -79,7 +93,8 @@ export class ExperimentalBrainAdapter {
   }
   close(status = "Experimental brain disconnected") {
     if (this.closed) return;
-    this.closed = true; this.record.status = status; this.onDrive(null); this.socket.close();
+    this.closed = true; this.record.status = status; this.onDrive(null);
+    try { this.socket?.close(); } catch { /* A failed handshake may already have closed the transport. */ }
   }
   evidence(): BrainTransportEvidence { return structuredClone(this.record); }
   get status() { return this.record.status; }
