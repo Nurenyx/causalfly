@@ -39,6 +39,7 @@ interface Props {
   onNext: (question: string) => void;
   onCompare: () => void;
   onConnectome: () => void;
+  onBrainControlStatus?: (available: boolean, detail: string) => void;
 }
 
 /** One cockpit over the existing reducer, approval gate, measurements and Meta workflow. */
@@ -83,7 +84,7 @@ export function GuidedExperiment(props: Props) {
     <nav className="cockpit-progress" aria-label="Guided experiment progress"><ol>{progress.map((stage, i) => <li key={stage.id} data-complete={stage.complete} data-active={active === stage.id}><button type="button" aria-current={active === stage.id ? "step" : undefined} onClick={() => document.getElementById(stage.target)?.scrollIntoView({ block: "nearest", behavior: "smooth" })}><span>{stage.complete ? "✓" : `0${i + 1}`}</span><strong>{stage.label}</strong><small>{stage.detail}</small></button>{stage.label === "INPUT" && <InfoTooltip label="Input">{cockpitHelp.input}</InfoTooltip>}</li>)}</ol></nav>
     {!realWorld && <p className="synthetic-input-note">Use the built-in controlled stimulus, or choose video to derive one with Meta AI. Video is optional; external perception skipped / not required.</p>}
     {props.actionError && ["demo-question", "demo-watch", "demo-understand"].includes(props.actionError.target) && <p className="error-panel" id="experiment-action-error">{props.actionError.detail}</p>}
-    <EmbodiedExperiment key={`${currentDesign?.id ?? "preview"}-${currentResult ? "recorded" : "draft"}`} result={currentResult} design={currentDesign} busy={busy} strength={strength} inputStale={draft.stale} flyModel={props.flyModel} onFlyModel={props.onFlyModel} autoPlay={autoPlay} scientist={scientist} source={source} onStrength={value => { setLocalAmplitude(value); props.onAmplitude?.(value); }} onRun={approveRun} />
+    <EmbodiedExperiment key={`${currentDesign?.id ?? "preview"}-${currentResult ? "recorded" : "draft"}`} result={currentResult} design={currentDesign} busy={busy} strength={strength} inputStale={draft.stale} flyModel={props.flyModel} onFlyModel={props.onFlyModel} autoPlay={autoPlay} scientist={scientist} source={source} onStrength={value => { setLocalAmplitude(value); props.onAmplitude?.(value); }} onRun={approveRun} onBrainControlStatus={props.onBrainControlStatus} />
     <CockpitReadouts result={currentResult} design={currentDesign} perceived={realWorld && perceived} />
     {currentResult && <div className="cockpit-advanced" aria-label="Advanced experiment details">
       <details onToggle={event => { const open = event.currentTarget.open; setDetails(previous => ({ ...previous, comparison: open })); }}><summary>View detailed comparison</summary>{details.comparison && <ComparisonMeasurements result={currentResult} onEvidence={() => showDisclosure(evidenceDetails)} />}</details>

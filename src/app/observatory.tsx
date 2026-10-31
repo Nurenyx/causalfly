@@ -30,14 +30,20 @@ import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
 import { RunDiagnosticsDetails } from "./components/experiment-trust";
 import { HomeOverview } from "./components/home-overview";
 import { WorkspaceNavigation } from "./components/workspace-navigation";
-import { MetaStatus, FruitFlyStatus } from "./components/status-indicator";
+import { MetaStatus, FruitFlyStatus, QuestStatus, BrainServerStatus, ConnectomeStatus } from "./components/status-indicator";
 import { LiveConnectomeProgress, liveStepAvailable, permittedLiveStep, type LiveConnectomeStep } from "./components/live-connectome-progress";
 import { frameIdentity, investigationWindow, interpretationBelongsToObservation } from "@/lib/web/investigation";
+import { InstrumentModeBar } from "./components/instrument-mode-bar";
+import { FirstRunBanner } from "./components/first-run-banner";
+import type { InstrumentMode } from "@/lib/web/instrument-mode";
+import { SCIENTIFIC_PROVENANCE } from "@/lib/sources/provenance-constants";
 
 const defaultQuestion = "What happens if I silence the primary pathway?";
 
 export default function Observatory({ initialStatus }: { initialStatus: WebStatus }) {
-  const [home, setHome] = useState(true);
+  // Direct entry into experiment workspace by default
+  const [home, setHome] = useState(false);
+  const [instrumentMode, setInstrumentMode] = useState<InstrumentMode>("observe");
   const [requestedLiveStep, setLiveStep] = useState<LiveConnectomeStep>("question");
   const [{ workspace, question, design, result, history, investigationId, nextFromId, observation, fruitFlyQuestion = fruitFlyExampleQuestion, fruitFlyAskedQuestion: retainedQuestion }, dispatch] = useReducer(workspaceReducer, { workspace: "observatory", question: defaultQuestion, result: null });
   const [syntheticAmplitude, setSyntheticAmplitude] = useState(1);
@@ -53,6 +59,10 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   const [unavailableDesignId, setUnavailableDesignId] = useState<string>();
   const [perceptionSession, setPerceptionSession] = useState(initialPerceptionSession);
   const [notice, setNotice] = useState("");
+  const [brainControlActive, setBrainControlActive] = useState(false);
+  const [brainControlDetail, setBrainControlDetail] = useState(
+    process.env.NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL ? "Configured / standby" : "Not configured"
+  );
   const inFlight = useRef(false);
   const external = source === "FRUITFLY_XR";
   const mode = initialStatus.mode;
@@ -79,7 +89,28 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     setHome(false); setNotice("");
     if (external && next === "scientist") { setLiveStep("understand"); next = "live"; }
     dispatch({ type: "navigate", workspace: next });
+    if (next === "compare") setInstrumentMode("compare");
+    else if (next === "observatory") {
+      // Retain instrumentMode if it was already "perturb", otherwise default to "observe"
+      if (instrumentMode !== "perturb") setInstrumentMode("observe");
+    }
   }
+
+  function handleInstrumentModeSelect(nextMode: InstrumentMode) {
+    setInstrumentMode(nextMode);
+    setHome(false);
+    if (nextMode === "compare") {
+      navigate("compare");
+    } else if (nextMode === "observe") {
+      if (workspace === "compare") navigate("observatory");
+    } else if (nextMode === "perturb") {
+      if (workspace === "compare") navigate("observatory");
+      requestAnimationFrame(() => {
+        document.getElementById("demo-question")?.scrollIntoView({ block: "start", behavior: "smooth" });
+      });
+    }
+  }
+
   function openWorkspace(next: Workspace) {
     if (next === "live") setSource("FRUITFLY_XR");
     if (next === "observatory") setSource("SYNTHETIC_FIXTURE");
@@ -153,13 +184,67 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     <aside className="sidebar" aria-label="CausalFly navigation">
       <Link className="brand" href="/" aria-label="CausalFly home" aria-current={home ? "page" : undefined} onClick={event => { event.preventDefault(); setHome(true); window.scrollTo({ top: 0, behavior: "instant" }); }}><span>◈</span><span>Causal<span className="brand-accent">Fly</span><small>Scientific experiment<br />workbench</small></span></Link>
       <span className="sidebar-caption">RESEARCH WORKSPACE</span>
-      <WorkspaceNavigation active={primaryWorkspace} disabled={busy} onNavigate={openWorkspace} />
+      <WorkspaceNavigation active={primaryWorkspace} disabled={busy} onNavigate={openWorkspace} onOpenOverview={() => { setHome(true); window.scrollTo({ top: 0, behavior: "instant" }); }} />
       <DataSourcePanel source={source} snapshot={fruitFly.snapshot} disabled={busy} onSelect={selectSource} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} />
       {busy && <p className="trace-note">Navigation and source selection pause while the explicit experiment request completes.</p>}
       <details className="sidebar-how"><summary>How CausalFly works</summary><p>CausalFly runs and measures controlled tests. Meta designs and interprets on request. Live connectome simulation supplies observational simulation data.</p></details>
     </aside>
     <div className="workspace">
-      <header className="topbar"><div><span className="breadcrumb">{home ? "CAUSALFLY / OVERVIEW" : workspace === "evidence" ? "RETAINED RECORDS / PROVENANCE" : external ? `LIVE CONNECTOME / ${liveStep.toUpperCase()}` : `CONTROLLED MODEL / ${activeStage}`}</span><h1>{home ? "Welcome to CausalFly" : workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "observatory" ? "Research cockpit" : "Explore cause and effect."}</h1><p className="workflow-identity">{home ? "Ask → Test → Understand" : workspace === "evidence" ? "Measurements, source records and AI interpretation — traceable and separate." : external ? "Published structure · observational simulation telemetry" : "An AI scientist for embodied neural experiments."}</p></div><div className="header-badges"><MetaStatus mode={mode} disabled={initialStatus.metaDisabled} working={fruitFlyMeta.pending || ["design", "interpret"].includes(pending)} /><FruitFlyStatus snapshot={fruitFly.snapshot} now={fruitFly.now} /></div></header>
+      <FirstRunBanner />
+      <header className="topbar">
+        <div>
+          <span className="breadcrumb">{home ? "CAUSALFLY / OVERVIEW" : workspace === "evidence" ? "RETAINED RECORDS / PROVENANCE" : external ? `LIVE CONNECTOME / ${liveStep.toUpperCase()}` : `CONTROLLED MODEL / ${activeStage}`}</span>
+          <h1>{home ? "Welcome to CausalFly" : workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "observatory" ? "Scientific Experiment Workspace" : "Explore cause and effect."}</h1>
+          <p className="workflow-identity">{home ? "Ask → Test → Understand" : workspace === "evidence" ? "Measurements, source records and AI interpretation — traceable and separate." : external ? "Published structure · observational simulation telemetry" : "An AI scientist for embodied neural experiments."}</p>
+        </div>
+        <div className="header-badges">
+          <MetaStatus mode={mode} disabled={initialStatus.metaDisabled} working={fruitFlyMeta.pending || ["design", "interpret"].includes(pending)} error={error || fruitFlyMeta.error} />
+          <BrainServerStatus snapshot={fruitFly.snapshot} now={fruitFly.now} controlAvailable={brainControlActive} controlStatus={brainControlDetail} />
+          <ConnectomeStatus source={source} snapshot={fruitFly.snapshot} />
+          <QuestStatus />
+          <FruitFlyStatus snapshot={fruitFly.snapshot} now={fruitFly.now} />
+        </div>
+      </header>
+
+      {!home && workspace !== "evidence" && (
+        <InstrumentModeBar
+          currentMode={instrumentMode}
+          source={source}
+          hasResult={Boolean(result)}
+          disabled={busy}
+          onSelectMode={handleInstrumentModeSelect}
+          onSelectSource={selectSource}
+        />
+      )}
+
+      {!home && workspace === "observatory" && instrumentMode === "perturb" && (
+        <div className="perturb-mode-banner" role="region" aria-label="Perturbation Controls">
+          <div>
+            <strong>PERTURB MODE ACTIVE:</strong> Select or design a controlled neural/sensory intervention below.
+          </div>
+          <div className="perturb-quick-actions">
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => {
+                document.getElementById("demo-question")?.scrollIntoView({ block: "start", behavior: "smooth" });
+              }}
+            >
+              Intervention Question ↑
+            </button>
+            <button
+              type="button"
+              className="secondary-button"
+              onClick={() => {
+                document.getElementById("demo-watch")?.scrollIntoView({ block: "start", behavior: "smooth" });
+              }}
+            >
+              Stimulus / Run ↓
+            </button>
+          </div>
+        </div>
+      )}
+
       {!home && external && workspace === "live" && <p className="workflow-notice" role="status"><strong>{connectionLabel}</strong> · {fruitFly.snapshot.message}</p>}
       {!home && workspace === "live" && <LiveConnectomeProgress step={liveStep} questionRetained={Boolean(fruitFlyAskedQuestion)} evidenceAvailable={hasTelemetry} onStep={step => { if (!liveStepAvailable(step, Boolean(fruitFlyAskedQuestion), hasTelemetry)) return; setLiveStep(step); if (step === "question") requestAnimationFrame(() => document.getElementById("fruitfly-question")?.focus()); }} />}
       {!home && workspace !== "evidence" && workspace !== "observatory" && workspace !== "live" && <div className="workflow-next"><div><span className="eyebrow">{busy ? "REQUEST IN PROGRESS" : "NEXT"}</span><p>{nextLabel}</p></div><button type="button" className="primary-button" disabled={busy || !mode} onClick={nextAction}><MetaRequestLabel pending={busy && pending !== "run"} task={pending === "design" ? "design" : "explain"}>{nextLabel} ↗</MetaRequestLabel></button></div>}
@@ -187,10 +272,14 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
             onDemo={() => { void execute("design", defaultQuestion); }}
             onDesign={amplitude => void execute("design", question, amplitude)} onRun={strength => void execute("run", question, strength)} onExplain={() => void execute("interpret")}
             onNext={useNextQuestion} onCompare={() => navigate("compare")}
-            onConnectome={() => { selectSource("FRUITFLY_XR"); navigate("live"); }} />
+            onConnectome={() => { selectSource("FRUITFLY_XR"); navigate("live"); }}
+            onBrainControlStatus={(available, detail) => {
+              setBrainControlActive(available);
+              setBrainControlDetail(detail);
+            }} />
         </>}
       </main>
-      {!home && <footer className="scientific-disclaimer">◇ {external ? "Live connectome simulation · published connectome structure with simulated dynamics; not recordings from a living fly." : "Synthetic engineering fixture · not a biological model or Drosophila finding."}</footer>}
+      {!home && <footer className="scientific-disclaimer">◇ {external ? `Live connectome simulation · ${SCIENTIFIC_PROVENANCE.conciseIdentity.summary} (${SCIENTIFIC_PROVENANCE.conciseIdentity.tag}); simulated dynamics; not recordings from a living fly. ${SCIENTIFIC_PROVENANCE.anatomicalDisclosure.sexMatchNotice}` : "Synthetic engineering fixture · not a biological model or Drosophila finding."}</footer>}
     </div>
     {!home && <CausalFlyAssistant key={`${source}:${external ? observation?.id ?? 0 : `${investigationId ?? 0}:${design?.id ?? "no-design"}`}`} investigationQuestion={external ? fruitFlyAskedQuestion : undefined} pendingTask={pending} source={source} workspace={workspace} snapshot={activeObservation.snapshot} frames={activeObservation.frames} now={fruitFly.now} result={result} mode={mode} meta={fruitFlyMeta} busy={busy} onAnalyze={analyzeFruitFly} onNavigate={navigate} onSynthetic={() => selectSource("SYNTHETIC_FIXTURE")} onDesign={useNextQuestion} workflowContext={{ stage: activeStage, identity, next: nextLabel, onNext: nextAction }} onFullAnalysis={() => navigate("scientist")} />}
   </div></DiagnosticVisibilityProvider>;

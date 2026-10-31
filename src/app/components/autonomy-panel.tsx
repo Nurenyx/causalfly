@@ -6,14 +6,24 @@ import { AutonomyEngine, MAX_TICKS, behaviourSourceLabels, scheduledStimulus, se
 import { phenotypeSummary, recordedPath } from "@/lib/web/autonomy-presentation";
 import { AutonomyTrajectoryReplay } from "@/lib/web/autonomy-replay";
 import { autonomyRecording } from "@/lib/web/autonomy-recorder";
-import { ExperimentalBrainAdapter } from "@/lib/sources/fruitfly-closed-loop";
+import { ExperimentalBrainAdapter, configuredBrainEndpoint } from "@/lib/sources/fruitfly-closed-loop";
 import type { FruitFlySnapshot } from "@/lib/sources/contracts";
 import type { FlyModelKind, FlyModelStatus } from "@/lib/web/fly-model";
 import { InfoTooltip } from "./info-tooltip";
 
 const World = dynamic(() => import("./embodied-world"), { ssr: false, loading: () => <div className="world-fallback">Preparing autonomous world…</div> });
 
-export function AutonomyPanel({ model = "anatomical", onModelStatus, snapshot }: { model?: FlyModelKind; onModelStatus?: (status: FlyModelStatus) => void; snapshot?: FruitFlySnapshot }) {
+export function AutonomyPanel({
+  model = "anatomical",
+  onModelStatus,
+  snapshot,
+  onBrainControlStatus,
+}: {
+  model?: FlyModelKind;
+  onModelStatus?: (status: FlyModelStatus) => void;
+  snapshot?: FruitFlySnapshot;
+  onBrainControlStatus?: (available: boolean, status: string) => void;
+}) {
   const [viewReset, setViewReset] = useState(0);
   const [modelStatus, setModelStatus] = useState<FlyModelStatus>("loading");
   const reportModelStatus = useCallback((status: FlyModelStatus) => { setModelStatus(status); onModelStatus?.(status); }, [onModelStatus]);
@@ -36,6 +46,12 @@ export function AutonomyPanel({ model = "anatomical", onModelStatus, snapshot }:
   const [pulseTick, setPulseTick] = useState(60);
   const frame = frames[0];
   const external = Boolean(snapshot);
+
+  // Check if Brain Server control endpoint is configured
+  const brainEndpointConfigured = Boolean(
+    configuredBrainEndpoint(process.env.NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL, process.env.NODE_ENV === "production")
+  );
+
   useEffect(() => { latestSnapshot.current = snapshot; }, [snapshot]);
   useEffect(() => {
     const started = Date.now(), mode = trial ? "trial" : "exploration";
@@ -48,6 +64,24 @@ export function AutonomyPanel({ model = "anatomical", onModelStatus, snapshot }:
       if (drive) runs[0].acceptBrain(drive); else runs[0].disconnect();
     }) : null;
     adapter.current = brain;
+
+    // Report control channel status to parent shell
+    if (onBrainControlStatus) {
+      if (!brainEndpointConfigured) {
+        onBrainControlStatus(false, "Not configured");
+      } else if (!brainInput || !external) {
+        onBrainControlStatus(false, "Configured / standby (sensory feedback off)");
+      } else {
+        const isConnected = brain?.status === "Experimental brain input connected";
+        const statusText = isConnected
+          ? "Connected / active"
+          : brain?.status?.includes("unavailable")
+          ? "Unavailable"
+          : brain?.status || "Connecting";
+        onBrainControlStatus(isConnected, statusText);
+      }
+    }
+
     const timer = window.setInterval(() => {
       const now = performance.now(), elapsed = (now - previous) / 1000; previous = now;
       const playback = player.current;
@@ -71,11 +105,22 @@ export function AutonomyPanel({ model = "anatomical", onModelStatus, snapshot }:
         setRetained(runs.map(run => run.trajectory()));
         if (playback) setReplay({ cursor: playback.cursor, length: playback.length, playing: playback.playing });
         else setRetainedCount(runs[0].tick === 0 ? 0 : (runs[0].tick - 1) % MAX_TICKS + 1);
-        setTransportStatus(brain?.status ?? "");
+        const currentBrainStatus = brain?.status ?? "";
+        setTransportStatus(currentBrainStatus);
+        if (onBrainControlStatus && brainInput && external) {
+          const isConnected = currentBrainStatus === "Experimental brain input connected";
+          const statusText = isConnected
+            ? "Connected / active"
+            : currentBrainStatus.includes("unavailable")
+            ? "Unavailable"
+            : currentBrainStatus || "Connecting";
+          onBrainControlStatus(isConnected, statusText);
+        }
       }
     }, 25);
     return () => { active = false; window.clearInterval(timer); brain?.close(); };
-  }, [session, matched, brainInput, external, trial]);
+  }, [session, matched, brainInput, external, trial, onBrainControlStatus, brainEndpointConfigured]);
+
   function togglePause() {
     const next = !paused; pausedRef.current = next; setPaused(next);
     for (const run of engines.current) run.setPaused(next);
@@ -111,17 +156,44 @@ export function AutonomyPanel({ model = "anatomical", onModelStatus, snapshot }:
     const link = document.createElement("a"); link.href = url; link.download = "causalfly-autonomy-evidence.json";
     document.body.appendChild(link); link.click(); link.remove(); window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
+
   const complete = !replay && trial && (frame?.tick ?? 0) >= MAX_TICKS;
   const outcomes = retained.map(run => phenotypeSummary(run, trial && run.at(-1)?.tick === MAX_TICKS));
   const phenotypeChanged = outcomes.length === 2 && outcomes.every(o => o.peakAltitude !== null) && outcomes[0].label !== outcomes[1].label && outcomes.every(o => o.label !== "OBSERVING");
+
+  // Determine whether Present Stimulus has a genuine closed-loop control channel
+  const isClosedLoopConnected = external && brainInput && transportStatus === "Experimental brain input connected";
+  const isClosedLoopUnavailable = external && (!brainInput || !brainEndpointConfigured || transportStatus?.includes("unavailable"));
+
   return <section className="autonomy-panel" aria-label="Autonomous experimental behaviour" data-mode={replay ? "replay" : trial ? "trial" : "exploration"} data-behaviour={frame?.decision.state ?? "IDLE"} data-source={frame?.decision.source ?? "BASELINE_AUTONOMOUS_POLICY"} data-tick={frame?.tick ?? 0} data-altitude={frame?.after.altitude ?? 0}>
     <div className="autonomy-controls"><strong role="status">{replay ? "REPLAY MODE" : complete ? "Trial complete" : trial ? "CONTROLLED EXPERIMENT TRIAL" : "AUTONOMOUS EXPLORATION"}{!complete && !replay && ` · ${paused ? "Paused" : "On"}`}</strong>
       <div className="autonomy-control-group" role="group" aria-label="Autonomous world controls"><span>AUTONOMOUS WORLD</span>{!replay && <button type="button" className="text-button" onClick={togglePause} disabled={complete}>{paused ? "Resume autonomy" : "Pause autonomy"}</button>}
       <button type="button" className="text-button" onClick={reset}>Reset autonomy</button>
       </div>
-      {!replay && <><div className="autonomy-control-group" role="group" aria-label="Stimulus and experiment controls"><span>STIMULUS / EXPERIMENT</span><button type="button" className="text-button" disabled={complete} onClick={() => { pulseAt.current = engines.current[0]?.tick ?? 0; setPulseTick(pulseAt.current); }}>Present stimulus</button><button type="button" className="text-button" onClick={() => startMode(!trial)}>{trial ? "Start continuous exploration" : "Start controlled trial"}</button>{!external && <button type="button" className="text-button" aria-pressed={matched} onClick={() => startMode(true, !matched)}>{matched ? "Single controlled trial" : "Compare synthetic intervention"}</button>}</div><div className="autonomy-control-group" role="group" aria-label="Replay controls"><span>REPLAY / EVIDENCE</span><button type="button" className="text-button" disabled={retainedCount < 2} aria-describedby="autonomy-replay-help" onClick={enterReplay}>Replay recorded experiment</button></div></>}
+      {!replay && <><div className="autonomy-control-group" role="group" aria-label="Stimulus and experiment controls">
+        <span>STIMULUS / EXPERIMENT</span>
+        <button
+          type="button"
+          className="text-button"
+          disabled={complete}
+          title={isClosedLoopUnavailable ? "Closed-loop Brain control is not connected. Telemetry observation remains available." : "Present visual stimulus to the embodied arena"}
+          onClick={() => { pulseAt.current = engines.current[0]?.tick ?? 0; setPulseTick(pulseAt.current); }}
+        >
+          {external && !isClosedLoopConnected ? "Present stimulus (visual only · no Brain control)" : "Present stimulus"}
+        </button>
+        <button type="button" className="text-button" onClick={() => startMode(!trial)}>{trial ? "Start continuous exploration" : "Start controlled trial"}</button>
+        {!external && <button type="button" className="text-button" aria-pressed={matched} onClick={() => startMode(true, !matched)}>{matched ? "Single controlled trial" : "Compare synthetic intervention"}</button>}
+      </div><div className="autonomy-control-group" role="group" aria-label="Replay controls"><span>REPLAY / EVIDENCE</span><button type="button" className="text-button" disabled={retainedCount < 2} aria-describedby="autonomy-replay-help" onClick={enterReplay}>Replay recorded experiment</button></div></>}
       {replay && <><button type="button" className="text-button" onClick={toggleReplay}>{replay.playing ? "Pause replay" : "Play replay"}</button><button type="button" className="text-button" onClick={restartReplay}>Restart replay</button><button type="button" className="text-button" onClick={exitReplay}>Return to autonomous world</button></>}
     </div>
+
+    {external && isClosedLoopUnavailable && (
+      <div className="stimulus-brain-warning" role="note">
+        <p><strong>Closed-loop Brain control is not connected.</strong> Telemetry observation remains available.</p>
+        <small>Presenting a stimulus in this mode tests visual perception and arena geometry without closed-loop connectome control. Baseline autonomous steering will continue.</small>
+      </div>
+    )}
+
     <p className="autonomy-timing">{replay ? `Retained trajectory · frame ${replay.cursor + 1} / ${replay.length} · no new decisions` : trial ? `${Math.min((frame?.tick ?? 0) * .05, 60).toFixed(1)} / 60.0 s · ${Math.max(0, 60 - (frame?.tick ?? 0) * .05).toFixed(1)} s remaining` : `${((frame?.tick ?? 0) * .05).toFixed(1)} s elapsed · continuous exploration, not a measured experiment`}</p>
     <small id="autonomy-replay-help" className="autonomy-replay-help">{replay ? "Past recorded trajectory. Does not rerun the experiment, create neural decisions, or change evidence; autonomy is paused." : retainedCount < 2 ? "Replay unavailable: no retained motion trajectory yet." : "Replay uses the current retained recording window. Export evidence before reset or starting a new session."}</small>
     {external && <div className="autonomy-transport"><label><input type="checkbox" checked={brainInput} disabled={Boolean(replay)} onChange={event => { setBrainInput(event.target.checked); reset(); }} /> Experimental sensory feedback to brain server</label><small>{brainInput ? transportStatus || "Connecting experimental brain input" : "Observational decoder input only; no sensor messages sent."} Experimental research brain sessions remain bounded; exploration can continue under the baseline policy after disconnection. Neural perturbations are unavailable.</small></div>}
