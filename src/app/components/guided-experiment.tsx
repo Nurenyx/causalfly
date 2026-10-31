@@ -12,6 +12,7 @@ import { ResearchQuestion } from "./research-question";
 import { InfoTooltip, cockpitHelp } from "./info-tooltip";
 import { stimulusDraft } from "@/lib/web/stimulus-draft";
 import type { FlyModelKind } from "@/lib/web/fly-model";
+import type { InstrumentMode } from "@/lib/web/instrument-mode";
 
 interface Props {
   question: string;
@@ -40,6 +41,7 @@ interface Props {
   onCompare: () => void;
   onConnectome: () => void;
   onBrainControlStatus?: (available: boolean, detail: string) => void;
+  instrumentMode?: InstrumentMode;
 }
 
 /** One cockpit over the existing reducer, approval gate, measurements and Meta workflow. */
@@ -76,7 +78,7 @@ export function GuidedExperiment(props: Props) {
   }
   const scientist = <CockpitScientist design={currentDesign} result={currentResult} mode={mode} pending={pending} question={question} strength={strength} perception={realWorld ? perception : undefined} perceptionMode={realWorld} scene={props.perceptionSession?.scene} inputStale={draft.stale} questionEditing={questionEditing} onDesign={requestDesign} onRun={approveRun} onExplain={props.onExplain} onNext={props.onNext} onAnalysis={() => showDisclosure(analysisDetails)} />;
   const source = <PerceptionPanel compact accepted={currentDesign?.perceptionInput} hasDesign={Boolean(currentDesign)} busy={busy} accepting={pending === "stimulus"} designing={pending === "design"} measured={Boolean(currentResult)} session={props.perceptionSession} onSession={props.onPerceptionSession} onFailure={props.onPerceptionFailure} workflowError={props.perceptionWorkflowError} onDesign={props.onDesignPerception} onRun={() => { const control = document.querySelector<HTMLButtonElement>(".scientist-action .embodied-run-action button"); control?.focus(); }} onBusy={props.onPerceptionBusy ?? (() => {})} onUse={props.onStimulus ?? (() => {})} />;
-  return <div className="research-cockpit" data-measured={Boolean(currentResult)} data-perception-mode={realWorld} data-stage={active}>
+  return <div className="research-cockpit organism-first-cockpit" data-measured={Boolean(currentResult)} data-perception-mode={realWorld} data-stage={active} data-instrument-mode={props.instrumentMode ?? "observe"}>
     <section className="cockpit-command" id="demo-question" aria-label="Research question">
       <ResearchQuestion question={question} busy={busy} underTest={Boolean(currentDesign)} onUse={props.onQuestion} onEditing={setQuestionEditing} />
       <div className="cockpit-command-state"><span className={currentResult ? "validated-text" : "cyan-text"}>{pending ? `${pending === "perception" ? "INPUT" : pending.toUpperCase()} / IN PROGRESS` : questionEditing ? "EDITING · USE THIS QUESTION TO CONTINUE" : draft.stale ? "INPUT CHANGED — REDESIGN REQUIRED" : currentResult ? "MEASUREMENT COMPLETE" : currentDesign ? "DESIGN VALIDATED / AWAITING APPROVAL" : "QUESTION RETAINED · DESIGN WITH META NEXT"}</span></div>
@@ -84,7 +86,7 @@ export function GuidedExperiment(props: Props) {
     <nav className="cockpit-progress" aria-label="Guided experiment progress"><ol>{progress.map((stage, i) => <li key={stage.id} data-complete={stage.complete} data-active={active === stage.id}><button type="button" aria-current={active === stage.id ? "step" : undefined} onClick={() => document.getElementById(stage.target)?.scrollIntoView({ block: "nearest", behavior: "smooth" })}><span>{stage.complete ? "✓" : `0${i + 1}`}</span><strong>{stage.label}</strong><small>{stage.detail}</small></button>{stage.label === "INPUT" && <InfoTooltip label="Input">{cockpitHelp.input}</InfoTooltip>}</li>)}</ol></nav>
     {!realWorld && <p className="synthetic-input-note">Use the built-in controlled stimulus, or choose video to derive one with Meta AI. Video is optional; external perception skipped / not required.</p>}
     {props.actionError && ["demo-question", "demo-watch", "demo-understand"].includes(props.actionError.target) && <p className="error-panel" id="experiment-action-error">{props.actionError.detail}</p>}
-    <EmbodiedExperiment key={`${currentDesign?.id ?? "preview"}-${currentResult ? "recorded" : "draft"}`} result={currentResult} design={currentDesign} busy={busy} strength={strength} inputStale={draft.stale} flyModel={props.flyModel} onFlyModel={props.onFlyModel} autoPlay={autoPlay} scientist={scientist} source={source} onStrength={value => { setLocalAmplitude(value); props.onAmplitude?.(value); }} onRun={approveRun} onBrainControlStatus={props.onBrainControlStatus} />
+    <EmbodiedExperiment key={`${currentDesign?.id ?? "preview"}-${currentResult ? "recorded" : "draft"}`} result={currentResult} design={currentDesign} busy={busy} strength={strength} inputStale={draft.stale} flyModel={props.flyModel} onFlyModel={props.onFlyModel} autoPlay={autoPlay} scientist={scientist} source={source} onStrength={value => { setLocalAmplitude(value); props.onAmplitude?.(value); }} onRun={approveRun} onBrainControlStatus={props.onBrainControlStatus} instrumentMode={props.instrumentMode} />
     <CockpitReadouts result={currentResult} design={currentDesign} perceived={realWorld && perceived} />
     {currentResult && <div className="cockpit-advanced" aria-label="Advanced experiment details">
       <details onToggle={event => { const open = event.currentTarget.open; setDetails(previous => ({ ...previous, comparison: open })); }}><summary>View detailed comparison</summary>{details.comparison && <ComparisonMeasurements result={currentResult} onEvidence={() => showDisclosure(evidenceDetails)} />}</details>

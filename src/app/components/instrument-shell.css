@@ -293,3 +293,944 @@
     gap: 8px;
   }
 }
+
+
+/* ==========================================================================
+   Sprint 13B: ORGANISM-FIRST EXPERIMENT WORKSPACE
+   ========================================================================== */
+
+/* 0. Top Chrome Compaction (Observatory Cockpit Shell) */
+.cockpit-shell .first-run-banner {
+  display: none !important;
+}
+
+.cockpit-shell .topbar {
+  padding: 4px 16px !important;
+  margin: 0 0 2px !important;
+  min-height: 0 !important;
+  gap: 8px !important;
+}
+
+.cockpit-shell .topbar .breadcrumb {
+  font-size: 8px !important;
+  letter-spacing: 0.8px !important;
+  margin-bottom: 1px !important;
+  line-height: 1.1 !important;
+}
+
+.cockpit-shell .topbar h1 {
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+}
+
+.cockpit-shell .topbar .workflow-identity {
+  display: none !important;
+}
+
+.cockpit-shell .header-badges {
+  display: flex !important;
+  gap: 4px !important;
+  align-items: center !important;
+}
+
+.cockpit-shell .status-indicator-button {
+  min-height: 26px !important;
+  padding: 2px 7px !important;
+  font-size: 10px !important;
+}
+
+.cockpit-shell .instrument-mode-bar {
+  padding: 2px 16px !important;
+  margin: 0 0 3px !important;
+  min-height: 0 !important;
+}
+
+.cockpit-shell .instrument-mode-tab {
+  min-height: 28px !important;
+  padding: 2px 10px !important;
+  font-size: 11px !important;
+}
+
+.cockpit-shell .perturb-mode-banner {
+  padding: 3px 12px !important;
+  margin: 0 0 4px !important;
+  min-height: 0 !important;
+  font-size: 10px !important;
+}
+
+/* 1. Desktop Stage Layout: Embodied World Dominates (~62% width) */
+.organism-first-cockpit .embodied-experiment,
+.research-cockpit.organism-first-cockpit .embodied-experiment {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+  border: 0 !important;
+  background: #04121e !important;
+  margin: 0 0 6px 0 !important;
+  box-shadow: 0 12px 50px #0003;
+}
+
+.organism-first-cockpit .embodied-heading,
+.research-cockpit.organism-first-cockpit .embodied-heading {
+  order: 0 !important;
+  padding: 2px 10px !important;
+  border-bottom: 1px solid #1a3c4f !important;
+  margin: 0 0 4px 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.organism-first-cockpit .embodied-heading h2 {
+  font-size: 12px !important;
+  margin: 0 !important;
+  font-weight: 500;
+}
+
+.organism-first-cockpit .embodied-heading .eyebrow {
+  font-size: 9px !important;
+  letter-spacing: 0.8px;
+}
+
+.organism-first-cockpit .embodied-stage,
+.research-cockpit.organism-first-cockpit .embodied-stage {
+  order: 1 !important;
+  grid-column: 1 / -1;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.62fr) minmax(320px, 1fr) !important;
+  height: auto !important;
+  gap: 12px !important;
+  border: 1px solid #1a3c4f !important;
+  background: #000a12 !important;
+  margin: 0 0 8px 0 !important;
+  padding: 8px !important;
+  border-radius: 8px !important;
+}
+
+/* Move secondary awaiting and caption below stage, signals, and pipeline */
+.organism-first-cockpit .embodied-awaiting,
+.research-cockpit.organism-first-cockpit .embodied-awaiting,
+.organism-first-cockpit .embodied-caption,
+.research-cockpit.organism-first-cockpit .embodied-caption {
+  order: 5 !important;
+  margin: 8px 0 !important;
+  padding: 8px 12px !important;
+}
+
+/* Embodied World Column (Dominant visual surface) */
+.organism-first-cockpit .embodied-world-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #020b12;
+  border: 1px solid #1a3c4f;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.organism-first-cockpit .cockpit-region-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  background: #061824;
+  border-bottom: 1px solid #1a3c4f;
+}
+
+.region-title-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.region-title-badge h3 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.organism-glyph {
+  color: #00d0f0;
+  font-size: 13px;
+}
+
+.world-mode-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.organism-first-cockpit .fly-model-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: #7d9dad;
+}
+
+.organism-first-cockpit .fly-model-toggle button {
+  padding: 2px 6px;
+  font-size: 10px;
+  border: 1px solid #234356;
+  border-radius: 4px;
+  background: #061924;
+  color: #9cb5c2;
+  cursor: pointer;
+}
+
+.organism-first-cockpit .fly-model-toggle button[aria-pressed="true"] {
+  background: #0f3950;
+  border-color: #00d0f0;
+  color: #fff;
+}
+
+.organism-first-cockpit .autonomy-mode {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+}
+
+.organism-first-cockpit .autonomy-mode button {
+  padding: 2px 6px;
+  font-size: 10px;
+  border: 1px solid #234356;
+  border-radius: 4px;
+  background: #061924;
+  color: #9cb5c2;
+  cursor: pointer;
+}
+
+.organism-first-cockpit .autonomy-mode button[aria-pressed="true"] {
+  background: #0f3950;
+  border-color: #10b981;
+  color: #fff;
+}
+
+/* Large Embodied 3D Viewport - Substantial without scrolling */
+.organism-first-cockpit .autonomy-world,
+.organism-first-cockpit .embodied-arena {
+  height: clamp(360px, 42vh, 420px) !important;
+  min-height: 360px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #031522 0%, #01080e 100%);
+}
+
+@media (min-width: 1600px) {
+  .organism-first-cockpit .autonomy-world,
+  .organism-first-cockpit .embodied-arena {
+    height: clamp(420px, 46vh, 480px) !important;
+    min-height: 400px;
+  }
+}
+
+.organism-first-cockpit .world-reset-view {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 10;
+  font-size: 10px;
+  padding: 3px 6px;
+  border: 1px solid #294756;
+  border-radius: 4px;
+  color: #00d0f0;
+  background: rgba(3, 17, 26, 0.85);
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.organism-first-cockpit .world-orbit-hint {
+  position: absolute;
+  left: 10px;
+  bottom: 6px;
+  z-index: 10;
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  color: #527588;
+  pointer-events: none;
+}
+
+/* 2. Prominent Behaviour Instrument Deck (Directly below viewport) */
+.organism-first-cockpit .autonomy-readout,
+.organism-first-cockpit .recorded-behaviour-chip {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 10px;
+  background: #04121d;
+  border-top: 1px solid #1a3c4f;
+  border-bottom: 1px solid #1a3c4f;
+}
+
+.readout-behaviour-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  border-radius: 6px;
+  padding: 3px 8px;
+  min-width: 90px;
+}
+
+.readout-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #6ee7b7;
+  text-transform: uppercase;
+}
+
+.readout-state-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: #10b981;
+  letter-spacing: 0.5px;
+}
+
+.readout-source-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 208, 240, 0.08);
+  border: 1px solid rgba(0, 208, 240, 0.3);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+
+.readout-source-value {
+  font-size: 10px;
+  color: #00d0f0;
+  white-space: nowrap;
+}
+
+.readout-motor-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+
+.readout-motor-value {
+  font-size: 10px;
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.readout-telemetry-strip {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  font: 10px var(--font-geist-mono), monospace;
+  color: #7998a9;
+  padding-top: 2px;
+}
+
+.readout-telemetry-strip span {
+  white-space: nowrap;
+}
+
+/* Autonomy Controls Toolstrip */
+.organism-first-cockpit .autonomy-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 4px 10px;
+  background: #020910;
+}
+
+.organism-first-cockpit .autonomy-control-group {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.organism-first-cockpit .autonomy-control-group span {
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  color: #557788;
+  text-transform: uppercase;
+}
+
+.organism-first-cockpit .autonomy-control-group button {
+  padding: 2px 7px;
+  font-size: 10px;
+  border: 1px solid #1a3c4f;
+  border-radius: 4px;
+  background: #071722;
+  color: #00d0f0;
+  cursor: pointer;
+}
+
+.organism-first-cockpit .autonomy-control-group button:hover {
+  background: #0f2c3e;
+  border-color: #00d0f0;
+}
+
+/* 3. Contextual Right Rail */
+.organism-first-cockpit .embodied-context-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  background: #020b12;
+  border: 1px solid #1a3c4f;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.context-rail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #1a3c4f;
+}
+
+.rail-kicker {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #f59e0b;
+  text-transform: uppercase;
+}
+
+.context-rail-header h4 {
+  font-size: 11px;
+  font-weight: 500;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.context-stimulus-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px;
+  background: rgba(2, 17, 26, 0.7);
+  border: 1px solid #1a3c4f;
+  border-radius: 6px;
+}
+
+.stimulus-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stimulus-card-top label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.context-stimulus-card input[type="range"] {
+  width: 100%;
+  accent-color: #00d0f0;
+  height: 4px;
+  cursor: pointer;
+}
+
+.context-stimulus-card small {
+  font-size: 9px;
+  color: #64748b;
+}
+
+.context-intervention-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 8px;
+  background: rgba(2, 17, 26, 0.7);
+  border: 1px solid #1a3c4f;
+  border-radius: 6px;
+}
+
+.intervention-deck-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.intervention-deck-label {
+  font-size: 9px;
+  letter-spacing: 0.8px;
+  color: #7998a9;
+  text-transform: uppercase;
+}
+
+.intervention-deck-summary strong {
+  font-size: 12px;
+}
+
+.intervention-deck-summary small {
+  font-size: 9px;
+  color: #64748b;
+}
+
+.organism-first-cockpit[data-instrument-mode="perturb"] .context-intervention-deck {
+  border-color: rgba(245, 158, 11, 0.6);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.organism-first-cockpit .cockpit-scientist {
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: linear-gradient(145deg, rgba(245, 158, 11, 0.04), #051420 70%);
+}
+
+.organism-first-cockpit .cockpit-scientist > header {
+  padding: 2px 0 4px;
+}
+
+/* 4. Compact Neural Instrumentation Deck (Positioned BELOW stage) */
+.organism-first-cockpit .embodied-signals,
+.research-cockpit.organism-first-cockpit .embodied-signals {
+  order: 2 !important;
+  grid-column: 1 / -1;
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  background: radial-gradient(ellipse at 40% 30%, rgba(13, 46, 64, 0.35), transparent 70%), #030c14;
+  border: 1px solid #1a3c4f !important;
+  border-radius: 8px;
+  margin: 0 0 10px 0 !important;
+  padding: 6px 10px !important;
+  overflow: hidden;
+}
+
+.signals-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.signals-title-group h3 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  margin: 0;
+}
+
+.neural-glyph {
+  color: #00d0f0;
+  font-size: 13px;
+}
+
+.signals-recorded-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 8px;
+  padding: 4px 8px;
+}
+
+.signal-viz-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.organism-first-cockpit .network-figure {
+  height: 140px !important;
+}
+
+/* Compact Preview Horizontal Deck */
+.organism-first-cockpit .embodied-preview {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  gap: 14px !important;
+  padding: 4px 10px !important;
+}
+
+.organism-first-cockpit .embodied-preview .fixture-topology {
+  flex: 0 0 auto !important;
+  width: 200px !important;
+  max-width: 220px !important;
+  height: auto !important;
+}
+
+.organism-first-cockpit .embodied-preview .fixture-topology svg {
+  max-height: 90px !important;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.organism-first-cockpit .embodied-preview p {
+  margin: 0 !important;
+  font-size: 10px !important;
+}
+
+.organism-first-cockpit .network-preview-instrument {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 10px;
+}
+
+/* 5. Causal Pipeline Deck */
+.causal-pipeline {
+  order: 3 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  margin: 0 0 10px 0;
+  background: rgba(4, 18, 29, 0.85);
+  border: 1px solid rgba(0, 208, 240, 0.25);
+  border-radius: 8px;
+}
+
+.causal-pipeline-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.causal-pipeline-title h4 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #00d0f0;
+  margin: 0;
+}
+
+.causal-pipeline-flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  gap: 6px;
+  align-items: center;
+}
+
+.causal-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 8px;
+  background: #020910;
+  border: 1px solid #1a3c4f;
+  border-radius: 6px;
+  min-width: 0;
+}
+
+.causal-stage header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #7998a9;
+}
+
+.causal-stage strong {
+  font-size: 11px;
+  color: #f8fafc;
+}
+
+.causal-stage p {
+  font-size: 10px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.causal-stage small {
+  font-size: 9px;
+  color: #64748b;
+  margin-top: auto;
+}
+
+.causal-arrow {
+  color: #335566;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 6. Vertical Density Compaction: Top Question & Workflow */
+.organism-first-cockpit .cockpit-command,
+.cockpit-shell .cockpit-command,
+.guided-shell .cockpit-command {
+  padding: 4px 8px !important;
+  margin: 0 0 3px !important;
+  border-radius: 6px !important;
+  background: #030e17 !important;
+  border: 1px solid #1a3c4f !important;
+}
+
+.organism-first-cockpit .hero-question,
+.cockpit-shell .hero-question {
+  padding: 2px 4px !important;
+  margin: 0 !important;
+}
+
+.organism-first-cockpit .hero-question form,
+.cockpit-shell .hero-question form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 10px !important;
+  align-items: center !important;
+}
+
+.organism-first-cockpit .hero-question textarea,
+.cockpit-shell .hero-question textarea,
+.guided-shell .hero-question textarea {
+  min-height: 28px !important;
+  height: 28px !important;
+  font-size: 13px !important;
+  padding: 2px 0 !important;
+  line-height: 1.3 !important;
+}
+
+.organism-first-cockpit .hero-question label,
+.cockpit-shell .hero-question label {
+  display: none !important;
+}
+
+.organism-first-cockpit .hero-question-action .primary-button,
+.cockpit-shell .hero-question-action .primary-button {
+  padding: 4px 10px !important;
+  font-size: 11px !important;
+  min-height: 26px !important;
+}
+
+.organism-first-cockpit .hero-question-action p,
+.cockpit-shell .hero-question-action p {
+  display: none !important;
+}
+
+.organism-first-cockpit .cockpit-command-state {
+  margin-top: 1px !important;
+  font-size: 9px !important;
+}
+
+.organism-first-cockpit .cockpit-progress {
+  padding: 0 !important;
+  margin: 1px 0 3px !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.organism-first-cockpit .cockpit-progress ol {
+  display: flex !important;
+  gap: 3px !important;
+}
+
+.organism-first-cockpit .cockpit-progress li {
+  padding: 1px 4px !important;
+  border-radius: 4px !important;
+  background: #020b12 !important;
+  border: 1px solid #132b38 !important;
+  line-height: 1.2 !important;
+}
+
+.organism-first-cockpit .cockpit-progress li small {
+  display: none !important;
+}
+
+.organism-first-cockpit .cockpit-progress li strong {
+  font-size: 9px !important;
+}
+
+.organism-first-cockpit .cockpit-progress li button {
+  padding: 1px 3px !important;
+  font-size: 9px !important;
+  gap: 3px !important;
+}
+
+.organism-first-cockpit .cockpit-progress li button > span {
+  font-size: 8px !important;
+  padding: 1px 2px !important;
+}
+
+.organism-first-cockpit .synthetic-input-note {
+  margin: 0 0 4px !important;
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+  color: #5a7b8c !important;
+}
+
+/* Responsive: 900px and 390px Mobile Viewport */
+@media (max-width: 900px) {
+  /* Collapse sidebar on mobile in cockpit shell so it does not push the organism down */
+  .cockpit-shell .sidebar {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    padding: 3px 6px !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid #1a3c4f !important;
+  }
+
+  .cockpit-shell .sidebar .brand {
+    margin: 0 !important;
+    font-size: 12px !important;
+  }
+
+  .cockpit-shell .sidebar .brand small,
+  .cockpit-shell .sidebar .sidebar-caption,
+  .cockpit-shell .sidebar .source-picker,
+  .cockpit-shell .sidebar .sidebar-how {
+    display: none !important;
+  }
+
+  .cockpit-shell .sidebar .primary-navigation {
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 3px !important;
+  }
+
+  .cockpit-shell .sidebar .primary-navigation button {
+    flex-direction: row !important;
+    justify-content: center !important;
+    min-height: 22px !important;
+    padding: 2px 5px !important;
+    font-size: 10px !important;
+  }
+
+  .cockpit-shell .sidebar .primary-navigation button > span:first-child {
+    font-size: 12px !important;
+  }
+
+  .cockpit-shell .workspace {
+    margin-left: 0 !important;
+  }
+
+  .workspace-shell .topbar,
+  .cockpit-shell .topbar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 2px 6px !important;
+    gap: 2px !important;
+  }
+
+  .cockpit-shell .topbar h1 {
+    font-size: 12px !important;
+  }
+
+  .cockpit-shell .topbar .breadcrumb {
+    font-size: 8px !important;
+  }
+
+  .workspace-shell .header-badges,
+  .cockpit-shell .header-badges {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    max-height: 28px !important;
+    gap: 4px !important;
+    width: 100% !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .workspace-shell .header-badges .status-indicator-button,
+  .cockpit-shell .status-indicator-button {
+    min-height: 22px !important;
+    padding: 1px 5px !important;
+    font-size: 9px !important;
+    flex: 0 0 auto !important;
+  }
+
+  .cockpit-shell .cockpit-command .hero-question-action,
+  .cockpit-shell .cockpit-command-state,
+  .organism-first-cockpit .cockpit-progress,
+  .organism-first-cockpit .synthetic-input-note {
+    display: none !important;
+  }
+
+  .cockpit-shell .cockpit-command {
+    padding: 2px 6px !important;
+    margin: 0 0 2px !important;
+  }
+
+  .cockpit-shell .cockpit-command textarea {
+    min-height: 24px !important;
+    height: 24px !important;
+    font-size: 11px !important;
+  }
+
+  .organism-first-cockpit .embodied-stage,
+  .research-cockpit.organism-first-cockpit .embodied-stage {
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding: 4px !important;
+    gap: 6px !important;
+  }
+
+  .organism-first-cockpit .autonomy-world,
+  .organism-first-cockpit .embodied-arena {
+    height: 260px !important;
+    min-height: 240px !important;
+  }
+
+  .causal-pipeline-flow {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .causal-arrow {
+    transform: rotate(90deg);
+  }
+
+  .organism-first-cockpit .embodied-signals {
+    padding: 4px !important;
+  }
+
+  .organism-first-cockpit .embodied-preview {
+    flex-direction: column !important;
+    gap: 4px !important;
+  }
+
+  .organism-first-cockpit .embodied-preview .fixture-topology {
+    width: 160px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .organism-first-cockpit .autonomy-world,
+  .organism-first-cockpit .embodied-arena {
+    height: 240px !important;
+    min-height: 220px !important;
+  }
+
+  .organism-first-cockpit .autonomy-readout,
+  .organism-first-cockpit .recorded-behaviour-chip {
+    grid-template-columns: 1fr;
+    padding: 3px 6px;
+    gap: 3px;
+  }
+
+  .organism-first-cockpit .cockpit-region-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 3px 6px;
+  }
+
+  .world-mode-toolbar {
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+
+  .signal-viz-row {
+    grid-template-columns: 1fr;
+  }
+}

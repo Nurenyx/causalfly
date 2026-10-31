@@ -13,19 +13,48 @@ import { ExperimentPlayback } from "./experiment-playback";
 import { ActivityChart } from "./activity-chart";
 import { InfoTooltip, cockpitHelp } from "./info-tooltip";
 import type { FlyModelKind, FlyModelStatus } from "@/lib/web/fly-model";
+import type { InstrumentMode } from "@/lib/web/instrument-mode";
 
 const World = dynamic(() => import("./embodied-world"), { ssr: false, loading: () => <div className="world-fallback">Preparing embodied world…</div> });
 
-/** One world, two sequential conditions. All readouts share the recorded playback cursor. */
-export function EmbodiedExperiment({ result, design, busy, strength, onStrength, onRun, autoPlay = false, scientist, source, inputStale = false, flyModel, onFlyModel, onBrainControlStatus }: {
-  result: MeasuredExperimentResult | null; design?: GuidedDesign; busy: boolean;
-  strength: number; onStrength: (value: number) => void; onRun: () => void; autoPlay?: boolean;
-  scientist?: ReactNode; source?: ReactNode;
-  inputStale?: boolean; flyModel?: FlyModelKind; onFlyModel?: (model: FlyModelKind) => void;
+/** One world, two sequential conditions. Organism-first hierarchy with contextual action rail. */
+export function EmbodiedExperiment({
+  result,
+  design,
+  busy,
+  strength,
+  onStrength,
+  onRun,
+  autoPlay = false,
+  scientist,
+  source,
+  inputStale = false,
+  flyModel,
+  onFlyModel,
+  onBrainControlStatus,
+  instrumentMode = "observe",
+}: {
+  result: MeasuredExperimentResult | null;
+  design?: GuidedDesign;
+  busy: boolean;
+  strength: number;
+  onStrength: (value: number) => void;
+  onRun: () => void;
+  autoPlay?: boolean;
+  scientist?: ReactNode;
+  source?: ReactNode;
+  inputStale?: boolean;
+  flyModel?: FlyModelKind;
+  onFlyModel?: (model: FlyModelKind) => void;
   onBrainControlStatus?: (available: boolean, detail: string) => void;
+  instrumentMode?: InstrumentMode;
 }) {
   const steps = result ? playbackSteps(result.measuredEvidence.control, result.measuredEvidence.perturbed) : [];
-  const [playback, setPlayback] = useState<EmbodiedPlayback>(() => ({ cursor: 0, playing: Boolean(result && autoPlay && typeof window !== "undefined" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches), pass: 0 }));
+  const [playback, setPlayback] = useState<EmbodiedPlayback>(() => ({
+    cursor: 0,
+    playing: Boolean(result && autoPlay && typeof window !== "undefined" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches),
+    pass: 0,
+  }));
   const [autonomous, setAutonomous] = useState(true);
   const [compare, setCompare] = useState(false);
   const [reset, setReset] = useState(0);
@@ -36,38 +65,366 @@ export function EmbodiedExperiment({ result, design, busy, strength, onStrength,
   const changed = inputStale || Boolean(design && strength !== design.spec.stimulus.amplitude);
   const perception = design?.perceptionInput;
   const selected = compare ? ["control", "perturbed"] as const : [condition];
-  function selectModel(next: FlyModelKind) { setLocalModel(next); onFlyModel?.(next); setModelStatus(next === "anatomical" ? "loading" : "lightweight"); }
+
+  function selectModel(next: FlyModelKind) {
+    setLocalModel(next);
+    onFlyModel?.(next);
+    setModelStatus(next === "anatomical" ? "loading" : "lightweight");
+  }
+
   useEffect(() => {
     if (!playback.playing || !steps.length) return;
     const timer = window.setInterval(() => setPlayback(current => advanceEmbodiedPlayback(current, steps.length, compare)), 1200);
     return () => window.clearInterval(timer);
   }, [playback.playing, steps.length, compare]);
-  function replay() { setAutonomous(false); setPlayback(current => ({ cursor: 0, playing: true, pass: current.pass + 1 })); }
-  function resetView() { setAutonomous(false); setPlayback(current => ({ cursor: 0, playing: false, pass: current.pass + 1 })); setCompare(false); setReset(value => value + 1); }
+
+  function replay() {
+    setAutonomous(false);
+    setPlayback(current => ({ cursor: 0, playing: true, pass: current.pass + 1 }));
+  }
+
+  function resetView() {
+    setAutonomous(false);
+    setPlayback(current => ({ cursor: 0, playing: false, pass: current.pass + 1 }));
+    setCompare(false);
+    setReset(value => value + 1);
+  }
+
   const target = design ? nodeLabel(design.spec.perturbation.targetNodeId) : "one pathway";
   const maxValue = result ? Math.max(1, ...[result.measuredEvidence.control, result.measuredEvidence.perturbed].flatMap(trial => trial.activity.flatMap(sample => Object.values(sample.nodes)))) : 1;
-  return <section className="embodied-experiment" aria-label="Embodied experiment" id="demo-watch" data-comparing={compare} data-condition={condition} data-playing={playback.playing}>
-    <header className="embodied-heading"><div><span className="eyebrow cyan-text">CONTROLLED MODEL / SYNTHETIC NETWORK</span><h2>See behavior. Compare one intervention.</h2></div><span className={result ? "verified-signal" : "idle-signal"}>{result ? "● RECORDED ENGINE DATA" : "○ AWAITING APPROVED TEST"}</span></header>
-    <div className="embodied-inputs">
-      <div className="stimulus-control"><div className="stimulus-label"><label htmlFor="stimulus-strength">STIMULUS STRENGTH</label><InfoTooltip label="Stimulus strength">{cockpitHelp.stimulus}</InfoTooltip><output>{strength.toFixed(3)}</output></div>{perception ? <output id="stimulus-strength" className="measured-stimulus" aria-label="Measured stimulus strength">{strength.toFixed(3)} · MEASURED / LOCKED</output> : <input id="stimulus-strength" aria-label="Stimulus strength" type="range" min="0" max="1" step="0.05" value={strength} disabled={busy} onChange={event => onStrength(Number(event.target.value))} />}<small role="status">{perception ? "CausalFly-derived value · switch to Synthetic to choose another input" : changed ? "INPUT CHANGED — REDESIGN REQUIRED" : design ? `Engine input amplitude · ${result ? "recorded" : "ready to run"}` : "Choose input, then Design with Meta"}</small></div>
-      {!scientist && <div className="embodied-run-action"><button type="button" className="primary-button" disabled={!design || busy || changed} aria-busy={busy} onClick={() => { setPlayback(current => ({ ...current, cursor: 0, playing: false })); onRun(); }}>{!design ? "Design test first" : busy ? "Request in progress…" : changed ? "Redesign required" : result ? "Run experiment" : "Approve & Run Experiment"}</button><small>{perception ? "SAM geometry → CausalFly amplitude → matched runs" : "Same input · only one pathway changes"}</small></div>}
-      <button type="button" className="compare-runs-toggle secondary-button" disabled={!result} aria-pressed={compare} onClick={() => { setAutonomous(false); setCompare(value => !value); setPlayback(current => ({ ...current, cursor: index, playing: false })); }}>{compare ? "Single fly" : "Compare runs"}</button>
-    </div>
-    {perception && <div className="world-perception-source">PERCEPTION SOURCE: {perception.mode === "SAM LIVE" ? "META SAM 3.1" : "OFFLINE SAM FIXTURE"}<span>{perception.concept} → visual expansion → {perception.measurement.amplitude.toFixed(3)} stimulus → {result ? "recorded engine response" : "awaiting approval"}</span></div>}
-    <div className="embodied-stage">
-      <div className="embodied-world-column"><div className="cockpit-region-title"><h3>EMBODIED WORLD</h3><div className="fly-model-toggle" role="group" aria-label="Fly model"><span>Fly model:</span>{(["anatomical", "lightweight"] as const).map(kind => <button key={kind} type="button" aria-pressed={model === kind} onClick={() => selectModel(kind)}>{kind === "anatomical" ? "Anatomical" : "Lightweight"}</button>)}</div></div>{source}<div className="autonomy-mode" role="group" aria-label="Embodiment mode"><button type="button" aria-pressed={autonomous} onClick={() => setAutonomous(true)}>Autonomous world</button><button type="button" aria-pressed={!autonomous} disabled={!result} title={!result ? "Run an approved experiment to retain signal playback." : "Recorded approved signals, not a retained movement trajectory. Use Replay recorded experiment for motion."} onClick={() => setAutonomous(false)}>Recorded signal view</button></div>{autonomous ? <AutonomyPanel model={model} onModelStatus={setModelStatus} onBrainControlStatus={onBrainControlStatus} /> : <div className="embodied-arena" data-model-choice={model} data-model-status={modelStatus}>{model === "anatomical" && modelStatus === "loading" && <p className="anatomical-loading" role="status">Loading anatomical model…</p>}{model === "anatomical" && modelStatus === "fallback" && <p className="anatomical-loading" role="status">Anatomical model unavailable · Lightweight fallback</p>}<World result={result} previewStrength={strength} step={step} reset={reset} compare={compare} condition={condition} playing={playback.playing} pulseKey={`${playback.pass}-${condition}-${step}`} model={model} onModelStatus={setModelStatus} /><button type="button" className="world-reset-view text-button" aria-label="Reset View" onClick={() => setReset(value => value + 1)}>Reset View</button><div className="world-stimulus-label">LOOMING STIMULUS <span>{result ? step === 0 && result.spec.stimulus.amplitude > 0 ? "STEP 0 / INPUT PULSE" : "PULSE COMPLETE" : "PLANNED INPUT / NOT MEASURED"}</span></div><div className="world-condition-labels">{selected.map(run => <span key={run} data-run={run}>{run === "control" ? "01 / CONTROL" : "02 / INTERVENTION"}<small>{run === "control" ? "Network unchanged" : `Silence ${target}`}</small></span>)}</div><span className="world-orbit-hint">DRAG TO ORBIT · SCROLL TO ZOOM</span></div>}</div>
-      {scientist}
-      <div className="embodied-signals" aria-label="Neural topology and activity"><div className="cockpit-region-title"><h3>NEURAL SYSTEM</h3><span className="cyan-text">CONTROLLED MODEL</span></div><div className="signal-title"><span>RECORDED SIGNAL <InfoTooltip label="Recorded signal">{cockpitHelp.signal}</InfoTooltip></span><small>{result ? `STEP ${String(step).padStart(2, "0")}` : "TOPOLOGY PREVIEW"}</small></div>{result ? selected.map(run => {
-        const trial = result.measuredEvidence[run], state = embodimentAtStep(trial, step);
-        return <article key={run} className={`embodied-signal ${run}`}><header><span>{run === "control" ? "CONTROL" : `INTERVENTION / SILENCE ${target.toUpperCase()}`}</span><span>OUTPUT <b title={state.output?.toString()}>{signalValue(state.output)}</b> <small>{state.thresholdReached === null ? "NO SAMPLE" : state.thresholdReached ? "✓ THRESHOLD" : "BELOW THRESHOLD"}</small></span></header><SyntheticNetworkViz trial={trial} step={step} playing={playback.playing} />{!compare && <ActivityChart compact trial={trial} step={step} maxStep={Math.max(1, ...steps)} maxValue={maxValue} />}</article>;
-      }) : <div className="embodied-preview"><FixtureTopology /><p>STIMULUS → PATHWAYS → OUTPUT</p><small>Design preview · no measured activity yet.</small><div className="network-preview-instrument"><span>CONTROL <b>INTACT NETWORK</b></span><span>INTERVENTION <b>{design ? `SILENCE ${target.toUpperCase()}` : "AWAITING DESIGN"}</b></span><span>MEASUREMENT <b>PEAK OUTPUT + RESPONSE STEP</b></span></div></div>}{result && <>
-      <div className="embodied-condition-switch" role="group" aria-label="Select recorded condition"><span>{compare ? "SAME STEP / BOTH RUNS" : "PLAYBACK: CONTROL → INTERVENTION"}</span>{(["control", "perturbed"] as const).map((run, i) => <span key={run} className="condition-option" data-run={run}><button type="button" aria-pressed={!compare && condition === run} disabled={compare} onClick={() => { setAutonomous(false); setPlayback(current => ({ cursor: i * steps.length, playing: false, pass: current.pass + 1 })); }}>{i ? "Intervention" : "Control"}</button><InfoTooltip label={i ? "Intervention" : "Control"}>{i ? cockpitHelp.intervention : cockpitHelp.control}</InfoTooltip></span>)}<small>Same fly representation · separate experiment conditions</small></div>
-      </>}</div>
-    </div>
-    {result ? <>
+  const trialState = result?.measuredEvidence[condition];
+  const currentRecordedStep = trialState ? embodimentAtStep(trialState, step) : null;
 
-      <ExperimentPlayback steps={steps} index={index} playing={playback.playing} sequential={!compare} onReplay={replay} onReset={resetView} onToggle={() => { setAutonomous(false); setPlayback(current => current.playing ? { ...current, playing: false } : { ...current, playing: true, cursor: current.cursor >= steps.length * (compare ? 1 : 2) - 1 ? 0 : current.cursor }); }} onSeek={next => { setAutonomous(false); setPlayback(current => ({ ...current, cursor: (condition === "perturbed" && !compare ? steps.length : 0) + next, playing: false })); }} />
-    </> : <div className="embodied-awaiting">META DESIGNS <span>→</span> YOU APPROVE <span>→</span> CONTROL <span>→</span> INTERVENTION</div>}
-    <footer className="embodied-caption"><span>Autonomy is a separate experimental controller; recorded measurements remain unchanged.</span><details><summary>Show how we measured this</summary><p>Stimulus strength sets ExperimentSpec.stimulus.amplitude for both trials after explicit approval and server validation. The declared step-zero pulse is illustrated as an approaching, expanding object; approach phase is presentation, not a measured trajectory. Current recorded output maps to displacement (0.4 scene units), lift (0.18), pitch (0.1 radians), wing opening (0.08), and a ground-ring indicator. Poses ease visually; readouts are never interpolated. Missing samples remain unknown. Node brightness uses recorded activity; edge emphasis requires adjacent recorded samples and declared weights. Anatomy and arena are illustrative, not biological simulation.</p><p>High-fidelity Drosophila visual embodiment. Visual mesh source: female Drosophila anatomical model. Neural source when connected to the live connectome brain server: published male CNS connectome. The visual embodiment is not sex-matched to the connectome. No male anatomical modifications were made. This cockpit measures a separate deterministic synthetic network; no neural anatomy is inferred inside the fly.</p><p>FlyBody model by the FlyBody contributors, developed by Google DeepMind and HHMI Janelia Research Campus; Vaxenburg et al. (2025). Underlying mesh and FruitFly XR FlyV2 asset predate the hackathon; the web derivative and integration were created during the hackathon. Wild-type-inspired PBR appearance is authored, not measured biological optical/material data. <a href="/models/flyv2/NOTICE.txt" target="_blank" rel="noreferrer">Attribution & modifications</a> · <a href="/models/flyv2/LICENSE-FlyBody.txt" target="_blank" rel="noreferrer">Apache-2.0 license</a>. The anatomical model loads without a procedural preview. Lightweight is an explicit visual choice and the automatic fallback if anatomical loading fails.</p></details></footer>
-  </section>;
+  return (
+    <section
+      className="embodied-experiment organism-first-workspace"
+      aria-label="Embodied experiment"
+      id="demo-watch"
+      data-comparing={compare}
+      data-condition={condition}
+      data-playing={playback.playing}
+      data-instrument-mode={instrumentMode}
+    >
+      <header className="embodied-heading">
+        <div className="embodied-heading-main">
+          <span className="eyebrow cyan-text">CONTROLLED MODEL / SYNTHETIC NETWORK</span>
+          <h2>See behavior. Compare one intervention.</h2>
+        </div>
+        <div className="embodied-heading-meta">
+          <span className={result ? "verified-signal" : "idle-signal"}>
+            {result ? "● RECORDED ENGINE DATA" : "○ AWAITING APPROVED TEST"}
+          </span>
+        </div>
+      </header>
+
+      {/* Primary Embodied Stage: Large Embodied World + Contextual Action Rail */}
+      <div className="embodied-stage">
+        {/* Dominant Embodied World Column (approx 62% width on desktop) */}
+        <div className="embodied-world-column">
+          <div className="cockpit-region-title">
+            <div className="region-title-badge">
+              <span className="organism-glyph" aria-hidden="true">◈</span>
+              <h3>EMBODIED WORLD</h3>
+            </div>
+            <div className="world-mode-toolbar">
+              <div className="fly-model-toggle" role="group" aria-label="Fly model">
+                <span>Fly model:</span>
+                {(["anatomical", "lightweight"] as const).map(kind => (
+                  <button key={kind} type="button" aria-pressed={model === kind} onClick={() => selectModel(kind)}>
+                    {kind === "anatomical" ? "Anatomical" : "Lightweight"}
+                  </button>
+                ))}
+              </div>
+              <div className="autonomy-mode" role="group" aria-label="Embodiment mode">
+                <button type="button" aria-pressed={autonomous} onClick={() => setAutonomous(true)}>
+                  Autonomous world
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={!autonomous}
+                  disabled={!result}
+                  title={!result ? "Run an approved experiment to retain signal playback." : "Recorded approved signals, not a retained movement trajectory. Use Replay recorded experiment for motion."}
+                  onClick={() => setAutonomous(false)}
+                >
+                  Recorded signal view
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {autonomous ? (
+            <AutonomyPanel model={model} onModelStatus={setModelStatus} onBrainControlStatus={onBrainControlStatus} />
+          ) : (
+            <div className="embodied-arena" data-model-choice={model} data-model-status={modelStatus}>
+              {model === "anatomical" && modelStatus === "loading" && <p className="anatomical-loading" role="status">Loading anatomical model…</p>}
+              {model === "anatomical" && modelStatus === "fallback" && <p className="anatomical-loading" role="status">Anatomical model unavailable · Lightweight fallback</p>}
+              <World
+                result={result}
+                previewStrength={strength}
+                step={step}
+                reset={reset}
+                compare={compare}
+                condition={condition}
+                playing={playback.playing}
+                pulseKey={`${playback.pass}-${condition}-${step}`}
+                model={model}
+                onModelStatus={setModelStatus}
+              />
+              <button type="button" className="world-reset-view text-button" aria-label="Reset View" onClick={() => setReset(value => value + 1)}>
+                Reset View
+              </button>
+              <div className="world-stimulus-label">
+                LOOMING STIMULUS <span>{result ? step === 0 && result.spec.stimulus.amplitude > 0 ? "STEP 0 / INPUT PULSE" : "PULSE COMPLETE" : "PLANNED INPUT / NOT MEASURED"}</span>
+              </div>
+              <div className="world-condition-labels">
+                {selected.map(run => (
+                  <span key={run} data-run={run}>
+                    {run === "control" ? "01 / CONTROL" : "02 / INTERVENTION"}
+                    <small>{run === "control" ? "Network unchanged" : `Silence ${target}`}</small>
+                  </span>
+                ))}
+              </div>
+
+              {/* Recorded Behaviour Readout Chip */}
+              <div className="recorded-behaviour-chip" aria-live="off">
+                <div className="readout-behaviour-card">
+                  <span className="readout-label">RECORDED BEHAVIOUR</span>
+                  <b className="readout-state-value">{currentRecordedStep?.thresholdReached ? "ESCAPE" : "WALK"}</b>
+                </div>
+                <div className="readout-source-card">
+                  <span className="readout-label">DECISION SOURCE</span>
+                  <span className="readout-source-value">{condition === "control" ? "Intact network baseline" : `Intervention: Silence ${target}`}</span>
+                </div>
+                <div className="readout-motor-card">
+                  <span className="readout-label">MOTOR EXECUTION</span>
+                  <span className="readout-motor-value">CausalFly procedural controller ({currentRecordedStep?.thresholdReached ? "Takeoff / escape" : "Grounded"})</span>
+                </div>
+                <div className="readout-telemetry-strip">
+                  <span>Step {String(step).padStart(2, "0")}</span>
+                  <span>Output {signalValue(currentRecordedStep?.output)}</span>
+                  <span>{currentRecordedStep?.thresholdReached ? "Threshold Reached" : "Below Threshold"}</span>
+                </div>
+              </div>
+
+              <span className="world-orbit-hint">DRAG TO ORBIT · SCROLL TO ZOOM</span>
+            </div>
+          )}
+        </div>
+
+        {/* Contextual Action Rail (approx 38% width on desktop) */}
+        <div className="embodied-context-rail" aria-label="Experiment context and actions">
+          <div className="context-rail-header">
+            <span className="rail-kicker">{instrumentMode === "perturb" ? "INTERVENTION INSPECTOR" : "EXPERIMENT CONTEXT"}</span>
+            <h4>{instrumentMode === "perturb" ? "Controlled Perturbation" : "Sensory Input & Observation"}</h4>
+          </div>
+
+          {/* Stimulus & Input Control */}
+          <div className="embodied-inputs">
+            <div className="stimulus-control">
+              <div className="stimulus-label">
+                <label htmlFor="stimulus-strength">STIMULUS STRENGTH</label>
+                <InfoTooltip label="Stimulus strength">{cockpitHelp.stimulus}</InfoTooltip>
+                <output>{strength.toFixed(3)}</output>
+              </div>
+              {perception ? (
+                <output id="stimulus-strength" className="measured-stimulus" aria-label="Measured stimulus strength">
+                  {strength.toFixed(3)} · MEASURED / LOCKED
+                </output>
+              ) : (
+                <input
+                  id="stimulus-strength"
+                  aria-label="Stimulus strength"
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.05"
+                  value={strength}
+                  disabled={busy}
+                  onChange={event => onStrength(Number(event.target.value))}
+                />
+              )}
+              <small role="status">
+                {perception
+                  ? "CausalFly-derived value · switch to Synthetic to choose another input"
+                  : changed
+                  ? "INPUT CHANGED — REDESIGN REQUIRED"
+                  : design
+                  ? `Engine input amplitude · ${result ? "recorded" : "ready to run"}`
+                  : "Choose input, then Design with Meta"}
+              </small>
+            </div>
+
+            {perception && (
+              <div className="world-perception-source">
+                PERCEPTION SOURCE: {perception.mode === "SAM LIVE" ? "META SAM 3.1" : "OFFLINE SAM FIXTURE"}
+                <span>{perception.concept} → visual expansion → {perception.measurement.amplitude.toFixed(3)} stimulus → {result ? "recorded engine response" : "awaiting approval"}</span>
+              </div>
+            )}
+            {source}
+
+            <div className="context-intervention-deck">
+              <div className="intervention-deck-summary">
+                <span className="intervention-deck-label">TARGET PATHWAY</span>
+                <strong className={design ? "orange-text" : "cyan-text"}>
+                  {design ? `Silence ${target.toUpperCase()}` : "Intact Network (Baseline)"}
+                </strong>
+                <small>Same input · only one pathway changes</small>
+              </div>
+
+              {!scientist && (
+                <div className="embodied-run-action">
+                  <button
+                    type="button"
+                    className="primary-button"
+                    disabled={!design || busy || changed}
+                    aria-busy={busy}
+                    onClick={() => {
+                      setPlayback(current => ({ ...current, cursor: 0, playing: false }));
+                      onRun();
+                    }}
+                  >
+                    {!design ? "Design test first" : busy ? "Request in progress…" : changed ? "Redesign required" : result ? "Run experiment" : "Approve & Run Experiment"}
+                  </button>
+                  <small>{perception ? "SAM geometry → CausalFly amplitude → matched runs" : "Same input · only one pathway changes"}</small>
+                </div>
+              )}
+
+              <button
+                type="button"
+                className="compare-runs-toggle secondary-button"
+                disabled={!result}
+                aria-pressed={compare}
+                onClick={() => {
+                  setAutonomous(false);
+                  setCompare(value => !value);
+                  setPlayback(current => ({ ...current, cursor: index, playing: false }));
+                }}
+              >
+                {compare ? "Single fly" : "Compare runs"}
+              </button>
+            </div>
+          </div>
+
+          {/* Meta AI Scientist action rail */}
+          {scientist}
+        </div>
+      </div>
+
+      {/* Current State / Neural Instrumentation: Spanning full width directly below stage */}
+      <div className="embodied-signals" aria-label="Neural topology and activity">
+        <div className="cockpit-region-title">
+          <div className="signals-title-group">
+            <span className="neural-glyph" aria-hidden="true">∿</span>
+            <h3>NEURAL SYSTEM</h3>
+          </div>
+          <span className="cyan-text">CONTROLLED MODEL · SYNTHETIC FIXTURE</span>
+        </div>
+        <div className="signal-title">
+          <span>RECORDED SIGNAL <InfoTooltip label="Recorded signal">{cockpitHelp.signal}</InfoTooltip></span>
+          <small>{result ? `STEP ${String(step).padStart(2, "0")} / PLAYBACK` : "TOPOLOGY PREVIEW"}</small>
+        </div>
+
+        {result ? (
+          <div className="signals-recorded-grid">
+            {selected.map(run => {
+              const trial = result.measuredEvidence[run];
+              const state = embodimentAtStep(trial, step);
+              return (
+                <article key={run} className={`embodied-signal ${run}`}>
+                  <header>
+                    <span>{run === "control" ? "CONTROL" : `INTERVENTION / SILENCE ${target.toUpperCase()}`}</span>
+                    <span>
+                      OUTPUT <b title={state.output?.toString()}>{signalValue(state.output)}</b>{" "}
+                      <small>{state.thresholdReached === null ? "NO SAMPLE" : state.thresholdReached ? "✓ THRESHOLD" : "BELOW THRESHOLD"}</small>
+                    </span>
+                  </header>
+                  <div className="signal-viz-row">
+                    <SyntheticNetworkViz trial={trial} step={step} playing={playback.playing} />
+                    {!compare && <ActivityChart compact trial={trial} step={step} maxStep={Math.max(1, ...steps)} maxValue={maxValue} />}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="embodied-preview">
+            <FixtureTopology />
+            <p>STIMULUS → PATHWAYS → OUTPUT</p>
+            <small>Design preview · no measured activity yet. Hand-authored engineering fixture · not biological.</small>
+            <div className="network-preview-instrument">
+              <span>CONTROL <b>INTACT NETWORK</b></span>
+              <span>INTERVENTION <b>{design ? `SILENCE ${target.toUpperCase()}` : "AWAITING DESIGN"}</b></span>
+              <span>MEASUREMENT <b>PEAK OUTPUT + RESPONSE STEP</b></span>
+            </div>
+          </div>
+        )}
+
+        {result && (
+          <div className="embodied-condition-switch" role="group" aria-label="Select recorded condition">
+            <span>{compare ? "SAME STEP / BOTH RUNS" : "PLAYBACK: CONTROL → INTERVENTION"}</span>
+            {(["control", "perturbed"] as const).map((run, i) => (
+              <span key={run} className="condition-option" data-run={run}>
+                <button
+                  type="button"
+                  aria-pressed={!compare && condition === run}
+                  disabled={compare}
+                  onClick={() => {
+                    setAutonomous(false);
+                    setPlayback(current => ({ cursor: i * steps.length, playing: false, pass: current.pass + 1 }));
+                  }}
+                >
+                  {i ? "Intervention" : "Control"}
+                </button>
+                <InfoTooltip label={i ? "Intervention" : "Control"}>
+                  {i ? cockpitHelp.intervention : cockpitHelp.control}
+                </InfoTooltip>
+              </span>
+            ))}
+            <small>Same fly representation · separate experiment conditions</small>
+          </div>
+        )}
+      </div>
+
+      {result ? (
+        <ExperimentPlayback
+          steps={steps}
+          index={index}
+          playing={playback.playing}
+          sequential={!compare}
+          onReplay={replay}
+          onReset={resetView}
+          onToggle={() => {
+            setAutonomous(false);
+            setPlayback(current =>
+              current.playing
+                ? { ...current, playing: false }
+                : { ...current, playing: true, cursor: current.cursor >= steps.length * (compare ? 1 : 2) - 1 ? 0 : current.cursor }
+            );
+          }}
+          onSeek={next => {
+            setAutonomous(false);
+            setPlayback(current => ({
+              ...current,
+              cursor: (condition === "perturbed" && !compare ? steps.length : 0) + next,
+              playing: false,
+            }));
+          }}
+        />
+      ) : (
+        <div className="embodied-awaiting">
+          META DESIGNS <span>→</span> YOU APPROVE <span>→</span> CONTROL <span>→</span> INTERVENTION
+        </div>
+      )}
+
+      <footer className="embodied-caption">
+        <span>Autonomy is a separate experimental controller; recorded measurements remain unchanged.</span>
+        <details>
+          <summary>Show how we measured this</summary>
+          <p>Stimulus strength sets ExperimentSpec.stimulus.amplitude for both trials after explicit approval and server validation. The declared step-zero pulse is illustrated as an approaching, expanding object; approach phase is presentation, not a measured trajectory. Current recorded output maps to displacement (0.4 scene units), lift (0.18), pitch (0.1 radians), wing opening (0.08), and a ground-ring indicator. Poses ease visually; readouts are never interpolated. Missing samples remain unknown. Node brightness uses recorded activity; edge emphasis requires adjacent recorded samples and declared weights. Anatomy and arena are illustrative, not biological simulation.</p>
+          <p>High-fidelity Drosophila visual embodiment. Visual mesh source: female Drosophila anatomical model. Neural source when connected to the live connectome brain server: published male CNS connectome. The visual embodiment is not sex-matched to the connectome. No male anatomical modifications were made. This cockpit measures a separate deterministic synthetic network; no neural anatomy is inferred inside the fly.</p>
+          <p>FlyBody model by the FlyBody contributors, developed by Google DeepMind and HHMI Janelia Research Campus; Vaxenburg et al. (2025). Underlying mesh and FruitFly XR FlyV2 asset predate the hackathon; the web derivative and integration were created during the hackathon. Wild-type-inspired PBR appearance is authored, not measured biological optical/material data. <a href="/models/flyv2/NOTICE.txt" target="_blank" rel="noreferrer">Attribution & modifications</a> · <a href="/models/flyv2/LICENSE-FlyBody.txt" target="_blank" rel="noreferrer">Apache-2.0 license</a>. The anatomical model loads without a procedural preview. Lightweight is an explicit visual choice and the automatic fallback if anatomical loading fails.</p>
+        </details>
+      </footer>
+    </section>
+  );
 }

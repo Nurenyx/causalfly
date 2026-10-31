@@ -70,6 +70,54 @@ export function CockpitReadouts({ result, design, perceived }: { result: Measure
   ] as const;
   return <section className="cockpit-analytics" aria-label="Experiment measurements" id="demo-result" data-result={Boolean(result)}>
     <header className="cockpit-result-heading"><div><span className="cockpit-kicker">{result ? "MEASURED BY CAUSALFLY / CONTROL → INTERVENTION" : "MEASUREMENT DECK / AWAITING APPROVAL"}</span><h2>{summary ? summary.signal : "Change one pathway. See what changes."}</h2></div><span className={result ? "instrument-status complete" : "instrument-status"}>{result ? "✓ MATCHED RUNS COMPLETE" : "○ NO MEASUREMENT YET"}</span></header>
+    <div className="causal-pipeline" aria-label="Causal Pipeline">
+      <div className="causal-pipeline-title">
+        <span className="causal-glyph">⟡</span>
+        <strong>CAUSAL PIPELINE</strong>
+        <small>{result ? "ENGINE MEASURED TRIAL AVERAGE" : "EXPERIMENTAL CAUSAL FLOW"}</small>
+      </div>
+      <div className="causal-pipeline-flow">
+        <article className="causal-stage stimulus-stage">
+          <header>
+            <span className="causal-stage-glyph">⤢</span>
+            <span>STIMULUS</span>
+          </header>
+          <strong>{design ? "Looming (Predator)" : "Synthetic Stimulus"}</strong>
+          <p>{design ? `Amplitude: ${design.spec.stimulus.amplitude.toFixed(3)}` : "Step 0 Pulse"}</p>
+          <small>{perceived ? "Perception derived" : "Controlled input"}</small>
+        </article>
+        <span className="causal-arrow" aria-hidden="true">→</span>
+        <article className="causal-stage neural-stage">
+          <header>
+            <span className="causal-stage-glyph">∿</span>
+            <span>NEURAL RESPONSE</span>
+          </header>
+          <strong>{design ? nodeLabel(design.spec.perturbation.targetNodeId) : "Intact Circuit"}</strong>
+          <p>{evidence ? `Peak: ${signalValue(evidence.perturbed.outputPeakActivity)} (norm)` : "Declared weights"}</p>
+          <small>{evidence ? `Control: ${signalValue(evidence.control.outputPeakActivity)} (norm)` : "4-node fixture"}</small>
+        </article>
+        <span className="causal-arrow" aria-hidden="true">→</span>
+        <article className="causal-stage decision-stage">
+          <header>
+            <span className="causal-stage-glyph">⚖</span>
+            <span>DECISION</span>
+          </header>
+          <strong>{evidence ? evidence.perturbed.outcome === "THRESHOLD_REACHED" ? "Threshold Reached" : "Below Threshold" : "Threshold Gate"}</strong>
+          <p>{evidence ? `Crossing: ${crossing(evidence.perturbed.outputThresholdCrossingStep)}` : "Step crossing"}</p>
+          <small>{evidence?.deltas.outcomeChanged ? "Changed by intervention" : "Simulation step · not biological"}</small>
+        </article>
+        <span className="causal-arrow" aria-hidden="true">→</span>
+        <article className="causal-stage motor-stage">
+          <header>
+            <span className="causal-stage-glyph">⇲</span>
+            <span>MOTOR OUTPUT</span>
+          </header>
+          <strong>{evidence?.perturbed.outcome === "THRESHOLD_REACHED" ? "Escape Takeoff" : "Grounded Locomotion"}</strong>
+          <p>{evidence?.perturbed.outcome === "THRESHOLD_REACHED" ? "Displacement: 0.40 u" : "Grounded: 0.00 u"}</p>
+          <small>Procedural controller</small>
+        </article>
+      </div>
+    </div>
     <div className="cockpit-readouts">
       <article><h3>SIGNAL</h3><div className="readout-pair"><strong title={evidence?.control.outputPeakActivity.toString()}>{signalValue(evidence?.control.outputPeakActivity)}</strong><span>→</span><strong title={evidence?.perturbed.outputPeakActivity.toString()}>{signalValue(evidence?.perturbed.outputPeakActivity)}</strong></div><small>Peak output · normalized · rounded display</small>{evidence && <div className="readout-bars" aria-hidden="true">{[evidence.control, evidence.perturbed].map((trial, i) => <i key={i} style={{ width: `${trial.outputPeakActivity / Math.max(evidence.control.outputPeakActivity, evidence.perturbed.outputPeakActivity, 1) * 100}%` }} />)}</div>}</article>
       <article><h3>RESPONSE</h3><div className="readout-response"><strong>{evidence ? crossing(evidence.control.outputThresholdCrossingStep) : "—"}</strong><span>→</span><strong>{evidence ? crossing(evidence.perturbed.outputThresholdCrossingStep) : "—"}</strong></div><small>{summary?.response ?? "First output-threshold crossing"}</small><small>Simulation steps · not biological time</small></article>
