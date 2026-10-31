@@ -1,0 +1,213 @@
+{
+  "disclosure": "Local production browser, real clocks, provider and brain routes blocked. No live neural/Meta/SAM calls.",
+  "checks": [
+    "Organism primary at desktop; world, scientist, neural order stacks at 1024/390; readable moving exploration",
+    "Matched stimulus inputs; persistent Control/Intervention labels; control aerial with lateral separation, intervention grounded",
+    "Completed retained phenotype precedes telemetry; replay moves recorded poses without changing engine evidence; mobile wraps"
+  ],
+  "layouts": [
+    {
+      "width": 1920,
+      "documentWidth": 1920,
+      "world": {
+        "x": 268,
+        "y": 430.078125,
+        "width": 1162.84375,
+        "height": 1195.5,
+        "bottom": 1625.578125
+      },
+      "arena": {
+        "x": 268,
+        "y": 810.078125,
+        "width": 1162.84375,
+        "height": 610,
+        "bottom": 1420.078125
+      },
+      "scientist": {
+        "x": 1430.84375,
+        "y": 430.078125,
+        "width": 465.15625,
+        "height": 452.796875,
+        "bottom": 882.875
+      },
+      "neural": {
+        "x": 268,
+        "y": 1625.578125,
+        "width": 1628,
+        "height": 544.796875,
+        "bottom": 2170.375
+      }
+    },
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "world": {
+        "x": 250,
+        "y": -6.890625,
+        "width": 837.140625,
+        "height": 1137.296875,
+        "bottom": 1130.40625
+      },
+      "arena": {
+        "x": 250,
+        "y": 440.109375,
+        "width": 837.140625,
+        "height": 460.796875,
+        "bottom": 900.90625
+      },
+      "scientist": {
+        "x": 1087.140625,
+        "y": -6.890625,
+        "width": 334.859375,
+        "height": 478.796875,
+        "bottom": 471.90625
+      },
+      "neural": {
+        "x": 250,
+        "y": 1130.40625,
+        "width": 1172,
+        "height": 544.796875,
+        "bottom": 1675.203125
+      }
+    },
+    {
+      "width": 1024,
+      "documentWidth": 1024,
+      "world": {
+        "x": 268,
+        "y": 110.171875,
+        "width": 732,
+        "height": 1123,
+        "bottom": 1233.171875
+      },
+      "arena": {
+        "x": 268,
+        "y": 557.171875,
+        "width": 732,
+        "height": 430,
+        "bottom": 987.171875
+      },
+      "scientist": {
+        "x": 268,
+        "y": 1233.171875,
+        "width": 732,
+        "height": 197.796875,
+        "bottom": 1430.96875
+      },
+      "neural": {
+        "x": 268,
+        "y": 1430.96875,
+        "width": 732,
+        "height": 544.796875,
+        "bottom": 1975.765625
+      }
+    },
+    {
+      "width": 390,
+      "documentWidth": 390,
+      "world": {
+        "x": 16,
+        "y": 651.171875,
+        "width": 358,
+        "height": 1333.5,
+        "bottom": 1984.671875
+      },
+      "arena": {
+        "x": 16,
+        "y": 1199.171875,
+        "width": 358,
+        "height": 390,
+        "bottom": 1589.171875
+      },
+      "scientist": {
+        "x": 16,
+        "y": 1984.671875,
+        "width": 358,
+        "height": 316.796875,
+        "bottom": 2301.46875
+      },
+      "neural": {
+        "x": 16,
+        "y": 2301.46875,
+        "width": 358,
+        "height": 562.796875,
+        "bottom": 2864.265625
+      }
+    },
+    {
+      "width": 1440,
+      "documentWidth": 1440,
+      "world": {
+        "x": 250,
+        "y": -6.890625,
+        "width": 837.140625,
+        "height": 1137.296875,
+        "bottom": 1130.40625
+      },
+      "arena": {
+        "x": 250,
+        "y": 440.109375,
+        "width": 837.140625,
+        "height": 460.796875,
+        "bottom": 900.90625
+      },
+      "scientist": {
+        "x": 1087.140625,
+        "y": -6.890625,
+        "width": 334.859375,
+        "height": 478.796875,
+        "bottom": 471.90625
+      },
+      "neural": {
+        "x": 250,
+        "y": 1130.40625,
+        "width": 1172,
+        "height": 544.796875,
+        "bottom": 1675.203125
+      }
+    },
+    {
+      "width": 390,
+      "documentWidth": 390,
+      "world": {
+        "x": 16,
+        "y": 506.171875,
+        "width": 358,
+        "height": 1775,
+        "bottom": 2281.171875
+      },
+      "arena": {
+        "x": 16,
+        "y": 1090.171875,
+        "width": 358,
+        "height": 390,
+        "bottom": 1480.171875
+      },
+      "scientist": {
+        "x": 16,
+        "y": 2281.171875,
+        "width": 358,
+        "height": 316.796875,
+        "bottom": 2597.96875
+      },
+      "neural": {
+        "x": 16,
+        "y": 2597.96875,
+        "width": 358,
+        "height": 562.796875,
+        "bottom": 3160.765625
+      }
+    }
+  ],
+  "errors": [],
+  "blocked": [],
+  "screenshots": 5,
+  "ticks": [
+    1200,
+    1200
+  ],
+  "peakAltitude": [
+    0.9059999999999999,
+    0
+  ]
+}

@@ -1,4 +1,5 @@
 import "server-only";
+import { configuredEndpoint } from "../sources/fruitfly-bridge";
 import { metaFailureCode } from "../meta/failure";
 import { developerDiagnosticsEnabled } from "./diagnostic-policy";
 import { z } from "zod";
@@ -23,10 +24,12 @@ export function configuredClient(env: MetaEnvironment): MetaClient {
 
 /** Configuration status only; constructing a client never makes a provider call. */
 export function getWebStatus(): WebStatus {
+  let researchConfigured = false;
+  try { configuredEndpoint(process.env.FRUITFLY_XR_OBSERVATORY_URL); researchConfigured = true; } catch { /* No configured research endpoint. */ }
   try {
-    return { mode: configuredClient(readMetaEnvironment()).mode, developerDiagnostics: developerDiagnosticsEnabled() };
+    return { researchConfigured, mode: configuredClient(readMetaEnvironment()).mode, developerDiagnostics: developerDiagnosticsEnabled() };
   } catch (error) {
-    return { mode: null, metaDisabled: metaFailureCode(error) === "CONFIGURATION_DISABLED", error: metaFailureCode(error) === "CONFIGURATION_DISABLED" ? safeWebProviderError(error) : configurationError, developerDiagnostics: developerDiagnosticsEnabled() };
+    return { researchConfigured, mode: null, metaDisabled: metaFailureCode(error) === "CONFIGURATION_DISABLED", error: metaFailureCode(error) === "CONFIGURATION_DISABLED" ? safeWebProviderError(error) : configurationError, developerDiagnostics: developerDiagnosticsEnabled() };
   }
 }
 

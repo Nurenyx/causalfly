@@ -23,6 +23,7 @@ export type WebExperimentResponse =
   | { ok: false; error: string; kind: "validation" | "configuration" | "provider"; run_id?: string; diagnostics?: RunDiagnostics };
 
 export interface WebStatus {
+  researchConfigured?: boolean;
   developerDiagnostics?: boolean;
   metaDisabled?: boolean;
   mode: ExecutionMode | null;

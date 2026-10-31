@@ -52,7 +52,7 @@ export function answerObservationalQuestion(question: string, snapshot: FruitFly
     evidenceWindow: last ? { sessionId: last.sessionId, sequences: history.map(f => f.telemetry.sequence) } : null,
   };
   const missing = (detail: string) => ({ ...answer, missing: detail, facts: last ? [`Available: ${history.length} received frames; spike-event counts, active simulated neuron counts, decoder output, input references and model times. Latest: ${location(last)}.`] : [] });
-  if (!first || !last) return missing("Receive validated FruitFly XR frames in Live Session; a retained session is required.");
+  if (!first || !last) return missing("Receive validated live connectome simulation frames in Live Session; a retained session is required.");
   const transitions = history.slice(1).map((frame, i) => ({ previous: history[i].telemetry, current: frame.telemetry }));
   if (intent === "UNSUPPORTED") return missing("Collect explicit measurements for the requested quantity. Named population analysis needs verified neuron-to-population identities and population-resolved telemetry; causal or biological claims need separately documented controlled experiments or biological recordings. This stream supplies neither.");
   if (intent === "NEXT_EXPERIMENT") return { ...answer, sufficient: true, summary: "Collect controlled follow-up evidence; these are investigation suggestions, not findings.", facts: analysis.suggestions.map(s => `${s.title}. ${s.rationale}`) };

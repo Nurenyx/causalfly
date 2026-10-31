@@ -18,6 +18,6 @@ export function HomeOverview({ disabled, onOpen }: { disabled: boolean; onOpen: 
     </section>
     <section className="home-paths" aria-label="Choose a workspace">{paths.map(path => <button type="button" key={path.workspace} disabled={disabled} onClick={() => onOpen(path.workspace)}><span className="cockpit-kicker">{path.index}</span><span className="home-path-icon" aria-hidden="true">{path.icon}</span><h3>{path.title}</h3><p>{path.description}</p><span className="home-path-action">{path.action} <span aria-hidden="true">↗</span></span></button>)}</section>
     <section className="home-trust" aria-label="How CausalFly works"><div><span className="cockpit-kicker">CLEAR ROLES. TRACEABLE RESULTS.</span><h3>Meta reasons. CausalFly measures.</h3></div><ol><li><strong>Meta designs</strong><span>You review & approve</span></li><li><strong>CausalFly runs & measures</strong><span>Matched control + intervention</span></li><li><strong>Meta interprets</strong><span>Only when you ask</span></li></ol></section>
-    <p className="home-boundary">Controlled experiments use a synthetic engineering model. FruitFly XR shows connectome-backed simulated dynamics. Neither is a recording from a living fly; real-fly validation is not established.</p>
+    <p className="home-boundary">Controlled experiments use a synthetic engineering model. Live connectome simulation shows connectome-backed simulated dynamics. Neither is a recording from a living fly; real-fly validation is not established.</p>
   </div>;
 }

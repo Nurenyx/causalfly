@@ -28,7 +28,7 @@ export function observationalAnalysis(snapshot: FruitFlySnapshot, frames: readon
   ] : ["No validated simulation frame has been received. Observations begin with retained evidence."];
   const suggestions = !t ? [{
     title: "Receive a validated simulation frame",
-    rationale: "Connect in Live Session and start a trial with the existing FruitFly XR client before interpreting telemetry.",
+    rationale: "Open Live Connectome and receive relevant brain-server trial telemetry before interpreting.",
   }] : [
     {
       title: "Capture a second session under a controlled input",

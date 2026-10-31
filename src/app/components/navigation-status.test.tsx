@@ -25,7 +25,7 @@ test("one primary navigation has identical order, labels and only the selected d
   }
 });
 test("Live workflow uses local steps with completion independent of optional Meta", () => {
-  const html = render(<LiveConnectomeProgress step="understand" questionRetained onStep={forbidden} />);
+  const html = render(<LiveConnectomeProgress step="understand" questionRetained evidenceAvailable onStep={forbidden} />);
   assert.match(html, /Stage 01: QUESTION: COMPLETE/);
   assert.match(html, /Stage 03: UNDERSTAND" aria-current="step"/);
   assert.doesNotMatch(html, /Experiment|Evidence|scientist/);
@@ -47,11 +47,11 @@ test("Meta availability, explicit activity, offline fixtures and missing config 
 test("XR status distinguishes source, connection and retained snapshot; connection action always belongs to its source card", () => {
   const snapshot = disconnectedFruitFly();
   const html = render(<FruitFlyStatus snapshot={snapshot} now={null} />);
-  for (const label of ["FRUITFLY XR SOURCE", "Connection: ", "Disconnected", "Waiting", "Not recordings from a living fly"]) assert.ok(html.includes(label));
-  assert.doesNotMatch(html, /Connect FruitFly XR<\/button>/);
+  for (const label of ["LIVE CONNECTOME SIMULATION SOURCE", "Connection: ", "Disconnected", "Waiting", "Not recordings from a living fly"]) assert.ok(html.includes(label));
+  assert.doesNotMatch(html, /Reconnect simulation<\/button>/);
   for (const source of ["SYNTHETIC_FIXTURE", "FRUITFLY_XR"] as const) {
     const card = render(<DataSourcePanel source={source} snapshot={snapshot} disabled={false} onSelect={forbidden} onConnect={forbidden} onDisconnect={forbidden} />);
-    assert.equal((card.match(/>Connect FruitFly XR<\/button>/g) ?? []).length, 1);
+    assert.equal((card.match(/>Reconnect simulation<\/button>/g) ?? []).length, 1);
     const connected = render(<DataSourcePanel source={source} snapshot={{ ...snapshot, state: "CONNECTED" }} disabled={false} onSelect={forbidden} onConnect={forbidden} onDisconnect={forbidden} />);
     assert.equal((connected.match(/>Disconnect<\/button>/g) ?? []).length, 1);
   }
@@ -61,4 +61,23 @@ test("workspace navigation retains exact question and result objects", () => {
   let state = initial;
   for (const workspace of ["live", "evidence", "observatory"] as const) state = workspaceReducer(state, { type: "navigate", workspace }) as typeof initial;
   assert.equal(state.question, initial.question); assert.equal(state.fruitFlyAskedQuestion, initial.fruitFlyAskedQuestion); assert.equal(state.result, initial.result);
+});
+
+test("Observe is locked before a retained question and Understand requires active investigation evidence", () => {
+  const initial = render(<LiveConnectomeProgress step="question" questionRetained={false} onStep={forbidden} />);
+  assert.match(initial, /disabled=""[^>]*aria-label="Stage 02: OBSERVE"/);
+  assert.match(initial, /disabled=""[^>]*aria-label="Stage 03: UNDERSTAND"/);
+  assert.match(initial, /Set an investigation question first/);
+  const question = render(<LiveConnectomeProgress step="observe" questionRetained evidenceAvailable={false} onStep={forbidden} />);
+  assert.doesNotMatch(question, /disabled=""[^>]*aria-label="Stage 02: OBSERVE"/);
+  assert.match(question, /disabled=""[^>]*aria-label="Stage 03: UNDERSTAND"/);
+  const active = render(<LiveConnectomeProgress step="observe" questionRetained evidenceAvailable onStep={forbidden} />);
+  assert.doesNotMatch(active, /disabled=""/);
+});
+
+test("brain service naming discloses simulated dynamics without launching the XR application", () => {
+  const html = render(<DataSourcePanel source="FRUITFLY_XR" snapshot={disconnectedFruitFly()} disabled={false} onSelect={forbidden} onConnect={forbidden} onDisconnect={forbidden} />);
+  assert.match(html, /LIVE CONNECTOME SIMULATION/); assert.match(html, /Connectome-backed brain server/);
+  assert.match(html, /Source implementation: FruitFly XR Brain Server/); assert.match(html, /does not launch the FruitFly XR Quest application/);
+  assert.match(html, /not recordings from a living fly/); assert.match(html, /value="FRUITFLY_XR"/);
 });

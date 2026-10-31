@@ -20,7 +20,7 @@ const props = { question, pending: "", mode: "FAKE META CLIENT" as const, result
 
 test("initial story offers demo and own-question paths without measured or AI findings", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
-  for (const text of [/RETAINED RESEARCH QUESTION/, /Embodied experiment/, /Visual embodiment of synthetic output/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
+  for (const text of [/RETAINED RESEARCH QUESTION/, /Embodied experiment/, /Autonomy is a separate experimental controller/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY|Approve &amp; Run Experiment|Explain with Meta/);
   assert.match(html, /REAL-FLY VALIDATION — Not established/);
   assert.match(html, /Synthetic engineering fixture/);
@@ -50,6 +50,9 @@ test("main workflow uses optional INPUT and model selector defaults to anatomica
   assert.doesNotMatch(html, />PERCEIVE</);
   assert.match(html, /aria-pressed="true">Anatomical<\/button>/); assert.match(html, /Loading anatomical model/);
   assert.match(html, /class="world-reset-view text-button" aria-label="Reset View"/);
+  assert.match(html, /Autonomous experimental behaviour/);
+  assert.match(html, /Baseline autonomous policy/);
+  assert.match(html, /Replay recorded experiment/);
 });
 
 test("measured result and explanation action coexist with real recorded comparison", () => {
@@ -113,7 +116,7 @@ test("live responses attribute design, interpretation and proposal separately fr
 test("hero starts with one recorded condition and requires explicit approval for stimulus changes", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} />);
   assert.match(html, /data-comparing="false"/);
-  assert.match(html, /One fly\. Two controlled runs\./);
+  assert.match(html, /See behavior\. Compare one intervention\./);
   assert.match(html, /STIMULUS STRENGTH/);
   assert.match(html, /id="stimulus-strength"[^>]*min="0"[^>]*max="1"[^>]*step="0.05"/);
   assert.match(html, /Compare runs/);

@@ -266,3 +266,14 @@ test("new investigation excludes prior telemetry and reconnect preserves its obs
   const replay = { ...old, receivedAt: new Date(now + 100).toISOString() };
   assert.equal(investigationWindow(snapshot(replay), [replay], rebound.observation).snapshot.evidence, null);
 });
+
+test("configured auto-connect opens the existing read-only protocol and no unconfigured stream is fabricated", () => {
+  let session = emptyLiveSession(), opens = 0;
+  const socket = new MockSubscription();
+  const connection = createLiveConnection(s => { session = receiveSnapshot(session, s); }, url => { opens++; assert.equal(url, "/api/sources/fruitfly"); return socket; });
+  connection.autoConnect(false); assert.equal(opens, 0); assert.equal(session.snapshot.state, "ERROR");
+  assert.match(session.snapshot.message, /No research\/brain-server endpoint is configured/); assert.equal(session.snapshot.evidence, null);
+  connection.autoConnect(true); connection.autoConnect(true); assert.equal(opens, 1); assert.equal(session.snapshot.state, "CONNECTING"); assert.equal(session.frames.length, 0);
+  socket.receive(snapshot(null, "CONNECTED")); assert.equal(sessionStatus(session.snapshot, now).label, "WAITING FOR DATA");
+  assert.equal(session.snapshot.evidence, null); connection.dispose();
+});

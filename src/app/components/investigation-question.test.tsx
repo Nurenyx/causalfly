@@ -26,7 +26,7 @@ test("one local investigation action confirms success and points to observation"
     assert.doesNotMatch(set, /<textarea/);
     assert.match(set, />Change question<\/button>/);
     assert.equal((set.match(/type="submit"/g) ?? []).length, 1);
-    assert.match(set, hasEvidence ? /Next: observe the received activity/ : /Next: connect FruitFly XR and start a simulation trial/);
+    assert.match(set, hasEvidence ? /Next: observe the received activity/ : /Next: wait for relevant simulation data/);
   }
   const edited = renderToStaticMarkup(<InvestigationQuestion {...props} question="Changed draft" setQuestion={question} />);
   assert.match(edited, /<button[^>]*type="submit">Set Investigation Question/);

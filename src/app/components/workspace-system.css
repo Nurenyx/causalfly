@@ -194,3 +194,61 @@
   .home-paths > button { padding: 22px; }
   .workspace-shell .scientific-disclaimer { padding-inline: 16px; }
 }
+
+/* Sprint 12A.2: organism first, scientific explanation below. */
+.workspace-shell .research-cockpit .embodied-stage {
+  display:grid; grid-template-columns:minmax(0,2.5fr) minmax(280px,1fr);
+  height:auto; min-height:0; align-items:start;
+}
+.workspace-shell .research-cockpit .embodied-world-column { grid-column:1; grid-row:1; height:auto; min-height:0; }
+.workspace-shell .research-cockpit .cockpit-scientist { grid-column:2; grid-row:1; height:auto; min-height:0; align-self:start; }
+.workspace-shell .research-cockpit .embodied-signals {
+  grid-column:1/-1; grid-row:2; height:auto; min-height:0; max-height:none;
+  border:0; border-top:1px solid #214354; padding:16px;
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;
+}
+.workspace-shell .research-cockpit .embodied-signals > .cockpit-region-title,
+.workspace-shell .research-cockpit .embodied-signals > .signal-title,
+.workspace-shell .research-cockpit .embodied-signals > .embodied-condition-switch { grid-column:1/-1; }
+.workspace-shell .research-cockpit .embodied-signals .embodied-preview { max-width:540px; grid-column:1/-1; justify-self:center; }
+.workspace-shell .research-cockpit .embodied-signals .network-figure { height:240px; flex:auto; }
+.workspace-shell .research-cockpit .embodied-signals .embodied-signal { min-height:0; }
+.autonomy-world { height:clamp(430px,32vw,610px); }
+.workspace-shell .research-cockpit .embodied-arena { height:clamp(430px,32vw,610px); }
+.autonomy-controls { align-items:flex-start; gap:8px 16px; }
+.autonomy-controls > strong { flex-basis:100%; letter-spacing:.7px; }
+.autonomy-control-group { display:flex; flex-wrap:wrap; gap:4px 12px; align-items:center; }
+.autonomy-control-group > span { flex-basis:100%; color:#91abba; font-size:10px; letter-spacing:.8px; }
+.autonomy-control-group button { padding:4px 0; }
+.autonomy-panel[data-mode="replay"] { border-top:3px solid #f1d47a; }
+.autonomy-panel[data-mode="replay"] .autonomy-controls > strong { color:#f1d47a; }
+.matched-disclosure { display:flex; flex-direction:column; gap:4px; padding:12px; font-size:12px; border-bottom:1px solid #315365; }
+.matched-disclosure strong { color:#f1d47a; }
+.matched-disclosure small { color:#9bb5c3; }
+.comparison-world-labels { position:absolute; inset:12px 12px auto; display:grid; grid-template-columns:1fr 1fr; gap:12px; pointer-events:none; }
+.comparison-world-labels span { justify-self:start; color:#29e7ff; background:#04101ad9; border-left:2px solid currentColor; padding:8px; font-size:13px; font-weight:600; }
+.comparison-world-labels span + span { color:#ff8aca; }
+.comparison-world-labels small { display:block; font-size:11px; font-weight:400; }
+.autonomy-world:has(.comparison-world-labels span) .world-reset-view { top:auto; bottom:10px; }
+.phenotype-summary { padding:14px 12px; border-block:1px solid #315365; background:#0a2230; }
+.phenotype-summary h3 { color:#f1d47a; font-size:15px; margin:0 0 12px; letter-spacing:.7px; }
+.phenotype-summary > div { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.phenotype-summary article { border-left:2px solid #29e7ff; padding-left:10px; }
+.phenotype-summary article[data-run="perturbed"] { border-color:#ff8aca; }
+.phenotype-summary article span { display:block; font-size:11px; color:#b8d0dd; }
+.phenotype-summary article strong { display:block; font-size:clamp(17px,1.5vw,24px); margin:6px 0; }
+.phenotype-summary p { margin:4px 0; font-size:13px; }
+.phenotype-summary small { display:block; margin-top:8px; color:#9bb5c3; }
+.autonomy-lineage { padding:8px 12px; color:#f1d47a; font-size:12px; }
+@media(max-width:1100px) {
+  .workspace-shell .research-cockpit .embodied-stage { grid-template-columns:minmax(0,1fr); }
+  .workspace-shell .research-cockpit .cockpit-scientist { grid-column:1; grid-row:2; }
+  .workspace-shell .research-cockpit .embodied-signals { grid-column:1; grid-row:3; }
+}
+@media(max-width:600px) {
+  .workspace-shell .research-cockpit .embodied-signals { grid-template-columns:minmax(0,1fr); }
+  .autonomy-world,.workspace-shell .research-cockpit .embodied-arena { height:390px; }
+  .comparison-world-labels { gap:6px; inset-inline:8px; }
+  .comparison-world-labels span { font-size:11px; padding:5px; }
+  .phenotype-summary > div { grid-template-columns:minmax(0,1fr); }
+}

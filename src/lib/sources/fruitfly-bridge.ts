@@ -46,7 +46,7 @@ export function connectFruitFly(publish: (snapshot: FruitFlySnapshot) => void, d
   try {
     const endpoint = configuredEndpoint(dependencies.endpoint ?? process.env.FRUITFLY_XR_OBSERVATORY_URL);
     socket = (dependencies.createSocket ?? ((url) => new WebSocket(url)))(endpoint);
-    handshakeTimer = setTimeout(() => stop("ERROR", "FruitFly XR did not complete its telemetry handshake. Check the server."), dependencies.handshakeTimeoutMs ?? 5000);
+    handshakeTimer = setTimeout(() => stop("ERROR", "Live connectome simulation did not complete its telemetry handshake. Check the server."), dependencies.handshakeTimeoutMs ?? 5000);
     socket.addEventListener("open", () => {
       if (finished) return;
       opened = true;
@@ -61,7 +61,7 @@ export function connectFruitFly(publish: (snapshot: FruitFlySnapshot) => void, d
         // A valid hello is the only accepted message that clears the handshake deadline.
         if ((message as { type: string }).type === "observatoryHello") {
           clearTimeout(handshakeTimer);
-          emit("CONNECTED", "Source verified; waiting for a FruitFly XR trial. No simulation frames received yet.");
+          emit("CONNECTED", "Source verified; waiting for a Live connectome simulation trial. No simulation frames received yet.");
         }
         if (evidence) {
           snapshot = { ...snapshot, evidence };
@@ -72,15 +72,15 @@ export function connectFruitFly(publish: (snapshot: FruitFlySnapshot) => void, d
           }, dependencies.staleAfterMs ?? 5000);
         }
       } catch {
-        stop("ERROR", "FruitFly XR telemetry was rejected. Check protocol version, source identity and required fields.");
+        stop("ERROR", "Live connectome simulation telemetry was rejected. Check protocol version, source identity and required fields.");
       }
     });
-    socket.addEventListener("error", () => stop("ERROR", "Unable to receive FruitFly XR telemetry. Check the server connection configuration."));
-    socket.addEventListener("close", () => stop("DISCONNECTED", "FruitFly XR connection closed. Any evidence shown is the last received snapshot."));
+    socket.addEventListener("error", () => stop("ERROR", "Unable to receive Live connectome simulation telemetry. Check the server connection configuration."));
+    socket.addEventListener("close", () => stop("DISCONNECTED", "Live connectome simulation connection closed. Any evidence shown is the last received snapshot."));
   } catch {
-    stop("ERROR", "FruitFly XR is unavailable. Configure the server-side research endpoint and check that its server is running.");
+    stop("ERROR", "Live connectome simulation is unavailable. Configure the server-side research endpoint and check that its server is running.");
   }
-  return () => stop("DISCONNECTED", "FruitFly XR disconnected. Any evidence shown is the last received snapshot.");
+  return () => stop("DISCONNECTED", "Live connectome simulation disconnected. Any evidence shown is the last received snapshot.");
 }
 
 export function fruitFlyStream(signal: AbortSignal, dependencies: BridgeDependencies = {}) {

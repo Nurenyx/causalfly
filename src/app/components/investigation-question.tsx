@@ -16,7 +16,7 @@ export function InvestigationQuestion({ question, setQuestion, hasEvidence, onCh
         <button className="primary-button" type="submit" disabled={!question.trim() || set}>{set ? "Question Set ✓" : "Set Investigation Question"}</button>
         {setQuestion !== undefined && <button className="text-button" type="button" onClick={() => { if (editing) onChange(setQuestion); setEditing(!editing); }}>{editing ? "Cancel editing" : "Change question"}</button>}
       </div>
-      <small id="investigation-feedback" role="status" aria-live="polite">{set ? hasEvidence ? "Question set. Next: observe the received activity, then review what happened." : "Question set. Next: connect FruitFly XR and start a simulation trial in its client." : setQuestion !== undefined ? "Draft changed. Set the question to update your investigation." : "Set a question to guide observation. Local action · no Meta request."}</small>
+      <small id="investigation-feedback" role="status" aria-live="polite">{set ? hasEvidence ? "Question set. Next: observe the received activity, then review what happened." : "Question set. Next: wait for relevant simulation data, then review what happened." : setQuestion !== undefined ? "Draft changed. Set the question to update your investigation." : "Set a question to guide observation. Local action · no Meta request."}</small>
     </form>
   </section>;
 }

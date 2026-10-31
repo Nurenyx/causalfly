@@ -1,0 +1,1601 @@
+{
+  "disclosure": "Real browser timing; all neural telemetry is explicitly offline mock. No live provider/SAM/brain transport.",
+  "checks": [
+    "Live opens one configured read-only auto-connection; Observe/Understand locked before question",
+    "Question retention unlocks Observe; earlier historical telemetry cannot unlock Understand",
+    "Relevant evidence unlocks Understand; mock decoder ESCAPE has aerial phenotype and procedural execution provenance",
+    "New retained question re-locks Understand despite retained prior evidence",
+    "Real browser exploration continues beyond 60 seconds with bounded checkpointed retention",
+    "Replay visibly advances exact retained trajectory, pauses/restarts, and leaves engine/evidence unchanged; Lightweight works",
+    "Bounded 60-second controlled trial ends visibly as Trial complete, with Replay/Evidence/Compare actions",
+    "Completed trial replay starts at recorded beginning; desktop/mobile details wrap without horizontal scrolling",
+    "Unconfigured source shows explicit connection error, opens no stream and fabricates no telemetry"
+  ],
+  "errors": [],
+  "blocked": [],
+  "downloads": 6,
+  "exploration": {
+    "schemaVersion": "causalfly-autonomy-recorder-v1",
+    "trust": "CLIENT_GENERATED_EXPERIMENTAL_CONTROLLER",
+    "conditions": [
+      {
+        "schemaVersion": "experimental-embodiment-v2",
+        "config": {
+          "mode": "exploration",
+          "seed": 12,
+          "source": "synthetic",
+          "silenced": false,
+          "arena": {
+            "radius": 2,
+            "bodyRadius": 0.48,
+            "obstacles": [
+              {
+                "x": 0.6,
+                "z": -0.7,
+                "radius": 0.24
+              }
+            ]
+          },
+          "initial": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          }
+        },
+        "timestep": 0.05,
+        "ticks": 1250,
+        "checkpoint": {
+          "tick": 1200,
+          "world": {
+            "x": 0.5723372632588097,
+            "z": 0.7421085727082453,
+            "heading": 2.543350015594647,
+            "speed": 0.4,
+            "altitude": 2.2472764006342904e-79,
+            "verticalSpeed": -7.931563766944554e-79,
+            "pitch": -3.2463722114281726e-141,
+            "roll": 1.2654713794633098e-141
+          },
+          "nodes": {
+            "stimulus": 0,
+            "primary_a": 0,
+            "primary_b": 0,
+            "alternate_a": 0,
+            "alternate_b": 0,
+            "alternate_c": 0,
+            "motor": 0
+          },
+          "previous": {
+            "tick": 1200,
+            "before": {
+              "x": 0.5836010870346549,
+              "z": 0.7255820402846935,
+              "heading": 2.5549974075507,
+              "speed": 0.4,
+              "altitude": 2.643854588981518e-79,
+              "verticalSpeed": -9.331251490523005e-79,
+              "pitch": -4.3284962819042297e-141,
+              "roll": 1.6872951726177463e-141
+            },
+            "after": {
+              "x": 0.5723372632588097,
+              "z": 0.7421085727082453,
+              "heading": 2.543350015594647,
+              "speed": 0.4,
+              "altitude": 2.2472764006342904e-79,
+              "verticalSpeed": -7.931563766944554e-79,
+              "pitch": -3.2463722114281726e-141,
+              "roll": 1.2654713794633098e-141
+            },
+            "sensors": {
+              "front": 0.9526253574112764,
+              "left": 0.6610851438543938,
+              "right": 1.5548837031442524,
+              "boundary": 0.5888396883609517,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "WALK",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "trigger": null,
+              "duration": 2.2
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": -0.11647391956052724,
+              "escapeDrive": 0,
+              "speedTarget": 0.4,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          "escape": null,
+          "recoveryTrigger": null,
+          "avoidTurn": null,
+          "decoderWasEscape": false
+        },
+        "droppedWallSeconds": 0.49969999992847447,
+        "retainedInputs": 50,
+        "retainedTrajectoryFrames": 50,
+        "inputSha256": "5635524dc1c0c10443fed0db1b1fb48dca5b401e72bf1c5966da45091851943f",
+        "trajectorySha256": "47a791ba8a40f27889258abe1f39cf0febc3fe2b09d064a53a7710e27f515357",
+        "maximumAltitude": 1.910184940539147e-79,
+        "maximumSpeed": 0.4,
+        "uniquePositions": 50,
+        "representativeFrames": [
+          {
+            "tick": 1201,
+            "before": {
+              "x": 0.5723372632588097,
+              "z": 0.7421085727082453,
+              "heading": 2.543350015594647,
+              "speed": 0.4,
+              "altitude": 2.2472764006342904e-79,
+              "verticalSpeed": -7.931563766944554e-79,
+              "pitch": -3.2463722114281726e-141,
+              "roll": 1.2654713794633098e-141
+            },
+            "after": {
+              "x": 0.5608711291243101,
+              "z": 0.7584953896050578,
+              "heading": 2.5310566565199117,
+              "speed": 0.4,
+              "altitude": 1.910184940539147e-79,
+              "verticalSpeed": -6.741829201902871e-79,
+              "pitch": -2.4347791585711294e-141,
+              "roll": 9.491035345974823e-142
+            },
+            "sensors": {
+              "front": 0.9406635869502419,
+              "left": 0.6526944498750958,
+              "right": 1.5431819477717488,
+              "boundary": 0.5828260158318238,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "WALK",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "trigger": null,
+              "duration": 2.25
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": -0.12293359074735559,
+              "escapeDrive": 0,
+              "speedTarget": 0.4,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 1250,
+            "before": {
+              "x": -0.2471934728030246,
+              "z": 1.2027036196720222,
+              "heading": 1.601660129109817,
+              "speed": 0.4,
+              "altitude": 7.81958763415395e-83,
+              "verticalSpeed": -2.759854459113159e-82,
+              "pitch": -2.4513211842058434e-147,
+              "roll": 9.555517970380576e-148
+            },
+            "after": {
+              "x": -0.26719134854452664,
+              "z": 1.2029951086554211,
+              "heading": 1.5853712919850582,
+              "speed": 0.4,
+              "altitude": 6.646649489030858e-83,
+              "verticalSpeed": -2.3458762902461848e-82,
+              "pitch": -1.8384908881543827e-147,
+              "roll": 7.166638477785433e-148
+            },
+            "sensors": {
+              "front": 0.655790600241456,
+              "left": 0.3561067806112067,
+              "right": 1.5210935192461688,
+              "boundary": 0.2921561134376227,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "WALK",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "trigger": null,
+              "duration": 0.2
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": -0.16288837124758657,
+              "escapeDrive": 0,
+              "speedTarget": 0.4,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          }
+        ],
+        "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. Exploration is continuous with checkpointed 60 s recording windows; controlled trials stop at 60 s. Takeoff/recovery is engineered, not wing/body biomechanics."
+      }
+    ],
+    "brainTransport": null
+  },
+  "matched": {
+    "schemaVersion": "causalfly-autonomy-recorder-v1",
+    "trust": "CLIENT_GENERATED_EXPERIMENTAL_CONTROLLER",
+    "conditions": [
+      {
+        "schemaVersion": "experimental-embodiment-v2",
+        "config": {
+          "mode": "trial",
+          "seed": 12,
+          "source": "synthetic",
+          "silenced": false,
+          "arena": {
+            "radius": 2,
+            "bodyRadius": 0.48,
+            "obstacles": [
+              {
+                "x": 0.6,
+                "z": -0.7,
+                "radius": 0.24
+              }
+            ]
+          },
+          "initial": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          }
+        },
+        "timestep": 0.05,
+        "ticks": 86,
+        "checkpoint": {
+          "tick": 0,
+          "world": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          },
+          "nodes": {},
+          "previous": null,
+          "escape": null,
+          "recoveryTrigger": null,
+          "avoidTurn": null,
+          "decoderWasEscape": false
+        },
+        "droppedWallSeconds": 0.011799999952316287,
+        "retainedInputs": 86,
+        "retainedTrajectoryFrames": 86,
+        "inputSha256": "f92821392be3174fe2465dd7daba399a47d0fc280bd882c1792600d10f4a7e3d",
+        "trajectorySha256": "8513e3cf333cd26dd8fb709abe8f64691aa284dc68e7c5fef976b9f643aa0f9b",
+        "maximumAltitude": 0.776775825,
+        "maximumSpeed": 1.25,
+        "uniquePositions": 83,
+        "representativeFrames": [
+          {
+            "tick": 1,
+            "before": {
+              "x": 0,
+              "z": 0.8,
+              "heading": 0,
+              "speed": 0
+            },
+            "after": {
+              "x": 0,
+              "z": 0.8,
+              "heading": -0.01180460419600957,
+              "speed": 0,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "sensors": {
+              "front": 1.1020050251573517,
+              "left": 2.0777000011078997,
+              "right": 0.9798392732337653,
+              "boundary": 0.72,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "IDLE",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Initial settling",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0,
+              "turnDrive": -0.11804604196009569,
+              "escapeDrive": 0,
+              "speedTarget": 0,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 69,
+            "before": {
+              "x": -0.2679081435423569,
+              "z": -0.4199677508863555,
+              "heading": 1.037619299578321,
+              "speed": 1.1600000000000001,
+              "altitude": 0.10000000000000002,
+              "verticalSpeed": 0.8,
+              "pitch": -0.19140625000000003,
+              "roll": 0.109375
+            },
+            "after": {
+              "x": -0.32463544071097206,
+              "z": -0.44620253230232376,
+              "heading": 1.1376192995783212,
+              "speed": 1.25,
+              "altitude": 0.15000000000000002,
+              "verticalSpeed": 1,
+              "pitch": -0.21355468750000003,
+              "roll": 0.12203125000000001
+            },
+            "sensors": {
+              "front": 1.0589997713790673,
+              "left": 1.2352451346269104,
+              "right": 1.0272987235201811,
+              "boundary": 1.0218557586794201,
+              "stimulusDistance": 1.5237688544386419,
+              "stimulusDirection": -1.2143573840897273,
+              "stimulusIntensity": 0.6562675153039541
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0.8742807570630866,
+              "decoder": "ESCAPE",
+              "reference": null
+            },
+            "decision": {
+              "state": "ESCAPE",
+              "source": "SYNTHETIC_NEURAL_MODEL",
+              "reason": "Finite engineered takeoff/recovery response to retained neural trigger; current available signal is recorded separately",
+              "trigger": {
+                "source": "SYNTHETIC_FIXTURE",
+                "activity": 0.7790913322132376,
+                "decoder": "ESCAPE",
+                "reference": null
+              },
+              "duration": 0.25
+            },
+            "motor": {
+              "forwardDrive": 1,
+              "turnDrive": 1,
+              "escapeDrive": 1,
+              "speedTarget": 1.25,
+              "trigger": {
+                "source": "SYNTHETIC_FIXTURE",
+                "activity": 0.7790913322132376,
+                "decoder": "ESCAPE",
+                "reference": null
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "TAKEOFF_ESCAPE",
+              "verticalTarget": 0.9,
+              "pitchTarget": -0.28,
+              "rollTarget": 0.16
+            },
+            "stimulus": {
+              "x": 0,
+              "z": -1.9200000000000002,
+              "radius": 0.22,
+              "intensity": 1
+            },
+            "collision": false
+          },
+          {
+            "tick": 81,
+            "before": {
+              "x": -0.9818005563734105,
+              "z": -0.36062703689047176,
+              "heading": 2.061108929193474,
+              "speed": 1.25,
+              "altitude": 0.755926275,
+              "verticalSpeed": 0.5084955,
+              "pitch": -0.2771936731878668,
+              "roll": 0.10805312426982372
+            },
+            "after": {
+              "x": -1.0299926339274121,
+              "z": -0.32926187052666817,
+              "heading": 2.1477594196637133,
+              "speed": 1.15,
+              "altitude": 0.7713510499999999,
+              "verticalSpeed": 0.3084955,
+              "pitch": -0.2078952548909001,
+              "roll": 0.08103984320236779
+            },
+            "sensors": {
+              "front": 0.6080146455354225,
+              "left": 1.0239650687242638,
+              "right": 0.48014256008588263,
+              "boundary": 0.47406300752313957,
+              "stimulusDistance": 1.5040289497081247,
+              "stimulusDirection": -2.772357799519294,
+              "stimulusIntensity": 0.6648808190786901
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 1,
+              "decoder": "ESCAPE",
+              "reference": null
+            },
+            "decision": {
+              "state": "TURN_LEFT",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Baseline exploration speed modulated by synthetic output",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "modulationSource": "SYNTHETIC_NEURAL_MODEL",
+              "forwardDrive": 0.5,
+              "turnDrive": 0.866504904702393,
+              "escapeDrive": 0,
+              "speedTarget": 0.55,
+              "trigger": {
+                "source": "SYNTHETIC_FIXTURE",
+                "activity": 0.7790913322132376,
+                "decoder": "ESCAPE",
+                "reference": null
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "RECOVERY",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": {
+              "x": 0,
+              "z": -1.5000000000000002,
+              "radius": 0.22,
+              "intensity": 1
+            },
+            "collision": false
+          },
+          {
+            "tick": 86,
+            "before": {
+              "x": -1.1602539826206932,
+              "z": -0.20564854175844624,
+              "heading": 2.359748554182745,
+              "speed": 0.7499999999999999,
+              "altitude": 0.7330501500000001,
+              "verticalSpeed": -0.49150450000000007,
+              "pitch": -0.06577935799282386,
+              "roll": 0.02564151288824918
+            },
+            "after": {
+              "x": -1.1845657808617391,
+              "z": -0.18408035995545985,
+              "heading": 2.2964657583488464,
+              "speed": 0.6499999999999999,
+              "altitude": 0.6984749250000001,
+              "verticalSpeed": -0.6915045000000001,
+              "pitch": -0.049334518494617896,
+              "roll": 0.019231134666186887
+            },
+            "sensors": {
+              "front": 0.5001486378865907,
+              "left": 1.0128714993474743,
+              "right": 0.3550939167076519,
+              "boundary": 0.34166192163939857,
+              "stimulusDistance": 1.6121839197978232,
+              "stimulusDirection": 3.1200977060378263,
+              "stimulusIntensity": 0.6202766245959118
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0.9673841432034624,
+              "decoder": "ESCAPE",
+              "reference": null
+            },
+            "decision": {
+              "state": "TURN_RIGHT",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Baseline exploration speed modulated by synthetic output",
+              "trigger": null,
+              "duration": 0.1
+            },
+            "motor": {
+              "modulationSource": "SYNTHETIC_NEURAL_MODEL",
+              "forwardDrive": 0.5,
+              "turnDrive": -0.6328279583389878,
+              "escapeDrive": 0,
+              "speedTarget": 0.5451076214805194,
+              "trigger": {
+                "source": "SYNTHETIC_FIXTURE",
+                "activity": 0.7790913322132376,
+                "decoder": "ESCAPE",
+                "reference": null
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "RECOVERY",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": {
+              "x": 0,
+              "z": -1.3250000000000002,
+              "radius": 0.22,
+              "intensity": 1
+            },
+            "collision": false
+          }
+        ],
+        "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. Exploration is continuous with checkpointed 60 s recording windows; controlled trials stop at 60 s. Takeoff/recovery is engineered, not wing/body biomechanics."
+      },
+      {
+        "schemaVersion": "experimental-embodiment-v2",
+        "config": {
+          "mode": "trial",
+          "seed": 12,
+          "source": "synthetic",
+          "silenced": true,
+          "arena": {
+            "radius": 2,
+            "bodyRadius": 0.48,
+            "obstacles": [
+              {
+                "x": 0.6,
+                "z": -0.7,
+                "radius": 0.24
+              }
+            ]
+          },
+          "initial": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          }
+        },
+        "timestep": 0.05,
+        "ticks": 86,
+        "checkpoint": {
+          "tick": 0,
+          "world": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          },
+          "nodes": {},
+          "previous": null,
+          "escape": null,
+          "recoveryTrigger": null,
+          "avoidTurn": null,
+          "decoderWasEscape": false
+        },
+        "droppedWallSeconds": 0.011799999952316287,
+        "retainedInputs": 86,
+        "retainedTrajectoryFrames": 86,
+        "inputSha256": "f92821392be3174fe2465dd7daba399a47d0fc280bd882c1792600d10f4a7e3d",
+        "trajectorySha256": "cbc0c9dfbffba2f008f1ebc303b4b6575ba1709c26c9792c4ce8158c3958b348",
+        "maximumAltitude": 0,
+        "maximumSpeed": 0.46986671812548725,
+        "uniquePositions": 83,
+        "representativeFrames": [
+          {
+            "tick": 1,
+            "before": {
+              "x": 0,
+              "z": 0.8,
+              "heading": 0,
+              "speed": 0
+            },
+            "after": {
+              "x": 0,
+              "z": 0.8,
+              "heading": -0.01180460419600957,
+              "speed": 0,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "sensors": {
+              "front": 1.1020050251573517,
+              "left": 2.0777000011078997,
+              "right": 0.9798392732337653,
+              "boundary": 0.72,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "IDLE",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Initial settling",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0,
+              "turnDrive": -0.11804604196009569,
+              "escapeDrive": 0,
+              "speedTarget": 0,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 86,
+            "before": {
+              "x": -0.5399296084635018,
+              "z": -0.48081610247159495,
+              "heading": 1.7655014447071258,
+              "speed": 0.4683114601996025,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "after": {
+              "x": -0.562585608907406,
+              "z": -0.4745997952164111,
+              "heading": 1.8385841430842584,
+              "speed": 0.46986671812548725,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "sensors": {
+              "front": 0.9698552712569011,
+              "left": 1.3381015624899326,
+              "right": 0.8111598883015794,
+              "boundary": 0.7970144493203715,
+              "stimulusDistance": 1.0020830479265677,
+              "stimulusDirection": -2.3345220624034315,
+              "stimulusIntensity": 0.9979212821423556
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0.4657781208365816,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "TURN_LEFT",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Baseline exploration speed modulated by synthetic output",
+              "trigger": null,
+              "duration": 2.1000000000000005
+            },
+            "motor": {
+              "modulationSource": "SYNTHETIC_NEURAL_MODEL",
+              "forwardDrive": 0.5,
+              "turnDrive": 0.7308269837713267,
+              "escapeDrive": 0,
+              "speedTarget": 0.46986671812548725,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": {
+              "x": 0,
+              "z": -1.3250000000000002,
+              "radius": 0.22,
+              "intensity": 1
+            },
+            "collision": false
+          }
+        ],
+        "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. Exploration is continuous with checkpointed 60 s recording windows; controlled trials stop at 60 s. Takeoff/recovery is engineered, not wing/body biomechanics."
+      }
+    ],
+    "brainTransport": null
+  },
+  "completed": {
+    "schemaVersion": "causalfly-autonomy-recorder-v1",
+    "trust": "CLIENT_GENERATED_EXPERIMENTAL_CONTROLLER",
+    "conditions": [
+      {
+        "schemaVersion": "experimental-embodiment-v2",
+        "config": {
+          "mode": "trial",
+          "seed": 12,
+          "source": "synthetic",
+          "silenced": false,
+          "arena": {
+            "radius": 2,
+            "bodyRadius": 0.48,
+            "obstacles": [
+              {
+                "x": 0.6,
+                "z": -0.7,
+                "radius": 0.24
+              }
+            ]
+          },
+          "initial": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          }
+        },
+        "timestep": 0.05,
+        "ticks": 1200,
+        "checkpoint": {
+          "tick": 0,
+          "world": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          },
+          "nodes": {},
+          "previous": null,
+          "escape": null,
+          "recoveryTrigger": null,
+          "avoidTurn": null,
+          "decoderWasEscape": false
+        },
+        "droppedWallSeconds": 0.011799999952316287,
+        "retainedInputs": 1200,
+        "retainedTrajectoryFrames": 1200,
+        "inputSha256": "7c1a6f9c074d941c779c3a042af7b0b8ba792299ebfb6d57496359458e94ca8e",
+        "trajectorySha256": "6f7aa8b032db5456ab53dace79ef1eaed80fcbe4a114876cfaa43e0ce3c18ec4",
+        "maximumAltitude": 0.776775825,
+        "maximumSpeed": 1.25,
+        "uniquePositions": 1197,
+        "representativeFrames": [
+          {
+            "tick": 1,
+            "before": {
+              "x": 0,
+              "z": 0.8,
+              "heading": 0,
+              "speed": 0
+            },
+            "after": {
+              "x": 0,
+              "z": 0.8,
+              "heading": -0.01180460419600957,
+              "speed": 0,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "sensors": {
+              "front": 1.1020050251573517,
+              "left": 2.0777000011078997,
+              "right": 0.9798392732337653,
+              "boundary": 0.72,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "IDLE",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Initial settling",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0,
+              "turnDrive": -0.11804604196009569,
+              "escapeDrive": 0,
+              "speedTarget": 0,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 69,
+            "before": {
+              "x": -0.2679081435423569,
+              "z": -0.4199677508863555,
+              "heading": 1.037619299578321,
+              "speed": 1.1600000000000001,
+              "altitude": 0.10000000000000002,
+              "verticalSpeed": 0.8,
+              "pitch": -0.19140625000000003,
+              "roll": 0.109375
+            },
+            "after": {
+              "x": -0.32463544071097206,
+              "z": -0.44620253230232376,
+              "heading": 1.1376192995783212,
+              "speed": 1.25,
+              "altitude": 0.15000000000000002,
+              "verticalSpeed": 1,
+              "pitch": -0.21355468750000003,
+              "roll": 0.12203125000000001
+            },
+            "sensors": {
+              "front": 1.0589997713790673,
+              "left": 1.2352451346269104,
+              "right": 1.0272987235201811,
+              "boundary": 1.0218557586794201,
+              "stimulusDistance": 1.5237688544386419,
+              "stimulusDirection": -1.2143573840897273,
+              "stimulusIntensity": 0.6562675153039541
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0.8742807570630866,
+              "decoder": "ESCAPE",
+              "reference": null
+            },
+            "decision": {
+              "state": "ESCAPE",
+              "source": "SYNTHETIC_NEURAL_MODEL",
+              "reason": "Finite engineered takeoff/recovery response to retained neural trigger; current available signal is recorded separately",
+              "trigger": {
+                "source": "SYNTHETIC_FIXTURE",
+                "activity": 0.7790913322132376,
+                "decoder": "ESCAPE",
+                "reference": null
+              },
+              "duration": 0.25
+            },
+            "motor": {
+              "forwardDrive": 1,
+              "turnDrive": 1,
+              "escapeDrive": 1,
+              "speedTarget": 1.25,
+              "trigger": {
+                "source": "SYNTHETIC_FIXTURE",
+                "activity": 0.7790913322132376,
+                "decoder": "ESCAPE",
+                "reference": null
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "TAKEOFF_ESCAPE",
+              "verticalTarget": 0.9,
+              "pitchTarget": -0.28,
+              "rollTarget": 0.16
+            },
+            "stimulus": {
+              "x": 0,
+              "z": -1.9200000000000002,
+              "radius": 0.22,
+              "intensity": 1
+            },
+            "collision": false
+          },
+          {
+            "tick": 81,
+            "before": {
+              "x": -0.9818005563734105,
+              "z": -0.36062703689047176,
+              "heading": 2.061108929193474,
+              "speed": 1.25,
+              "altitude": 0.755926275,
+              "verticalSpeed": 0.5084955,
+              "pitch": -0.2771936731878668,
+              "roll": 0.10805312426982372
+            },
+            "after": {
+              "x": -1.0299926339274121,
+              "z": -0.32926187052666817,
+              "heading": 2.1477594196637133,
+              "speed": 1.15,
+              "altitude": 0.7713510499999999,
+              "verticalSpeed": 0.3084955,
+              "pitch": -0.2078952548909001,
+              "roll": 0.08103984320236779
+            },
+            "sensors": {
+              "front": 0.6080146455354225,
+              "left": 1.0239650687242638,
+              "right": 0.48014256008588263,
+              "boundary": 0.47406300752313957,
+              "stimulusDistance": 1.5040289497081247,
+              "stimulusDirection": -2.772357799519294,
+              "stimulusIntensity": 0.6648808190786901
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 1,
+              "decoder": "ESCAPE",
+              "reference": null
+            },
+            "decision": {
+              "state": "TURN_LEFT",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Baseline exploration speed modulated by synthetic output",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "modulationSource": "SYNTHETIC_NEURAL_MODEL",
+              "forwardDrive": 0.5,
+              "turnDrive": 0.866504904702393,
+              "escapeDrive": 0,
+              "speedTarget": 0.55,
+              "trigger": {
+                "source": "SYNTHETIC_FIXTURE",
+                "activity": 0.7790913322132376,
+                "decoder": "ESCAPE",
+                "reference": null
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "RECOVERY",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": {
+              "x": 0,
+              "z": -1.5000000000000002,
+              "radius": 0.22,
+              "intensity": 1
+            },
+            "collision": false
+          },
+          {
+            "tick": 1200,
+            "before": {
+              "x": 0.5836010870346549,
+              "z": 0.7255820402846935,
+              "heading": 2.5549974075507,
+              "speed": 0.4,
+              "altitude": 2.643854588981518e-79,
+              "verticalSpeed": -9.331251490523005e-79,
+              "pitch": -4.3284962819042297e-141,
+              "roll": 1.6872951726177463e-141
+            },
+            "after": {
+              "x": 0.5723372632588097,
+              "z": 0.7421085727082453,
+              "heading": 2.543350015594647,
+              "speed": 0.4,
+              "altitude": 2.2472764006342904e-79,
+              "verticalSpeed": -7.931563766944554e-79,
+              "pitch": -3.2463722114281726e-141,
+              "roll": 1.2654713794633098e-141
+            },
+            "sensors": {
+              "front": 0.9526253574112764,
+              "left": 0.6610851438543938,
+              "right": 1.5548837031442524,
+              "boundary": 0.5888396883609517,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "WALK",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "trigger": null,
+              "duration": 2.2
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": -0.11647391956052724,
+              "escapeDrive": 0,
+              "speedTarget": 0.4,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          }
+        ],
+        "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. Exploration is continuous with checkpointed 60 s recording windows; controlled trials stop at 60 s. Takeoff/recovery is engineered, not wing/body biomechanics."
+      },
+      {
+        "schemaVersion": "experimental-embodiment-v2",
+        "config": {
+          "mode": "trial",
+          "seed": 12,
+          "source": "synthetic",
+          "silenced": true,
+          "arena": {
+            "radius": 2,
+            "bodyRadius": 0.48,
+            "obstacles": [
+              {
+                "x": 0.6,
+                "z": -0.7,
+                "radius": 0.24
+              }
+            ]
+          },
+          "initial": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          }
+        },
+        "timestep": 0.05,
+        "ticks": 1200,
+        "checkpoint": {
+          "tick": 0,
+          "world": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          },
+          "nodes": {},
+          "previous": null,
+          "escape": null,
+          "recoveryTrigger": null,
+          "avoidTurn": null,
+          "decoderWasEscape": false
+        },
+        "droppedWallSeconds": 0.011799999952316287,
+        "retainedInputs": 1200,
+        "retainedTrajectoryFrames": 1200,
+        "inputSha256": "7c1a6f9c074d941c779c3a042af7b0b8ba792299ebfb6d57496359458e94ca8e",
+        "trajectorySha256": "de4d5d621fd46561b66f5a1db179645f35d439b6bc1ca51ddec3ffbdb3417ee6",
+        "maximumAltitude": 0,
+        "maximumSpeed": 0.47500000000000003,
+        "uniquePositions": 1197,
+        "representativeFrames": [
+          {
+            "tick": 1,
+            "before": {
+              "x": 0,
+              "z": 0.8,
+              "heading": 0,
+              "speed": 0
+            },
+            "after": {
+              "x": 0,
+              "z": 0.8,
+              "heading": -0.01180460419600957,
+              "speed": 0,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "sensors": {
+              "front": 1.1020050251573517,
+              "left": 2.0777000011078997,
+              "right": 0.9798392732337653,
+              "boundary": 0.72,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "IDLE",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Initial settling",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0,
+              "turnDrive": -0.11804604196009569,
+              "escapeDrive": 0,
+              "speedTarget": 0,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 1200,
+            "before": {
+              "x": 0.48789748606492844,
+              "z": 0.3448805094691612,
+              "heading": 2.0538090718185193,
+              "speed": 0.4,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "after": {
+              "x": 0.47007850391127487,
+              "z": 0.353962572836468,
+              "heading": 2.0421616798624664,
+              "speed": 0.4,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "sensors": {
+              "front": 1.6957507515344734,
+              "left": 1.2961032001792585,
+              "right": 2.0362075060143003,
+              "boundary": 0.9225165084120022,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "SYNTHETIC_FIXTURE",
+              "activity": 0,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "WALK",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "trigger": null,
+              "duration": 2.2
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": -0.11647391956052724,
+              "escapeDrive": 0,
+              "speedTarget": 0.4,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          }
+        ],
+        "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. Exploration is continuous with checkpointed 60 s recording windows; controlled trials stop at 60 s. Takeoff/recovery is engineered, not wing/body biomechanics."
+      }
+    ],
+    "brainTransport": null
+  },
+  "neural": {
+    "schemaVersion": "causalfly-autonomy-recorder-v1",
+    "trust": "CLIENT_GENERATED_EXPERIMENTAL_CONTROLLER",
+    "conditions": [
+      {
+        "schemaVersion": "experimental-embodiment-v2",
+        "config": {
+          "mode": "exploration",
+          "seed": 12,
+          "source": "fruitfly",
+          "silenced": false,
+          "arena": {
+            "radius": 2,
+            "bodyRadius": 0.48,
+            "obstacles": [
+              {
+                "x": 0.6,
+                "z": -0.7,
+                "radius": 0.24
+              }
+            ]
+          },
+          "initial": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          }
+        },
+        "timestep": 0.05,
+        "ticks": 48,
+        "checkpoint": {
+          "tick": 0,
+          "world": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          },
+          "nodes": {},
+          "previous": null,
+          "escape": null,
+          "recoveryTrigger": null,
+          "avoidTurn": null,
+          "decoderWasEscape": false
+        },
+        "droppedWallSeconds": 0.4590000000000001,
+        "retainedInputs": 48,
+        "retainedTrajectoryFrames": 48,
+        "inputSha256": "058f1388cc75db3652037ef3a4f3c361ea8dff41b968169a6178195ed6b3c530",
+        "trajectorySha256": "90231834ff045c1c8cab7248d88a38bc8480fe994c678eee50e57db33b65527b",
+        "maximumAltitude": 0.731,
+        "maximumSpeed": 1.25,
+        "uniquePositions": 45,
+        "representativeFrames": [
+          {
+            "tick": 1,
+            "before": {
+              "x": 0,
+              "z": 0.8,
+              "heading": 0,
+              "speed": 0
+            },
+            "after": {
+              "x": 0,
+              "z": 0.8,
+              "heading": -0.01180460419600957,
+              "speed": 0,
+              "altitude": 0,
+              "verticalSpeed": 0,
+              "pitch": 0,
+              "roll": 0
+            },
+            "sensors": {
+              "front": 1.1020050251573517,
+              "left": 2.0777000011078997,
+              "right": 0.9798392732337653,
+              "boundary": 0.72,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "NONE",
+              "activity": null,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "IDLE",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Initial settling",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0,
+              "turnDrive": -0.11804604196009569,
+              "escapeDrive": 0,
+              "speedTarget": 0,
+              "trigger": null,
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "GROUNDED",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 34,
+            "before": {
+              "x": 0.032342262502938916,
+              "z": 0.19142959846236074,
+              "heading": 0.07338329019446205,
+              "speed": 1.1,
+              "altitude": 0.10000000000000002,
+              "verticalSpeed": 0.8,
+              "pitch": -0.19140625000000003,
+              "roll": 0.0328125
+            },
+            "after": {
+              "x": 0.02589231083533374,
+              "z": 0.1292633043514395,
+              "heading": 0.10338329019446203,
+              "speed": 1.25,
+              "altitude": 0.15000000000000002,
+              "verticalSpeed": 1,
+              "pitch": -0.21355468750000003,
+              "roll": 0.036609375
+            },
+            "sensors": {
+              "front": 0.5015445430089214,
+              "left": 1.681440267689219,
+              "right": 0.3368490901205783,
+              "boundary": 1.3258574927758744,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "FRUITFLY_XR",
+              "activity": null,
+              "decoder": "ESCAPE",
+              "reference": {
+                "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                "sequence": 3,
+                "inputSequence": 2,
+                "receivedAt": "2026-10-31T01:10:34.348Z",
+                "transport": "observatory/v1"
+              }
+            },
+            "decision": {
+              "state": "ESCAPE",
+              "source": "FRUITFLY_DECODER",
+              "reason": "Finite engineered takeoff/recovery response to retained neural trigger; current available signal is recorded separately",
+              "trigger": {
+                "source": "FRUITFLY_XR",
+                "activity": null,
+                "decoder": "ESCAPE",
+                "reference": {
+                  "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                  "sequence": 3,
+                  "inputSequence": 2,
+                  "receivedAt": "2026-10-31T01:10:34.348Z",
+                  "transport": "observatory/v1"
+                }
+              },
+              "duration": 0.25
+            },
+            "motor": {
+              "forwardDrive": 1,
+              "turnDrive": 0.3,
+              "escapeDrive": 1,
+              "speedTarget": 1.25,
+              "trigger": {
+                "source": "FRUITFLY_XR",
+                "activity": null,
+                "decoder": "ESCAPE",
+                "reference": {
+                  "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                  "sequence": 3,
+                  "inputSequence": 2,
+                  "receivedAt": "2026-10-31T01:10:34.348Z",
+                  "transport": "observatory/v1"
+                }
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "TAKEOFF_ESCAPE",
+              "verticalTarget": 0.9,
+              "pitchTarget": -0.28,
+              "rollTarget": 0.048
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 43,
+            "before": {
+              "x": -0.12004010632528926,
+              "z": -0.3418933127105444,
+              "heading": 0.4133832901944621,
+              "speed": 1.25,
+              "altitude": 0.6654000000000001,
+              "verticalSpeed": 0.8279999999999997,
+              "pitch": -0.27334796607494355,
+              "roll": 0.051843049764633185
+            },
+            "after": {
+              "x": -0.14404498109248232,
+              "z": -0.39414286761210676,
+              "heading": 0.4306660019662778,
+              "speed": 1.15,
+              "altitude": 0.6968000000000001,
+              "verticalSpeed": 0.6279999999999997,
+              "pitch": -0.20501097455620765,
+              "roll": 0.03888228732347489
+            },
+            "sensors": {
+              "front": 1.158436878075687,
+              "left": 1.2298074884718135,
+              "right": 0.14421742645991814,
+              "boundary": 1.1576456645729531,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "NONE",
+              "activity": null,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "WALK",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "trigger": null,
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": 0.17282711771815665,
+              "escapeDrive": 0,
+              "speedTarget": 0.4,
+              "trigger": {
+                "source": "FRUITFLY_XR",
+                "activity": null,
+                "decoder": "ESCAPE",
+                "reference": {
+                  "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                  "sequence": 3,
+                  "inputSequence": 2,
+                  "receivedAt": "2026-10-31T01:10:34.348Z",
+                  "transport": "observatory/v1"
+                }
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "RECOVERY",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 48,
+            "before": {
+              "x": -0.22611379296852788,
+              "z": -0.5543019522360706,
+              "heading": 0.5042344160370572,
+              "speed": 0.7499999999999999,
+              "altitude": 0.7223999999999999,
+              "verticalSpeed": -0.17200000000000037,
+              "pitch": -0.06486675366817507,
+              "roll": 0.012302598723443227
+            },
+            "after": {
+              "x": -0.2423644820230681,
+              "z": -0.5824473800219943,
+              "heading": 0.5236232573605074,
+              "speed": 0.6499999999999999,
+              "altitude": 0.7037999999999999,
+              "verticalSpeed": -0.3720000000000004,
+              "pitch": -0.0486500652511313,
+              "roll": 0.00922694904258242
+            },
+            "sensors": {
+              "front": 0.9238349828026794,
+              "left": 1.031074468075782,
+              "right": 0.9736626056716672,
+              "boundary": 0.9213531077309985,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "NONE",
+              "activity": null,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "TURN_LEFT",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "trigger": null,
+              "duration": 0.2
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": 0.1938884132345004,
+              "escapeDrive": 0,
+              "speedTarget": 0.4,
+              "trigger": {
+                "source": "FRUITFLY_XR",
+                "activity": null,
+                "decoder": "ESCAPE",
+                "reference": {
+                  "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                  "sequence": 3,
+                  "inputSequence": 2,
+                  "receivedAt": "2026-10-31T01:10:34.348Z",
+                  "transport": "observatory/v1"
+                }
+              },
+              "execution": "CAUSALFLY_PROCEDURAL_CONTROLLER",
+              "phase": "RECOVERY",
+              "verticalTarget": 0,
+              "pitchTarget": 0,
+              "rollTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          }
+        ],
+        "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. Exploration is continuous with checkpointed 60 s recording windows; controlled trials stop at 60 s. Takeoff/recovery is engineered, not wing/body biomechanics."
+      }
+    ],
+    "brainTransport": null
+  },
+  "artifactScope": "Compact engineering review summary with hashes and representative frames. Full checkpoint/input/trajectory evidence remains available through the UI export; this summary alone is not a complete replay file."
+}

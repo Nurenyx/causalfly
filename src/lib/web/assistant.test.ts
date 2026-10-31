@@ -62,7 +62,7 @@ test("observational questions refuse causal claims and empty evidence stays empt
   const empty = captureAssistantQuestion(question, disconnectedFruitFly(), [], 0);
   assert.equal(empty.answer.evidenceWindow, null);
   assert.equal(observationalRequestKey(question, empty.snapshot, empty.frames), undefined);
-  for (const guard of [/Observational only/, /simulated neural dynamics/, /published connectome structure/, /not living-fly recordings/, /does not currently send interventions/, /does not prove physical movement or successful escape/]) assert.match(observationalBoundary, guard);
+  for (const guard of [/Observational only/, /simulated neural dynamics/, /published connectome structure/, /not living-fly recordings/, /does not currently send neural perturbations/, /does not prove physical movement or successful escape/]) assert.match(observationalBoundary, guard);
 });
 
 test("exact successful window/question is reused; edits and new windows require explicit new requests", async () => {

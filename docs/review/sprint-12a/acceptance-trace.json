@@ -1,0 +1,2656 @@
+{
+  "mockDisclosure": "FruitFly fixture refreshed only for offline acceptance; not a live source or retained neural evidence.",
+  "checks": [
+    "A/B autonomous exploration and continuous movement without motor input",
+    "D/E same seeded moving stimulus: control ESCAPE, synthetic silence suppresses ESCAPE and alters movement",
+    "C constraints select AVOID with changed heading; Lightweight render works",
+    "G pause freezes simulation, resume advances, reset clears ledger and canonical start",
+    "F/H offline mock observatory ESCAPE drives motor state with exact source/session/sequence lineage",
+    "Disconnect removes neural control; no synthetic signal substituted"
+  ],
+  "errors": [],
+  "blockedRequests": [],
+  "control": {
+    "schemaVersion": "experimental-embodiment-v1",
+    "config": {
+      "seed": 12,
+      "source": "synthetic",
+      "silenced": false,
+      "arena": {
+        "radius": 2,
+        "bodyRadius": 0.48,
+        "obstacles": [
+          {
+            "x": 0.6,
+            "z": -0.7,
+            "radius": 0.24
+          }
+        ]
+      },
+      "initial": {
+        "x": 0,
+        "z": 0.8,
+        "heading": 0,
+        "speed": 0
+      }
+    },
+    "timestep": 0.05,
+    "network": {
+      "id": "synthetic-two-pathway-v1",
+      "provenance": {
+        "kind": "synthetic-fixture",
+        "description": "Hand-authored engineering demonstration network; not a biological model or connectome dataset."
+      },
+      "nodes": [
+        {
+          "id": "stimulus"
+        },
+        {
+          "id": "primary_a"
+        },
+        {
+          "id": "primary_b"
+        },
+        {
+          "id": "alternate_a"
+        },
+        {
+          "id": "alternate_b"
+        },
+        {
+          "id": "alternate_c"
+        },
+        {
+          "id": "motor"
+        }
+      ],
+      "edges": [
+        {
+          "from": "stimulus",
+          "to": "primary_a",
+          "weight": 1
+        },
+        {
+          "from": "primary_a",
+          "to": "primary_b",
+          "weight": 1
+        },
+        {
+          "from": "primary_b",
+          "to": "motor",
+          "weight": 1
+        },
+        {
+          "from": "stimulus",
+          "to": "alternate_a",
+          "weight": 0.5
+        },
+        {
+          "from": "alternate_a",
+          "to": "alternate_b",
+          "weight": 1
+        },
+        {
+          "from": "alternate_b",
+          "to": "alternate_c",
+          "weight": 1
+        },
+        {
+          "from": "alternate_c",
+          "to": "motor",
+          "weight": 1
+        }
+      ],
+      "inputNodeId": "stimulus",
+      "outputNodeId": "motor"
+    },
+    "syntheticThreshold": 0.75,
+    "inputs": [
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.2,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.165,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.1300000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.095,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.06,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.0250000000000004,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.9900000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.955,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.9200000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.8850000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.85,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.8150000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.7800000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.745,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.7100000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.6750000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.6400000000000001,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.6050000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.5700000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.5350000000000001,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.5000000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.4650000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.4300000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.395,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      }
+    ],
+    "samples": [
+      {
+        "tick": 1,
+        "before": {
+          "x": 0,
+          "z": 0.8,
+          "heading": 0,
+          "speed": 0
+        },
+        "after": {
+          "x": 0,
+          "z": 0.8,
+          "heading": -0.01180460419600957,
+          "speed": 0
+        },
+        "sensors": {
+          "front": 1.1020050251573517,
+          "left": 2.0777000011078997,
+          "right": 0.9798392732337653,
+          "boundary": 0.72,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "IDLE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Initial settling",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0,
+          "turnDrive": -0.11804604196009569,
+          "escapeDrive": 0,
+          "speedTarget": 0
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 5,
+        "before": {
+          "x": 0,
+          "z": 0.8,
+          "heading": -0.04322343287251078,
+          "speed": 0
+        },
+        "after": {
+          "x": 0.00015689424954957976,
+          "z": 0.7970041054433679,
+          "heading": -0.052321952562817436,
+          "speed": 0.06
+        },
+        "sensors": {
+          "front": 1.0422631572812062,
+          "left": 2.1071239037986014,
+          "right": 1.0162602749715521,
+          "boundary": 0.72,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "EXPLORE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": -0.0909851969030666,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 10,
+        "before": {
+          "x": 0.0032611176722205874,
+          "z": 0.7551200920565989,
+          "heading": -0.08155270916427701,
+          "speed": 0.3
+        },
+        "after": {
+          "x": 0.0048255877521290085,
+          "z": 0.7371882089048195,
+          "heading": -0.08702480726238579,
+          "speed": 0.36
+        },
+        "sensors": {
+          "front": 0.958880505519108,
+          "left": 2.1035196818740007,
+          "right": 0.9919432603738387,
+          "boundary": 0.7648728661238305,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "EXPLORE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": -0.054720980981087824,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 20,
+        "before": {
+          "x": 0.022883078768389267,
+          "z": 0.5580977190137117,
+          "heading": -0.10206988264819587,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.02487782777695642,
+          "z": 0.5381974432268585,
+          "heading": -0.09990355240949135,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.7450633204810719,
+          "left": 1.98392694823773,
+          "right": 0.7415796752310745,
+          "boundary": 0.9614333528913239,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "EXPLORE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.021663302387045228,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 25,
+        "before": {
+          "x": 0.0321220976469676,
+          "z": 0.4585271136359358,
+          "heading": -0.08363104333837386,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.033674256039846535,
+          "z": 0.4385874344929953,
+          "heading": -0.07768603683111346,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.6557198452397232,
+          "left": 1.9083174920195805,
+          "right": 0.6137224155186493,
+          "boundary": 1.0603491073689253,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "WALK",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.05945006507260408,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 30,
+        "before": {
+          "x": 0.0384047197910316,
+          "z": 0.35873073012153217,
+          "heading": -0.04661670980553794,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.03914604250926189,
+          "z": 0.33874447382808304,
+          "heading": -0.037074628680918764,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.5771782102555488,
+          "left": 1.8274231250132273,
+          "right": 0.4966626739846389,
+          "boundary": 1.1592193751935185,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "WALK",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.09542081124619174,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 40,
+        "before": {
+          "x": 0.03505486555167854,
+          "z": 0.15889466926042176,
+          "heading": 0.07808285849678545,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.033180745771378084,
+          "z": 0.13898267099181277,
+          "heading": 0.09384366952256745,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.46404050556684906,
+          "left": 1.6598500490336128,
+          "right": 0.30805997546266517,
+          "boundary": 1.3572844214027893,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "WALK",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.15760811025782004,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 45,
+        "before": {
+          "x": 0.022351555761667967,
+          "z": 0.05973406946472577,
+          "heading": 0.16195890525619874,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.018767985088104306,
+          "z": 0.04005773796651263,
+          "heading": 0.18015140850737255,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.45989921291349023,
+          "left": 1.5770635373455846,
+          "right": 0.23855117905732626,
+          "boundary": 1.4562210763670032,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.181925032511738,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 50,
+        "before": {
+          "x": 0.0007167229346918963,
+          "z": -0.037859827838798356,
+          "heading": 0.2569084291882286,
+          "speed": 0.4
+        },
+        "after": {
+          "x": -0.004752257528606883,
+          "z": -0.057097557764443335,
+          "heading": 0.2769768996835369,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 1.4835298526540248,
+          "left": 1.4969346481850758,
+          "right": 0.1866435488974365,
+          "boundary": 1.4821333886418582,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.20068470495308272,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 60,
+        "before": {
+          "x": -0.07174089359563261,
+          "z": -0.22387277780229975,
+          "heading": 0.4681765838197086,
+          "speed": 0.4
+        },
+        "after": {
+          "x": -0.0811555168900806,
+          "z": -0.24151831174785202,
+          "heading": 0.4901193199376773,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 1.2873933177941232,
+          "left": 1.3480468527461056,
+          "right": 0.15584849300672632,
+          "boundary": 1.284913257594526,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.2194273611796863,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 64,
+        "before": {
+          "x": -0.1131178641176276,
+          "z": -0.29226422128642127,
+          "heading": 0.599125123391309,
+          "speed": 0.4
+        },
+        "after": {
+          "x": -0.12680940074259112,
+          "z": -0.31074507150623754,
+          "heading": 0.6376192995783213,
+          "speed": 0.46
+        },
+        "sensors": {
+          "front": 1.2131724216253144,
+          "left": 1.3009747227083994,
+          "right": 0.24276814075668782,
+          "boundary": 1.2066088287352494,
+          "stimulusDistance": 1.8062812458298372,
+          "stimulusDirection": -0.6617908537900881,
+          "stimulusIntensity": 0.5536236410075678
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0.5101618039944803,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "SYNTHETIC_NEURAL_MODEL",
+          "reason": "Baseline exploration speed modulated by synthetic output",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.384941761870123,
+          "escapeDrive": 0,
+          "speedTarget": 0.4765242705991721
+        },
+        "stimulus": {
+          "x": 0,
+          "z": -2.095,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "collision": false
+      },
+      {
+        "tick": 65,
+        "before": {
+          "x": -0.12680940074259112,
+          "z": -0.31074507150623754,
+          "heading": 0.6376192995783213,
+          "speed": 0.46
+        },
+        "after": {
+          "x": -0.1437298113426705,
+          "z": -0.3304858846892025,
+          "heading": 0.708617908218539,
+          "speed": 0.52
+        },
+        "sensors": {
+          "front": 1.1925513263387304,
+          "left": 1.288501711980312,
+          "right": 1.2052236159210272,
+          "boundary": 1.184376515151112,
+          "stimulusDistance": 1.7538453264117713,
+          "stimulusDirection": -0.7099860864021769,
+          "stimulusIntensity": 0.5701757075955614
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0.7790913322132376,
+          "decoder": "ESCAPE",
+          "reference": null
+        },
+        "decision": {
+          "state": "ESCAPE",
+          "source": "SYNTHETIC_NEURAL_MODEL",
+          "reason": "Available decoder output crossed escape criterion",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 1,
+          "turnDrive": 0.7099860864021769,
+          "escapeDrive": 1,
+          "speedTarget": 1.25
+        },
+        "stimulus": {
+          "x": 0,
+          "z": -2.06,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "collision": false
+      },
+      {
+        "tick": 70,
+        "before": {
+          "x": -0.2513265794619071,
+          "z": -0.4090487019171404,
+          "heading": 1.0762696983494233,
+          "speed": 0.7600000000000002
+        },
+        "after": {
+          "x": -0.289176902807862,
+          "z": -0.42480792215821395,
+          "heading": 1.1762696983494234,
+          "speed": 0.8200000000000003
+        },
+        "sensors": {
+          "front": 1.0854548577566956,
+          "left": 1.269047325861793,
+          "right": 1.0424644121081343,
+          "boundary": 1.0399105394990222,
+          "stimulusDistance": 1.4971964747007993,
+          "stimulusDirection": -1.2449330267029461,
+          "stimulusIntensity": 0.6679150110875333
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0.9010779230145236,
+          "decoder": "ESCAPE",
+          "reference": null
+        },
+        "decision": {
+          "state": "ESCAPE",
+          "source": "SYNTHETIC_NEURAL_MODEL",
+          "reason": "Available decoder output crossed escape criterion",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 1,
+          "turnDrive": 1,
+          "escapeDrive": 1,
+          "speedTarget": 1.25
+        },
+        "stimulus": {
+          "x": 0,
+          "z": -1.8850000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "collision": false
+      },
+      {
+        "tick": 80,
+        "before": {
+          "x": -0.7648655016817477,
+          "z": -0.3595981991983585,
+          "heading": 2.076269698349424,
+          "speed": 1.25
+        },
+        "after": {
+          "x": -0.8162550497880507,
+          "z": -0.3240262390973187,
+          "heading": 2.176269698349424,
+          "speed": 1.25
+        },
+        "sensors": {
+          "front": 0.8618121806515593,
+          "left": 1.283936777510158,
+          "right": 0.6913301880641756,
+          "boundary": 0.6748194864234186,
+          "stimulusDistance": 1.4023511076013075,
+          "stimulusDirection": -2.6531557100935115,
+          "stimulusIntensity": 0.713088180684279
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 1,
+          "decoder": "ESCAPE",
+          "reference": null
+        },
+        "decision": {
+          "state": "ESCAPE",
+          "source": "SYNTHETIC_NEURAL_MODEL",
+          "reason": "Available decoder output crossed escape criterion",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 1,
+          "turnDrive": 1,
+          "escapeDrive": 1,
+          "speedTarget": 1.25
+        },
+        "stimulus": {
+          "x": 0,
+          "z": -1.5350000000000001,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "collision": false
+      }
+    ],
+    "ticks": 84,
+    "droppedWallSeconds": 0.014200000047683736,
+    "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. 60 s bounded session; reset to start again."
+  },
+  "intervention": {
+    "schemaVersion": "experimental-embodiment-v1",
+    "config": {
+      "seed": 12,
+      "source": "synthetic",
+      "silenced": true,
+      "arena": {
+        "radius": 2,
+        "bodyRadius": 0.48,
+        "obstacles": [
+          {
+            "x": 0.6,
+            "z": -0.7,
+            "radius": 0.24
+          }
+        ]
+      },
+      "initial": {
+        "x": 0,
+        "z": 0.8,
+        "heading": 0,
+        "speed": 0
+      }
+    },
+    "timestep": 0.05,
+    "network": {
+      "id": "synthetic-two-pathway-v1",
+      "provenance": {
+        "kind": "synthetic-fixture",
+        "description": "Hand-authored engineering demonstration network; not a biological model or connectome dataset."
+      },
+      "nodes": [
+        {
+          "id": "stimulus"
+        },
+        {
+          "id": "primary_a"
+        },
+        {
+          "id": "primary_b"
+        },
+        {
+          "id": "alternate_a"
+        },
+        {
+          "id": "alternate_b"
+        },
+        {
+          "id": "alternate_c"
+        },
+        {
+          "id": "motor"
+        }
+      ],
+      "edges": [
+        {
+          "from": "stimulus",
+          "to": "primary_a",
+          "weight": 1
+        },
+        {
+          "from": "primary_a",
+          "to": "primary_b",
+          "weight": 1
+        },
+        {
+          "from": "primary_b",
+          "to": "motor",
+          "weight": 1
+        },
+        {
+          "from": "stimulus",
+          "to": "alternate_a",
+          "weight": 0.5
+        },
+        {
+          "from": "alternate_a",
+          "to": "alternate_b",
+          "weight": 1
+        },
+        {
+          "from": "alternate_b",
+          "to": "alternate_c",
+          "weight": 1
+        },
+        {
+          "from": "alternate_c",
+          "to": "motor",
+          "weight": 1
+        }
+      ],
+      "inputNodeId": "stimulus",
+      "outputNodeId": "motor"
+    },
+    "syntheticThreshold": 0.75,
+    "inputs": [
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": null,
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.2,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.165,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.1300000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.095,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.06,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -2.0250000000000004,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.9900000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.955,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.9200000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.8850000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.85,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.8150000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.7800000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.745,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.7100000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.6750000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.6400000000000001,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.6050000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.5700000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.5350000000000001,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.5000000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.4650000000000003,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.4300000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      },
+      {
+        "stimulus": {
+          "x": 0,
+          "z": -1.395,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "neural": null
+      }
+    ],
+    "samples": [
+      {
+        "tick": 1,
+        "before": {
+          "x": 0,
+          "z": 0.8,
+          "heading": 0,
+          "speed": 0
+        },
+        "after": {
+          "x": 0,
+          "z": 0.8,
+          "heading": -0.01180460419600957,
+          "speed": 0
+        },
+        "sensors": {
+          "front": 1.1020050251573517,
+          "left": 2.0777000011078997,
+          "right": 0.9798392732337653,
+          "boundary": 0.72,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "IDLE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Initial settling",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0,
+          "turnDrive": -0.11804604196009569,
+          "escapeDrive": 0,
+          "speedTarget": 0
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 5,
+        "before": {
+          "x": 0,
+          "z": 0.8,
+          "heading": -0.04322343287251078,
+          "speed": 0
+        },
+        "after": {
+          "x": 0.00015689424954957976,
+          "z": 0.7970041054433679,
+          "heading": -0.052321952562817436,
+          "speed": 0.06
+        },
+        "sensors": {
+          "front": 1.0422631572812062,
+          "left": 2.1071239037986014,
+          "right": 1.0162602749715521,
+          "boundary": 0.72,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "EXPLORE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": -0.0909851969030666,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 10,
+        "before": {
+          "x": 0.0032611176722205874,
+          "z": 0.7551200920565989,
+          "heading": -0.08155270916427701,
+          "speed": 0.3
+        },
+        "after": {
+          "x": 0.0048255877521290085,
+          "z": 0.7371882089048195,
+          "heading": -0.08702480726238579,
+          "speed": 0.36
+        },
+        "sensors": {
+          "front": 0.958880505519108,
+          "left": 2.1035196818740007,
+          "right": 0.9919432603738387,
+          "boundary": 0.7648728661238305,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "EXPLORE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": -0.054720980981087824,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 20,
+        "before": {
+          "x": 0.022883078768389267,
+          "z": 0.5580977190137117,
+          "heading": -0.10206988264819587,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.02487782777695642,
+          "z": 0.5381974432268585,
+          "heading": -0.09990355240949135,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.7450633204810719,
+          "left": 1.98392694823773,
+          "right": 0.7415796752310745,
+          "boundary": 0.9614333528913239,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "EXPLORE",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.021663302387045228,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 25,
+        "before": {
+          "x": 0.0321220976469676,
+          "z": 0.4585271136359358,
+          "heading": -0.08363104333837386,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.033674256039846535,
+          "z": 0.4385874344929953,
+          "heading": -0.07768603683111346,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.6557198452397232,
+          "left": 1.9083174920195805,
+          "right": 0.6137224155186493,
+          "boundary": 1.0603491073689253,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "WALK",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.05945006507260408,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 30,
+        "before": {
+          "x": 0.0384047197910316,
+          "z": 0.35873073012153217,
+          "heading": -0.04661670980553794,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.03914604250926189,
+          "z": 0.33874447382808304,
+          "heading": -0.037074628680918764,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.5771782102555488,
+          "left": 1.8274231250132273,
+          "right": 0.4966626739846389,
+          "boundary": 1.1592193751935185,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "WALK",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.09542081124619174,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 40,
+        "before": {
+          "x": 0.03505486555167854,
+          "z": 0.15889466926042176,
+          "heading": 0.07808285849678545,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.033180745771378084,
+          "z": 0.13898267099181277,
+          "heading": 0.09384366952256745,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.46404050556684906,
+          "left": 1.6598500490336128,
+          "right": 0.30805997546266517,
+          "boundary": 1.3572844214027893,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "WALK",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.15760811025782004,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 45,
+        "before": {
+          "x": 0.022351555761667967,
+          "z": 0.05973406946472577,
+          "heading": 0.16195890525619874,
+          "speed": 0.4
+        },
+        "after": {
+          "x": 0.018767985088104306,
+          "z": 0.04005773796651263,
+          "heading": 0.18015140850737255,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 0.45989921291349023,
+          "left": 1.5770635373455846,
+          "right": 0.23855117905732626,
+          "boundary": 1.4562210763670032,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.181925032511738,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 50,
+        "before": {
+          "x": 0.0007167229346918963,
+          "z": -0.037859827838798356,
+          "heading": 0.2569084291882286,
+          "speed": 0.4
+        },
+        "after": {
+          "x": -0.004752257528606883,
+          "z": -0.057097557764443335,
+          "heading": 0.2769768996835369,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 1.4835298526540248,
+          "left": 1.4969346481850758,
+          "right": 0.1866435488974365,
+          "boundary": 1.4821333886418582,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.20068470495308272,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 60,
+        "before": {
+          "x": -0.07174089359563261,
+          "z": -0.22387277780229975,
+          "heading": 0.4681765838197086,
+          "speed": 0.4
+        },
+        "after": {
+          "x": -0.0811555168900806,
+          "z": -0.24151831174785202,
+          "heading": 0.4901193199376773,
+          "speed": 0.4
+        },
+        "sensors": {
+          "front": 1.2873933177941232,
+          "left": 1.3480468527461056,
+          "right": 0.15584849300672632,
+          "boundary": 1.284913257594526,
+          "stimulusDistance": null,
+          "stimulusDirection": 0,
+          "stimulusIntensity": 0
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "BASELINE_AUTONOMOUS_POLICY",
+          "reason": "Seeded exploration with geometric steering",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.2194273611796863,
+          "escapeDrive": 0,
+          "speedTarget": 0.4
+        },
+        "stimulus": null,
+        "collision": false
+      },
+      {
+        "tick": 65,
+        "before": {
+          "x": -0.125023548139335,
+          "z": -0.30833452582539195,
+          "heading": 0.6376192995783213,
+          "speed": 0.4
+        },
+        "after": {
+          "x": -0.13875501870803392,
+          "z": -0.3254117318062993,
+          "heading": 0.6772248952795773,
+          "speed": 0.438262135299586
+        },
+        "sensors": {
+          "front": 1.1955513263387303,
+          "left": 1.291207700690757,
+          "right": 1.207767401340325,
+          "boundary": 1.1872823007333124,
+          "stimulusDistance": 1.756121527971428,
+          "stimulusDirection": -0.7088725700360221,
+          "stimulusIntensity": 0.569436672845269
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0.25508090199724015,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "SYNTHETIC_NEURAL_MODEL",
+          "reason": "Baseline exploration speed modulated by synthetic output",
+          "duration": 0.05
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.39605595701256036,
+          "escapeDrive": 0,
+          "speedTarget": 0.438262135299586
+        },
+        "stimulus": {
+          "x": 0,
+          "z": -2.06,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "collision": false
+      },
+      {
+        "tick": 70,
+        "before": {
+          "x": -0.200849911584308,
+          "z": -0.387898780832942,
+          "heading": 0.8474686551494047,
+          "speed": 0.44270775046339517
+        },
+        "after": {
+          "x": -0.2181440739286501,
+          "z": -0.40181682668370516,
+          "heading": 0.8931457884354538,
+          "speed": 0.4439820048138911
+        },
+        "sensors": {
+          "front": 1.104481238520733,
+          "left": 1.2450119154328185,
+          "right": 1.0954237542878003,
+          "boundary": 1.0831863656487963,
+          "stimulusDistance": 1.5105140672681325,
+          "stimulusDirection": -0.9808315468998654,
+          "stimulusIntensity": 0.6620262741468989
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0.29321336542594073,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "SYNTHETIC_NEURAL_MODEL",
+          "reason": "Baseline exploration speed modulated by synthetic output",
+          "duration": 0.3
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.45677133286049076,
+          "escapeDrive": 0,
+          "speedTarget": 0.4439820048138911
+        },
+        "stimulus": {
+          "x": 0,
+          "z": -1.8850000000000002,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "collision": false
+      },
+      {
+        "tick": 80,
+        "before": {
+          "x": -0.4016650461653404,
+          "z": -0.4842309869718782,
+          "heading": 1.3695104717990791,
+          "speed": 0.45792355602130025
+        },
+        "after": {
+          "x": -0.4244240088020186,
+          "z": -0.4874409034276422,
+          "heading": 1.430680852365769,
+          "speed": 0.45968421506538515
+        },
+        "sensors": {
+          "front": 0.9776398954927465,
+          "left": 1.2401521326082472,
+          "right": 0.8909969824949692,
+          "boundary": 0.8908621311232614,
+          "stimulusDistance": 1.1249223653439817,
+          "stimulusDirection": -1.7346292407009973,
+          "stimulusIntensity": 0.8889502340850138
+        },
+        "neural": {
+          "source": "SYNTHETIC_FIXTURE",
+          "activity": 0.3978947671025675,
+          "decoder": null,
+          "reference": null
+        },
+        "decision": {
+          "state": "TURN_LEFT",
+          "source": "SYNTHETIC_NEURAL_MODEL",
+          "reason": "Baseline exploration speed modulated by synthetic output",
+          "duration": 0.8000000000000002
+        },
+        "motor": {
+          "forwardDrive": 0.5,
+          "turnDrive": 0.6117038056668987,
+          "escapeDrive": 0,
+          "speedTarget": 0.45968421506538515
+        },
+        "stimulus": {
+          "x": 0,
+          "z": -1.5350000000000001,
+          "radius": 0.22,
+          "intensity": 1
+        },
+        "collision": false
+      }
+    ],
+    "ticks": 84,
+    "droppedWallSeconds": 0.014200000047683736,
+    "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. 60 s bounded session; reset to start again."
+  },
+  "mockDecoder": {
+    "schemaVersion": "causalfly-autonomy-recorder-v1",
+    "trust": "CLIENT_GENERATED_EXPERIMENTAL_CONTROLLER",
+    "conditions": [
+      {
+        "schemaVersion": "experimental-embodiment-v1",
+        "config": {
+          "seed": 12,
+          "source": "fruitfly",
+          "silenced": false,
+          "arena": {
+            "radius": 2,
+            "bodyRadius": 0.48,
+            "obstacles": [
+              {
+                "x": 0.6,
+                "z": -0.7,
+                "radius": 0.24
+              }
+            ]
+          },
+          "initial": {
+            "x": 0,
+            "z": 0.8,
+            "heading": 0,
+            "speed": 0
+          }
+        },
+        "timestep": 0.05,
+        "network": {
+          "id": "synthetic-two-pathway-v1",
+          "provenance": {
+            "kind": "synthetic-fixture",
+            "description": "Hand-authored engineering demonstration network; not a biological model or connectome dataset."
+          },
+          "nodes": [
+            {
+              "id": "stimulus"
+            },
+            {
+              "id": "primary_a"
+            },
+            {
+              "id": "primary_b"
+            },
+            {
+              "id": "alternate_a"
+            },
+            {
+              "id": "alternate_b"
+            },
+            {
+              "id": "alternate_c"
+            },
+            {
+              "id": "motor"
+            }
+          ],
+          "edges": [
+            {
+              "from": "stimulus",
+              "to": "primary_a",
+              "weight": 1
+            },
+            {
+              "from": "primary_a",
+              "to": "primary_b",
+              "weight": 1
+            },
+            {
+              "from": "primary_b",
+              "to": "motor",
+              "weight": 1
+            },
+            {
+              "from": "stimulus",
+              "to": "alternate_a",
+              "weight": 0.5
+            },
+            {
+              "from": "alternate_a",
+              "to": "alternate_b",
+              "weight": 1
+            },
+            {
+              "from": "alternate_b",
+              "to": "alternate_c",
+              "weight": 1
+            },
+            {
+              "from": "alternate_c",
+              "to": "motor",
+              "weight": 1
+            }
+          ],
+          "inputNodeId": "stimulus",
+          "outputNodeId": "motor"
+        },
+        "syntheticThreshold": 0.75,
+        "inputs": [
+          {
+            "stimulus": null,
+            "neural": null
+          },
+          {
+            "stimulus": null,
+            "neural": null
+          },
+          {
+            "stimulus": null,
+            "neural": null
+          },
+          {
+            "stimulus": null,
+            "neural": null
+          },
+          {
+            "stimulus": null,
+            "neural": null
+          },
+          {
+            "stimulus": null,
+            "neural": null
+          },
+          {
+            "stimulus": null,
+            "neural": {
+              "source": "FRUITFLY_XR",
+              "activity": null,
+              "decoder": "ESCAPE",
+              "reference": {
+                "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                "sequence": 2,
+                "inputSequence": 1,
+                "receivedAt": "2026-10-31T00:08:25.604Z",
+                "transport": "observatory/v1"
+              }
+            }
+          },
+          {
+            "stimulus": null,
+            "neural": {
+              "source": "FRUITFLY_XR",
+              "activity": null,
+              "decoder": "ESCAPE",
+              "reference": {
+                "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                "sequence": 2,
+                "inputSequence": 1,
+                "receivedAt": "2026-10-31T00:08:25.604Z",
+                "transport": "observatory/v1"
+              }
+            }
+          }
+        ],
+        "samples": [
+          {
+            "tick": 1,
+            "before": {
+              "x": 0,
+              "z": 0.8,
+              "heading": 0,
+              "speed": 0
+            },
+            "after": {
+              "x": 0,
+              "z": 0.8,
+              "heading": -0.01180460419600957,
+              "speed": 0
+            },
+            "sensors": {
+              "front": 1.1020050251573517,
+              "left": 2.0777000011078997,
+              "right": 0.9798392732337653,
+              "boundary": 0.72,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "NONE",
+              "activity": null,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "IDLE",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Initial settling",
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0,
+              "turnDrive": -0.11804604196009569,
+              "escapeDrive": 0,
+              "speedTarget": 0
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 5,
+            "before": {
+              "x": 0,
+              "z": 0.8,
+              "heading": -0.04322343287251078,
+              "speed": 0
+            },
+            "after": {
+              "x": 0.00015689424954957976,
+              "z": 0.7970041054433679,
+              "heading": -0.052321952562817436,
+              "speed": 0.06
+            },
+            "sensors": {
+              "front": 1.0422631572812062,
+              "left": 2.1071239037986014,
+              "right": 1.0162602749715521,
+              "boundary": 0.72,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "NONE",
+              "activity": null,
+              "decoder": null,
+              "reference": null
+            },
+            "decision": {
+              "state": "EXPLORE",
+              "source": "BASELINE_AUTONOMOUS_POLICY",
+              "reason": "Seeded exploration with geometric steering",
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 0.5,
+              "turnDrive": -0.0909851969030666,
+              "escapeDrive": 0,
+              "speedTarget": 0.4
+            },
+            "stimulus": null,
+            "collision": false
+          },
+          {
+            "tick": 7,
+            "before": {
+              "x": 0.0005209543622417218,
+              "z": 0.7910151606085621,
+              "heading": -0.06071397909046684,
+              "speed": 0.12
+            },
+            "after": {
+              "x": 0.0010670445312799348,
+              "z": 0.7820317433563535,
+              "heading": -0.06071397909046684,
+              "speed": 0.18
+            },
+            "sensors": {
+              "front": 1.0143160714191064,
+              "left": 2.1130583959307563,
+              "right": 1.0214153024566925,
+              "boundary": 0.7289846678438926,
+              "stimulusDistance": null,
+              "stimulusDirection": 0,
+              "stimulusIntensity": 0
+            },
+            "neural": {
+              "source": "FRUITFLY_XR",
+              "activity": null,
+              "decoder": "ESCAPE",
+              "reference": {
+                "sessionId": "983e8b31-88d5-4eac-af2c-6755a179f407",
+                "sequence": 2,
+                "inputSequence": 1,
+                "receivedAt": "2026-10-31T00:08:25.604Z",
+                "transport": "observatory/v1"
+              }
+            },
+            "decision": {
+              "state": "ESCAPE",
+              "source": "FRUITFLY_DECODER",
+              "reason": "Available decoder output crossed escape criterion",
+              "duration": 0.05
+            },
+            "motor": {
+              "forwardDrive": 1,
+              "turnDrive": 0,
+              "escapeDrive": 1,
+              "speedTarget": 1.25
+            },
+            "stimulus": null,
+            "collision": false
+          }
+        ],
+        "ticks": 8,
+        "droppedWallSeconds": 0.5680999999046326,
+        "disclosure": "Autonomous experimental behaviour; not real-fly validated. Synthetic network has no biological identities. Procedural motor execution; separate from approved experiment measurements. 60 s bounded session; reset to start again."
+      }
+    ],
+    "brainTransport": null
+  }
+}

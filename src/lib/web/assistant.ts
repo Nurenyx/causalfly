@@ -6,7 +6,7 @@ import { observationalAnalysis } from "./observational-analysis";
 import { freezeRecord } from "../experiment/engine";
 
 export const workspaceLabels: Record<Workspace, string> = { observatory: "Experiment", live: "Live Session", compare: "Compare", scientist: "Interpret / Meta Scientist", evidence: "Evidence" };
-export const observationalBoundary = "Observational only · simulated neural dynamics over published connectome structure, not living-fly recordings. CausalFly does not currently send interventions to FruitFly XR. Decoder output does not prove physical movement or successful escape.";
+export const observationalBoundary = "Observational only · simulated neural dynamics over published connectome structure, not living-fly recordings. CausalFly does not currently send neural perturbations to the brain service. Decoder output does not prove physical movement or successful escape.";
 
 export interface AssistantAction { label: string; question?: string; workspace?: Workspace; synthetic?: boolean; design?: boolean }
 export function assistantActions(source: DataSourceKind, workspace: Workspace, hasResult = false): AssistantAction[] {

@@ -3,7 +3,7 @@ export type DataSourceKind = "SYNTHETIC_FIXTURE" | "FRUITFLY_XR";
 
 export const dataSources = {
   SYNTHETIC_FIXTURE: { kind: "SYNTHETIC_FIXTURE", label: "Synthetic Fixture", description: "Deterministic engineering network", status: "READY" },
-  FRUITFLY_XR: { kind: "FRUITFLY_XR", label: "FruitFly XR", description: "Connectome-backed simulation telemetry" },
+  FRUITFLY_XR: { kind: "FRUITFLY_XR", label: "LIVE CONNECTOME SIMULATION", description: "Connectome-backed brain server" },
 } as const;
 
 export type FruitFlyConnectionState = "DISCONNECTED" | "CONNECTING" | "CONNECTED" | "DATA RECEIVED" | "ERROR";

@@ -1,5 +1,6 @@
 "use client";
 
+import { AutonomyPanel } from "./autonomy-panel";
 import { useMemo, useState } from "react";
 import type { FruitFlyEvidence, FruitFlySnapshot } from "@/lib/sources/contracts";
 import { LIVE_FRAME_LIMIT, number, sessionStatus, sessionTimeline } from "@/lib/sources/live-session";
@@ -10,8 +11,8 @@ import { liveEventSummary } from "@/lib/web/live-event-summary";
 type Status = ReturnType<typeof sessionStatus>;
 export function LiveSessionHeader({ snapshot, status }: { snapshot: FruitFlySnapshot; status: Status; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
   const t = snapshot.evidence?.telemetry;
-  return <section className={styles.sessionBar} data-state={snapshot.state === "ERROR" ? "error" : status.historical ? "historical" : status.live ? "live" : "waiting"} aria-label="FruitFly XR session status">
-    <div className={styles.sessionIdentity}><span className={styles.microLabel}>FRUITFLY XR <span> / Connectome simulation</span></span><div className={styles.sessionTitle}><span className={styles.liveBadge} role="status"><i />{snapshot.state === "ERROR" ? "ERROR" : status.historical ? "LAST SNAPSHOT" : status.live ? "LIVE" : "WAITING FOR DATA"}</span><span className={styles.connection} data-connected={status.connected} data-error={snapshot.state === "ERROR"}><i />{status.connected ? "CONNECTED" : snapshot.state}</span></div><p title={t?.sessionId}>Session <code>{t?.sessionId ?? "Awaiting first frame"}</code></p></div>
+  return <section className={styles.sessionBar} data-state={snapshot.state === "ERROR" ? "error" : status.historical ? "historical" : status.live ? "live" : "waiting"} aria-label="Live connectome simulation session status">
+    <div className={styles.sessionIdentity}><span className={styles.microLabel}>LIVE CONNECTOME SIMULATION <span> / Connectome simulation</span></span><div className={styles.sessionTitle}><span className={styles.liveBadge} role="status"><i />{snapshot.state === "ERROR" ? "CONNECTION ERROR" : snapshot.state === "CONNECTING" ? "CONNECTING" : status.historical ? "LAST SNAPSHOT" : status.live ? "LIVE" : "WAITING FOR DATA"}</span><span className={styles.connection} data-connected={status.connected} data-error={snapshot.state === "ERROR"}><i />{status.connected ? "CONNECTED" : snapshot.state}</span></div><p title={t?.sessionId}>Session <code>{t?.sessionId ?? "Awaiting first frame"}</code></p></div>
     <dl className={styles.sessionMetrics}><div><dt>Model time</dt><dd>{t ? <>{number(t.simulationMs)}<small> ms</small></> : "—"}</dd></div><div><dt>Simulation tick</dt><dd>{t ? number(t.neuralTick) : "—"}</dd></div><div><dt>Sequence</dt><dd>{t ? number(t.sequence) : "—"}</dd></div><div><dt>Stream health</dt><dd className={styles.healthLabel}>{status.historical ? "No current frames" : status.live ? t && (t.droppedDisplayFrames || t.droppedSubscriberMessages || !t.inputFresh) ? "Check diagnostics" : "Receiving data" : status.connected ? "Waiting for frames" : snapshot.state === "ERROR" ? "Connection error" : "Offline"}</dd></div></dl>
   </section>;
 }
@@ -59,6 +60,7 @@ export function AiObserverRail({ evidence, historical, onEvidence, onInterpret }
 }
 
 export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConnect, onDisconnect, onInterpret }: { snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
+  const [embodiment, setEmbodiment] = useState(false);
   const status = sessionStatus(snapshot, now ?? 0);
   const event = liveEventSummary(snapshot, frames);
   const receivedAt = snapshot.evidence?.receivedAt;
@@ -72,6 +74,8 @@ export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConn
   return <div className={styles.session}>
     <LiveSessionHeader snapshot={snapshot} status={status} onConnect={onConnect} onDisconnect={onDisconnect} />
     <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{status.historical && receivedAt ? `LAST RECEIVED ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{frames.length} / {LIVE_FRAME_LIMIT} received frames</span></div>
+    <button type="button" className="text-button" aria-expanded={embodiment} onClick={() => setEmbodiment(value => !value)}>{embodiment ? "Close experimental embodiment" : "Open experimental embodiment"}</button>
+    {embodiment && <AutonomyPanel snapshot={snapshot} />}
     {event && <section className="live-event-highlight" aria-label="Retained event"><span className="eyebrow">{event.label}</span><p>{event.headline}</p><small>Received simulation frames only · gaps unobserved · no causal claim</small><button type="button" className="text-button" onClick={onInterpret ?? onEvidence}>Understand this event ↗</button></section>}
     <div className={styles.layout}><div className={styles.instruments}><ConnectomeActivityView frames={frames} historical={status.historical} /><section className={styles.activity} aria-label="Received simulation activity"><LiveMetricChart frames={frames} metric="spikes" /><LiveMetricChart frames={frames} metric="active" /><p className={styles.chartNote}>Counts per received tick · gaps unjoined · active includes subthreshold, refractory and pending-input states</p></section><EventTimeline frames={frames} historical={status.historical} receivedAt={receivedAt} reconnectedAt={transport.reconnectedAt} /><div className={styles.lowerPanels}><SimulationOutput frames={frames} /><StreamHealth evidence={snapshot.evidence} ageMs={status.ageMs} onEvidence={onEvidence} /></div></div><AiObserverRail evidence={snapshot.evidence} historical={status.historical} onEvidence={onEvidence} onInterpret={onInterpret} /></div>
   </div>;

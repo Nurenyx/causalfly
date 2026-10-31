@@ -94,7 +94,7 @@ export interface TelemetrySubscription {
   close(): void;
 }
 
-/** Explicit connection only; old callbacks cannot overwrite a replacement stream. */
+/** Configured automatic or explicit connection; old callbacks cannot overwrite a replacement stream. */
 export function createLiveConnection(
   publish: (snapshot: FruitFlySnapshot) => void,
   open: (url: string) => TelemetrySubscription,
@@ -128,6 +128,10 @@ export function createLiveConnection(
       } catch {
         emitState("ERROR", "Unable to open the telemetry stream. Reconnect to retry.");
       }
+    },
+    autoConnect(configured: boolean) {
+      if (configured) { if (!current) this.connect(); }
+      else { close(); emitState("ERROR", "No research/brain-server endpoint is configured. Configure the simulation service; this does not launch the FruitFly XR Quest application."); }
     },
     disconnect() { close(); emitState("DISCONNECTED", "Disconnected. Any evidence shown is the last received snapshot."); },
     dispose: close,

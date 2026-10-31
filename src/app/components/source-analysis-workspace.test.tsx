@@ -39,7 +39,7 @@ function render(source: "FRUITFLY_XR" | "SYNTHETIC_FIXTURE", workspace: "compare
 
 test("FruitFly Compare requires matched trials and never renders the retained synthetic result", () => {
   const html = render("FRUITFLY_XR", "compare");
-  assert.match(html, /COMPARE \/ FRUITFLY XR/);
+  assert.match(html, /COMPARE \/ LIVE CONNECTOME SIMULATION/);
   assert.match(html, /Controlled comparison requires matched trials/);
   assert.match(html, /CONTROL SESSION/);
   assert.match(html, /INTERVENTION SESSION/);
@@ -92,7 +92,7 @@ test("Synthetic Compare retains full controlled comparison, playback, charts and
 test("Synthetic AI Scientist retains controlled-experiment analysis and qualified support", () => {
   const html = render("SYNTHETIC_FIXTURE", "scientist");
   for (const expected of [/What did we find/, /HYPOTHESIS TESTED/, /INCONCLUSIVE/, /Key measured observations/, /View full analysis/, /Use as Next Question/, /primary_a/]) assert.match(html, expected);
-  assert.doesNotMatch(html, /FRUITFLY XR \/ OBSERVATIONAL ANALYSIS/);
+  assert.doesNotMatch(html, /LIVE CONNECTOME SIMULATION \/ OBSERVATIONAL ANALYSIS/);
 });
 
 test("rendering source switches preserves synthetic evidence and its workspace state", () => {

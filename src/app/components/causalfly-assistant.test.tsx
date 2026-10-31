@@ -17,7 +17,7 @@ test("launcher and accessible closed drawer exist across both sources and all fi
     assert.doesNotMatch(html, /<dialog[^>]* open/);
     assert.match(html, /aria-label="Close CausalFly Assistant"/);
     assert.ok(html.includes(`<dd>${workspaceLabels[workspace]}</dd>`));
-    assert.ok(html.includes(`<dd>${source === "FRUITFLY_XR" ? "FruitFly XR" : "Synthetic Fixture"}</dd>`));
+    assert.ok(html.includes(`<dd>${source === "FRUITFLY_XR" ? "LIVE CONNECTOME SIMULATION" : "Synthetic Fixture"}</dd>`));
     assert.match(html, source === "FRUITFLY_XR" ? /0 retained frames/ : /No experiment retained/);
     assert.match(html, /Offline \/ fake client/);
     assert.match(html, /Submitting never calls Meta/);
