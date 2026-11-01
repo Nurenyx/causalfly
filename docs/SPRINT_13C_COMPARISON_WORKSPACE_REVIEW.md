@@ -6,7 +6,7 @@
 
 ## 1. Executive Summary
 
-In Sprint 13C, Compare transitions from a subordinate view into CausalFly's centerpiece scientific result workspace. 
+In Sprint 13C, Compare transitions from a subordinate view into CausalFly's centerpiece scientific result workspace.
 
 - **Full-Width Comparison Stage**: Eliminates the 38% right-side action rail in Compare mode, giving maximum spatial canvas to the organism comparison.
 - **Strictly One WebGL Canvas**: Preserves a single Three.js Canvas (`<World>`) rendering both Control and Intervention flies within a shared environmental arena. No duplicate canvas or split renderers.
@@ -416,5 +416,3 @@ Captured via Playwright in `docs/review/sprint-13c2/` (and mirrored to `docs/rev
  src/lib/web/instrument-mode.ts             |   18 +-
  7 files changed, 2154 insertions(+), 72 deletions(-)
 ```
-
-
