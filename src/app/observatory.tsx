@@ -12,7 +12,6 @@ import { FruitFlyEvidenceView } from "./components/fruitfly-evidence";
 import { LiveSessionWorkspace } from "./components/live-session";
 import { GuidedExperiment } from "./components/guided-experiment";
 import { FruitFlyScientist } from "./components/fruitfly-analysis";
-import { CompareDashboard } from "./components/compare-dashboard";
 import { ScientistView } from "./components/ai-scientist";
 import { CompareRequirements } from "./components/guided-workflow";
 import { fruitFlyExampleQuestion } from "@/lib/web/observational-question";
@@ -36,6 +35,8 @@ import { frameIdentity, investigationWindow, interpretationBelongsToObservation 
 import { InstrumentModeBar } from "./components/instrument-mode-bar";
 import { FirstRunBanner } from "./components/first-run-banner";
 import type { InstrumentMode } from "@/lib/web/instrument-mode";
+import { checkModeCapability } from "@/lib/web/instrument-mode";
+import { guideViewportTo } from "@/lib/web/guided-scroll";
 import { SCIENTIFIC_PROVENANCE } from "@/lib/sources/provenance-constants";
 
 const defaultQuestion = "What happens if I silence the primary pathway?";
@@ -97,15 +98,12 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   }
 
   function handleInstrumentModeSelect(nextMode: InstrumentMode) {
+    const capability = checkModeCapability(nextMode, source, Boolean(result));
+    if (!capability.supported || capability.available === false) return;
     setInstrumentMode(nextMode);
     setHome(false);
-    if (nextMode === "compare") {
-      navigate("compare");
-    } else if (nextMode === "observe") {
-      if (workspace === "compare") navigate("observatory");
-    } else if (nextMode === "perturb") {
-      if (workspace === "compare") navigate("observatory");
-      // Keep organism in view: do not scroll away to demo-question
+    if (workspace !== "observatory") {
+      navigate("observatory");
     }
   }
 
@@ -118,7 +116,12 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     setSource(next); setError(""); setNotice("");
     if (!home && workspace !== "evidence") { setLiveStep("question"); navigate(next === "FRUITFLY_XR" ? "live" : "observatory"); }
   }
-  function useNextQuestion(next: string) { dispatch({ type: "next-question", question: next }); setNotice("Next question ready. Request a new Meta design."); requestAnimationFrame(() => document.getElementById("demo-question")?.scrollIntoView({ block: "start", behavior: "smooth" })); }
+  function useNextQuestion(next: string) {
+    dispatch({ type: "next-question", question: next });
+    setInstrumentMode("observe");
+    setNotice("Next question retained. Design this experiment with Meta.");
+    guideViewportTo("demo-question", "h2, input, textarea, button");
+  }
   function reportFailure(task: string, detail: string, diagnostics?: RunDiagnostics) {
     if (diagnostics) dispatch({ type: "diagnostics", diagnostics });
     const designRecovery = /design expired|Design the experiment again/i.test(detail);
@@ -143,6 +146,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     if (inFlight.current || external || (action !== "design" && !design)) return;
     const requestInvestigationId = action === "design" ? (investigationId ?? 0) + 1 : investigationId;
     if (action === "design") dispatch({ type: "begin", question: researchQuestion });
+    else if (action === "run") guideViewportTo("demo-watch", "h2, h3, .run-experiment-btn");
     inFlight.current = true; setPending(action); setError(""); setErrorTarget(""); setFailure(undefined);
     const selectedId = perceptionId ?? (action === "design" && perceptionSession.source === "perception" ? perceptionSession.analysis?.perception.id : undefined);
     const selectedReceipt = receipt ?? (selectedId === perceptionSession.analysis?.perception.id ? perceptionSession.analysis?.receipt : undefined);
@@ -151,8 +155,21 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       const data = await response.json() as GuidedResponse;
       if (!data.ok) reportFailure(action, data.error, data.diagnostics);
       else if (!response.ok) reportFailure(action, "Request failed. Retained evidence is unchanged.");
-      else if (action === "design" || action === "stimulus") { dispatch({ type: "designed", design: data.design, investigationId: requestInvestigationId }); setNotice(action === "stimulus" ? "Stimulus accepted into a fresh validated design. Approve to run; no experiment or interpretation has run yet." : "Design validated. Approve to run."); }
-      else if (data.result) { dispatch(action === "run" ? { type: "completed", investigationId: requestInvestigationId, result: data.result, design: data.design, workspace: "observatory" } : { type: "interpreted", investigationId: requestInvestigationId, result: data.result, workspace: "observatory" }); setNotice(action === "run" ? "Measurement ready. Play control, then intervention." : "Interpretation ready. Choose the next test."); }
+      else if (action === "design" || action === "stimulus") {
+        dispatch({ type: "designed", design: data.design, investigationId: requestInvestigationId });
+        setNotice(action === "stimulus" ? "Stimulus accepted into a fresh validated design. Approve to run; no experiment or interpretation has run yet." : "Design validated. Review & approve experiment.");
+        setInstrumentMode("perturb");
+        guideViewportTo("demo-design", "h2, h3, button");
+      }
+      else if (data.result) {
+        dispatch(action === "run" ? { type: "completed", investigationId: requestInvestigationId, result: data.result, design: data.design, workspace: "observatory" } : { type: "interpreted", investigationId: requestInvestigationId, result: data.result, workspace: "observatory" });
+        setNotice(action === "run" ? "Matched experiment complete. Compare what changed." : "Interpretation ready. Choose the next test.");
+        if (action === "run") {
+          guideViewportTo("demo-watch", ".matched-complete-transition button, .run-experiment-btn");
+        } else if (action === "interpret") {
+          guideViewportTo("demo-understand", "h2, .next-hypothesis-btn");
+        }
+      }
       if (data.ok && data.diagnostics) dispatch({ type: "diagnostics", diagnostics: data.diagnostics });
     } catch { reportFailure(action, "Unable to reach CausalFly. Retry the explicit action; retained evidence is unchanged."); }
     finally { inFlight.current = false; setPending(""); }
@@ -257,8 +274,8 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
             {liveStep === "observe" && fruitFlyAskedQuestion ? <LiveSessionWorkspace snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} onEvidence={() => navigate("evidence")} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} onInterpret={() => setLiveStep("understand")} /> : <section className="panel"><p>Set an investigation question first. The research connection can receive data while you define the question; earlier frames will remain historical context.</p></section>}
             <p className="trace-note">XR PREVIEW · The current bridge supplies no video or image feed. Published soma geometry and received telemetry are shown above.</p>
           </>}
-        </> : workspace === "live" ? <section className="panel"><h2>Observe a connectome simulation.</h2><p>Live Session uses the Live connectome simulation read-only telemetry source. Your synthetic experiment stays retained when switching sources.</p><button type="button" className="primary-button" onClick={() => selectSource("FRUITFLY_XR")}>Select Live connectome simulation ↗</button></section> : workspace === "compare" ? result ? <CompareDashboard key={design?.id ?? result.spec.id} result={result} onNext={useNextQuestion} onFullAnalysis={() => navigate("scientist")} onExplain={() => void execute("interpret")} explainDisabled={busy || !mode} explaining={pending === "interpret"} onEvidence={() => navigate("evidence")} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : workspace === "scientist" ? result ? <ScientistView result={result} onNext={useNextQuestion} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : workspace === "evidence" ? <>{result ? <>{Boolean(history?.length) && <p className="eyebrow">ACTIVE INVESTIGATION</p>}<EvidenceView result={result} /></> : <section className="panel evidence-purpose">{Boolean(history?.length) && <p className="eyebrow">ACTIVE INVESTIGATION</p>}<h2>Verify what happened.</h2><p className="submitted-question">{question}</p><p>Engine measurements, source provenance and AI interpretation remain separate.</p><p>This question has not been tested yet. Design and run this investigation to collect evidence.</p><button type="button" className="primary-button" onClick={() => navigate("observatory")}>Return to Experiment &#8599;</button></section>}{history?.map((record, index) => <details className="panel" key={index}><summary>HISTORICAL / RETAINED RECORDS - {record.result.researchQuestion}</summary><EvidenceView result={record.result} /></details>)}</> : <>
-          <GuidedExperiment instrumentMode={instrumentMode} question={question} design={effectiveDesign} result={result} pending={pending} mode={mode} amplitude={syntheticAmplitude} onAmplitude={setSyntheticAmplitude} flyModel={flyModel} onFlyModel={setFlyModel}
+        </> : workspace === "live" ? <section className="panel"><h2>Observe a connectome simulation.</h2><p>Live Session uses the Live connectome simulation read-only telemetry source. Your synthetic experiment stays retained when switching sources.</p><button type="button" className="primary-button" onClick={() => selectSource("FRUITFLY_XR")}>Select Live connectome simulation ↗</button></section> : (workspace === "compare" || workspace === "observatory") ? <>
+          <GuidedExperiment instrumentMode={workspace === "compare" ? "compare" : instrumentMode} question={question} design={effectiveDesign} result={result} pending={pending} mode={mode} amplitude={syntheticAmplitude} onAmplitude={setSyntheticAmplitude} flyModel={flyModel} onFlyModel={setFlyModel}
             perceptionSession={perceptionSession} onPerceptionSession={setPerceptionSession}
             perceptionWorkflowError={errorTarget === "perception-source" ? error : undefined}
             actionError={error ? { target: errorTarget, detail: error } : undefined}
@@ -269,13 +286,13 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
             onQuestion={question => dispatch({ type: "question", question })}
             onDemo={() => { void execute("design", defaultQuestion); }}
             onDesign={amplitude => void execute("design", question, amplitude)} onRun={strength => void execute("run", question, strength)} onExplain={() => void execute("interpret")}
-            onNext={useNextQuestion} onCompare={() => navigate("compare")}
+            onNext={useNextQuestion} onCompare={() => handleInstrumentModeSelect("compare")} onEvidence={() => navigate("evidence")}
             onConnectome={() => { selectSource("FRUITFLY_XR"); navigate("live"); }}
             onBrainControlStatus={(available, detail) => {
               setBrainControlActive(available);
               setBrainControlDetail(detail);
             }} />
-        </>}
+        </> : workspace === "scientist" ? result ? <ScientistView result={result} onNext={useNextQuestion} /> : <CompareRequirements external={false} design={design} onNext={() => navigate("observatory")} /> : workspace === "evidence" ? <>{result ? <>{Boolean(history?.length) && <p className="eyebrow">ACTIVE INVESTIGATION</p>}<EvidenceView result={result} /></> : <section className="panel evidence-purpose">{Boolean(history?.length) && <p className="eyebrow">ACTIVE INVESTIGATION</p>}<h2>Verify what happened.</h2><p className="submitted-question">{question}</p><p>Engine measurements, source provenance and AI interpretation remain separate.</p><p>This question has not been tested yet. Design and run this investigation to collect evidence.</p><button type="button" className="primary-button" onClick={() => navigate("observatory")}>Return to Experiment &#8599;</button></section>}{history?.map((record, index) => <details className="panel" key={index}><summary>HISTORICAL / RETAINED RECORDS - {record.result.researchQuestion}</summary><EvidenceView result={record.result} /></details>)}</> : null}
       </main>
       {!home && <footer className="scientific-disclaimer">◇ {external ? `Live connectome simulation · ${SCIENTIFIC_PROVENANCE.conciseIdentity.summary} (${SCIENTIFIC_PROVENANCE.conciseIdentity.tag}); simulated dynamics; not recordings from a living fly. ${SCIENTIFIC_PROVENANCE.anatomicalDisclosure.sexMatchNotice}` : "Synthetic engineering fixture · not a biological model or Drosophila finding."}</footer>}
     </div>

@@ -32,6 +32,8 @@ export function InstrumentModeBar({
           const active = currentMode === m.id;
           const capability = checkModeCapability(m.id, source, hasResult);
           const isUnsupported = !capability.supported;
+          const isUnavailable = !capability.supported || capability.available === false;
+          const isActionDisabled = disabled || isUnavailable;
 
           return (
             <button
@@ -39,14 +41,21 @@ export function InstrumentModeBar({
               type="button"
               role="radio"
               aria-checked={active}
-              disabled={disabled}
-              className={`instrument-mode-tab ${m.id}-tab${active ? " active" : ""}${isUnsupported ? " unsupported-capability" : ""}`}
-              onClick={() => onSelectMode(m.id)}
-              title={isUnsupported ? capability.reason : m.description}
+              disabled={isActionDisabled}
+              aria-disabled={isUnavailable ? "true" : undefined}
+              className={`instrument-mode-tab ${m.id}-tab${active ? " active" : ""}${isUnsupported ? " unsupported-capability" : ""}${isUnavailable ? " mode-unavailable" : ""}`}
+              onClick={() => {
+                if (!isActionDisabled) onSelectMode(m.id);
+              }}
+              title={isUnavailable ? capability.reason : m.description}
             >
               <span className="mode-icon" aria-hidden="true">{m.icon}</span>
               <span className="mode-label">{m.label}</span>
-              {isUnsupported && <span className="mode-pill">N/A</span>}
+              {isUnsupported ? (
+                <span className="mode-pill">N/A</span>
+              ) : isUnavailable ? (
+                <span className="mode-pill">Unavailable</span>
+              ) : null}
             </button>
           );
         })}
