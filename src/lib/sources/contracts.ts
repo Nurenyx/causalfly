@@ -47,6 +47,7 @@ export interface FruitFlyEvidence {
 export interface FruitFlySnapshot {
   /** Opaque reference to validated server retention; contains no provider information. */
   retentionId?: string;
+  presentation?: "RECORDED_REPLAY";
   source: "FRUITFLY_XR";
   state: FruitFlyConnectionState;
   message: string;

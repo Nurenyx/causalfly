@@ -120,8 +120,9 @@ export default function EmbodiedWorld({ result, step, reset, compare, condition,
     {model === "anatomical" && <directionalLight position={[4, 6, -6]} color="#ffffff" intensity={2.8} />}
     <pointLight position={[4, 3, -3]} color="#bfd5de" intensity={30} />
     <pointLight position={[-3, 3, 3]} color="#81c9dd" intensity={14} />
+    <directionalLight position={[-4, 2, 4]} color="#b8d9e8" intensity={.7} />
     <mesh receiveShadow position={[0, -.035, 0]} rotation={[-Math.PI / 2, 0, 0]}><circleGeometry args={[16, 80]} /><meshStandardMaterial color="#030b10" metalness={.1} roughness={.96} /></mesh>
-    <gridHelper args={[30, 38, "#1a5265", "#0b2b38"]} position={[0, -.02, 0]} />
+    <gridHelper args={[30, 38, "#164453", "#09232d"]} position={[0, -.02, 0]} />
     {conditions.map((run, i) => {
       const x = compare ? i ? 2.35 : -2.35 : 0;
       const state = result ? embodimentAtStep(result.measuredEvidence[run], step) : null;

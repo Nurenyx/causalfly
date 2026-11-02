@@ -27,7 +27,7 @@ export function receiveSnapshot(previous: LiveSession, incoming: FruitFlySnapsho
     frames = [...frames, evidence].slice(-LIVE_FRAME_LIMIT);
     latest = evidence;
   }
-  return { snapshot: { source: "FRUITFLY_XR", state: incoming.state, message: incoming.message, evidence: latest, retentionId: incoming.evidence ? incoming.retentionId : previous.snapshot.retentionId }, frames };
+  return { snapshot: { source: "FRUITFLY_XR", state: incoming.state, presentation: incoming.presentation, message: incoming.message, evidence: latest, retentionId: incoming.evidence ? incoming.retentionId : previous.snapshot.retentionId }, frames };
 }
 
 export function frameAgeMs(evidence: FruitFlyEvidence | null, now: number): number | null {
@@ -39,9 +39,9 @@ export function frameAgeMs(evidence: FruitFlyEvidence | null, now: number): numb
 
 export function sessionStatus(snapshot: FruitFlySnapshot, now: number) {
   const ageMs = frameAgeMs(snapshot.evidence, now);
-  const connected = snapshot.state === "CONNECTED" || snapshot.state === "DATA RECEIVED";
-  const live = snapshot.state === "DATA RECEIVED" && ageMs !== null && ageMs < LIVE_STALE_AFTER_MS;
-  const label = snapshot.state === "ERROR" ? "ERROR" : snapshot.state === "CONNECTING" ? "CONNECTING" :
+  const connected = !snapshot.presentation && (snapshot.state === "CONNECTED" || snapshot.state === "DATA RECEIVED");
+  const live = !snapshot.presentation && snapshot.state === "DATA RECEIVED" && ageMs !== null && ageMs < LIVE_STALE_AFTER_MS;
+  const label = snapshot.presentation === "RECORDED_REPLAY" ? "RECORDED VALIDATED SIMULATION" : snapshot.state === "ERROR" ? "ERROR" : snapshot.state === "CONNECTING" ? "CONNECTING" :
     !connected ? "DISCONNECTED" : !snapshot.evidence ? "WAITING FOR DATA" : live ? "LIVE DATA" : "STALE";
   return { label, connected, live, ageMs, historical: Boolean(snapshot.evidence) && !live,
     tone: live ? "cyan" : label === "ERROR" ? "red" : label === "STALE" ? "amber" : "muted" };

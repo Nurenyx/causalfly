@@ -199,21 +199,7 @@ export function EmbodiedExperiment({
 
             {/* Near-Full-Width Comparison Stage: Single WebGL Canvas (Requirement 1, 2, 5) */}
             <div className="compare-stage" aria-label="Organism comparison stage">
-              <div className="compare-arena" data-focus={compareFocus}>
-                <World
-                  result={result}
-                  previewStrength={strength}
-                  step={step}
-                  reset={reset}
-                  compare={true}
-                  focus={compareFocus}
-                  condition="control"
-                  playing={playback.playing}
-                  pulseKey={`${playback.pass}-compare-${step}`}
-                  model={model}
-                  onModelStatus={setModelStatus}
-                />
-
+              <div className="compare-condition-readouts">
                 {/* Overlaid DOM Cards for Control and Intervention (Requirement 2 & 3) */}
                 <div className="compare-overlay control-overlay" aria-label="Control Organism State">
                   <div className="overlay-badge">
@@ -258,6 +244,22 @@ export function EmbodiedExperiment({
                     </div>
                   </div>
                 </div>
+
+              </div>
+              <div className="compare-arena" data-focus={compareFocus}>
+                <World
+                  result={result}
+                  previewStrength={strength}
+                  step={step}
+                  reset={reset}
+                  compare={true}
+                  focus={compareFocus}
+                  condition="control"
+                  playing={playback.playing}
+                  pulseKey={`${playback.pass}-compare-${step}`}
+                  model={model}
+                  onModelStatus={setModelStatus}
+                />
 
                 {/* Stimulus indicator & controls over canvas */}
                 <div className="world-stimulus-label">

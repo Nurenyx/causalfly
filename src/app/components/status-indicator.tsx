@@ -1,21 +1,24 @@
+import { StatusChip, type StatusChipState } from "./page-header";
 import type { ExecutionMode } from "@/lib/web/contracts";
 import type { FruitFlySnapshot, DataSourceKind } from "@/lib/sources/contracts";
 import { sessionStatus } from "@/lib/sources/live-session";
 import { AccessiblePopover } from "./info-tooltip";
 import { SCIENTIFIC_PROVENANCE } from "@/lib/sources/provenance-constants";
 
-export function StatusIndicator({ label, active, working = false, children, tone }: {
+export function StatusIndicator({ label, active, working = false, children, tone, state }: {
   label: string;
   active: boolean;
   working?: boolean;
   children: React.ReactNode;
   tone?: "green" | "amber" | "neutral" | "red";
+  state?: StatusChipState;
 }) {
+  const chipState: StatusChipState = state ?? (working ? "ACTIVE" : /error/i.test(label) || tone === "red" ? "ERROR" : /not configured|not connected|disabled|offline|disconnected/i.test(label) ? "OFFLINE" : /connectome.*male-cns/i.test(label) ? "INFORMATIONAL" : /standby|connecting|waiting/i.test(label) ? "STANDBY" : active ? "READY" : "STANDBY");
   const toneClass = tone ? ` tone-${tone}` : active ? " available" : "";
   return (
     <AccessiblePopover
       label={`${label} status`}
-      trigger={<><span aria-hidden="true">{active ? "●" : "○"}</span> {label}</>}
+      trigger={<StatusChip state={chipState}>{label}</StatusChip>}
       className="status-indicator"
       buttonClassName={`status-indicator-button${toneClass}${working ? " working" : ""}`}
     >
@@ -230,7 +233,7 @@ export function BrainServerStatus({
   const closedLoopDetail = controlAvailable ? "Connected / active" : (controlStatus || "Configured / standby");
 
   return (
-    <StatusIndicator label={primaryLabel} active={active} tone={primaryTone}>
+    <StatusIndicator label={primaryLabel} active={active} tone={primaryTone} state={snapshot.state === "ERROR" && !controlAvailable ? "ERROR" : isTelemetryLive || controlAvailable ? "ACTIVE" : telemetryConnected || status.historical || snapshot.state === "CONNECTING" ? "STANDBY" : "OFFLINE"}>
       <strong>JAVA BRAIN SERVER CAPABILITIES</strong>
       <span>• Read-only observatory telemetry: {observatoryDetail}</span>
       <span>• Closed-loop sensory/control: {closedLoopDetail}</span>
@@ -247,7 +250,7 @@ export function ConnectomeStatus({ source, snapshot }: { source: DataSourceKind;
   const isConnectome = source === "FRUITFLY_XR";
   const active = isConnectome ? snapshot.state === "CONNECTED" || snapshot.state === "DATA RECEIVED" : true;
   return (
-    <StatusIndicator label={`Connectome: ${SCIENTIFIC_PROVENANCE.conciseIdentity.tag}`} active={active} tone={active ? "green" : "neutral"}>
+    <StatusIndicator label={`Connectome: ${SCIENTIFIC_PROVENANCE.conciseIdentity.tag}`} active={active} tone={active ? "green" : "neutral"} state="INFORMATIONAL">
       <strong>CONNECTOME PROVENANCE</strong>
       <span>Dataset: {SCIENTIFIC_PROVENANCE.dataset}</span>
       <span>Reference: {SCIENTIFIC_PROVENANCE.citation.authors} ({SCIENTIFIC_PROVENANCE.citation.year}), {SCIENTIFIC_PROVENANCE.citation.journal}</span>

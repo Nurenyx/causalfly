@@ -278,3 +278,10 @@
   .dataPath > div { padding: 7px; }
   .dataPath i { transform: rotate(90deg); }
 }
+
+/* Long recorded provenance labels must wrap inside the instrument. */
+.sessionBar { flex-wrap:wrap; }
+.sessionIdentity { min-width:0; flex-basis:400px; }
+.liveBadge { white-space:normal; overflow-wrap:anywhere; font-size:clamp(16px,1.5vw,22px); }
+.sessionTitle { min-width:0; }
+.sessionMetrics { flex-wrap:wrap; min-width:0; }

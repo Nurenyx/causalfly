@@ -9,6 +9,8 @@ export interface PerceptionSession {
   file?: File;
   upload?: import("../perception/blob-contract").MediaReference;
   transport?: string;
+  error?: string;
+  errorDiagnostics?: import("./flight-recorder-types").RunDiagnostics;
   analyzedFile?: File;
   url: string;
   concept: string;

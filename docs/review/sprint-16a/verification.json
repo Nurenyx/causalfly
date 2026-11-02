@@ -1,0 +1,46 @@
+{
+  "branch": "feat/hackathon-final-tester-build",
+  "head": "c16b640",
+  "initialWorkingTree": "clean",
+  "unitAndComponentTests": {
+    "passed": 495,
+    "failed": 0
+  },
+  "productionBuild": "PASS",
+  "lint": "PASS",
+  "browser": {
+    "checks": 26,
+    "pageErrors": 0,
+    "viewportSizes": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1440,
+        900
+      ],
+      [
+        1366,
+        768
+      ]
+    ],
+    "providerMode": "deterministic local fixtures; no live provider acceptance"
+  },
+  "gitDiffCheck": "PASS",
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "acceptanceGates": [
+    "Configure private Blob credentials, stable signing secret and cleanup",
+    "Verify actual private upload and Muse/SAM analysis",
+    "Configure hosted secure telemetry/control endpoints and verify real trial start",
+    "Human visual/scientific acceptance"
+  ],
+  "recordedCapture": {
+    "frames": 4,
+    "modelStartMs": 50,
+    "modelEndMs": 200,
+    "isFullTrial": false
+  }
+}

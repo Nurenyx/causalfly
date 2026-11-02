@@ -304,42 +304,6 @@
   display: none !important;
 }
 
-.cockpit-shell .topbar {
-  padding: 4px 16px !important;
-  margin: 0 0 2px !important;
-  min-height: 0 !important;
-  gap: 8px !important;
-}
-
-.cockpit-shell .topbar .breadcrumb {
-  font-size: 8px !important;
-  letter-spacing: 0.8px !important;
-  margin-bottom: 1px !important;
-  line-height: 1.1 !important;
-}
-
-.cockpit-shell .topbar h1 {
-  font-size: 14px !important;
-  line-height: 1.2 !important;
-  margin: 0 !important;
-}
-
-.cockpit-shell .topbar .workflow-identity {
-  display: none !important;
-}
-
-.cockpit-shell .header-badges {
-  display: flex !important;
-  gap: 4px !important;
-  align-items: center !important;
-}
-
-.cockpit-shell .status-indicator-button {
-  min-height: 26px !important;
-  padding: 2px 7px !important;
-  font-size: 10px !important;
-}
-
 .cockpit-shell .instrument-mode-bar {
   padding: 2px 16px !important;
   margin: 0 0 3px !important;
@@ -843,30 +807,30 @@
 }
 
 .organism-first-cockpit .network-figure {
-  height: 140px !important;
+  height: 140px;
 }
 
 /* Compact Preview Horizontal Deck */
 .organism-first-cockpit .embodied-preview {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: space-around !important;
-  gap: 14px !important;
-  padding: 4px 10px !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap: 14px;
+  padding: 4px 10px;
 }
 
 .organism-first-cockpit .embodied-preview .fixture-topology {
-  flex: 0 0 auto !important;
-  width: 200px !important;
-  max-width: 220px !important;
-  height: auto !important;
+  flex: 0 0 auto;
+  width: 200px;
+  max-width: 220px;
+  height: auto;
 }
 
 .organism-first-cockpit .embodied-preview .fixture-topology svg {
-  max-height: 90px !important;
-  width: 100% !important;
-  height: auto !important;
+  max-height: 90px;
+  width: 100%;
+  height: auto;
 }
 
 .organism-first-cockpit .embodied-preview p {
@@ -1112,42 +1076,6 @@
 
   .cockpit-shell .workspace {
     margin-left: 0 !important;
-  }
-
-  .workspace-shell .topbar,
-  .cockpit-shell .topbar {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    padding: 2px 6px !important;
-    gap: 2px !important;
-  }
-
-  .cockpit-shell .topbar h1 {
-    font-size: 12px !important;
-  }
-
-  .cockpit-shell .topbar .breadcrumb {
-    font-size: 8px !important;
-  }
-
-  .workspace-shell .header-badges,
-  .cockpit-shell .header-badges {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    max-height: 28px !important;
-    gap: 4px !important;
-    width: 100% !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .workspace-shell .header-badges .status-indicator-button,
-  .cockpit-shell .status-indicator-button {
-    min-height: 22px !important;
-    padding: 1px 5px !important;
-    font-size: 9px !important;
-    flex: 0 0 auto !important;
   }
 
   .cockpit-shell .cockpit-command .hero-question-action,

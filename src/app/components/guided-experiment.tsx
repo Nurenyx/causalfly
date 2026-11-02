@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { useRef, useState, type Dispatch, type SetStateAction } from "react";
 import type { ExecutionMode, GuidedDesign, MeasuredExperimentResult } from "@/lib/web/contracts";
 import type { PerceptionSession } from "@/lib/web/perception-session";
 import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
@@ -68,7 +68,6 @@ export function GuidedExperiment(props: Props) {
   const [questionOpen, setQuestionOpen] = useState(false);
   const [designOpen, setDesignOpen] = useState(false);
   const [runOpen, setRunOpen] = useState(false);
-  const [announcement, setAnnouncement] = useState("");
 
   const busy = Boolean(pending);
   const retainedDesign = design?.researchQuestion.trim() === question.trim() ? design : undefined;
@@ -91,16 +90,8 @@ export function GuidedExperiment(props: Props) {
       ? nodeLabel(currentResult.analysis.nextExperiment.proposedPerturbationTarget)
       : null;
 
-  // Announce key workflow state transitions politely for screen readers
-  useEffect(() => {
-    if (currentResult?.analysis) {
-      setAnnouncement("Interpretation complete. Next hypothesis ready.");
-    } else if (currentResult) {
-      setAnnouncement("Matched experiment complete. Compare results.");
-    } else if (currentDesign) {
-      setAnnouncement("Experiment design ready for review.");
-    }
-  }, [currentDesign?.id, currentResult?.spec.id, Boolean(currentResult?.analysis)]);
+  // Derived text updates the polite live region without a second render.
+  const announcement = currentResult?.analysis ? "Interpretation complete. Next hypothesis ready." : currentResult ? "Matched experiment complete. Compare results." : currentDesign ? "Experiment design ready for review." : "";
 
   // Journey progress mapping
   const active =

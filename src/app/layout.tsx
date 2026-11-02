@@ -10,6 +10,7 @@ import "./components/perception-panel.css";
 import "./components/experiment-trust.css";
 import "./components/research-cockpit.css";
 import "./components/workspace-system.css";
+import "./components/tester-build.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

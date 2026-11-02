@@ -8,6 +8,7 @@ import { inspectVideo } from "./media";
 import { FlightRecorder, retainedRecorder } from "../web/flight-recorder";
 
 export class MediaError extends Error {}
+export class MediaConfigurationError extends Error {}
 
 export const MEDIA_LIFETIME_MS = 2 * 60 * 60 * 1000;
 // Provider route maxDuration is 240 seconds. Expired tickets cannot start another use.
@@ -17,7 +18,7 @@ const ticketSchema = uploadInput.extend({ mediaId: z.string().uuid(), runId: z.s
 type Ticket = z.infer<typeof ticketSchema>;
 function secret() {
   const key = process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;
-  if (!key || key.length < 32) throw new Error("Secure upload is not configured. Configure the media signing secret and private Blob store.");
+  if (!key || key.length < 32) throw new MediaConfigurationError("Private video upload is not enabled on this server. Your video remains local. Ask the host to configure private video storage, or use Synthetic stimulus.");
   return key;
 }
 function sign(value: Ticket) {
@@ -38,15 +39,20 @@ export function verifyMediaReference(input: unknown, now = Date.now()): Ticket {
     return value;
   } catch { throw new MediaError("Choose the video again: its secure upload reference is invalid or expired."); }
 }
-export async function authorizeMedia(input: unknown, storage = { issueSignedToken, presignUrl }) {
+const defaultUploadStorage = { issueSignedToken, presignUrl };
+export async function authorizeMedia(input: unknown, storage = defaultUploadStorage) {
   const parsed = uploadInput.parse(input);
   if ((parsed.contentType === "video/mp4") !== /\.mp4$/i.test(parsed.originalFilename)) throw new MediaError("Choose matching MP4/MOV content type and extension.");
+  secret(); // Fail before issuing any storage grant.
+  if (storage === defaultUploadStorage && !process.env.BLOB_READ_WRITE_TOKEN && !(process.env.BLOB_STORE_ID && (process.env.VERCEL || process.env.VERCEL_OIDC_TOKEN))) {
+    throw new MediaConfigurationError("Private video upload is not enabled on this server. Your video remains local. Ask the host to configure private video storage, or use Synthetic stimulus.");
+  }
   const recorder = new FlightRecorder(), mediaId = randomUUID(), issued = Date.now();
   const blobPathname = `${PREFIX}${issued}/${mediaId}.${parsed.contentType === "video/mp4" ? "mp4" : "mov"}`;
   recorder.event("media.selected", { mediaId });
   const validUntil = issued + 5 * 60 * 1000;
   const constraints = { pathname: blobPathname, validUntil, maximumSizeInBytes: MAX_VIDEO_BYTES, allowedContentTypes: [parsed.contentType] };
-  const signed = await storage.issueSignedToken({ ...constraints, operations: ["put"] });
+  const signed = await storage.issueSignedToken({ ...constraints, operations: ["put"], abortSignal: AbortSignal.timeout(30_000) });
   const { presignedUrl } = await storage.presignUrl(signed, { ...constraints, access: "private", operation: "put", allowOverwrite: false, addRandomSuffix: false, cacheControlMaxAge: 60 });
   recorder.event("media.upload.authorized", { mediaId });
   return { reference: { ticket: sign({ ...parsed, mediaId, runId: recorder.run_id, blobPathname, issued, expires: issued + MEDIA_LIFETIME_MS }) }, presignedUrl };

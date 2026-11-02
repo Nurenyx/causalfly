@@ -1,0 +1,267 @@
+{
+  "checks": [
+    {
+      "name": "experiment",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "live-state-transitions",
+      "states": [
+        "OFFLINE/ERROR",
+        "CONNECTING",
+        "READY",
+        "RUNNING",
+        "READY/stale",
+        "ERROR",
+        "RECORDED_REPLAY"
+      ]
+    },
+    {
+      "name": "video-failure-retry",
+      "attempts": 3,
+      "visibleFailureErrors": 1,
+      "fileRetained": true,
+      "retryUploadSucceeded": true,
+      "trackingAnalyzed": false,
+      "analysisResponse": "Authored offline scene fixture"
+    }
+  ],
+  "errors": [],
+  "providers": "Local deterministic fixtures and intercepted storage; no live provider verification"
+}

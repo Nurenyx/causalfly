@@ -1,0 +1,56 @@
+/* Sprint 16A: shared geometry and bounded instrument surfaces. */
+
+.instrument-shell .workspace .page-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px 24px; min-height:128px; height:auto; padding:24px 28px; border-bottom:1px solid var(--cf-border); background:#04141de6; }
+.instrument-shell .page-header .breadcrumb { display:block; margin:0 0 8px; font-size:10px; line-height:1.4; letter-spacing:1.5px; color:var(--cf-text-secondary); }
+.instrument-shell .workspace .page-header h1 { margin:0; font-size:clamp(24px,2vw,34px); line-height:1.2; letter-spacing:-.6px; color:var(--cf-text); font-weight:500; }
+.instrument-shell .workspace .page-header .workflow-identity { display:block; margin:8px 0 0; line-height:1.5; font-size:12px; max-width:620px; }
+.page-header-copy { min-width:0; flex:1 1 400px; }
+.page-header-tools { min-width:0; flex:0 1 430px; }
+.instrument-shell .page-header .header-badges { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px; max-width:none; }
+.status-chip { display:inline-flex; align-items:center; gap:7px; min-height:26px; padding:4px 8px; border:1px solid #2a4654; border-radius:4px; color:#a9bdc8; background:#071923; font:10px/1.4 var(--font-geist-mono),monospace; white-space:normal; text-align:left; }
+.status-chip i { flex:0 0 5px; width:5px; height:5px; border-radius:50%; background:currentColor; }
+.status-chip[data-status="ACTIVE"] { color:var(--cf-cyan-bright); border-color:#176577; }
+.status-chip[data-status="ACTIVE"] i { box-shadow:0 0 7px #00d0f080; }
+.status-chip[data-status="READY"] { color:#65dab6; }
+.status-chip[data-status="STANDBY"] { color:#e0c785; }
+.status-chip[data-status="ERROR"] { color:#ff9aab; border-color:#754351; }
+.status-chip[data-status="OFFLINE"] { color:#a2b1bb; }
+.status-chip[data-status="INFORMATIONAL"] { color:#a2c6da; }
+.instrument-shell .status-indicator-button { border:0; padding:0; background:transparent; min-height:28px; box-shadow:none; }
+.live-launcher { margin-bottom:20px; padding:22px; border:1px solid #275064; border-radius:6px; background:#071c27; box-shadow:inset 0 1px #b3eaff08; }
+.live-launcher-heading { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.live-launcher h2 { margin:8px 0; font-size:23px; line-height:1.3; }
+.live-launcher > p { max-width:800px; color:#aec4d0; line-height:1.6; }
+.live-launcher-actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:18px 0 14px; }
+.live-launcher-actions button { white-space:normal; }
+.live-launcher > small,.replay-disclosure { display:block; line-height:1.6; color:#a4bac8; }
+.live-launcher[data-live-state="RECORDED_REPLAY"] { border-top:3px solid #c4a86c; }
+.recorded-evidence { margin-top:20px; padding-top:16px; border-top:1px solid #315365; }
+.workspace-shell .compare-condition-readouts { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; padding:12px; background:#051722; }
+.workspace-shell .compare-condition-readouts .compare-overlay { position:static; min-width:0; width:auto; padding:10px 14px; box-shadow:none; text-align:left; backdrop-filter:none; }
+.workspace-shell .compare-condition-readouts .overlay-badge { justify-content:flex-start; }
+.workspace-shell .compare-condition-readouts .overlay-metrics { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 16px; }
+.workspace-shell .compare-condition-readouts .overlay-metric-row { display:flex; flex-direction:column; align-items:flex-start; gap:4px; min-width:0; }
+.workspace-shell .compare-arena:not(.preview-arena) { height:clamp(440px,60vh,740px); min-height:440px; }
+.workspace-shell .compare-arena .world-stimulus-label { top:auto; bottom:16px; left:16px; max-width:60%; }
+.workspace-shell .compare-arena .world-reset-view { top:auto; bottom:16px; right:16px; }
+.workspace-shell .compare-arena .world-orbit-hint { top:12px; bottom:auto; left:16px; transform:none; }
+.workspace-shell .compare-toolbar-focus,.workspace-shell .compare-toolbar-playback { flex-wrap:wrap; gap:8px; }
+.workspace-shell .research-cockpit .embodied-signals { grid-template-columns:minmax(0,1fr); padding:16px; gap:10px; background:#061923; }
+.workspace-shell .research-cockpit .embodied-signals .embodied-preview { display:grid; grid-template-columns:minmax(0,2fr) minmax(220px,1fr); align-items:center; gap:8px 24px; width:100%; max-width:none; justify-self:stretch; padding:0; }
+.workspace-shell .research-cockpit .embodied-signals .fixture-topology { grid-column:1; grid-row:1/4; display:grid; grid-template-rows:auto minmax(0,1fr) auto; gap:6px; width:100%; max-width:none; min-width:0; height:280px; padding:0; margin:0; }
+.workspace-shell .research-cockpit .embodied-signals .fixture-topology svg { width:100%; max-width:none; height:100%; max-height:none; }
+.workspace-shell .research-cockpit .embodied-preview > p,.workspace-shell .research-cockpit .embodied-preview > small,.workspace-shell .research-cockpit .network-preview-instrument { grid-column:2; margin:0; text-align:left; }
+.workspace-shell .research-cockpit .signals-recorded-grid { grid-column:1/-1; width:100%; min-width:0; }
+.workspace-shell .research-cockpit .signal-viz-row { display:grid; grid-template-columns:minmax(0,2fr) minmax(180px,1fr); align-items:center; gap:16px; }
+.workspace-shell .research-cockpit .signal-viz-row .synthetic-network { width:100%; height:280px; }
+.workspace-shell .research-cockpit .embodied-signal header { display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; }
+@media(max-width:1450px) { .instrument-shell .workspace .page-header { padding:20px 24px; gap:14px; } .page-header-tools { flex-basis:100%; } .instrument-shell .page-header .header-badges { justify-content:flex-start; } }
+@media(max-width:800px) { .workspace-shell .compare-condition-readouts { grid-template-columns:minmax(0,1fr); } .workspace-shell .research-cockpit .embodied-signals .embodied-preview,.workspace-shell .research-cockpit .signal-viz-row { grid-template-columns:minmax(0,1fr); } .workspace-shell .research-cockpit .embodied-signals .fixture-topology { grid-row:auto; } .workspace-shell .research-cockpit .embodied-preview > p,.workspace-shell .research-cockpit .embodied-preview > small,.workspace-shell .research-cockpit .network-preview-instrument { grid-column:1; } .instrument-shell .workspace .page-header { padding:18px 16px; } }
+@media(prefers-reduced-motion:reduce) { .status-chip { transition:none; } }
+
+.live-launcher-actions .primary-button:disabled { background:#0b2632; border-color:#315160; color:#9bb1bc; opacity:1; cursor:not-allowed; box-shadow:none; }
+.workspace-shell .compare-playback-container { grid-template-columns:minmax(0,1fr); }
+.workspace-shell .compare-toolbar-playback,.workspace-shell .compare-focus-toolbar { grid-column:1/-1; }
+.workspace-shell .compare-focus-toolbar { justify-content:flex-start; padding-top:4px; }
+.workspace-shell .compare-toolbar-playback .playback-track { flex:1 1 220px; min-width:170px; }

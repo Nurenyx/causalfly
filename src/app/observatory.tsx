@@ -1,4 +1,7 @@
 "use client";
+import { RecordedSimulationEvidence } from "./components/recorded-simulation-evidence";
+import { PageHeader } from "./components/page-header";
+import { LiveConnectomeGate } from "./components/live-connectome-gate";
 
 import { useEffect, useReducer, useRef, useState } from "react";
 import Link from "next/link";
@@ -15,7 +18,6 @@ import { FruitFlyScientist } from "./components/fruitfly-analysis";
 import { ScientistView } from "./components/ai-scientist";
 import { CompareRequirements } from "./components/guided-workflow";
 import { fruitFlyExampleQuestion } from "@/lib/web/observational-question";
-import { sessionStatus } from "@/lib/sources/live-session";
 import { type DataSourceKind } from "@/lib/sources/contracts";
 import { createObservationalAction } from "@/lib/web/observational-action";
 import type { ObservationalMetaState } from "@/lib/web/observational-contracts";
@@ -29,7 +31,7 @@ import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
 import { RunDiagnosticsDetails } from "./components/experiment-trust";
 import { HomeOverview } from "./components/home-overview";
 import { WorkspaceNavigation } from "./components/workspace-navigation";
-import { MetaStatus, FruitFlyStatus, QuestStatus, BrainServerStatus, ConnectomeStatus } from "./components/status-indicator";
+import { MetaStatus, BrainServerStatus, ConnectomeStatus } from "./components/status-indicator";
 import { LiveConnectomeProgress, liveStepAvailable, permittedLiveStep, type LiveConnectomeStep } from "./components/live-connectome-progress";
 import { frameIdentity, investigationWindow, interpretationBelongsToObservation } from "@/lib/web/investigation";
 import { InstrumentModeBar } from "./components/instrument-mode-bar";
@@ -70,9 +72,8 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   const activeObservation = investigationWindow(fruitFly.snapshot, fruitFly.frames, observation);
   const historicalFrames = fruitFly.frames.filter(frame => !activeObservation.frames.includes(frame));
   const hasTelemetry = Boolean(activeObservation.snapshot.evidence);
+  const [replaying, setReplaying] = useState(false);
   const liveStep = permittedLiveStep(requestedLiveStep, Boolean(retainedQuestion), hasTelemetry);
-  const connectionStatus = sessionStatus(fruitFly.snapshot, fruitFly.now ?? 0);
-  const connectionLabel = fruitFly.snapshot.state === "ERROR" ? "CONNECTION ERROR" : fruitFly.snapshot.state === "CONNECTING" ? "CONNECTING" : connectionStatus.historical ? "LAST SNAPSHOT" : connectionStatus.live ? "CONNECTED" : connectionStatus.connected ? "WAITING FOR DATA" : "DISCONNECTED";
   const currentSession = fruitFly.snapshot.evidence?.telemetry.sessionId;
   const fruitFlyAskedQuestion = retainedQuestion;
   const currentMeta = interpretationBelongsToObservation(fruitFlyMeta.result, fruitFlyAskedQuestion, activeObservation.frames);
@@ -108,11 +109,12 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   }
 
   function openWorkspace(next: Workspace) {
-    if (next === "live") setSource("FRUITFLY_XR");
+    if (next === "live") { setSource("FRUITFLY_XR"); setInstrumentMode("observe"); }
     if (next === "observatory") setSource("SYNTHETIC_FIXTURE");
     navigate(next);
   }
   function selectSource(next: DataSourceKind) {
+    if (next === "FRUITFLY_XR") setInstrumentMode("observe");
     setSource(next); setError(""); setNotice("");
     if (!home && workspace !== "evidence") { setLiveStep("question"); navigate(next === "FRUITFLY_XR" ? "live" : "observatory"); }
   }
@@ -130,6 +132,12 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     const target = designRecovery ? "demo-question" : task === "perception" || task === "stimulus" || perceptionRecovery ? "perception-source" : task === "design" ? "demo-question" : task === "interpret" ? "demo-understand" : "demo-watch";
     const summary = designRecovery ? "Experiment design expired. Design it again with the retained stimulus." : perceptionRecovery ? "Perception could not be verified. Re-analyze the video." : task === "design" ? "Meta experiment design failed. Retry." : task === "stimulus" ? "Unable to use this stimulus." : task === "perception" ? "Video analysis failed. Review & retry." : task === "interpret" ? "Meta interpretation failed. Retry." : "Experiment could not run. Retry.";
     const run_id = diagnostics?.manifest.run_id ?? design?.run_id ?? (task === "perception" ? perceptionSession.analysis?.perception.run_id : undefined);
+    if (target === "perception-source") {
+      setError(""); setFailure(undefined);
+      setPerceptionSession(current => ({ ...current, source: "perception", error: detail, errorDiagnostics: diagnostics, editing: perceptionRecovery || current.editing }));
+      requestAnimationFrame(() => document.getElementById("perception-source")?.scrollIntoView({ block: "start", behavior: "smooth" }));
+      return;
+    }
     setError(detail); setErrorTarget(target); setFailure({ id: Date.now(), summary, detail, target, run_id, diagnostics });
   }
   function locateFailure() {
@@ -147,6 +155,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     const requestInvestigationId = action === "design" ? (investigationId ?? 0) + 1 : investigationId;
     if (action === "design") dispatch({ type: "begin", question: researchQuestion });
     else if (action === "run") guideViewportTo("demo-watch", "h2, h3, .run-experiment-btn");
+    if (action === "stimulus" || perceptionId) setPerceptionSession(current => ({ ...current, error: undefined, errorDiagnostics: undefined }));
     inFlight.current = true; setPending(action); setError(""); setErrorTarget(""); setFailure(undefined);
     const selectedId = perceptionId ?? (action === "design" && perceptionSession.source === "perception" ? perceptionSession.analysis?.perception.id : undefined);
     const selectedReceipt = receipt ?? (selectedId === perceptionSession.analysis?.perception.id ? perceptionSession.analysis?.receipt : undefined);
@@ -206,20 +215,12 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     </aside>
     <div className="workspace">
       <FirstRunBanner />
-      <header className="topbar">
-        <div>
-          <span className="breadcrumb">{home ? "CAUSALFLY / OVERVIEW" : workspace === "evidence" ? "RETAINED RECORDS / PROVENANCE" : external ? `LIVE CONNECTOME / ${liveStep.toUpperCase()}` : `CONTROLLED MODEL / ${activeStage}`}</span>
-          <h1>{home ? "Welcome to CausalFly" : workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "observatory" ? "Scientific Experiment Workspace" : "Explore cause and effect."}</h1>
-          <p className="workflow-identity">{home ? "Ask → Test → Understand" : workspace === "evidence" ? "Measurements, source records and AI interpretation — traceable and separate." : external ? "Published structure · observational simulation telemetry" : "An AI scientist for embodied neural experiments."}</p>
-        </div>
-        <div className="header-badges">
-          <MetaStatus mode={mode} disabled={initialStatus.metaDisabled} working={fruitFlyMeta.pending || ["design", "interpret"].includes(pending)} error={error || fruitFlyMeta.error} />
-          <BrainServerStatus snapshot={fruitFly.snapshot} now={fruitFly.now} controlAvailable={brainControlActive} controlStatus={brainControlDetail} />
-          <ConnectomeStatus source={source} snapshot={fruitFly.snapshot} />
-          <QuestStatus />
-          <FruitFlyStatus snapshot={fruitFly.snapshot} now={fruitFly.now} />
-        </div>
-      </header>
+      <PageHeader
+        eyebrow={home ? "CAUSALFLY / OVERVIEW" : workspace === "evidence" ? "RETAINED RECORDS / PROVENANCE" : external ? "LIVE CONNECTOME / SIMULATION" : `CONTROLLED MODEL / ${activeStage}`}
+        title={home ? "Welcome to CausalFly" : workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "compare" ? "Control vs intervention" : "Scientific Experiment Workspace"}
+        subtitle={home ? "Ask → Test → Understand" : workspace === "evidence" ? "Measurements, source records and AI interpretation — traceable and separate." : external ? "Published structure · simulated dynamics · live connection or recorded replay" : "An AI scientist for embodied neural experiments."}
+        status={<><MetaStatus mode={mode} disabled={initialStatus.metaDisabled} working={fruitFlyMeta.pending || ["design", "interpret"].includes(pending)} error={error || fruitFlyMeta.error} /><BrainServerStatus snapshot={fruitFly.snapshot} now={fruitFly.now} controlAvailable={brainControlActive} controlStatus={brainControlDetail} /><ConnectomeStatus source={source} snapshot={fruitFly.snapshot} /></>}
+      />
 
       {!home && workspace !== "evidence" && (
         <InstrumentModeBar
@@ -260,26 +261,29 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
         </div>
       )}
 
-      {!home && external && workspace === "live" && <p className="workflow-notice" role="status"><strong>{connectionLabel}</strong> · {fruitFly.snapshot.message}</p>}
-      {!home && workspace === "live" && <LiveConnectomeProgress step={liveStep} questionRetained={Boolean(fruitFlyAskedQuestion)} evidenceAvailable={hasTelemetry} onStep={step => { if (!liveStepAvailable(step, Boolean(fruitFlyAskedQuestion), hasTelemetry)) return; setLiveStep(step); if (step === "question") requestAnimationFrame(() => document.getElementById("fruitfly-question")?.focus()); }} />}
+
+      {!home && !replaying && workspace === "live" && <LiveConnectomeProgress step={liveStep} questionRetained={Boolean(fruitFlyAskedQuestion)} evidenceAvailable={hasTelemetry} onStep={step => { if (!liveStepAvailable(step, Boolean(fruitFlyAskedQuestion), hasTelemetry)) return; setLiveStep(step); if (step === "question") requestAnimationFrame(() => document.getElementById("fruitfly-question")?.focus()); }} />}
       {!home && workspace !== "evidence" && workspace !== "observatory" && workspace !== "live" && <div className="workflow-next"><div><span className="eyebrow">{busy ? "REQUEST IN PROGRESS" : "NEXT"}</span><p>{nextLabel}</p></div><button type="button" className="primary-button" disabled={busy || !mode} onClick={nextAction}><MetaRequestLabel pending={busy && pending !== "run"} task={pending === "design" ? "design" : "explain"}>{nextLabel} ↗</MetaRequestLabel></button></div>}
       {!mode && <p className="workflow-notice">Meta configuration is required for design or interpretation. Existing measurements remain inspectable.</p>}
       {!home && workspace === "observatory" && notice && <p className="workflow-notice" role="status">{notice}</p>}
       {error && <div className="error-panel" role="alert"><strong>Action could not complete</strong><p>{error}</p>{failure?.diagnostics ? <RunDiagnosticsDetails diagnostics={failure.diagnostics} /> : failure?.run_id && <details><summary>Run reference</summary><p>Run: <code>{failure.run_id}</code></p></details>}</div>}
       <main id="main" tabIndex={-1} className="main-content" aria-label={home ? "Home overview" : `${primaryWorkspace === "live" ? "Live Connectome" : activeStage} workspace`}>
         {home ? <HomeOverview disabled={busy} onOpen={openWorkspace} /> : external ? <>
-          {workspace === "compare" ? <CompareRequirements external onNext={() => navigate("evidence")} /> : workspace === "evidence" ? <><p className="workflow-notice">{fruitFlyAskedQuestion ? `ACTIVE INVESTIGATION - ${fruitFlyAskedQuestion}` : "No question submitted"}{!hasTelemetry && " · No evidence observed for this question yet."}</p><FruitFlyEvidenceView snapshot={activeObservation.snapshot} question={fruitFlyAskedQuestion} />{historicalFrames.length > 0 && <details className="panel"><summary>HISTORICAL / RETAINED RECORDS · unrelated to the active question</summary><FruitFlyEvidenceView snapshot={{ ...fruitFly.snapshot, evidence: historicalFrames.at(-1)!, state: "DISCONNECTED", message: "Historical context only. No current activity is claimed." }} /></details>}{currentMeta && fruitFlyMeta.result && <details className="panel"><summary>Frozen Meta interpretation / proposal provenance</summary><p>Analysis belongs to session {fruitFlyMeta.result.evidence.sessionId}; inspect its exact frozen window.</p><pre>{JSON.stringify(fruitFlyMeta.result, null, 2)}</pre></details>}</> : liveStep === "understand" ? <FruitFlyScientist snapshot={activeObservation.snapshot} frames={activeObservation.frames} now={fruitFly.now} question={fruitFlyAskedQuestion} meta={metaProps} onLive={() => setLiveStep("observe")} onEvidence={() => navigate("evidence")} /> : <>
+          {workspace === "compare" ? <CompareRequirements external onNext={() => navigate("evidence")} /> : workspace === "evidence" ? replaying ? <RecordedSimulationEvidence /> : <><p className="workflow-notice">{fruitFlyAskedQuestion ? `ACTIVE INVESTIGATION - ${fruitFlyAskedQuestion}` : "No question submitted"}{!hasTelemetry && " · No evidence observed for this question yet."}</p><FruitFlyEvidenceView snapshot={activeObservation.snapshot} question={fruitFlyAskedQuestion} />{historicalFrames.length > 0 && <details className="panel"><summary>HISTORICAL / RETAINED RECORDS · unrelated to the active question</summary><FruitFlyEvidenceView snapshot={{ ...fruitFly.snapshot, evidence: historicalFrames.at(-1)!, state: "DISCONNECTED", message: "Historical context only. No current activity is claimed." }} /></details>}{currentMeta && fruitFlyMeta.result && <details className="panel"><summary>Frozen Meta interpretation / proposal provenance</summary><p>Analysis belongs to session {fruitFlyMeta.result.evidence.sessionId}; inspect its exact frozen window.</p><pre>{JSON.stringify(fruitFlyMeta.result, null, 2)}</pre></details>}</> : liveStep === "understand" ? <FruitFlyScientist snapshot={activeObservation.snapshot} frames={activeObservation.frames} now={fruitFly.now} question={fruitFlyAskedQuestion} meta={metaProps} onLive={() => setLiveStep("observe")} onEvidence={() => navigate("evidence")} /> : <>
+            <LiveConnectomeGate snapshot={fruitFly.snapshot} now={fruitFly.now} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} replaying={replaying} onReplay={setReplaying} />
+            {!replaying && <>
             <InvestigationQuestion question={fruitFlyQuestion} setQuestion={fruitFlyAskedQuestion} hasEvidence={hasTelemetry} onChange={question => dispatch({ type: "fruitfly-question", question })} onSet={() => { dispatch({ type: "fruitfly-ask", question: fruitFlyQuestion, sessionId: currentSession, startedAt: new Date().toISOString(), excluded: fruitFly.frames.map(frameIdentity) }); setFruitFlyMeta({ pending: false }); setLiveStep("observe"); }} />
             {fruitFly.snapshot.evidence && !hasTelemetry && <p className="workflow-notice">Retained telemetry is historical context for this question. Active observation requires a newly received frame.</p>}
             {liveStep === "observe" && fruitFlyAskedQuestion ? <LiveSessionWorkspace snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} onEvidence={() => navigate("evidence")} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} onInterpret={() => setLiveStep("understand")} /> : <section className="panel"><p>Set an investigation question first. The research connection can receive data while you define the question; earlier frames will remain historical context.</p></section>}
             <p className="trace-note">XR PREVIEW · The current bridge supplies no video or image feed. Published soma geometry and received telemetry are shown above.</p>
+            </>}
           </>}
         </> : workspace === "live" ? <section className="panel"><h2>Observe a connectome simulation.</h2><p>Live Session uses the Live connectome simulation read-only telemetry source. Your synthetic experiment stays retained when switching sources.</p><button type="button" className="primary-button" onClick={() => selectSource("FRUITFLY_XR")}>Select Live connectome simulation ↗</button></section> : (workspace === "compare" || workspace === "observatory") ? <>
           <GuidedExperiment instrumentMode={workspace === "compare" ? "compare" : instrumentMode} question={question} design={effectiveDesign} result={result} pending={pending} mode={mode} amplitude={syntheticAmplitude} onAmplitude={setSyntheticAmplitude} flyModel={flyModel} onFlyModel={setFlyModel}
             perceptionSession={perceptionSession} onPerceptionSession={setPerceptionSession}
             perceptionWorkflowError={errorTarget === "perception-source" ? error : undefined}
             actionError={error ? { target: errorTarget, detail: error } : undefined}
-            onPerceptionFailure={(message, diagnostics) => reportFailure("perception", message, diagnostics)}
+            onPerceptionFailure={(_message, diagnostics) => { if (diagnostics) dispatch({ type: "diagnostics", diagnostics }); }}
             onDesignPerception={(id, receipt) => void execute("design", question, undefined, id, receipt)}
             onStimulus={(id, receipt) => void execute("stimulus", question, undefined, id, receipt)}
             onPerceptionBusy={value => { inFlight.current = value; setPending(value ? "perception" : ""); if (value) { setError(""); setFailure(undefined); } }}
@@ -296,6 +300,6 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       </main>
       {!home && <footer className="scientific-disclaimer">◇ {external ? `Live connectome simulation · ${SCIENTIFIC_PROVENANCE.conciseIdentity.summary} (${SCIENTIFIC_PROVENANCE.conciseIdentity.tag}); simulated dynamics; not recordings from a living fly. ${SCIENTIFIC_PROVENANCE.anatomicalDisclosure.sexMatchNotice}` : "Synthetic engineering fixture · not a biological model or Drosophila finding."}</footer>}
     </div>
-    {!home && <CausalFlyAssistant key={`${source}:${external ? observation?.id ?? 0 : `${investigationId ?? 0}:${design?.id ?? "no-design"}`}`} investigationQuestion={external ? fruitFlyAskedQuestion : undefined} pendingTask={pending} source={source} workspace={workspace} snapshot={activeObservation.snapshot} frames={activeObservation.frames} now={fruitFly.now} result={result} mode={mode} meta={fruitFlyMeta} busy={busy} onAnalyze={analyzeFruitFly} onNavigate={navigate} onSynthetic={() => selectSource("SYNTHETIC_FIXTURE")} onDesign={useNextQuestion} workflowContext={{ stage: activeStage, identity, next: nextLabel, onNext: nextAction }} onFullAnalysis={() => navigate("scientist")} />}
+    {!home && !(external && replaying) && <CausalFlyAssistant key={`${source}:${external ? observation?.id ?? 0 : `${investigationId ?? 0}:${design?.id ?? "no-design"}`}`} investigationQuestion={external ? fruitFlyAskedQuestion : undefined} pendingTask={pending} source={source} workspace={workspace} snapshot={activeObservation.snapshot} frames={activeObservation.frames} now={fruitFly.now} result={result} mode={mode} meta={fruitFlyMeta} busy={busy} onAnalyze={analyzeFruitFly} onNavigate={navigate} onSynthetic={() => selectSource("SYNTHETIC_FIXTURE")} onDesign={useNextQuestion} workflowContext={{ stage: activeStage, identity, next: nextLabel, onNext: nextAction }} onFullAnalysis={() => navigate("scientist")} />}
   </div></DiagnosticVisibilityProvider>;
 }

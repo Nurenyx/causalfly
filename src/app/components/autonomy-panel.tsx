@@ -15,11 +15,13 @@ const World = dynamic(() => import("./embodied-world"), { ssr: false, loading: (
 
 export function AutonomyPanel({
   model = "anatomical",
+  startLiveTrial = false,
   onModelStatus,
   snapshot,
   onBrainControlStatus,
 }: {
   model?: FlyModelKind;
+  startLiveTrial?: boolean;
   onModelStatus?: (status: FlyModelStatus) => void;
   snapshot?: FruitFlySnapshot;
   onBrainControlStatus?: (available: boolean, status: string) => void;
@@ -29,9 +31,9 @@ export function AutonomyPanel({
   const reportModelStatus = useCallback((status: FlyModelStatus) => { setModelStatus(status); onModelStatus?.(status); }, [onModelStatus]);
   const [session, setSession] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [trial, setTrial] = useState(false);
+  const [trial, setTrial] = useState(startLiveTrial);
   const [matched, setMatched] = useState(false);
-  const [brainInput, setBrainInput] = useState(false);
+  const [brainInput, setBrainInput] = useState(startLiveTrial);
   const [frames, setFrames] = useState<(AutonomyFrame | null)[]>([null]);
   const [retained, setRetained] = useState<AutonomyFrame[][]>([]);
   const [transportStatus, setTransportStatus] = useState("");

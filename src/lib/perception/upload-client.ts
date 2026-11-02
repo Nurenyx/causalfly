@@ -1,40 +1,32 @@
-import type { MediaReference } from "./blob-contract";
+import { mediaReference, videoContentType, type MediaReference } from "./blob-contract";
 
-
-
-/** Only the small authorization request reaches Next. Raw bytes go to the signed Blob PUT URL. */
-
-export async function uploadVideo(file: File, progress: (stage: string) => void): Promise<MediaReference> {
-
-  progress("Preparing upload");
-
-  const response = await fetch("/api/media/authorize", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ originalFilename: file.name, sizeBytes: file.size, contentType: file.type || (/\.mov$/i.test(file.name) ? "video/quicktime" : "video/mp4") }) });
-
-  const data = await response.json();
-
-  if (!response.ok) throw new Error(data.error || "Secure upload authorization failed. Retry.");
-
-  await new Promise<void>((resolve, reject) => {
-
-    const xhr = new XMLHttpRequest();
-
-    xhr.open("PUT", data.presignedUrl); xhr.timeout = 120_000;
-
-    xhr.setRequestHeader("Content-Type", file.type || (/\.mov$/i.test(file.name) ? "video/quicktime" : "video/mp4"));
-
-    xhr.upload.onprogress = event => { if (event.lengthComputable) progress(`Uploading — ${Math.round(event.loaded / event.total * 100)}%`); };
-
-    xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error("Secure upload failed or expired. Retry upload; use an MP4/MOV of at most 20 MiB."));
-
-    xhr.onerror = xhr.ontimeout = () => reject(new Error("Secure upload interrupted. Check your connection and retry."));
-
-    progress("Uploading — 0%");
-    xhr.send(file);
-
-  });
-
-  progress("Upload complete · ready");
-
-  return data.reference;
-
+/** Raw bytes go directly to private Blob, never through a Next request body. */
+export async function uploadVideo(file: File, progress: (stage: string) => void, transport = { fetch: ((input, init) => globalThis.fetch(input, init)) as typeof fetch, createXHR: () => new XMLHttpRequest() }): Promise<MediaReference> {
+  try {
+    const contentType = videoContentType(file.name, file.type);
+    progress("Preparing upload");
+    const response = await transport.fetch("/api/media/authorize", { method: "POST", headers: { "Content-Type": "application/json" }, signal: AbortSignal.timeout(35_000), body: JSON.stringify({ originalFilename: file.name, sizeBytes: file.size, contentType }) });
+    let data;
+    try { data = await response.json(); } catch { throw new Error("Upload authorization returned an unreadable response. Retry upload."); }
+    if (!response.ok) throw new Error(data.error || "Secure upload authorization failed. Retry upload.");
+    const reference = mediaReference.parse(data.reference);
+    // Signed PUT uses the Blob API host; private object URLs are for reads.
+    const destination = new URL(data.presignedUrl);
+    if (destination.protocol !== "https:" || destination.username || destination.password) throw new Error("Private upload destination is unavailable. Ask the host to check storage configuration.");
+    await new Promise<void>((resolve, reject) => {
+      const xhr = transport.createXHR();
+      xhr.open("PUT", destination.href); xhr.timeout = 120_000;
+      xhr.setRequestHeader("Content-Type", contentType);
+      xhr.upload.onprogress = event => { if (event.lengthComputable) progress(`Uploading — ${Math.round(event.loaded / event.total * 100)}%`); };
+      xhr.onload = () => xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error("Private upload failed or expired. Retry upload with the selected video."));
+      xhr.onerror = xhr.ontimeout = () => reject(new Error("Private upload interrupted. Check your connection and retry upload."));
+      progress("Uploading — 0%"); xhr.send(file);
+    });
+    progress("Upload complete · not yet analyzed");
+    return reference;
+  } catch (error) {
+    progress("Upload incomplete · video remains local");
+    if (error instanceof Error && ["AbortError", "TimeoutError"].includes(error.name)) throw new Error("Upload authorization timed out. Your video remains selected; retry upload.");
+    throw error;
+  }
 }
