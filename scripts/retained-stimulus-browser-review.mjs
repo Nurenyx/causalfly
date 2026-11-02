@@ -37,9 +37,9 @@ export async function reviewRetainedStimulusRecovery(video,context,base,dir,anal
   const handler=route=>{counters[key]++;return route.abort();};guards.push([pattern,handler]);await context.route(pattern,handler);
  }
  await context.route('**/api/experiments',experiments);
- await video.getByRole('button',{name:'USE AS EXPERIMENT STIMULUS',exact:true}).click();
- await video.getByText('Stimulus retained. The previous experiment design expired, so create a new design using this measured stimulus.',{exact:true}).waitFor();
- const designButton=video.getByRole('button',{name:'DESIGN EXPERIMENT WITH THIS STIMULUS',exact:true});await designButton.waitFor();
+ await video.getByRole('button',{name:'DESIGN EXPERIMENT WITH THIS PROXY',exact:true}).click();
+ await video.getByText('Proxy retained. The previous experiment design expired, so create a new design using this experimental proxy.',{exact:true}).waitFor();
+ const designButton=video.getByRole('button',{name:'DESIGN EXPERIMENT WITH THIS PROXY',exact:true});await designButton.waitFor();
  assert.equal(await video.locator('.error-panel,.workflow-error-notice,.perception-error').count(),0,'No terminal error or loss-of-analysis presentation');
  assert.equal(await video.locator('.scene-candidates input:checked').count(),1,'Selected Muse candidate survives stale-design recovery');
  await video.locator('.perception-player canvas').waitFor();

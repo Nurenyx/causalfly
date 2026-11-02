@@ -60,6 +60,11 @@
 .meta-role-chain li { font-size: .65rem; position: relative; }
 .meta-role-chain li + li::before { content: '→'; color: #ffba42; position: absolute; left: -.8rem; }
 .meta-role-chain small { color: #a7bbc9; margin-top: .15rem; }
+.perception-stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.perception-stages li { min-width: 0; }
+.perception-proxy-guidance { border-left: 2px solid #4de5f870; padding: 3px 9px; color: #a7bbc9; font-size: 12px; line-height: 1.5; }
+.perception-proxy-guidance strong { color: #c3dbe5; font-weight: 500; }
+.perception-proxy-guidance p { margin: 3px 0 0; }
 .scene-status { color: #ffd080; font-size: .7rem; font-weight: 700; margin: .5rem 0; }
 .scene-summary { font-size: .75rem; color: #c4d8e4; margin: .5rem 0; }
 .scene-candidates { display: grid; gap: .4rem; margin: .5rem 0; }
@@ -98,3 +103,5 @@
   .research-cockpit .embodied-world-column:has(.perception-compact[data-scene=true][data-success=false]) .embodied-arena { min-height: 200px; }
 }
 @media (max-width: 720px) { .perception-metrics { grid-template-columns: repeat(2, 1fr); } .perception-source small { flex-basis: 100%; margin: 0; } .perception-chain { flex-wrap: wrap; } .perception-player-controls { flex-wrap: wrap; } .perception-upload input { max-width: 100%; } }
+
+.research-cockpit .perception-stages li, .research-cockpit .perception-stages small { font-size: 11px; line-height: 1.4; }

@@ -381,3 +381,28 @@ An already destroyed legacy random key cannot be reconstructed: such an old rece
 ### Preservation and final review gate
 
 All preexisting review artifacts, including Sprint 16B.2's live report, guard record and genuine screenshots, were verified byte-for-byte unchanged against the pre-repair hash inventory. The preexisting review document remains an identical prefix with this section appended. No Muse/SAM model, confidence threshold, prompt, scientific measurement or FruitFly XR file was changed. Fixture storage requests in the regression suite were intercepted; **no actual media upload or live provider call was made**. Final Git status/stat/name inventory was reviewed and `git diff --check` passed. No commit, push or deployment was performed. **Sprint 16B.2 live acceptance remains valid and unchanged; stop for human review of this recovery repair.**
+
+
+## Sprint 16B.4 — real-world perception scientific clarity
+
+Starting state: `feat/hackathon-final-acceptance`, HEAD `19b831c`, clean working tree. This is a presentation-only clarification of the existing accepted pipeline; no new live acceptance was attempted.
+
+The previous “derived stimulus” / “use as experiment stimulus” language could imply that a geometry-derived number represented biological perception, or that completing tracking should make the fly react. Object tracking supplies image/video geometry, not Drosophila retinal encoding or pathway-specific sensory input. CausalFly converts that geometry into a reproducible **Experimental Proxy** for a controlled simulation. The value is not measured neural activity, validated biological perception, automatic connectome input, or evidence of biological behavior.
+
+The perception panel now presents **SEE / TRACK / MEASURE / TEST**: Muse scene understanding; SAM object tracking; CausalFly experimental-proxy measurement; experiment design with Meta, explicit approval, then simulation. Results say “Derived from tracked video geometry.” and “Not yet calibrated to biological visual input.” Nearby guidance explains: “Tracking does not directly drive the fly. Use this proxy to design and run a controlled experiment.” The primary action is **DESIGN EXPERIMENT WITH THIS PROXY**. The existing closed Perception Details disclosure explains the lack of calibration to Drosophila retinal or pathway-specific sensory encoding. Related design, world-panel, Evidence and trust labels use the same proxy terminology where the input comes from video.
+
+No deterministic calculation, confidence threshold (0.5), prompt, model, scientific measurement, provider handler, receipt validation, approval requirement, or experiment behavior changed. The existing acceptance/fresh-design handlers remain in place; only their labels changed. No biological calibration, neural pathway, automatic fly reaction, or fallback candidate was added. FruitFly XR was untouched.
+
+Verification:
+
+- `npm test`: **519 tests passed** (401 library/server + 118 component), zero failures. New rendering coverage verifies proxy terminology, tracked geometry, uncalibrated biological input, all four stages, closed scientific disclosure, and no implicit execution/approval. Existing signed-receipt, fresh-design and recovery tests still pass.
+- `npm run build`: PASS on the final presentation code.
+- `npm run lint`: PASS.
+- `node scripts/sprint16a-browser-review.mjs`: **49 checks passed, zero runtime errors**, against an isolated local production server with `CAUSALFLY_FAKE_META=1`. New artifacts are confined to `docs/review/sprint-16b4/`; historical output directories were not overwritten.
+- The recovery fixture retained the selected candidate and all perception geometry/provenance, including the displayed **0.488** value. Actions were exactly `stimulus`, then explicit `design`; storage authorization, PUT, Muse, SAM and experiment-run counters during proxy-to-design recovery were all **zero**. The fresh draft awaited explicit approval. Tracking completion alone did not execute a trial.
+- Focused presentation fixtures were generated and visually inspected at **1366×768, 1440×900, 1536×1024 and 1920×1080**. Each shows the completed offline scene/tracking result, Experimental Proxy value, calibration disclosure, design action and no-direct-fly-drive guidance. The focused offline fixture displays **0.640**; the separate populated intercepted tracking/recovery fixture retains **0.488**. Both are clearly authored fixtures, not new live model evidence. Layout assertions check visible ordered stages/result/guidance/action, no horizontal overflow, and populated inspector content without clipping or overlap.
+- Screenshot links: [1366](review/sprint-16b4/experimental-proxy-1366.png), [1440](review/sprint-16b4/experimental-proxy-1440.png), [1536](review/sprint-16b4/experimental-proxy-1536.png), [1920](review/sprint-16b4/experimental-proxy-1920.png). Machine-readable fixture evidence: [results](review/sprint-16b4/results.json).
+- SHA-256 audit: all **800** pre-existing files under `docs/review` and `src/lib` were unchanged. This includes historical Sprint 16B.2 live acceptance and Sprint 16B.3 recovery evidence, provider prompts/models, the candidate gate and deterministic feature extraction. The complete pre-existing bytes of this review document were preserved before appending this section.
+- `git diff --check`: PASS.
+
+No Muse or SAM provider requests, actual storage authorization/private PUT, or media uploads were performed. The broad browser regression uses locally intercepted upload/analysis responses and offline endpoints; the focused clarity fixture rejects live-analysis and media routes. This sprint adds no new live verification claim. No commit, push or deployment was performed; human review remains the final gate.

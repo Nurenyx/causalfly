@@ -696,12 +696,12 @@ export function EmbodiedExperiment({
           <div className="embodied-inputs">
             <div className="stimulus-control">
               <div className="stimulus-label">
-                <label htmlFor="stimulus-strength">STIMULUS STRENGTH</label>
+                <label htmlFor="stimulus-strength">{perception ? "EXPERIMENTAL PROXY" : "STIMULUS STRENGTH"}</label>
                 <InfoTooltip label="Stimulus strength">{cockpitHelp.stimulus}</InfoTooltip>
                 <output>{strength.toFixed(3)}</output>
               </div>
               {perception ? (
-                <output id="stimulus-strength" className="measured-stimulus" aria-label="Measured stimulus strength">
+                <output id="stimulus-strength" className="measured-stimulus" aria-label="Experimental proxy">
                   {strength.toFixed(3)} · MEASURED / LOCKED
                 </output>
               ) : (
@@ -719,7 +719,7 @@ export function EmbodiedExperiment({
               )}
               <small role="status">
                 {perception
-                  ? "CausalFly-derived value · switch to Synthetic to choose another input"
+                  ? "Video geometry proxy · not biologically calibrated"
                   : changed
                   ? "INPUT CHANGED — REDESIGN REQUIRED"
                   : design
@@ -731,7 +731,7 @@ export function EmbodiedExperiment({
             {perception && (
               <div className="world-perception-source">
                 PERCEPTION SOURCE: {perception.mode === "SAM LIVE" ? "META SAM 3.1" : "OFFLINE SAM FIXTURE"}
-                <span>{perception.concept} → visual expansion → {perception.measurement.amplitude.toFixed(3)} stimulus → {result ? "recorded engine response" : "awaiting approval"}</span>
+                <span>{perception.concept} → visual expansion → {perception.measurement.amplitude.toFixed(3)} experimental proxy → {result ? "recorded engine response" : "awaiting approval"}</span>
               </div>
             )}
             {source}
@@ -759,7 +759,7 @@ export function EmbodiedExperiment({
                   >
                     {!design ? "Design test first" : busy ? "Request in progress…" : changed ? "Redesign required" : result ? "Run experiment" : "Approve & Run Experiment"}
                   </button>
-                  <small>{perception ? "SAM geometry → CausalFly amplitude → matched runs" : "Same input · only one pathway changes"}</small>
+                  <small>{perception ? "SAM geometry → CausalFly proxy → approved matched runs" : "Same input · only one pathway changes"}</small>
                 </div>
               )}
 

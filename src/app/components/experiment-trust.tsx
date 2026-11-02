@@ -30,7 +30,7 @@ export function ExperimentTrust({ diagnostics }: { diagnostics?: RunDiagnostics 
     ["Same input conditions", v?.sameInputs], ["Same experiment parameters", v?.sameParameters],
     ["Intervention applied", v?.interventionApplied], ["Control result present", v?.controlPresent],
     ["Intervention result present", v?.interventionPresent], ["Measurements immutable on server", v?.measurementsImmutable],
-    ...(m.perception ? [["Track returned", v?.trackReturned], ["Derived stimulus valid", v?.derivedStimulusValid]] as [string, boolean | undefined][] : []),
+    ...(m.perception ? [["Track returned", v?.trackReturned], ["Experimental proxy valid", v?.derivedStimulusValid]] as [string, boolean | undefined][] : []),
   ];
   const matched = v?.sameInputs && v.sameParameters && v.interventionApplied;
   return <section className="experiment-trust" aria-label="Experiment trust">
@@ -46,7 +46,7 @@ export function ExperimentTrust({ diagnostics }: { diagnostics?: RunDiagnostics 
     <p>{v?.replayableInputs ? "REPLAYABLE INPUTS ✓" : "⚠ Replay inputs incomplete"}</p>
     <details><summary>Validation & scientific boundaries</summary>
       <ul>{checks.map(([label, passed]) => <li key={label}>{passed === true ? "✓" : "⚠"} {label}</li>)}</ul>
-      <p>AI proposes and interprets. CausalFly measures. SAM perceives; CausalFly derives the stimulus. These are deterministic synthetic model results, not validated biological predictions. Replay inputs include the exact network and parameters; this run was not rerun to verify equality.</p>
+      <p>AI proposes and interprets. CausalFly measures. SAM tracks objects; CausalFly derives an experimental proxy, not biologically calibrated visual input. These are deterministic synthetic model results, not validated biological predictions. Replay inputs include the exact network and parameters; this run was not rerun to verify equality.</p>
       <p>Immutability describes the engine-issued server snapshot. The download is an inspectable copy, not a signed attestation.</p>
       {m.warnings.length > 0 && <ul>{m.warnings.map((warning, i) => <li key={i}>⚠ {warning}</li>)}</ul>}
     </details>

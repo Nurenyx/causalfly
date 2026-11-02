@@ -84,10 +84,10 @@ try {
   await page.getByRole("button", { name: "Dismiss error notification", exact: true }).click();
   await page.locator(".perception-offline-option summary").click();
   await page.getByRole("button", { name: "Load OFFLINE SAM FIXTURE", exact: true }).click();
-  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS STIMULUS", exact: true }).waitFor();
+  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).waitFor();
   assert.match(await page.locator(".perception-panel").innerText(), /0.640/);
   await responsive("tracked-stimulus"); await capture("03-tracked-derived-stimulus-1920");
-  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS STIMULUS", exact: true }).click();
+  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).click();
   await page.locator(".scientist-action").getByRole("button", { name: "Approve & Run Experiment", exact: true }).waitFor();
   await page.locator(".scientist-action").getByRole("button", { name: "Approve & Run Experiment", exact: true }).click();
   await page.locator(".scientist-action").getByRole("button", { name: "Explain with Meta", exact: false }).waitFor();

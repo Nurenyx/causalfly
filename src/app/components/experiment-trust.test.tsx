@@ -35,7 +35,7 @@ test("failed checks and offline fixture are labeled truthfully", () => {
   assert.match(html, /⚠ Check conditions/);
   assert.match(html, /Offline geometry retained/);
   assert.match(html, /Interpretation failed/);
-  assert.match(html, /⚠ Derived stimulus valid/);
+  assert.match(html, /⚠ Experimental proxy valid/);
   assert.doesNotMatch(html, /✓ Matched conditions|SAM track retained|✓ Track returned/);
 });
 

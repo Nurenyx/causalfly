@@ -17,6 +17,17 @@ import { offlineScene, type SceneRecord } from "../../lib/perception/scene";
 const f = offlinePerceptionFixture("offline-test");
 const forbidden = () => { assert.fail("Rendering must never upload, analyze, approve, or execute"); };
 const scene: SceneRecord = { id: "scene-test", run_id: "run-test", provider: "CausalFly fixture", model: "calibration-scene-v1", mode: "OFFLINE SCENE-UNDERSTANDING FIXTURE", mediaSha256: "test", result: offlineScene };
+
+test("completed tracking presents an uncalibrated geometry proxy and an optional approved test", () => {
+  const session = { ...initialPerceptionSession(), source: "perception" as const, analysis: { ok: true as const, perception: f } };
+  for (const accepted of [undefined, f]) {
+    const html = renderToStaticMarkup(<PerceptionPanel compact session={session} accepted={accepted} hasDesign={Boolean(accepted)} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} onDesign={forbidden} onRun={forbidden} />);
+    for (const text of ["EXPERIMENTAL PROXY", "0.640", "Derived from tracked video geometry.", "Not yet calibrated to biological visual input.", "Tracking does not directly drive the fly.", "Current proxy values are derived from image/video geometry", "Drosophila retinal or pathway-specific sensory encoding", ">SEE<", ">TRACK<", ">MEASURE<", ">TEST<", "Design with Meta → approve → simulate"]) assert.ok(html.includes(text), text);
+    assert.doesNotMatch(html, /DERIVED STIMULUS|USE AS EXPERIMENT STIMULUS|biological stimulus|<details[^>]* open/);
+    if (!accepted) assert.match(html, /DESIGN EXPERIMENT WITH THIS PROXY/);
+    assert.doesNotMatch(html, /APPROVE &amp; RUN EXPERIMENT/);
+  }
+});
 test("video selection renders only explicit discovery with no automatic Muse or SAM invocation", () => {
   const session = { ...initialPerceptionSession(), source: "perception" as const, file: new File(["clip"], "clip.mp4"), ready: true };
   const html = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
@@ -26,7 +37,7 @@ test("video selection renders only explicit discovery with no automatic Muse or 
 test("scene candidates require explicit selection; offline attribution and roles remain visible", () => {
   const session = { ...initialPerceptionSession(), source: "perception" as const, scene };
   const html = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
-  for (const label of [/OFFLINE SCENE-UNDERSTANDING FIXTURE/, /radiogroup/, /Suggested · select to confirm/, /MUSE SPARK/, /Object tracking/, /Deterministic measurement/]) assert.match(html, label);
+  for (const label of [/OFFLINE SCENE-UNDERSTANDING FIXTURE/, /radiogroup/, /Suggested · select to confirm/, /MUSE SPARK/, /Object tracking/, /Experimental proxy/]) assert.match(html, label);
   assert.doesNotMatch(html, /checked=""|TRACK RED SQUARE WITH SAM/);
 });
 test("selected candidate enables exact explicit SAM CTA, and manual override replaces it", () => {
@@ -49,7 +60,7 @@ test("synthetic is the reliable default; rendering never calls SAM or exposes a 
 });
 test("offline perception is labelled, scoped to its own diagram, and requires an approved run", () => {
   const html = renderToStaticMarkup(<PerceptionPanel accepted={f} hasDesign busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
-  for (const label of [/OFFLINE TRACKING FIXTURE/, /NO LIVE DETECTION/, /8.0% → 40.0%/, /0.640/, /STIMULUS READY/, /PERCEPTION DETAILS/]) assert.match(html, label);
+  for (const label of [/OFFLINE TRACKING FIXTURE/, /NO LIVE DETECTION/, /8.0% → 40.0%/, /0.640/, /PROXY READY/, /PERCEPTION DETAILS/]) assert.match(html, label);
   assert.doesNotMatch(html, /<video|<canvas/);
   const summary = renderToStaticMarkup(<><PerceptionSummary perception={f} /><PerceptionDetails perception={f} /></>);
   assert.match(summary, /Input provenance only/); assert.match(summary, /not causal evidence/);
@@ -57,19 +68,19 @@ test("offline perception is labelled, scoped to its own diagram, and requires an
 test("retained perceive-first state has one enabled design action and collapses upload controls", () => {
   const session = { ...initialPerceptionSession(), source: "perception" as const, analysis: { ok: true as const, perception: f, receipt: "server-signed" } };
   const html = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} onDesign={forbidden} />);
-  assert.match(html, /DESIGN EXPERIMENT WITH THIS STIMULUS/);
-  assert.match(html, /Meta will design a controlled test using the measured stimulus/);
+  assert.match(html, /DESIGN EXPERIMENT WITH THIS PROXY/);
+  assert.match(html, /Meta will propose a controlled test using this proxy/);
   assert.match(html, /CHANGE VIDEO/);
   assert.doesNotMatch(html, /type="file"|Analyze with SAM|disabled=""|<details[^>]* open/);
   assert.equal((html.match(/class="primary-button"/g) ?? []).length, 1);
-  assert.match(html, /META DESIGNS TEST/); assert.match(html, /CAUSALFLY RUNS EXPERIMENT/);
+  assert.match(html, /Design with Meta → approve → simulate/);
 });
 test("existing design offers acceptance; pending design disables repeated requests inline", () => {
   const session = { ...initialPerceptionSession(), source: "perception" as const, analysis: { ok: true as const, perception: f } };
   const ready = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign busy={false} accepting={false} onBusy={forbidden} onUse={forbidden} />);
-  assert.match(ready, /USE AS EXPERIMENT STIMULUS/); assert.doesNotMatch(ready, /DESIGN EXPERIMENT WITH THIS STIMULUS/);
+  assert.match(ready, /DESIGN EXPERIMENT WITH THIS PROXY/); assert.doesNotMatch(ready, /USE AS EXPERIMENT STIMULUS/);
   const pending = renderToStaticMarkup(<PerceptionPanel session={session} hasDesign={false} busy designing accepting={false} onBusy={forbidden} onUse={forbidden} onDesign={forbidden} />);
-  assert.match(pending, /disabled="" aria-busy="true"/); assert.match(pending, /META IS DESIGNING WITH THIS STIMULUS/);
+  assert.match(pending, /disabled="" aria-busy="true"/); assert.match(pending, /META IS DESIGNING WITH THIS PROXY/);
 });
 
 test("accepted cockpit stimulus collapses media without dropping track evidence or adding an approval action", () => {

@@ -113,7 +113,7 @@ export function GuidedExperiment(props: Props) {
 
   const progress = [
     { id: "ask", label: "ASK", complete: Boolean(currentDesign), target: "demo-question", detail: "Research question" },
-    { id: "perceive", label: "INPUT", complete: realWorld && perceived, target: "perception-source", detail: "Optional synthetic or video-derived stimulus" },
+    { id: "perceive", label: "INPUT", complete: realWorld && perceived, target: "perception-source", detail: "Optional synthetic or video-derived experimental proxy" },
     { id: "design", label: "DESIGN", complete: Boolean(currentDesign), target: "demo-understand", detail: "Meta proposes" },
     { id: "run", label: "RUN", complete: Boolean(currentResult), target: "demo-watch", detail: "Engine measures" },
     { id: "understand", label: "UNDERSTAND", complete: Boolean(currentResult?.analysis), target: "demo-understand", detail: "Meta interprets" },
@@ -269,7 +269,7 @@ export function GuidedExperiment(props: Props) {
 
       {!realWorld && (
         <p className="synthetic-input-note">
-          Use the built-in controlled stimulus, or choose video to derive one with Meta AI. Video is optional; external perception skipped / not required.
+          Use a synthetic input, or choose video: Meta tracks the object; CausalFly derives an experimental proxy. Video is optional; external perception skipped / not required.
         </p>
       )}
 

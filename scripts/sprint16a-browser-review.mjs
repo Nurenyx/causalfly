@@ -1,6 +1,7 @@
 // Local production acceptance: deterministic Meta fixtures; no paid provider or XR calls.
 import { humanRecoveryMeasurement, reviewRetainedStimulusRecovery } from "./retained-stimulus-browser-review.mjs";
 import { videoGeometry } from "./video-acceptance-geometry.mjs";
+import { reviewProxyClarity } from "./proxy-clarity-browser-review.mjs";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -229,6 +230,7 @@ try {
   assert.equal(attempts,5);assert.equal(puts,2,'Replacing the selected file intentionally invalidates its old upload');
   checks.push({name:'replacement-and-verified-expiry',newUploadRequired:true,unavailableOnlyAfterServerVerification:true});
   await videoContext.close();
+  checks.push(await reviewProxyClarity(browser,base,dir));
   fs.writeFileSync(`${dir}/results.json`,JSON.stringify({checks,errors},null,2));
   for (const width of [1920,1536,1440,1366]) {
     const headers = checks.filter(c => c.width === width && c.header).map(c => c.header);

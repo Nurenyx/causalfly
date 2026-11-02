@@ -1,0 +1,1916 @@
+{
+  "checks": [
+    {
+      "name": "experiment",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1366,
+      "height": 768,
+      "geometry": {
+        "world": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "rail": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "canvas": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "cards": {
+          "x": 260,
+          "y": 626.015625,
+          "width": 658.359375,
+          "height": 79,
+          "bottom": 705.015625,
+          "right": 918.359375
+        },
+        "readout": {
+          "x": 260,
+          "y": 705.015625,
+          "width": 658.359375,
+          "height": 88.5,
+          "bottom": 793.515625,
+          "right": 918.359375
+        },
+        "orbit": {
+          "x": 660.359375,
+          "y": 587.015625,
+          "width": 246,
+          "height": 16,
+          "bottom": 603.015625,
+          "right": 906.359375
+        },
+        "step": {
+          "x": 270,
+          "y": 772.515625,
+          "width": 638.359375,
+          "height": 15,
+          "bottom": 787.515625,
+          "right": 908.359375
+        }
+      },
+      "growth": {
+        "before": 493.765625,
+        "after": 733.765625
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "world": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "rail": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "canvas": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "cards": {
+          "x": 260,
+          "y": 631.109375,
+          "width": 704.109375,
+          "height": 79,
+          "bottom": 710.109375,
+          "right": 964.109375
+        },
+        "readout": {
+          "x": 260,
+          "y": 710.109375,
+          "width": 704.109375,
+          "height": 88.5,
+          "bottom": 798.609375,
+          "right": 964.109375
+        },
+        "orbit": {
+          "x": 706.109375,
+          "y": 592.109375,
+          "width": 246,
+          "height": 16,
+          "bottom": 608.109375,
+          "right": 952.109375
+        },
+        "step": {
+          "x": 270,
+          "y": 777.609375,
+          "width": 684.109375,
+          "height": 15,
+          "bottom": 792.609375,
+          "right": 954.109375
+        }
+      },
+      "growth": {
+        "before": 528.078125,
+        "after": 768.078125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1536,
+      "height": 1024,
+      "geometry": {
+        "world": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "rail": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "canvas": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "webgl": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "cards": {
+          "x": 272,
+          "y": 668.375,
+          "width": 756.046875,
+          "height": 79,
+          "bottom": 747.375,
+          "right": 1028.046875
+        },
+        "readout": {
+          "x": 272,
+          "y": 747.375,
+          "width": 756.046875,
+          "height": 88.5,
+          "bottom": 835.875,
+          "right": 1028.046875
+        },
+        "orbit": {
+          "x": 770.046875,
+          "y": 629.375,
+          "width": 246,
+          "height": 16,
+          "bottom": 645.375,
+          "right": 1016.046875
+        },
+        "step": {
+          "x": 282,
+          "y": 814.875,
+          "width": 736.046875,
+          "height": 15,
+          "bottom": 829.875,
+          "right": 1018.046875
+        }
+      },
+      "growth": {
+        "before": 567.03125,
+        "after": 807.03125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "world": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "rail": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "canvas": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "webgl": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "cards": {
+          "x": 278,
+          "y": 844.828125,
+          "width": 986.0625,
+          "height": 79,
+          "bottom": 923.828125,
+          "right": 1264.0625
+        },
+        "readout": {
+          "x": 278,
+          "y": 923.828125,
+          "width": 986.0625,
+          "height": 88.5,
+          "bottom": 1012.328125,
+          "right": 1264.0625
+        },
+        "orbit": {
+          "x": 1006.0625,
+          "y": 805.828125,
+          "width": 246,
+          "height": 16,
+          "bottom": 821.828125,
+          "right": 1252.0625
+        },
+        "step": {
+          "x": 288,
+          "y": 991.328125,
+          "width": 966.046875,
+          "height": 15,
+          "bottom": 1006.328125,
+          "right": 1254.046875
+        }
+      },
+      "growth": {
+        "before": 739.546875,
+        "after": 979.546875
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1366,
+      "height": 768,
+      "geometry": {
+        "world": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "rail": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "canvas": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "cards": {
+          "x": 260,
+          "y": 626.015625,
+          "width": 658.359375,
+          "height": 79,
+          "bottom": 705.015625,
+          "right": 918.359375
+        },
+        "readout": {
+          "x": 260,
+          "y": 705.015625,
+          "width": 658.359375,
+          "height": 88.5,
+          "bottom": 793.515625,
+          "right": 918.359375
+        },
+        "orbit": {
+          "x": 660.359375,
+          "y": 587.015625,
+          "width": 246,
+          "height": 16,
+          "bottom": 603.015625,
+          "right": 906.359375
+        },
+        "step": {
+          "x": 270,
+          "y": 772.515625,
+          "width": 638.359375,
+          "height": 15,
+          "bottom": 787.515625,
+          "right": 908.359375
+        }
+      },
+      "growth": {
+        "before": 493.765625,
+        "after": 733.765625
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "world": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "rail": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "canvas": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "cards": {
+          "x": 260,
+          "y": 631.109375,
+          "width": 704.109375,
+          "height": 79,
+          "bottom": 710.109375,
+          "right": 964.109375
+        },
+        "readout": {
+          "x": 260,
+          "y": 710.109375,
+          "width": 704.109375,
+          "height": 88.5,
+          "bottom": 798.609375,
+          "right": 964.109375
+        },
+        "orbit": {
+          "x": 706.109375,
+          "y": 592.109375,
+          "width": 246,
+          "height": 16,
+          "bottom": 608.109375,
+          "right": 952.109375
+        },
+        "step": {
+          "x": 270,
+          "y": 777.609375,
+          "width": 684.109375,
+          "height": 15,
+          "bottom": 792.609375,
+          "right": 954.109375
+        }
+      },
+      "growth": {
+        "before": 528.078125,
+        "after": 768.078125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1536,
+      "height": 1024,
+      "geometry": {
+        "world": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "rail": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "canvas": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "webgl": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "cards": {
+          "x": 272,
+          "y": 668.375,
+          "width": 756.046875,
+          "height": 79,
+          "bottom": 747.375,
+          "right": 1028.046875
+        },
+        "readout": {
+          "x": 272,
+          "y": 747.375,
+          "width": 756.046875,
+          "height": 88.5,
+          "bottom": 835.875,
+          "right": 1028.046875
+        },
+        "orbit": {
+          "x": 770.046875,
+          "y": 629.375,
+          "width": 246,
+          "height": 16,
+          "bottom": 645.375,
+          "right": 1016.046875
+        },
+        "step": {
+          "x": 282,
+          "y": 814.875,
+          "width": 736.046875,
+          "height": 15,
+          "bottom": 829.875,
+          "right": 1018.046875
+        }
+      },
+      "growth": {
+        "before": 567.03125,
+        "after": 807.03125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "world": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "rail": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "canvas": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "webgl": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "cards": {
+          "x": 278,
+          "y": 844.828125,
+          "width": 986.0625,
+          "height": 79,
+          "bottom": 923.828125,
+          "right": 1264.0625
+        },
+        "readout": {
+          "x": 278,
+          "y": 923.828125,
+          "width": 986.0625,
+          "height": 88.5,
+          "bottom": 1012.328125,
+          "right": 1264.0625
+        },
+        "orbit": {
+          "x": 1006.0625,
+          "y": 805.828125,
+          "width": 246,
+          "height": 16,
+          "bottom": 821.828125,
+          "right": 1252.0625
+        },
+        "step": {
+          "x": 288,
+          "y": 991.328125,
+          "width": 966.046875,
+          "height": 15,
+          "bottom": 1006.328125,
+          "right": 1254.046875
+        }
+      },
+      "growth": {
+        "before": 739.546875,
+        "after": 979.546875
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "compare",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "live-state-transitions",
+      "states": [
+        "OFFLINE",
+        "CONNECTING",
+        "READY",
+        "RUNNING",
+        "READY/stale",
+        "ERROR",
+        "RECORDED_REPLAY"
+      ]
+    },
+    {
+      "name": "one-upload-guided-handoff",
+      "authorizationAttempts": 4,
+      "successfulUploads": 1,
+      "discoveries": 1,
+      "trackingAttempts": 2,
+      "sameReference": true,
+      "fixtureOnly": true
+    },
+    {
+      "name": "populated-video-fixture",
+      "width": 1366,
+      "height": 768,
+      "rail": {
+        "x": 931.359375,
+        "y": -1047.546875,
+        "right": 1339,
+        "bottom": 2081.96875,
+        "width": 407.640625,
+        "height": 3129.515625
+      },
+      "world": {
+        "x": 259,
+        "y": -1047.546875,
+        "right": 919.359375,
+        "bottom": 2081.96875,
+        "width": 660.359375,
+        "height": 3129.515625
+      },
+      "panel": {
+        "x": 956.359375,
+        "y": -916.046875,
+        "right": 1314,
+        "bottom": 1555.875,
+        "width": 357.640625,
+        "height": 2471.921875
+      },
+      "player": {
+        "x": 968.359375,
+        "y": 950.609375,
+        "right": 1302,
+        "bottom": 1214.109375,
+        "width": 333.640625,
+        "height": 263.5
+      },
+      "controls": {
+        "x": 980.546875,
+        "y": 1125.921875,
+        "right": 1289.8125,
+        "bottom": 1175.921875,
+        "width": 309.265625,
+        "height": 50
+      },
+      "attribution": {
+        "x": 980.546875,
+        "y": 1183.921875,
+        "right": 1289.8125,
+        "bottom": 1201.921875,
+        "width": 309.265625,
+        "height": 18
+      },
+      "scene": {
+        "x": 968.359375,
+        "y": -645.578125,
+        "right": 1302,
+        "bottom": 926.609375,
+        "width": 333.640625,
+        "height": 1572.1875
+      },
+      "candidates": {
+        "x": 968.359375,
+        "y": -475.078125,
+        "right": 1302,
+        "bottom": 602.609375,
+        "width": 333.640625,
+        "height": 1077.6875
+      },
+      "metrics": {
+        "x": 968.359375,
+        "y": 1243.109375,
+        "right": 1302,
+        "bottom": 1329.09375,
+        "width": 333.640625,
+        "height": 85.984375
+      },
+      "target": {
+        "x": 956.359375,
+        "y": 1563.875,
+        "right": 1314,
+        "bottom": 1677.375,
+        "width": 357.640625,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 959.359375,
+        "y": 1699.375,
+        "right": 1311,
+        "bottom": 1746.375,
+        "width": 351.640625,
+        "height": 47
+      },
+      "orbit": {
+        "x": 260,
+        "y": 1851.46875,
+        "right": 918.359375,
+        "bottom": 1913.46875,
+        "width": 658.359375,
+        "height": 62
+      },
+      "instruments": {
+        "x": 260,
+        "y": 1913.46875,
+        "right": 918.359375,
+        "bottom": 2080.96875,
+        "width": 658.359375,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 260,
+        "y": -977.546875,
+        "right": 918.359375,
+        "bottom": 1851.46875,
+        "width": 658.359375,
+        "height": 2829.015625
+      },
+      "children": [
+        {
+          "x": 968.359375,
+          "y": -859.046875,
+          "right": 1302,
+          "bottom": -819.046875,
+          "width": 333.640625,
+          "height": 40
+        },
+        {
+          "x": 968.359375,
+          "y": -803.046875,
+          "right": 1302,
+          "bottom": -780.546875,
+          "width": 333.640625,
+          "height": 22.5
+        },
+        {
+          "x": 968.359375,
+          "y": -772.546875,
+          "right": 1302,
+          "bottom": -672.765625,
+          "width": 333.640625,
+          "height": 99.78125
+        },
+        {
+          "x": 968.359375,
+          "y": -645.578125,
+          "right": 1302,
+          "bottom": 926.609375,
+          "width": 333.640625,
+          "height": 1572.1875
+        },
+        {
+          "x": 968.359375,
+          "y": 950.609375,
+          "right": 1302,
+          "bottom": 1214.109375,
+          "width": 333.640625,
+          "height": 263.5
+        },
+        {
+          "x": 968.359375,
+          "y": 1243.109375,
+          "right": 1302,
+          "bottom": 1329.09375,
+          "width": 333.640625,
+          "height": 85.984375
+        },
+        {
+          "x": 968.359375,
+          "y": 1344.09375,
+          "right": 1302,
+          "bottom": 1407.09375,
+          "width": 333.640625,
+          "height": 63
+        },
+        {
+          "x": 968.359375,
+          "y": 1415.09375,
+          "right": 1302,
+          "bottom": 1456.6875,
+          "width": 333.640625,
+          "height": 41.59375
+        },
+        {
+          "x": 968.359375,
+          "y": 1482.875,
+          "right": 1302,
+          "bottom": 1500.875,
+          "width": 333.640625,
+          "height": 18
+        },
+        {
+          "x": 968.359375,
+          "y": 1515.875,
+          "right": 1302,
+          "bottom": 1533.875,
+          "width": 333.640625,
+          "height": 18
+        }
+      ],
+      "clipped": false,
+      "fixtureOnly": true
+    },
+    {
+      "name": "populated-video-fixture",
+      "width": 1440,
+      "height": 900,
+      "rail": {
+        "x": 977.109375,
+        "y": -1045.765625,
+        "right": 1413,
+        "bottom": 1891.875,
+        "width": 435.890625,
+        "height": 2937.640625
+      },
+      "world": {
+        "x": 259,
+        "y": -1045.765625,
+        "right": 965.109375,
+        "bottom": 1891.875,
+        "width": 706.109375,
+        "height": 2937.640625
+      },
+      "panel": {
+        "x": 1002.109375,
+        "y": -914.265625,
+        "right": 1388,
+        "bottom": 1383.78125,
+        "width": 385.890625,
+        "height": 2298.046875
+      },
+      "player": {
+        "x": 1014.109375,
+        "y": 764.890625,
+        "right": 1376,
+        "bottom": 1042.015625,
+        "width": 361.890625,
+        "height": 277.125
+      },
+      "controls": {
+        "x": 1026.296875,
+        "y": 953.828125,
+        "right": 1363.8125,
+        "bottom": 1003.828125,
+        "width": 337.515625,
+        "height": 50
+      },
+      "attribution": {
+        "x": 1026.296875,
+        "y": 1011.828125,
+        "right": 1363.8125,
+        "bottom": 1029.828125,
+        "width": 337.515625,
+        "height": 18
+      },
+      "scene": {
+        "x": 1014.109375,
+        "y": -643.796875,
+        "right": 1376,
+        "bottom": 740.890625,
+        "width": 361.890625,
+        "height": 1384.6875
+      },
+      "candidates": {
+        "x": 1014.109375,
+        "y": -510.796875,
+        "right": 1376,
+        "bottom": 476.890625,
+        "width": 361.890625,
+        "height": 987.6875
+      },
+      "metrics": {
+        "x": 1014.109375,
+        "y": 1071.015625,
+        "right": 1376,
+        "bottom": 1157,
+        "width": 361.890625,
+        "height": 85.984375
+      },
+      "target": {
+        "x": 1002.109375,
+        "y": 1391.78125,
+        "right": 1388,
+        "bottom": 1505.28125,
+        "width": 385.890625,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 1005.109375,
+        "y": 1527.28125,
+        "right": 1385,
+        "bottom": 1556.28125,
+        "width": 379.890625,
+        "height": 29
+      },
+      "orbit": {
+        "x": 260,
+        "y": 1661.375,
+        "right": 964.109375,
+        "bottom": 1723.375,
+        "width": 704.109375,
+        "height": 62
+      },
+      "instruments": {
+        "x": 260,
+        "y": 1723.375,
+        "right": 964.109375,
+        "bottom": 1890.875,
+        "width": 704.109375,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 260,
+        "y": -1006.765625,
+        "right": 964.109375,
+        "bottom": 1661.375,
+        "width": 704.109375,
+        "height": 2668.140625
+      },
+      "children": [
+        {
+          "x": 1014.109375,
+          "y": -857.265625,
+          "right": 1376,
+          "bottom": -817.265625,
+          "width": 361.890625,
+          "height": 40
+        },
+        {
+          "x": 1014.109375,
+          "y": -801.265625,
+          "right": 1376,
+          "bottom": -778.765625,
+          "width": 361.890625,
+          "height": 22.5
+        },
+        {
+          "x": 1014.109375,
+          "y": -770.765625,
+          "right": 1376,
+          "bottom": -670.984375,
+          "width": 361.890625,
+          "height": 99.78125
+        },
+        {
+          "x": 1014.109375,
+          "y": -643.796875,
+          "right": 1376,
+          "bottom": 740.890625,
+          "width": 361.890625,
+          "height": 1384.6875
+        },
+        {
+          "x": 1014.109375,
+          "y": 764.890625,
+          "right": 1376,
+          "bottom": 1042.015625,
+          "width": 361.890625,
+          "height": 277.125
+        },
+        {
+          "x": 1014.109375,
+          "y": 1071.015625,
+          "right": 1376,
+          "bottom": 1157,
+          "width": 361.890625,
+          "height": 85.984375
+        },
+        {
+          "x": 1014.109375,
+          "y": 1172,
+          "right": 1376,
+          "bottom": 1235,
+          "width": 361.890625,
+          "height": 63
+        },
+        {
+          "x": 1014.109375,
+          "y": 1243,
+          "right": 1376,
+          "bottom": 1284.59375,
+          "width": 361.890625,
+          "height": 41.59375
+        },
+        {
+          "x": 1014.109375,
+          "y": 1310.78125,
+          "right": 1376,
+          "bottom": 1328.78125,
+          "width": 361.890625,
+          "height": 18
+        },
+        {
+          "x": 1014.109375,
+          "y": 1343.78125,
+          "right": 1376,
+          "bottom": 1361.78125,
+          "width": 361.890625,
+          "height": 18
+        }
+      ],
+      "clipped": false,
+      "fixtureOnly": true
+    },
+    {
+      "name": "populated-video-fixture",
+      "width": 1536,
+      "height": 1024,
+      "rail": {
+        "x": 1041.046875,
+        "y": -1077.453125,
+        "right": 1509,
+        "bottom": 1876.21875,
+        "width": 467.953125,
+        "height": 2953.671875
+      },
+      "world": {
+        "x": 271,
+        "y": -1077.453125,
+        "right": 1029.046875,
+        "bottom": 1876.21875,
+        "width": 758.046875,
+        "height": 2953.671875
+      },
+      "panel": {
+        "x": 1066.046875,
+        "y": -945.953125,
+        "right": 1484,
+        "bottom": 1368.125,
+        "width": 417.953125,
+        "height": 2314.078125
+      },
+      "player": {
+        "x": 1078.046875,
+        "y": 733.203125,
+        "right": 1472,
+        "bottom": 1026.359375,
+        "width": 393.953125,
+        "height": 293.15625
+      },
+      "controls": {
+        "x": 1090.234375,
+        "y": 938.171875,
+        "right": 1459.8125,
+        "bottom": 988.171875,
+        "width": 369.578125,
+        "height": 50
+      },
+      "attribution": {
+        "x": 1090.234375,
+        "y": 996.171875,
+        "right": 1459.8125,
+        "bottom": 1014.171875,
+        "width": 369.578125,
+        "height": 18
+      },
+      "scene": {
+        "x": 1078.046875,
+        "y": -675.484375,
+        "right": 1472,
+        "bottom": 709.203125,
+        "width": 393.953125,
+        "height": 1384.6875
+      },
+      "candidates": {
+        "x": 1078.046875,
+        "y": -542.484375,
+        "right": 1472,
+        "bottom": 445.203125,
+        "width": 393.953125,
+        "height": 987.6875
+      },
+      "metrics": {
+        "x": 1078.046875,
+        "y": 1055.359375,
+        "right": 1472,
+        "bottom": 1141.34375,
+        "width": 393.953125,
+        "height": 85.984375
+      },
+      "target": {
+        "x": 1066.046875,
+        "y": 1376.125,
+        "right": 1484,
+        "bottom": 1489.625,
+        "width": 417.953125,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 1069.046875,
+        "y": 1511.625,
+        "right": 1481,
+        "bottom": 1540.625,
+        "width": 411.953125,
+        "height": 29
+      },
+      "orbit": {
+        "x": 272,
+        "y": 1645.71875,
+        "right": 1028.046875,
+        "bottom": 1707.71875,
+        "width": 756.046875,
+        "height": 62
+      },
+      "instruments": {
+        "x": 272,
+        "y": 1707.71875,
+        "right": 1028.046875,
+        "bottom": 1875.21875,
+        "width": 756.046875,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 272,
+        "y": -1038.453125,
+        "right": 1028.046875,
+        "bottom": 1645.71875,
+        "width": 756.046875,
+        "height": 2684.171875
+      },
+      "children": [
+        {
+          "x": 1078.046875,
+          "y": -888.953125,
+          "right": 1472,
+          "bottom": -848.953125,
+          "width": 393.953125,
+          "height": 40
+        },
+        {
+          "x": 1078.046875,
+          "y": -832.953125,
+          "right": 1472,
+          "bottom": -810.453125,
+          "width": 393.953125,
+          "height": 22.5
+        },
+        {
+          "x": 1078.046875,
+          "y": -802.453125,
+          "right": 1472,
+          "bottom": -702.671875,
+          "width": 393.953125,
+          "height": 99.78125
+        },
+        {
+          "x": 1078.046875,
+          "y": -675.484375,
+          "right": 1472,
+          "bottom": 709.203125,
+          "width": 393.953125,
+          "height": 1384.6875
+        },
+        {
+          "x": 1078.046875,
+          "y": 733.203125,
+          "right": 1472,
+          "bottom": 1026.359375,
+          "width": 393.953125,
+          "height": 293.15625
+        },
+        {
+          "x": 1078.046875,
+          "y": 1055.359375,
+          "right": 1472,
+          "bottom": 1141.34375,
+          "width": 393.953125,
+          "height": 85.984375
+        },
+        {
+          "x": 1078.046875,
+          "y": 1156.34375,
+          "right": 1472,
+          "bottom": 1219.34375,
+          "width": 393.953125,
+          "height": 63
+        },
+        {
+          "x": 1078.046875,
+          "y": 1227.34375,
+          "right": 1472,
+          "bottom": 1268.9375,
+          "width": 393.953125,
+          "height": 41.59375
+        },
+        {
+          "x": 1078.046875,
+          "y": 1295.125,
+          "right": 1472,
+          "bottom": 1313.125,
+          "width": 393.953125,
+          "height": 18
+        },
+        {
+          "x": 1078.046875,
+          "y": 1328.125,
+          "right": 1472,
+          "bottom": 1346.125,
+          "width": 393.953125,
+          "height": 18
+        }
+      ],
+      "clipped": false,
+      "fixtureOnly": true
+    },
+    {
+      "name": "populated-video-fixture",
+      "width": 1920,
+      "height": 1080,
+      "rail": {
+        "x": 1277.0625,
+        "y": -1073.515625,
+        "right": 1887,
+        "bottom": 1481.65625,
+        "width": 609.9375,
+        "height": 2555.171875
+      },
+      "world": {
+        "x": 277,
+        "y": -1073.515625,
+        "right": 1265.0625,
+        "bottom": 1481.65625,
+        "width": 988.0625,
+        "height": 2555.171875
+      },
+      "panel": {
+        "x": 1302.0625,
+        "y": -942.015625,
+        "right": 1862,
+        "bottom": 1021.5625,
+        "width": 559.9375,
+        "height": 1963.578125
+      },
+      "player": {
+        "x": 1314.0625,
+        "y": 333.640625,
+        "right": 1850,
+        "bottom": 697.796875,
+        "width": 535.9375,
+        "height": 364.15625
+      },
+      "controls": {
+        "x": 1326.25,
+        "y": 609.609375,
+        "right": 1837.8125,
+        "bottom": 659.609375,
+        "width": 511.5625,
+        "height": 50
+      },
+      "attribution": {
+        "x": 1326.25,
+        "y": 667.609375,
+        "right": 1837.8125,
+        "bottom": 685.609375,
+        "width": 511.5625,
+        "height": 18
+      },
+      "scene": {
+        "x": 1314.0625,
+        "y": -707.546875,
+        "right": 1850,
+        "bottom": 309.640625,
+        "width": 535.9375,
+        "height": 1017.1875
+      },
+      "candidates": {
+        "x": 1314.0625,
+        "y": -589.546875,
+        "right": 1850,
+        "bottom": 105.640625,
+        "width": 535.9375,
+        "height": 695.1875
+      },
+      "metrics": {
+        "x": 1314.0625,
+        "y": 726.796875,
+        "right": 1850,
+        "bottom": 794.78125,
+        "width": 535.9375,
+        "height": 67.984375
+      },
+      "target": {
+        "x": 1302.0625,
+        "y": 1029.5625,
+        "right": 1862,
+        "bottom": 1143.0625,
+        "width": 559.9375,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 1305.0625,
+        "y": 1165.0625,
+        "right": 1790.640625,
+        "bottom": 1194.0625,
+        "width": 485.578125,
+        "height": 29
+      },
+      "orbit": {
+        "x": 278,
+        "y": 1251.15625,
+        "right": 1264.0625,
+        "bottom": 1313.15625,
+        "width": 986.0625,
+        "height": 62
+      },
+      "instruments": {
+        "x": 278,
+        "y": 1313.15625,
+        "right": 1264.0625,
+        "bottom": 1480.65625,
+        "width": 986.0625,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 278,
+        "y": -1034.515625,
+        "right": 1264.0625,
+        "bottom": 1251.15625,
+        "width": 986.0625,
+        "height": 2285.671875
+      },
+      "children": [
+        {
+          "x": 1314.0625,
+          "y": -885.015625,
+          "right": 1850,
+          "bottom": -845.015625,
+          "width": 535.9375,
+          "height": 40
+        },
+        {
+          "x": 1314.0625,
+          "y": -829.015625,
+          "right": 1850,
+          "bottom": -806.515625,
+          "width": 535.9375,
+          "height": 22.5
+        },
+        {
+          "x": 1314.0625,
+          "y": -798.515625,
+          "right": 1850,
+          "bottom": -734.734375,
+          "width": 535.9375,
+          "height": 63.78125
+        },
+        {
+          "x": 1314.0625,
+          "y": -707.546875,
+          "right": 1850,
+          "bottom": 309.640625,
+          "width": 535.9375,
+          "height": 1017.1875
+        },
+        {
+          "x": 1314.0625,
+          "y": 333.640625,
+          "right": 1850,
+          "bottom": 697.796875,
+          "width": 535.9375,
+          "height": 364.15625
+        },
+        {
+          "x": 1314.0625,
+          "y": 726.796875,
+          "right": 1850,
+          "bottom": 794.78125,
+          "width": 535.9375,
+          "height": 67.984375
+        },
+        {
+          "x": 1314.0625,
+          "y": 809.78125,
+          "right": 1850,
+          "bottom": 872.78125,
+          "width": 535.9375,
+          "height": 63
+        },
+        {
+          "x": 1314.0625,
+          "y": 880.78125,
+          "right": 1850,
+          "bottom": 922.375,
+          "width": 535.9375,
+          "height": 41.59375
+        },
+        {
+          "x": 1314.0625,
+          "y": 948.5625,
+          "right": 1850,
+          "bottom": 966.5625,
+          "width": 535.9375,
+          "height": 18
+        },
+        {
+          "x": 1314.0625,
+          "y": 981.5625,
+          "right": 1850,
+          "bottom": 999.5625,
+          "width": 535.9375,
+          "height": 18
+        }
+      ],
+      "clipped": false,
+      "fixtureOnly": true
+    },
+    {
+      "name": "retained-stimulus-stale-design-recovery",
+      "fixtureOnly": true,
+      "questionRetained": true,
+      "measuredStimulus": 0.488,
+      "perceptionEvidenceUnchanged": true,
+      "selectedCandidateRetained": true,
+      "actions": [
+        "stimulus",
+        "design"
+      ],
+      "counters": {
+        "authorization": 0,
+        "put": 0,
+        "muse": 0,
+        "sam": 0,
+        "run": 0
+      },
+      "freshDesignOffered": true,
+      "freshDesignCreated": true,
+      "approvalRequired": true
+    },
+    {
+      "name": "replacement-and-verified-expiry",
+      "newUploadRequired": true,
+      "unavailableOnlyAfterServerVerification": true
+    },
+    {
+      "name": "experimental-proxy-scientific-clarity",
+      "fixtureOnly": true,
+      "cases": [
+        {
+          "width": 1366,
+          "height": 768,
+          "layout": [
+            {
+              "selector": ".perception-stages",
+              "x": 968.359375,
+              "right": 1302,
+              "y": -14.703125,
+              "bottom": 85.078125,
+              "width": 333.640625,
+              "height": 99.78125
+            },
+            {
+              "selector": ".perception-metrics",
+              "x": 968.359375,
+              "right": 1302,
+              "y": 411.140625,
+              "bottom": 497.125,
+              "width": 333.640625,
+              "height": 85.984375
+            },
+            {
+              "selector": ".perception-proxy-guidance",
+              "x": 968.359375,
+              "right": 1302,
+              "y": 512.125,
+              "bottom": 575.125,
+              "width": 333.640625,
+              "height": 63
+            },
+            {
+              "selector": ".primary-button",
+              "x": 968.359375,
+              "right": 1302,
+              "y": 583.125,
+              "bottom": 624.71875,
+              "width": 333.640625,
+              "height": 41.59375
+            }
+          ]
+        },
+        {
+          "width": 1440,
+          "height": 900,
+          "layout": [
+            {
+              "selector": ".perception-stages",
+              "x": 1014.109375,
+              "right": 1376,
+              "y": 117.453125,
+              "bottom": 217.234375,
+              "width": 361.890625,
+              "height": 99.78125
+            },
+            {
+              "selector": ".perception-metrics",
+              "x": 1014.109375,
+              "right": 1376,
+              "y": 543.296875,
+              "bottom": 629.28125,
+              "width": 361.890625,
+              "height": 85.984375
+            },
+            {
+              "selector": ".perception-proxy-guidance",
+              "x": 1014.109375,
+              "right": 1376,
+              "y": 644.28125,
+              "bottom": 707.28125,
+              "width": 361.890625,
+              "height": 63
+            },
+            {
+              "selector": ".primary-button",
+              "x": 1014.109375,
+              "right": 1376,
+              "y": 715.28125,
+              "bottom": 756.875,
+              "width": 361.890625,
+              "height": 41.59375
+            }
+          ]
+        },
+        {
+          "width": 1536,
+          "height": 1024,
+          "layout": [
+            {
+              "selector": ".perception-stages",
+              "x": 1078.046875,
+              "right": 1472,
+              "y": 212.59375,
+              "bottom": 312.375,
+              "width": 393.953125,
+              "height": 99.78125
+            },
+            {
+              "selector": ".perception-metrics",
+              "x": 1078.046875,
+              "right": 1472,
+              "y": 638.4375,
+              "bottom": 724.421875,
+              "width": 393.953125,
+              "height": 85.984375
+            },
+            {
+              "selector": ".perception-proxy-guidance",
+              "x": 1078.046875,
+              "right": 1472,
+              "y": 739.421875,
+              "bottom": 802.421875,
+              "width": 393.953125,
+              "height": 63
+            },
+            {
+              "selector": ".primary-button",
+              "x": 1078.046875,
+              "right": 1472,
+              "y": 810.421875,
+              "bottom": 852.015625,
+              "width": 393.953125,
+              "height": 41.59375
+            }
+          ]
+        },
+        {
+          "width": 1920,
+          "height": 1080,
+          "layout": [
+            {
+              "selector": ".perception-stages",
+              "x": 1314.0625,
+              "right": 1850,
+              "y": 222.6875,
+              "bottom": 286.46875,
+              "width": 535.9375,
+              "height": 63.78125
+            },
+            {
+              "selector": ".perception-metrics",
+              "x": 1314.0625,
+              "right": 1850,
+              "y": 612.53125,
+              "bottom": 680.515625,
+              "width": 535.9375,
+              "height": 67.984375
+            },
+            {
+              "selector": ".perception-proxy-guidance",
+              "x": 1314.0625,
+              "right": 1850,
+              "y": 695.515625,
+              "bottom": 758.515625,
+              "width": 535.9375,
+              "height": 63
+            },
+            {
+              "selector": ".primary-button",
+              "x": 1314.0625,
+              "right": 1850,
+              "y": 766.515625,
+              "bottom": 808.109375,
+              "width": 535.9375,
+              "height": 41.59375
+            }
+          ]
+        }
+      ],
+      "blocked": [],
+      "errors": [],
+      "trackingDidNotExecute": true,
+      "approvalRequired": true
+    }
+  ],
+  "errors": [],
+  "providers": "Local deterministic fixtures and intercepted storage; no live provider verification"
+}

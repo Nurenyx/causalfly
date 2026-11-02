@@ -27,7 +27,7 @@ try {
   await page.getByRole('button',{name:'LOAD OFFLINE CALIBRATION SCENE',exact:true}).click();
   await page.getByRole('radio',{name:/red square/}).check();
   await page.getByRole('button',{name:'LOAD OFFLINE TRACKING FIXTURE',exact:true}).click();
-  await page.getByRole('button',{name:'DESIGN EXPERIMENT WITH THIS STIMULUS',exact:true}).click();
+  await page.getByRole('button',{name:'DESIGN EXPERIMENT WITH THIS PROXY',exact:true}).click();
   await page.getByRole('button',{name:'Approve & Run Experiment',exact:true}).click();
   await page.getByRole('group',{name:'Select recorded condition'}).waitFor();
   assert.match(await page.locator('.perception-metrics').innerText(),/0.640/);

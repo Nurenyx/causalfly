@@ -113,8 +113,8 @@ try {
 
   await loadFixture();
   const firstRecord = JSON.parse(await panel.locator(".perception-details pre").textContent());
-  assert.equal(await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS STIMULUS", exact: true }).isEnabled(), true);
-  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS STIMULUS", exact: true }).click();
+  assert.equal(await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).isEnabled(), true);
+  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).click();
   await notification.waitFor();
   assert.match(await notification.innerText(), /Meta experiment design failed/);
   assert.equal(JSON.parse(await panel.locator(".perception-details pre").textContent()).id, firstRecord.id);
@@ -122,8 +122,8 @@ try {
   await nav("Evidence"); await nav("Experiment");
   assert.equal(JSON.parse(await panel.locator(".perception-details pre").textContent()).id, firstRecord.id);
   failDesign = false;
-  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS STIMULUS", exact: true }).click();
-  await page.getByText(/STIMULUS READY ✓/).waitFor();
+  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).click();
+  await page.getByText(/PROXY READY ✓/).waitFor();
   assert.equal(actions[1].perceptionId, firstRecord.id);
   assert.equal(typeof actions[1].perceptionReceipt, "string");
   assert.equal(await page.locator("#stimulus-strength").inputValue(), "0.64");
@@ -144,7 +144,7 @@ try {
   assert.equal(await page.locator(".demo-measured-stage").count(), 0, "Source changes cannot reuse stale measurements or interpretation");
   await page.getByRole("button", { name: "Real-world perception", exact: true }).click();
   rejectReceipt = true;
-  await page.getByRole("button", { name: "USE AS EXPERIMENT STIMULUS", exact: true }).click();
+  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).click();
   await notification.waitFor();
   assert.match(await notification.innerText(), /Re-analyze the video/);
   await page.getByRole("button", { name: "Show action & recovery", exact: true }).click();
@@ -155,18 +155,18 @@ try {
   assert.match(await panel.innerText(), /server can no longer verify/);
   rejectReceipt = false;
   await loadFixture();
-  await page.getByRole("button", { name: "USE AS EXPERIMENT STIMULUS", exact: true }).click();
-  await page.getByText(/STIMULUS READY ✓/).waitFor();
+  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).click();
+  await page.getByText(/PROXY READY ✓/).waitFor();
   assert.equal(await page.locator(".demo-measured-stage").count(), 0);
   assert.equal(await page.locator("#stimulus-strength").inputValue(), "0.64");
   expireNextRun = true;
   await page.locator(".embodied-run-action").getByRole("button", { name: "Approve & Run Experiment", exact: true }).click();
   await notification.waitFor();
   assert.match(await notification.innerText(), /Experiment design expired/);
-  assert.equal(await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS STIMULUS", exact: true }).isEnabled(), true);
+  assert.equal(await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).isEnabled(), true);
   await page.getByRole("button", { name: "Dismiss error notification", exact: true }).click();
-  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS STIMULUS", exact: true }).click();
-  await page.getByText(/STIMULUS READY ✓/).waitFor();
+  await page.getByRole("button", { name: "DESIGN EXPERIMENT WITH THIS PROXY", exact: true }).click();
+  await page.getByText(/PROXY READY ✓/).waitFor();
   assert.equal(await page.locator(".demo-measured-stage").count(), 0, "Expired draft recovery must design again, without silently running");
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ browserChecks, runtimeErrors: errors.length, liveSamCalls: 0, mockedSamRequests: 2, offlineFixtureRequests: 2, experimentActions: actions.map(a => a.action) }));

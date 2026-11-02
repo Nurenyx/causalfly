@@ -170,7 +170,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
         // Release only the stale experiment identity; the workspace-owned perception session stays intact.
         dispatch({ type: "design-unavailable", id: design!.id, investigationId: requestInvestigationId });
         setUnavailableDesignId(undefined);
-        setNotice("Stimulus retained. The previous experiment design expired, so create a new design using this measured stimulus.");
+        setNotice("Proxy retained. The previous experiment design expired, so create a new design using this experimental proxy.");
         setInstrumentMode("perturb");
         guideViewportTo("perception-source", "button.primary-button");
       }
