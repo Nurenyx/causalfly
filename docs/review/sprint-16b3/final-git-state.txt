@@ -1,0 +1,35 @@
+> git status --short
+ M docs/HACKATHON_FINAL_TESTER_BUILD_REVIEW.md
+ M scripts/sprint16a-browser-review.mjs
+ M src/app/observatory.tsx
+ M src/lib/perception/store.test.ts
+ M src/lib/perception/store.ts
+ M src/lib/web/contracts.ts
+ M src/lib/web/dashboard.ts
+ M src/lib/web/guided-workflow.ts
+?? docs/review/sprint-16b3/
+?? scripts/retained-stimulus-browser-review.mjs
+?? src/lib/web/retained-stimulus-recovery.test.ts
+
+> git diff --stat
+ docs/HACKATHON_FINAL_TESTER_BUILD_REVIEW.md | 48 ++++++++++++++++++++++++++
+ scripts/sprint16a-browser-review.mjs        |  4 +++
+ src/app/observatory.tsx                     | 14 +++++++-
+ src/lib/perception/store.test.ts            | 52 ++++++++++++++++++++++-------
+ src/lib/perception/store.ts                 | 22 ++++++++++--
+ src/lib/web/contracts.ts                    |  5 +--
+ src/lib/web/dashboard.ts                    |  2 ++
+ src/lib/web/guided-workflow.ts              | 16 +++++----
+ 8 files changed, 139 insertions(+), 24 deletions(-)
+
+> git diff --name-only
+docs/HACKATHON_FINAL_TESTER_BUILD_REVIEW.md
+scripts/sprint16a-browser-review.mjs
+src/app/observatory.tsx
+src/lib/perception/store.test.ts
+src/lib/perception/store.ts
+src/lib/web/contracts.ts
+src/lib/web/dashboard.ts
+src/lib/web/guided-workflow.ts
+
+> git diff --check

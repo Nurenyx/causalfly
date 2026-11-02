@@ -1,0 +1,57 @@
+{
+  "branch": "feat/hackathon-final-acceptance",
+  "startingHead": "31285ce",
+  "earlierRecoveryCheckpoint": "b5f1ebf",
+  "tests": {
+    "libraryAndServer": 401,
+    "components": 117,
+    "total": 518,
+    "failures": 0
+  },
+  "build": "PASS",
+  "lint": "PASS",
+  "browser": {
+    "checks": 48,
+    "pageErrors": 0,
+    "recovery": {
+      "name": "retained-stimulus-stale-design-recovery",
+      "fixtureOnly": true,
+      "questionRetained": true,
+      "measuredStimulus": 0.488,
+      "perceptionEvidenceUnchanged": true,
+      "selectedCandidateRetained": true,
+      "actions": [
+        "stimulus",
+        "design"
+      ],
+      "counters": {
+        "authorization": 0,
+        "put": 0,
+        "muse": 0,
+        "sam": 0,
+        "run": 0
+      },
+      "freshDesignOffered": true,
+      "freshDesignCreated": true,
+      "approvalRequired": true
+    }
+  },
+  "verifiedReceiptMigration": {
+    "payloadUnchanged": true,
+    "expiryUnchanged": true,
+    "separateSigningPurpose": true,
+    "freshProcessTestPassed": true,
+    "legacyDestroyedKeyNotBypassed": true
+  },
+  "historicalArtifactFilesUnchanged": 603,
+  "sprint16b2LiveEvidenceUnchanged": true,
+  "reviewHistoricalPrefixPreserved": true,
+  "actualProviderRequests": 0,
+  "actualMediaUploads": 0,
+  "automaticRecoveryRuns": 0,
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "fruitflyXRModified": false,
+  "humanReview": "REQUIRED"
+}

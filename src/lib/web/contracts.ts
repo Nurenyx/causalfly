@@ -59,5 +59,6 @@ export interface GuidedDesign {
   runtimeCalls: readonly RuntimeCall[];
   stimulusOverride?: StimulusOverride;
 }
-export type GuidedResponse = { ok: true; design: GuidedDesign; result?: MeasuredExperimentResult; diagnostics?: RunDiagnostics } |
-  { ok: false; kind: "validation" | "configuration" | "provider"; error: string; run_id?: string; diagnostics?: RunDiagnostics };
+export interface RetainedStimulusReceipt { id: string; receipt: string }
+export type GuidedResponse = { ok: true; design: GuidedDesign; result?: MeasuredExperimentResult; retainedStimulusReceipt?: RetainedStimulusReceipt; diagnostics?: RunDiagnostics } |
+  { ok: false; kind: "validation" | "configuration" | "provider"; code?: "DESIGN_UNAVAILABLE"; retainedStimulusReceipt?: RetainedStimulusReceipt; error: string; run_id?: string; diagnostics?: RunDiagnostics };

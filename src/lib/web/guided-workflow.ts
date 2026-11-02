@@ -12,7 +12,7 @@ import { researchQuestionSchema, validateExperimentProposal } from "../meta/sche
 import { readMetaEnvironment, type MetaClient, type MetaEnvironment } from "../meta/client";
 import { configuredClient, safeWebProviderError } from "./workflow";
 import type { GuidedDesign, GuidedResponse, MeasuredExperimentResult, RuntimeCall } from "./contracts";
-import { MAX_PERCEPTION_RECEIPT, PerceptionRetentionError, retainedPerception } from "../perception/store";
+import { MAX_PERCEPTION_RECEIPT, PerceptionRetentionError, retainedPerception, refreshPerceptionReceipt } from "../perception/store";
 import { FlightRecorder, perceptionRecorder } from "./flight-recorder";
 
 const requestSchema = z.discriminatedUnion("action", [
@@ -39,13 +39,17 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
   if (action.action === "design" && action.perceptionId && action.stimulusAmplitude !== undefined) return { ok: false, kind: "validation", error: "SAM-derived input is measured and locked. Do not supply a synthetic amplitude with a perception result." };
   let entry = action.action === "design" ? undefined : records.get(action.id);
   let recorder = entry?.recorder ?? new FlightRecorder();
+  let retainedStimulusReceipt: { id: string; receipt: string } | undefined;
   const fail = (kind: "validation" | "configuration" | "provider", error: string, code = `${action.action}.${kind}`): GuidedResponse => {
     recorder.event("error.recorded", { code });
-    return { ok: false, kind, error, run_id: recorder.run_id, diagnostics: recorder.snapshot() };
+    return { ok: false, kind, error, ...(retainedStimulusReceipt ? { retainedStimulusReceipt } : {}), ...(code === "DESIGN_UNAVAILABLE" ? { code: "DESIGN_UNAVAILABLE" as const } : {}), run_id: recorder.run_id, diagnostics: recorder.snapshot() };
   };
   let requestedPerception;
   if ((action.action === "design" || action.action === "stimulus") && action.perceptionId) {
-    try { requestedPerception = retainedPerception(action.perceptionId, action.perceptionReceipt); }
+    try {
+      requestedPerception = retainedPerception(action.perceptionId, action.perceptionReceipt);
+      if (requestedPerception) retainedStimulusReceipt = { id: requestedPerception.id, receipt: refreshPerceptionReceipt(requestedPerception, action.perceptionReceipt) };
+    }
     catch (error) { return fail("validation", error instanceof PerceptionRetentionError ? error.message : "Unable to verify this stimulus. Re-analyze the video."); }
     if (!requestedPerception) return fail("validation", "Perception result is unavailable after a server restart or expiry. Re-analyze the video, then retry.");
   }
@@ -57,7 +61,7 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
     recorder.perception(requestedPerception);
     if (requestedPerception) recorder.event("stimulus.accepted", { perceptionId: requestedPerception.id, amplitude: requestedPerception.measurement.amplitude });
   }
-  if (action.action !== "design" && !entry) return fail("validation", "This design expired or the server restarted. Design the experiment again; displayed evidence remains available for inspection.");
+  if (action.action !== "design" && !entry) return fail("validation", "This design expired or the server restarted. Design the experiment again; displayed evidence remains available for inspection.", "DESIGN_UNAVAILABLE");
   if (entry?.pending) return fail("validation", "This experiment already has an explicit request in progress.");
   if (action.action === "stimulus" && entry) {
     const perceptionInput = requestedPerception;
@@ -75,7 +79,7 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
     if (records.size >= 100) { const oldest = [...records].find(([id, value]) => id !== action.id && !value.pending); if (oldest) records.delete(oldest[0]); }
     records.set(design.id, { recorder, design, expires: Date.now() + ttl });
     // Acceptance creates a draft. It never executes the engine or calls Muse.
-    return { ok: true, design };
+    return { ok: true, design, ...(retainedStimulusReceipt ? { retainedStimulusReceipt } : {}) };
   }
   if (action.action === "run" && entry?.design.perceptionInput && action.stimulusAmplitude !== undefined && action.stimulusAmplitude !== entry.design.spec.stimulus.amplitude) {
     return fail("validation", "A SAM-derived amplitude is fixed by CausalFly geometry. Switch to Synthetic to adjust it manually.");
@@ -143,7 +147,7 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
       const design = freezeRecord({ run_id: recorder.run_id, diagnostics: recorder.snapshot(), id, researchQuestion: action.researchQuestion, mode: client.mode, spec, runtimeCalls: [audit()], ...(requestedPerception ? { perceptionInput: requestedPerception } : {}), ...(amplitude !== undefined ? { stimulusOverride: { sourceDesignId: id, originalAmplitude: proposed.stimulus.amplitude, amplitude: spec.stimulus.amplitude } } : {}) });
       if (records.size >= 100) { const oldest = [...records].find(([, value]) => !value.pending); if (oldest) records.delete(oldest[0]); }
       records.set(design.id, { recorder, design, expires: Date.now() + ttl });
-      return { ok: true, design };
+      return { ok: true, design, ...(retainedStimulusReceipt ? { retainedStimulusReceipt } : {}) };
     }
     const analysis = await interpretEvidence(client, entry!.evidence!);
     recorder.interpretation("completed", analysis);

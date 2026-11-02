@@ -27,16 +27,44 @@ test("tampered geometry, signatures, unknown identities and oversized receipts a
   // A client-authored record is not a receipt, even when it copies valid measurements.
   assert.throws(() => verifyPerceptionReceipt(record.id, Buffer.from(JSON.stringify(record)).toString("base64url")), /Re-analyze/);
 });
-test("a genuine process-key loss and receipt expiry have an explicit recovery path", () => {
-  const record = retainPerception(offlinePerceptionFixture(randomUUID()));
-  const receipt = perceptionReceipt(record);
-  const processScope = globalThis as typeof globalThis & { __causalflyPerceptionV1?: unknown };
-  const original = processScope.__causalflyPerceptionV1;
-  delete processScope.__causalflyPerceptionV1;
-  try { assert.throws(() => verifyPerceptionReceipt(record.id, receipt), /restart, expiry, or changed receipt/); }
-  finally { processScope.__causalflyPerceptionV1 = original; }
-  const now = Date.now;
-  Date.now = () => now() + 13 * 60 * 60 * 1000;
-  try { assert.throws(() => verifyPerceptionReceipt(record.id, receipt), /Re-analyze/); }
-  finally { Date.now = now; }
+test("legacy process-key loss and receipt expiry remain rejected without a configured stable key", () => {
+  const previousSecret=process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;
+  delete process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;
+  const scope=globalThis as typeof globalThis & {__causalflyPerceptionV1?:unknown};
+  const original=scope.__causalflyPerceptionV1;const now=Date.now;
+  try {
+    const record=retainPerception(offlinePerceptionFixture(randomUUID()));const receipt=perceptionReceipt(record);
+    const issuingState=scope.__causalflyPerceptionV1;delete scope.__causalflyPerceptionV1;
+    assert.throws(()=>verifyPerceptionReceipt(record.id,receipt),/restart, expiry, or changed receipt/);
+    scope.__causalflyPerceptionV1=issuingState;
+    Date.now=()=>now()+13*60*60*1000;
+    assert.throws(()=>verifyPerceptionReceipt(record.id,receipt),/Re-analyze/);
+  } finally {
+    Date.now=now;scope.__causalflyPerceptionV1=original;
+    if(previousSecret===undefined)delete process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;else process.env.CAUSALFLY_MEDIA_SIGNING_SECRET=previousSecret;
+  }
+});
+
+
+test("configured purpose-separated receipt key survives process-state loss; changed key and tampering remain rejected", () => {
+ const previous=process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;
+ const scope=globalThis as typeof globalThis & {__causalflyPerceptionV1?:unknown};const original=scope.__causalflyPerceptionV1;
+ process.env.CAUSALFLY_MEDIA_SIGNING_SECRET="receipt-fixture-key-at-least-32-characters";
+ try{
+  const record=retainPerception(offlinePerceptionFixture(randomUUID()));const receipt=perceptionReceipt(record);
+  delete scope.__causalflyPerceptionV1;
+  assert.deepEqual(verifyPerceptionReceipt(record.id,receipt),record);
+  assert.throws(()=>verifyPerceptionReceipt(record.id,receipt+"changed"),/Re-analyze/);
+  process.env.CAUSALFLY_MEDIA_SIGNING_SECRET="different-fixture-key-at-least-32-characters";
+  assert.throws(()=>verifyPerceptionReceipt(record.id,receipt),/Re-analyze/);
+ }finally{scope.__causalflyPerceptionV1=original;if(previous===undefined)delete process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;else process.env.CAUSALFLY_MEDIA_SIGNING_SECRET=previous;}
+});
+
+test("legacy process-signed receipts still verify during migration while the original key exists",()=>{
+ const previous=process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;delete process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;
+ try{
+  const record=retainPerception(offlinePerceptionFixture(randomUUID()));const receipt=perceptionReceipt(record);
+  process.env.CAUSALFLY_MEDIA_SIGNING_SECRET="migration-fixture-key-at-least-32-characters";
+  assert.deepEqual(verifyPerceptionReceipt(record.id,receipt),record);
+ }finally{if(previous===undefined)delete process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;else process.env.CAUSALFLY_MEDIA_SIGNING_SECRET=previous;}
 });

@@ -49,6 +49,7 @@ export type WorkspaceAction = (
   | { type: "diagnostics"; diagnostics: RunDiagnostics }
   | { type: "begin"; question: string }
   | { type: "designed"; design: GuidedDesign }
+  | { type: "design-unavailable"; id: string }
   | { type: "interpreted"; result: WebExperimentResult; workspace?: Workspace }
   | { type: "navigate"; workspace: Workspace }
   | { type: "question"; question: string }
@@ -63,6 +64,7 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
   if (action.investigationId !== undefined && action.investigationId !== state.investigationId) return state;
   switch (action.type) {
     case "diagnostics": return state.result?.run_id === action.diagnostics.manifest.run_id ? { ...state, result: { ...state.result, diagnostics: action.diagnostics } } : state;
+    case "design-unavailable": return state.design?.id !== action.id ? state : { ...state, history: archiveEvidence(state), design: undefined, result: null, nextFromId: undefined, workspace: "observatory" };
     case "designed": return { ...state, history: archiveEvidence(state), design: action.design, result: null, workspace: "observatory" };
     case "interpreted": return { ...state, result: action.result, workspace: action.workspace ?? "scientist" };
     case "navigate": return { ...state, workspace: action.workspace };

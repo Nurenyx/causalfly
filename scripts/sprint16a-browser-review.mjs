@@ -1,4 +1,5 @@
 // Local production acceptance: deterministic Meta fixtures; no paid provider or XR calls.
+import { humanRecoveryMeasurement, reviewRetainedStimulusRecovery } from "./retained-stimulus-browser-review.mjs";
 import { videoGeometry } from "./video-acceptance-geometry.mjs";
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -198,6 +199,8 @@ try {
   let trackingAttempts=0;
   fixtureTracking.perception.mode='SAM LIVE';
   fixtureTracking.perception.concept='red square';
+  fixtureTracking.perception.measurement=humanRecoveryMeasurement(fixtureTracking.perception.media);
+  fixtureTracking.perception.provenance.warnings.push('Authored human failure recovery fixture; no live provider request.');
   fixtureTracking.overlay={media:'video',revision:1,records:fixtureTracking.perception.measurement.frames.map((f,order)=>({kind:'box',order,objectId:'0',frame:{frameIndex:f.frameIndex},left:f.left,top:f.top,right:f.right,bottom:f.bottom})),diagnostics:[],rawOutput:''};
   await videoContext.route('**/api/perception',route=>{mediaRequests.push(route.request().postDataJSON().media);return ++trackingAttempts===1?route.fulfill({status:502,json:{ok:false,kind:'provider',error:'Temporary tracking transport failure.'}}):route.fulfill({json:fixtureTracking});});
   await video.locator('.scene-track').click();
@@ -214,6 +217,7 @@ try {
   await video.locator('.scene-limitations').evaluate(el=>el.open=true);
   const populated=await videoGeometry(video,dir,'populated-video-fixture');
   checks.push(...populated.map(c=>({name:'populated-video-fixture',...c,fixtureOnly:true})));
+  checks.push(await reviewRetainedStimulusRecovery(video,videoContext,base,dir,fixtureTracking));
   // Intentional replacement discards old reference, requiring exactly one fresh upload.
   await video.getByRole('button',{name:'CHANGE VIDEO',exact:true}).click();
   await video.getByRole('button',{name:'Choose another video',exact:true}).click();

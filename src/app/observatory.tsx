@@ -162,7 +162,19 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     try {
       const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion, ...(!selectedId ? { stimulusAmplitude: stimulusAmplitude ?? syntheticAmplitude } : {}), ...(nextFromId ? { nextFromId } : {}), ...(selectedId ? { perceptionId: selectedId, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}) } : { action, id: design!.id, ...(action === "stimulus" ? { perceptionId: perceptionId ?? null, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}), ...(action === "run" && stimulusAmplitude !== undefined && stimulusAmplitude !== design!.spec.stimulus.amplitude ? { stimulusAmplitude } : {}) }) });
       const data = await response.json() as GuidedResponse;
-      if (!data.ok) reportFailure(action, data.error, data.diagnostics);
+      if (data.retainedStimulusReceipt) {
+        const retained = data.retainedStimulusReceipt;
+        setPerceptionSession(current => current.analysis?.perception.id === retained.id ? { ...current, analysis: { ...current.analysis, receipt: retained.receipt } } : current);
+      }
+      if (!data.ok && data.code === "DESIGN_UNAVAILABLE" && action === "stimulus" && selectedId) {
+        // Release only the stale experiment identity; the workspace-owned perception session stays intact.
+        dispatch({ type: "design-unavailable", id: design!.id, investigationId: requestInvestigationId });
+        setUnavailableDesignId(undefined);
+        setNotice("Stimulus retained. The previous experiment design expired, so create a new design using this measured stimulus.");
+        setInstrumentMode("perturb");
+        guideViewportTo("perception-source", "button.primary-button");
+      }
+      else if (!data.ok) reportFailure(action, data.error, data.diagnostics);
       else if (!response.ok) reportFailure(action, "Request failed. Retained evidence is unchanged.");
       else if (action === "design" || action === "stimulus") {
         dispatch({ type: "designed", design: data.design, investigationId: requestInvestigationId });
