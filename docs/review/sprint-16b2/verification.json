@@ -1,0 +1,37 @@
+{
+  "startingCheckpoint": "b5f1ebf",
+  "startingTree": "clean",
+  "safetyTag": "causalfly-hackathon-acceptance-prelive-v0.19",
+  "preflight": {
+    "tests": 511,
+    "build": "PASS",
+    "lint": "PASS",
+    "browserChecks": 47,
+    "pageErrors": 0,
+    "diffCheck": "PASS"
+  },
+  "postRun": {
+    "tests": 511,
+    "build": "PASS",
+    "lint": "PASS",
+    "browserChecks": 47,
+    "pageErrors": 0,
+    "diffCheck": "PASS"
+  },
+  "liveClassification": "FULL_LIVE_ACCEPTANCE_PASS",
+  "liveCounts": {
+    "authorization": 1,
+    "privatePut": 1,
+    "muse": 1,
+    "sam": 1,
+    "providerRetries": 0
+  },
+  "historicalArtifactFilesUnchanged": 198,
+  "protectedProductSourceFilesUnchanged": 4,
+  "reviewHistoricalPrefixPreserved": true,
+  "humanReview": "REQUIRED",
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "fruitflyXRModified": false
+}

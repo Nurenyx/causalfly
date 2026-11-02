@@ -260,3 +260,76 @@ Verification retained from the implementation session and checked during interru
 - Branch/HEAD remain `feat/hackathon-final-acceptance` / `4bc1dfd`; existing uncommitted work was preserved. `git diff --check` passes; final status/stat/name inventory was reviewed.
 
 **No provider requests or actual media uploads were made for Sprint 16B.1B or its completion audit. Genuine live Muse → candidate → SAM acceptance remains outstanding.** This is deterministic observability verification, not live acceptance. No commit, push or deployment was performed. Stop for human review.
+
+
+## Sprint 16B.2 — final bounded live acceptance
+
+**FULL_LIVE_ACCEPTANCE_PASS — genuine contiguous Muse → guided candidate selection → SAM completed. Human review is still required before any commit, push or deployment.** This is the new Sprint 16B.2 result; historical 16A/16B/16B.1/16B.1B findings and unsuccessful-attempt records remain unchanged.
+
+### Safe start and deterministic gates
+
+Started from a clean working tree on `feat/hackathon-final-acceptance`, HEAD `b5f1ebf`, with safety tag `causalfly-hackathon-acceptance-prelive-v0.19` pointing at HEAD. Initial branch/HEAD/status/diff checks passed. The checkpoint remains the recovery point.
+
+Both required deterministic gates passed, before and after the single genuine attempt:
+
+| Verification | Before live activity | After live activity |
+| --- | --- | --- |
+| `npm test` | PASS — 511 tests, zero failures | PASS — 511 tests, zero failures |
+| `npm run build` | PASS — production build and TypeScript | PASS — production build and TypeScript |
+| `npm run lint` | PASS | PASS |
+| `node scripts/sprint16a-browser-review.mjs` | PASS — 47 checks, zero page errors | PASS — 47 checks, zero page errors |
+| `git diff --check` | PASS | PASS |
+
+[Pre-live fixture results](review/sprint-16b2/deterministic-pre/results.json) and [post-run fixture results](review/sprint-16b2/deterministic-post/results.json) are separate from genuine live evidence. The browser script gained only optional base/output-directory settings so these required runs use isolated loopback ports and new artifact directories, preserving older captures. Storage and provider responses in these deterministic runs were intercepted or offline fixtures; they did not perform real uploads or paid requests.
+
+### Single-use harness and exact live budget
+
+The dedicated `scripts/sprint16b2-live-video-acceptance.mjs` derives from the reviewed Sprint 16B.1 harness. It exclusively creates its Sprint 16B.2 attempt record before harness network activity, refuses reruns, checks the completed deterministic gate, and verifies per-stage budgets before forwarding requests. Earlier guard records were not deleted or weakened. Fixture rehearsals verified all three branches: zero candidates stop with zero SAM requests, three subthreshold candidates stop with zero SAM requests, and an explicitly selected qualifying candidate completes tracking with the same reference. Those rehearsals are labeled fixture-only and are not counted as genuine provider calls.
+
+The one genuine run used the unchanged approved `public/perception-calibration.mp4` (SHA-256 `a76a5a54735f40c4c0fe5b0d7631405cef055a9d37a5f35b9ab6022d8d96eb2d`). No alternative clip or edited video was used.
+
+| Genuine Sprint 16B.2 activity | Count / result |
+| --- | --- |
+| Secure upload authorization | **1**, succeeded |
+| Private PUT | **1**, succeeded |
+| Muse model request | **1** |
+| SAM model request | **1** |
+| Automatic provider retries | **0**; SDK retries remain disabled |
+| Second PUT / replacement upload | **No / 0** |
+| Manual-concept continuation / fallback concept | **None** |
+| Explicit qualifying candidate selection through guided UI | **Yes** |
+| Same retained secure reference for authorization, Muse and SAM | **Verified by request guards** |
+| Genuine SAM result returned / visible attribution | **Yes / yes** |
+| Contiguous guided lifecycle | **Yes** |
+
+The selected candidate was the provider's qualifying **central red square**, confirmed through the real radio-selection interaction. SAM was not requested before that selection. No confidence threshold, Muse prompt, Meta model selection, measurement function or product workflow was changed. The application continues to reject an empty list or a list exclusively below 0.5; exactly 0.5 remains acceptable.
+
+### Sanitized Muse observations and decision tree
+
+The new observability fields were recorded immediately when discovery returned:
+
+| Observation | Recorded value |
+| --- | --- |
+| Provider response accepted | **true** |
+| Scene parsing succeeded | **true** |
+| Parsed candidate count | **1** |
+| Qualifying candidate count | **1** |
+| Confidence threshold | **0.5** |
+| Rounded candidate confidence values | **[0.95]** |
+| Maximum candidate confidence | **0.95** |
+| Scene accepted by application | **true** |
+| Decision-tree branch | **Case C** |
+
+The [sanitized machine-readable live report](review/sprint-16b2/live-video-acceptance.json) contains all required counts, receipt/parsing/acceptance stages, selection/reference checks, screenshot availability and final classification. It retains no credentials, tokens, authorization headers, signed/private URLs or raw provider envelopes. This successful new response does not retroactively determine whether the older 16B.1 attempt contained zero candidates or exclusively low-confidence candidates.
+
+### Genuine post-SAM screenshot and layout
+
+The [primary genuine post-SAM capture at a 1440×900 browser viewport](review/sprint-16b2/live-after-sam-primary-1440.png) was taken after the actual SAM response and visually inspected. The full shared-row capture includes the source-video player with returned tracking overlay, Muse summary and selected candidate, Meta/SAM attribution, deterministic measurements, target pathway and scientist section. It is not substituted fixture imagery. The UI displays the newly derived stimulus as **0.488**.
+
+Actual final DOM geometry passed at **1366×768, 1440×900, 1536×1024 and 1920×1080**: no world/inspector or content-sibling overlap, no clipping or horizontal page overflow, player controls and attribution precede measurements, and target/scientist content follows in normal flow. World and inspector bottoms matched exactly at every size. [Primary-size inspector](review/sprint-16b2/live-after-sam-inspector-1440.png) and [full row](review/sprint-16b2/live-after-sam-row-1440.png) preserve the genuine state; all four measurements are in the live report.
+
+The surrounding recorded-world design/run was explicitly prepared through the offline engineering fixture server to exercise shared-row geometry without extra paid design or interpretation calls. Its existing synthetic experiment input is separate from the newly tracked video's derived stimulus. This acceptance proves the live video handoff and result composition; it does not claim a newly executed causal trial using that stimulus or biological perception/walking validation. No scientific measurements were modified.
+
+### Preservation and final gate
+
+Historical artifact hashes and protected product-source hashes match the pre-live inventory. The preexisting review document is preserved byte-for-byte as a prefix with this section appended. FruitFly XR was untouched. The live server was stopped after the single attempt; post-run browser checks used only the fixture server. Final Git status/stat/name inventory was reviewed and `git diff --check` passed. No commit, push or deployment was performed. **Full live acceptance passed under the specified conditions; stop for human review.**

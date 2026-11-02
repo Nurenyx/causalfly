@@ -1,0 +1,808 @@
+{
+  "startingCheckpoint": "b5f1ebf",
+  "safetyTag": "causalfly-hackathon-acceptance-prelive-v0.19",
+  "authorizationCount": 1,
+  "privatePutCount": 1,
+  "museRequestCount": 1,
+  "samRequestCount": 1,
+  "providerRetryCount": 0,
+  "secondPutOccurred": false,
+  "providerResponseAccepted": true,
+  "sceneParsingSucceeded": true,
+  "parsedCandidateCount": 1,
+  "qualifyingCandidateCount": 1,
+  "confidenceThreshold": 0.5,
+  "candidateConfidenceValues": [
+    0.8
+  ],
+  "maximumCandidateConfidence": 0.8,
+  "sceneAcceptedByApplication": true,
+  "candidateSelectionOccurred": true,
+  "sameMediaReferenceUsed": true,
+  "contiguousGuidedLifecycle": true,
+  "finalSamResultReceived": true,
+  "finalScreenshotAvailable": true,
+  "finalClassification": "FULL_LIVE_ACCEPTANCE_PASS",
+  "startedAt": "2026-11-02T13:17:24.626Z",
+  "fixtureOnly": true,
+  "status": "PASS — HUMAN REVIEW PENDING",
+  "attempts": {
+    "authorization": 1,
+    "put": 1,
+    "discovery": 1,
+    "tracking": 1
+  },
+  "blockedRequests": 0,
+  "sameMediaReference": true,
+  "explicitCandidateSelection": true,
+  "museProviderResponseAccepted": true,
+  "museSceneParsed": true,
+  "museSceneAcceptedByApplication": true,
+  "samResponseReceived": true,
+  "privateMediaVerified": false,
+  "humanAcceptance": "PENDING HUMAN REVIEW",
+  "recordedLayoutSetup": "Offline engineering fixture; no live design/interpret request",
+  "authorizationSucceeded": true,
+  "privatePutSucceeded": true,
+  "museUsesAuthorizedReference": true,
+  "sceneResponse": {
+    "status": 200,
+    "ok": true,
+    "kind": null
+  },
+  "sceneDiscovery": {
+    "parsedCandidateCount": 1,
+    "qualifyingCandidateCount": 1,
+    "confidenceThreshold": 0.5,
+    "candidateConfidenceValues": [
+      0.8
+    ],
+    "maximumCandidateConfidence": 0.8,
+    "providerResponseAccepted": true,
+    "sceneParsingSucceeded": true,
+    "refusalDetected": false
+  },
+  "decisionTreeCase": "C",
+  "trackingResponse": {
+    "status": 200,
+    "ok": true,
+    "kind": null
+  },
+  "resultVisiblyAttributed": true,
+  "geometry": [
+    {
+      "width": 1366,
+      "height": 768,
+      "rail": {
+        "x": 931.359375,
+        "y": -7.546875,
+        "right": 1339,
+        "bottom": 1637.15625,
+        "width": 407.640625,
+        "height": 1644.703125
+      },
+      "world": {
+        "x": 259,
+        "y": -7.546875,
+        "right": 919.359375,
+        "bottom": 1637.15625,
+        "width": 660.359375,
+        "height": 1644.703125
+      },
+      "panel": {
+        "x": 956.359375,
+        "y": 123.953125,
+        "right": 1314,
+        "bottom": 1111.0625,
+        "width": 357.640625,
+        "height": 987.109375
+      },
+      "player": {
+        "x": 968.359375,
+        "y": 594.796875,
+        "right": 1302,
+        "bottom": 858.296875,
+        "width": 333.640625,
+        "height": 263.5
+      },
+      "controls": {
+        "x": 980.546875,
+        "y": 770.109375,
+        "right": 1289.8125,
+        "bottom": 820.109375,
+        "width": 309.265625,
+        "height": 50
+      },
+      "attribution": {
+        "x": 980.546875,
+        "y": 828.109375,
+        "right": 1289.8125,
+        "bottom": 846.109375,
+        "width": 309.265625,
+        "height": 18
+      },
+      "scene": {
+        "x": 968.359375,
+        "y": 278.640625,
+        "right": 1302,
+        "bottom": 570.796875,
+        "width": 333.640625,
+        "height": 292.15625
+      },
+      "candidates": {
+        "x": 968.359375,
+        "y": 467.921875,
+        "right": 1302,
+        "bottom": 546.796875,
+        "width": 333.640625,
+        "height": 78.875
+      },
+      "metrics": {
+        "x": 968.359375,
+        "y": 887.296875,
+        "right": 1302,
+        "bottom": 955.28125,
+        "width": 333.640625,
+        "height": 67.984375
+      },
+      "target": {
+        "x": 956.359375,
+        "y": 1119.0625,
+        "right": 1314,
+        "bottom": 1232.5625,
+        "width": 357.640625,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 959.359375,
+        "y": 1254.5625,
+        "right": 1311,
+        "bottom": 1301.5625,
+        "width": 351.640625,
+        "height": 47
+      },
+      "orbit": {
+        "x": 260,
+        "y": 1406.65625,
+        "right": 918.359375,
+        "bottom": 1468.65625,
+        "width": 658.359375,
+        "height": 62
+      },
+      "instruments": {
+        "x": 260,
+        "y": 1468.65625,
+        "right": 918.359375,
+        "bottom": 1636.15625,
+        "width": 658.359375,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 260,
+        "y": 62.453125,
+        "right": 918.359375,
+        "bottom": 1406.65625,
+        "width": 658.359375,
+        "height": 1344.203125
+      },
+      "children": [
+        {
+          "x": 968.359375,
+          "y": 180.953125,
+          "right": 1302,
+          "bottom": 220.953125,
+          "width": 333.640625,
+          "height": 40
+        },
+        {
+          "x": 968.359375,
+          "y": 236.953125,
+          "right": 1302,
+          "bottom": 259.453125,
+          "width": 333.640625,
+          "height": 22.5
+        },
+        {
+          "x": 968.359375,
+          "y": 278.640625,
+          "right": 1302,
+          "bottom": 570.796875,
+          "width": 333.640625,
+          "height": 292.15625
+        },
+        {
+          "x": 968.359375,
+          "y": 594.796875,
+          "right": 1302,
+          "bottom": 858.296875,
+          "width": 333.640625,
+          "height": 263.5
+        },
+        {
+          "x": 968.359375,
+          "y": 887.296875,
+          "right": 1302,
+          "bottom": 955.28125,
+          "width": 333.640625,
+          "height": 67.984375
+        },
+        {
+          "x": 968.359375,
+          "y": 970.28125,
+          "right": 1302,
+          "bottom": 1011.875,
+          "width": 333.640625,
+          "height": 41.59375
+        },
+        {
+          "x": 968.359375,
+          "y": 1038.0625,
+          "right": 1302,
+          "bottom": 1056.0625,
+          "width": 333.640625,
+          "height": 18
+        },
+        {
+          "x": 968.359375,
+          "y": 1071.0625,
+          "right": 1302,
+          "bottom": 1089.0625,
+          "width": 333.640625,
+          "height": 18
+        }
+      ],
+      "clipped": false
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "rail": {
+        "x": 977.109375,
+        "y": -5.765625,
+        "right": 1413,
+        "bottom": 1612.0625,
+        "width": 435.890625,
+        "height": 1617.828125
+      },
+      "world": {
+        "x": 259,
+        "y": -5.765625,
+        "right": 965.109375,
+        "bottom": 1612.0625,
+        "width": 706.109375,
+        "height": 1617.828125
+      },
+      "panel": {
+        "x": 1002.109375,
+        "y": 125.734375,
+        "right": 1388,
+        "bottom": 1103.96875,
+        "width": 385.890625,
+        "height": 978.234375
+      },
+      "player": {
+        "x": 1014.109375,
+        "y": 574.078125,
+        "right": 1376,
+        "bottom": 851.203125,
+        "width": 361.890625,
+        "height": 277.125
+      },
+      "controls": {
+        "x": 1026.296875,
+        "y": 763.015625,
+        "right": 1363.8125,
+        "bottom": 813.015625,
+        "width": 337.515625,
+        "height": 50
+      },
+      "attribution": {
+        "x": 1026.296875,
+        "y": 821.015625,
+        "right": 1363.8125,
+        "bottom": 839.015625,
+        "width": 337.515625,
+        "height": 18
+      },
+      "scene": {
+        "x": 1014.109375,
+        "y": 280.421875,
+        "right": 1376,
+        "bottom": 550.078125,
+        "width": 361.890625,
+        "height": 269.65625
+      },
+      "candidates": {
+        "x": 1014.109375,
+        "y": 447.203125,
+        "right": 1376,
+        "bottom": 526.078125,
+        "width": 361.890625,
+        "height": 78.875
+      },
+      "metrics": {
+        "x": 1014.109375,
+        "y": 880.203125,
+        "right": 1376,
+        "bottom": 948.1875,
+        "width": 361.890625,
+        "height": 67.984375
+      },
+      "target": {
+        "x": 1002.109375,
+        "y": 1111.96875,
+        "right": 1388,
+        "bottom": 1225.46875,
+        "width": 385.890625,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 1005.109375,
+        "y": 1247.46875,
+        "right": 1385,
+        "bottom": 1276.46875,
+        "width": 379.890625,
+        "height": 29
+      },
+      "orbit": {
+        "x": 260,
+        "y": 1381.5625,
+        "right": 964.109375,
+        "bottom": 1443.5625,
+        "width": 704.109375,
+        "height": 62
+      },
+      "instruments": {
+        "x": 260,
+        "y": 1443.5625,
+        "right": 964.109375,
+        "bottom": 1611.0625,
+        "width": 704.109375,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 260,
+        "y": 33.234375,
+        "right": 964.109375,
+        "bottom": 1381.5625,
+        "width": 704.109375,
+        "height": 1348.328125
+      },
+      "children": [
+        {
+          "x": 1014.109375,
+          "y": 182.734375,
+          "right": 1376,
+          "bottom": 222.734375,
+          "width": 361.890625,
+          "height": 40
+        },
+        {
+          "x": 1014.109375,
+          "y": 238.734375,
+          "right": 1376,
+          "bottom": 261.234375,
+          "width": 361.890625,
+          "height": 22.5
+        },
+        {
+          "x": 1014.109375,
+          "y": 280.421875,
+          "right": 1376,
+          "bottom": 550.078125,
+          "width": 361.890625,
+          "height": 269.65625
+        },
+        {
+          "x": 1014.109375,
+          "y": 574.078125,
+          "right": 1376,
+          "bottom": 851.203125,
+          "width": 361.890625,
+          "height": 277.125
+        },
+        {
+          "x": 1014.109375,
+          "y": 880.203125,
+          "right": 1376,
+          "bottom": 948.1875,
+          "width": 361.890625,
+          "height": 67.984375
+        },
+        {
+          "x": 1014.109375,
+          "y": 963.1875,
+          "right": 1376,
+          "bottom": 1004.78125,
+          "width": 361.890625,
+          "height": 41.59375
+        },
+        {
+          "x": 1014.109375,
+          "y": 1030.96875,
+          "right": 1376,
+          "bottom": 1048.96875,
+          "width": 361.890625,
+          "height": 18
+        },
+        {
+          "x": 1014.109375,
+          "y": 1063.96875,
+          "right": 1376,
+          "bottom": 1081.96875,
+          "width": 361.890625,
+          "height": 18
+        }
+      ],
+      "clipped": false
+    },
+    {
+      "width": 1536,
+      "height": 1024,
+      "rail": {
+        "x": 1041.046875,
+        "y": -37.453125,
+        "right": 1509,
+        "bottom": 1596.40625,
+        "width": 467.953125,
+        "height": 1633.859375
+      },
+      "world": {
+        "x": 271,
+        "y": -37.453125,
+        "right": 1029.046875,
+        "bottom": 1596.40625,
+        "width": 758.046875,
+        "height": 1633.859375
+      },
+      "panel": {
+        "x": 1066.046875,
+        "y": 94.046875,
+        "right": 1484,
+        "bottom": 1088.3125,
+        "width": 417.953125,
+        "height": 994.265625
+      },
+      "player": {
+        "x": 1078.046875,
+        "y": 542.390625,
+        "right": 1472,
+        "bottom": 835.546875,
+        "width": 393.953125,
+        "height": 293.15625
+      },
+      "controls": {
+        "x": 1090.234375,
+        "y": 747.359375,
+        "right": 1459.8125,
+        "bottom": 797.359375,
+        "width": 369.578125,
+        "height": 50
+      },
+      "attribution": {
+        "x": 1090.234375,
+        "y": 805.359375,
+        "right": 1459.8125,
+        "bottom": 823.359375,
+        "width": 369.578125,
+        "height": 18
+      },
+      "scene": {
+        "x": 1078.046875,
+        "y": 248.734375,
+        "right": 1472,
+        "bottom": 518.390625,
+        "width": 393.953125,
+        "height": 269.65625
+      },
+      "candidates": {
+        "x": 1078.046875,
+        "y": 415.515625,
+        "right": 1472,
+        "bottom": 494.390625,
+        "width": 393.953125,
+        "height": 78.875
+      },
+      "metrics": {
+        "x": 1078.046875,
+        "y": 864.546875,
+        "right": 1472,
+        "bottom": 932.53125,
+        "width": 393.953125,
+        "height": 67.984375
+      },
+      "target": {
+        "x": 1066.046875,
+        "y": 1096.3125,
+        "right": 1484,
+        "bottom": 1209.8125,
+        "width": 417.953125,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 1069.046875,
+        "y": 1231.8125,
+        "right": 1481,
+        "bottom": 1260.8125,
+        "width": 411.953125,
+        "height": 29
+      },
+      "orbit": {
+        "x": 272,
+        "y": 1365.90625,
+        "right": 1028.046875,
+        "bottom": 1427.90625,
+        "width": 756.046875,
+        "height": 62
+      },
+      "instruments": {
+        "x": 272,
+        "y": 1427.90625,
+        "right": 1028.046875,
+        "bottom": 1595.40625,
+        "width": 756.046875,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 272,
+        "y": 1.546875,
+        "right": 1028.046875,
+        "bottom": 1365.90625,
+        "width": 756.046875,
+        "height": 1364.359375
+      },
+      "children": [
+        {
+          "x": 1078.046875,
+          "y": 151.046875,
+          "right": 1472,
+          "bottom": 191.046875,
+          "width": 393.953125,
+          "height": 40
+        },
+        {
+          "x": 1078.046875,
+          "y": 207.046875,
+          "right": 1472,
+          "bottom": 229.546875,
+          "width": 393.953125,
+          "height": 22.5
+        },
+        {
+          "x": 1078.046875,
+          "y": 248.734375,
+          "right": 1472,
+          "bottom": 518.390625,
+          "width": 393.953125,
+          "height": 269.65625
+        },
+        {
+          "x": 1078.046875,
+          "y": 542.390625,
+          "right": 1472,
+          "bottom": 835.546875,
+          "width": 393.953125,
+          "height": 293.15625
+        },
+        {
+          "x": 1078.046875,
+          "y": 864.546875,
+          "right": 1472,
+          "bottom": 932.53125,
+          "width": 393.953125,
+          "height": 67.984375
+        },
+        {
+          "x": 1078.046875,
+          "y": 947.53125,
+          "right": 1472,
+          "bottom": 989.125,
+          "width": 393.953125,
+          "height": 41.59375
+        },
+        {
+          "x": 1078.046875,
+          "y": 1015.3125,
+          "right": 1472,
+          "bottom": 1033.3125,
+          "width": 393.953125,
+          "height": 18
+        },
+        {
+          "x": 1078.046875,
+          "y": 1048.3125,
+          "right": 1472,
+          "bottom": 1066.3125,
+          "width": 393.953125,
+          "height": 18
+        }
+      ],
+      "clipped": false
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "rail": {
+        "x": 1277.0625,
+        "y": -33.515625,
+        "right": 1887,
+        "bottom": 1574.953125,
+        "width": 609.9375,
+        "height": 1608.46875
+      },
+      "world": {
+        "x": 277,
+        "y": -33.515625,
+        "right": 1265.0625,
+        "bottom": 1574.953125,
+        "width": 988.0625,
+        "height": 1608.46875
+      },
+      "panel": {
+        "x": 1302.0625,
+        "y": 97.984375,
+        "right": 1862,
+        "bottom": 1114.859375,
+        "width": 559.9375,
+        "height": 1016.875
+      },
+      "player": {
+        "x": 1314.0625,
+        "y": 497.9375,
+        "right": 1850,
+        "bottom": 862.09375,
+        "width": 535.9375,
+        "height": 364.15625
+      },
+      "controls": {
+        "x": 1326.25,
+        "y": 773.90625,
+        "right": 1837.8125,
+        "bottom": 823.90625,
+        "width": 511.5625,
+        "height": 50
+      },
+      "attribution": {
+        "x": 1326.25,
+        "y": 831.90625,
+        "right": 1837.8125,
+        "bottom": 849.90625,
+        "width": 511.5625,
+        "height": 18
+      },
+      "scene": {
+        "x": 1314.0625,
+        "y": 252.671875,
+        "right": 1850,
+        "bottom": 473.9375,
+        "width": 535.9375,
+        "height": 221.265625
+      },
+      "candidates": {
+        "x": 1314.0625,
+        "y": 371.0625,
+        "right": 1850,
+        "bottom": 449.9375,
+        "width": 535.9375,
+        "height": 78.875
+      },
+      "metrics": {
+        "x": 1314.0625,
+        "y": 891.09375,
+        "right": 1850,
+        "bottom": 959.078125,
+        "width": 535.9375,
+        "height": 67.984375
+      },
+      "target": {
+        "x": 1302.0625,
+        "y": 1122.859375,
+        "right": 1862,
+        "bottom": 1236.359375,
+        "width": 559.9375,
+        "height": 113.5
+      },
+      "scientist": {
+        "x": 1305.0625,
+        "y": 1258.359375,
+        "right": 1781.71875,
+        "bottom": 1287.359375,
+        "width": 476.65625,
+        "height": 29
+      },
+      "orbit": {
+        "x": 278,
+        "y": 1344.453125,
+        "right": 1264.0625,
+        "bottom": 1406.453125,
+        "width": 986.0625,
+        "height": 62
+      },
+      "instruments": {
+        "x": 278,
+        "y": 1406.453125,
+        "right": 1264.0625,
+        "bottom": 1573.953125,
+        "width": 986.0625,
+        "height": 167.5
+      },
+      "arena": {
+        "x": 278,
+        "y": 5.484375,
+        "right": 1264.0625,
+        "bottom": 1344.453125,
+        "width": 986.0625,
+        "height": 1338.96875
+      },
+      "children": [
+        {
+          "x": 1314.0625,
+          "y": 154.984375,
+          "right": 1850,
+          "bottom": 194.984375,
+          "width": 535.9375,
+          "height": 40
+        },
+        {
+          "x": 1314.0625,
+          "y": 210.984375,
+          "right": 1850,
+          "bottom": 233.484375,
+          "width": 535.9375,
+          "height": 22.5
+        },
+        {
+          "x": 1314.0625,
+          "y": 252.671875,
+          "right": 1850,
+          "bottom": 473.9375,
+          "width": 535.9375,
+          "height": 221.265625
+        },
+        {
+          "x": 1314.0625,
+          "y": 497.9375,
+          "right": 1850,
+          "bottom": 862.09375,
+          "width": 535.9375,
+          "height": 364.15625
+        },
+        {
+          "x": 1314.0625,
+          "y": 891.09375,
+          "right": 1850,
+          "bottom": 959.078125,
+          "width": 535.9375,
+          "height": 67.984375
+        },
+        {
+          "x": 1314.0625,
+          "y": 974.078125,
+          "right": 1850,
+          "bottom": 1015.671875,
+          "width": 535.9375,
+          "height": 41.59375
+        },
+        {
+          "x": 1314.0625,
+          "y": 1041.859375,
+          "right": 1850,
+          "bottom": 1059.859375,
+          "width": 535.9375,
+          "height": 18
+        },
+        {
+          "x": 1314.0625,
+          "y": 1074.859375,
+          "right": 1850,
+          "bottom": 1092.859375,
+          "width": 535.9375,
+          "height": 18
+        }
+      ],
+      "clipped": false
+    }
+  ],
+  "layoutAcceptancePassed": true,
+  "completedAt": "2026-11-02T13:17:39.373Z"
+}
