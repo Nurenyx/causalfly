@@ -46,4 +46,4 @@ export interface PerceptionRecord {
 }
 export type PerceptionResponse =
   | { ok: true; perception: PerceptionRecord; receipt?: string; overlay?: VideoSegmentationSnapshot; diagnostics?: RunDiagnostics }
-  | { ok: false; error: string; kind: "validation" | "configuration" | "provider"; run_id?: string; diagnostics?: RunDiagnostics };
+  | { ok: false; error: string; mediaUnavailable?: boolean; kind: "validation" | "configuration" | "provider"; run_id?: string; diagnostics?: RunDiagnostics };

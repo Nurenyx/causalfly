@@ -9,7 +9,9 @@ export interface PerceptionSession {
   file?: File;
   upload?: import("../perception/blob-contract").MediaReference;
   transport?: string;
+  mediaUnavailable?: boolean;
   error?: string;
+  failure?: import("../perception/video-failure").VideoFailure;
   errorDiagnostics?: import("./flight-recorder-types").RunDiagnostics;
   analyzedFile?: File;
   url: string;

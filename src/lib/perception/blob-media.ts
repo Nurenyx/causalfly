@@ -1,13 +1,14 @@
 import "server-only";
 import { createHash, createHmac, randomUUID, timingSafeEqual } from "node:crypto";
-import { del, get, head, issueSignedToken, list, presignUrl } from "@vercel/blob";
+import { BlobNotFoundError, del, get, head, issueSignedToken, list, presignUrl } from "@vercel/blob";
 import { z } from "zod";
 import { MAX_VIDEO_BYTES } from "./contracts";
+import { mediaCapabilities } from "./media-configuration";
 import { mediaReference, uploadInput, type BlobMediaIdentity } from "./blob-contract";
 import { inspectVideo } from "./media";
 import { FlightRecorder, retainedRecorder } from "../web/flight-recorder";
 
-export class MediaError extends Error {}
+export class MediaError extends Error { constructor(message: string, readonly retryable = false, readonly mediaUnavailable = false) { super(message); } }
 export class MediaConfigurationError extends Error {}
 
 export const MEDIA_LIFETIME_MS = 2 * 60 * 60 * 1000;
@@ -18,8 +19,8 @@ const ticketSchema = uploadInput.extend({ mediaId: z.string().uuid(), runId: z.s
 type Ticket = z.infer<typeof ticketSchema>;
 function secret() {
   const key = process.env.CAUSALFLY_MEDIA_SIGNING_SECRET;
-  if (!key || key.length < 32) throw new MediaConfigurationError("Private video upload is not enabled on this server. Your video remains local. Ask the host to configure private video storage, or use Synthetic stimulus.");
-  return key;
+  if (!mediaCapabilities().mediaSigningConfigured) throw new MediaConfigurationError("Private video upload is not enabled on this server.");
+  return key!;
 }
 function sign(value: Ticket) {
   const data = Buffer.from(JSON.stringify(value)).toString("base64url");
@@ -37,15 +38,15 @@ export function verifyMediaReference(input: unknown, now = Date.now()): Ticket {
     const ext = value.contentType === "video/mp4" ? "mp4" : "mov";
     if (value.blobPathname !== `${PREFIX}${value.issued}/${value.mediaId}.${ext}` || value.expires !== value.issued + MEDIA_LIFETIME_MS || value.issued > now || value.expires <= now) throw new Error();
     return value;
-  } catch { throw new MediaError("Choose the video again: its secure upload reference is invalid or expired."); }
+  } catch (error) { if (error instanceof MediaConfigurationError) throw error; throw new MediaError("Choose the video again: its secure upload reference is invalid or expired.", false, true); }
 }
 const defaultUploadStorage = { issueSignedToken, presignUrl };
 export async function authorizeMedia(input: unknown, storage = defaultUploadStorage) {
   const parsed = uploadInput.parse(input);
   if ((parsed.contentType === "video/mp4") !== /\.mp4$/i.test(parsed.originalFilename)) throw new MediaError("Choose matching MP4/MOV content type and extension.");
   secret(); // Fail before issuing any storage grant.
-  if (storage === defaultUploadStorage && !process.env.BLOB_READ_WRITE_TOKEN && !(process.env.BLOB_STORE_ID && (process.env.VERCEL || process.env.VERCEL_OIDC_TOKEN))) {
-    throw new MediaConfigurationError("Private video upload is not enabled on this server. Your video remains local. Ask the host to configure private video storage, or use Synthetic stimulus.");
+  if (storage === defaultUploadStorage && !mediaCapabilities().privateStorageConfigured) {
+    throw new MediaConfigurationError("Private video upload is not enabled on this server.");
   }
   const recorder = new FlightRecorder(), mediaId = randomUUID(), issued = Date.now();
   const blobPathname = `${PREFIX}${issued}/${mediaId}.${parsed.contentType === "video/mp4" ? "mp4" : "mov"}`;
@@ -62,12 +63,12 @@ export async function resolveMedia(input: unknown, storage = { head, get }, insp
   const ticket = verifyMediaReference(input);
   let metadata;
   try { metadata = await storage.head(ticket.blobPathname); }
-  catch { throw new MediaError("Choose the video again: the private upload is unavailable or expired. Retry secure upload."); }
-  if (metadata.pathname !== ticket.blobPathname || metadata.size !== ticket.sizeBytes || metadata.size < 1 || metadata.size > MAX_VIDEO_BYTES || metadata.contentType !== ticket.contentType || !new URL(metadata.url).hostname.endsWith(".private.blob.vercel-storage.com")) throw new MediaError("Choose the video again: private Blob metadata does not match the authorized upload.");
+  catch (error) { if (error instanceof BlobNotFoundError) throw new MediaError("The private upload is missing. Upload the selected video again.", false, true); throw new MediaError("Private storage is temporarily unavailable. Your upload reference is retained; retry explicitly.", true); }
+  if (metadata.pathname !== ticket.blobPathname || metadata.size !== ticket.sizeBytes || metadata.size < 1 || metadata.size > MAX_VIDEO_BYTES || metadata.contentType !== ticket.contentType || !new URL(metadata.url).hostname.endsWith(".private.blob.vercel-storage.com")) throw new MediaError("Choose the video again: private Blob metadata does not match the authorized upload.", false, true);
   let download;
   try { download = await storage.get(ticket.blobPathname, { access: "private", useCache: false, abortSignal: AbortSignal.timeout(30_000) }); }
-  catch { throw new MediaError("Choose the video again: private storage could not retrieve this upload. Retry secure upload."); }
-  if (!download || download.statusCode !== 200 || download.blob.etag !== metadata.etag || download.blob.size !== metadata.size || download.blob.contentType !== metadata.contentType) throw new MediaError("Choose the video again: the uploaded Blob is unavailable or changed.");
+  catch (error) { if (error instanceof BlobNotFoundError) throw new MediaError("The private upload is missing. Upload the selected video again.", false, true); throw new MediaError("Private storage could not retrieve this upload. Your reference is retained; retry explicitly.", true); }
+  if (!download || download.statusCode !== 200 || download.blob.etag !== metadata.etag || download.blob.size !== metadata.size || download.blob.contentType !== metadata.contentType) throw new MediaError("Choose the video again: the uploaded Blob is unavailable or changed.", false, true);
   const reader = download.stream.getReader(), chunks: Uint8Array[] = []; let size = 0;
   try {
     for (;;) {

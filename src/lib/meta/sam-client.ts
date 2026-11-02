@@ -71,6 +71,7 @@ export async function analyzeSamVideo(file: File, concept: string, media: VideoM
       warnings: result.diagnostics.map(d => d.code), get cleanup() { return cleanup; } } };
   } catch (error) {
     if (error instanceof SamError) throw error;
+    if (error instanceof OpenAI.APIError && [401,403].includes(error.status ?? 0)) throw new SamError(`Meta tracking access is unavailable on this host (HTTP ${error.status}). Ask the host to check provider credentials and model access.`, "configuration");
     const code = error && typeof error === "object" && "code" in error ? String(error.code) : "";
     if (code === "response_refusal") throw new SamError("SAM refused this media or concept. Choose another clip or concept and retry explicitly.");
     if (code.startsWith("response_") || code === "parser_error" || code === "invalid_mask_payload") throw new SamError(`SAM could not accept its response (${code}). No stimulus was accepted.`);

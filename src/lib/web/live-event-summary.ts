@@ -17,6 +17,10 @@ export function liveEventSummary(snapshot: FruitFlySnapshot, frames: readonly Fr
       headline: `The simulated decoder changed from ${before.motorMode} to ${after.motorMode} across received ticks ${before.neuralTick}–${after.neuralTick}.`,
     };
   }
+  if (snapshot.presentation === "RECORDED_REPLAY") return {
+    label: "CURRENT FRAME",
+    headline: `${t.totalSpikeEvents.toLocaleString("en-US")} simulated spike events. Decoder: ${t.motorMode}.`,
+  };
   const peak = history.reduce((highest, frame) => frame.telemetry.totalSpikeEvents > highest.telemetry.totalSpikeEvents ? frame : highest).telemetry;
   return {
     label: "HIGHEST RECEIVED SPIKE COUNT",

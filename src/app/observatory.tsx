@@ -155,7 +155,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     const requestInvestigationId = action === "design" ? (investigationId ?? 0) + 1 : investigationId;
     if (action === "design") dispatch({ type: "begin", question: researchQuestion });
     else if (action === "run") guideViewportTo("demo-watch", "h2, h3, .run-experiment-btn");
-    if (action === "stimulus" || perceptionId) setPerceptionSession(current => ({ ...current, error: undefined, errorDiagnostics: undefined }));
+    if (action === "stimulus" || perceptionId) setPerceptionSession(current => ({ ...current, error: undefined, failure: undefined, errorDiagnostics: undefined }));
     inFlight.current = true; setPending(action); setError(""); setErrorTarget(""); setFailure(undefined);
     const selectedId = perceptionId ?? (action === "design" && perceptionSession.source === "perception" ? perceptionSession.analysis?.perception.id : undefined);
     const selectedReceipt = receipt ?? (selectedId === perceptionSession.analysis?.perception.id ? perceptionSession.analysis?.receipt : undefined);

@@ -1,0 +1,58 @@
+{
+  "branch": "feat/hackathon-final-acceptance",
+  "head": "4bc1dfd",
+  "baseTag": "causalfly-hackathon-tester-v0.18",
+  "initialWorkingTree": "clean",
+  "unitAndComponentTests": {
+    "passed": 501,
+    "failed": 0
+  },
+  "productionBuild": "PASS",
+  "lint": "PASS",
+  "browser": {
+    "checks": 43,
+    "pageErrors": [],
+    "viewportSizes": [
+      [
+        1366,
+        768
+      ],
+      [
+        1440,
+        900
+      ],
+      [
+        1536,
+        1024
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "recordedGeometryCases": 8,
+    "maxWorldInspectorBottomDifferencePx": 0.0,
+    "minimumArenaGrowthPx": 240.0,
+    "fixtureProvidersOnly": true
+  },
+  "liveVideo": {
+    "report": "live-video-acceptance.json",
+    "realPrivateUploadVerified": true,
+    "museResponses": 1,
+    "samResponses": 1,
+    "privateUploads": 2,
+    "visibleAttributionVerified": true,
+    "contiguousGuidedLifecycleAccepted": false,
+    "additionalPaidAttemptsPerformed": false
+  },
+  "gitDiffCheck": "PASS",
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "remainingAcceptanceGates": [
+    "Human acceptance of final layout and contiguous live candidate handoff",
+    "Final live tracked-player composition recheck after CSS correction",
+    "Hosted secure brain telemetry/control endpoints and live trial verification",
+    "Production host environment and private-media cleanup scheduling"
+  ]
+}

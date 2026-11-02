@@ -11,7 +11,7 @@ import { FlightRecorder, retainedRecorder } from "./flight-recorder";
 import { samConceptSchema, type SceneProvenance } from "../perception/scene";
 import { retainedScene } from "../perception/scene-store";
 
-import { MediaError, resolveMedia } from "../perception/blob-media";
+import { MediaConfigurationError, MediaError, resolveMedia } from "../perception/blob-media";
 import { mediaReference } from "../perception/blob-contract";
 
 const conceptSchema = samConceptSchema;
@@ -22,9 +22,9 @@ const recent = new Map<string, number>();
 export async function perceptionAction(request: Request, deps: { analyze?: typeof analyzeSamVideo; inspect?: typeof inspectVideo; resolve?: typeof resolveMedia } = {}): Promise<Response> {
   let recorder: FlightRecorder | undefined = undefined;
   const reply = (body: PerceptionResponse, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
-  const fail = (error: string, status = 400, kind: "validation" | "configuration" | "provider" = "validation") => {
+  const fail = (error: string, status = 400, kind: "validation" | "configuration" | "provider" = "validation", mediaUnavailable = false) => {
     recorder?.event("error.recorded", { code: `perception.${kind}` });
-    return reply({ ok: false, error, kind, ...(recorder ? { run_id: recorder.run_id, diagnostics: recorder.snapshot() } : {}) }, status);
+    return reply({ ok: false, error, kind, ...(mediaUnavailable ? { mediaUnavailable: true } : {}), ...(recorder ? { run_id: recorder.run_id, diagnostics: recorder.snapshot() } : {}) }, status);
   };
   const origin = request.headers.get("origin");
   // Next can use localhost in Request.url while preserving 127.0.0.1 in Host.
@@ -90,7 +90,8 @@ export async function perceptionAction(request: Request, deps: { analyze?: typeo
   } catch (error) {
     if (samRequested) recorder.event(error instanceof Error && /no matching object/i.test(error.message) ? "sam.no_match" : "sam.failed", { code: "perception.unsuccessful" });
     if (error instanceof Error && /Live Meta is disabled/.test(error.message)) return fail(error.message, 503, "configuration");
-    if (error instanceof MediaError) return fail(error.message);
+    if (error instanceof MediaConfigurationError) return fail(error.message, 503, "configuration");
+    if (error instanceof MediaError) return fail(error.message, error.retryable ? 502 : 400, error.retryable ? "provider" : "validation", error.mediaUnavailable);
     if (error instanceof SamError) return fail(error.message, error.kind === "configuration" ? 503 : 502, error.kind);
     if (error instanceof Error && /Choose|Use a clip|distinct video|Unable to read|Body too large/.test(error.message)) return fail(error.message);
     return fail("Unable to read the video request. Choose a short MP4/MOV and try again.");

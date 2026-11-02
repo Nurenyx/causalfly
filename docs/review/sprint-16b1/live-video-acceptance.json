@@ -1,0 +1,29 @@
+{
+  "startedAt": "2026-11-02T06:22:51.808Z",
+  "fixtureOnly": false,
+  "status": "STOPPED — NO AUTOMATIC RETRY",
+  "attempts": {
+    "authorization": 1,
+    "put": 1,
+    "discovery": 1,
+    "tracking": 0
+  },
+  "blockedRequests": 0,
+  "sameMediaReference": false,
+  "explicitCandidateSelection": false,
+  "museResponseReceived": false,
+  "samResponseReceived": false,
+  "privateMediaVerified": true,
+  "humanAcceptance": "NOT ACCEPTED — guided live lifecycle incomplete; human review required",
+  "recordedLayoutSetup": "Offline engineering fixture; no live design/interpret request",
+  "authorizationSucceeded": true,
+  "privatePutSucceeded": true,
+  "completedAt": "2026-11-02T06:23:12.881Z",
+  "observedFailure": "UI reported: No confident trackable concept was found. No candidate selection or SAM request was attempted.",
+  "observedFailureEvidence": "live-stopped.png",
+  "paidRequestCounts": {
+    "muse": 1,
+    "sam": 0
+  },
+  "finalAfterSamScreenshot": "Unavailable: SAM was not requested because Muse returned no confident candidate."
+}

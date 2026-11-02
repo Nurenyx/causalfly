@@ -33,3 +33,32 @@ test("brain status chips distinguish fresh activity, disconnection and errors", 
   assert.match(render(<BrainServerStatus snapshot={{...snapshot,state:"DISCONNECTED",evidence:null}} now={Date.now()} />), /data-status="OFFLINE"/);
   assert.match(render(<BrainServerStatus snapshot={{...snapshot,state:"ERROR",evidence:null}} now={Date.now()} />), /data-status="ERROR"/);
 });
+
+test("configuration error has one alert and no retry; transient error retains selected file and retry", () => {
+ const file = new File(["clip"],"clip.mp4");
+ for (const kind of ["configuration","transient"] as const) {
+  const session={...initialPerceptionSession(),source:"perception" as const,file,ready:true,error:"Video input could not proceed",failure:{kind,retryable:kind==="transient",stage:"upload" as const}};
+  const html=render(<PerceptionPanel hasDesign={false} busy={false} accepting={false} onBusy={()=>{}} onUse={()=>{}} session={session} />);
+  assert.equal((html.match(/role="alert"/g)??[]).length,1);assert.equal(session.file,file);
+  if(kind==="configuration") {assert.match(html,/VIDEO ANALYSIS UNAVAILABLE ON THIS HOST/);assert.match(html,/Your video remains local/);assert.ok(!html.includes("Retry video analysis"));}
+  else assert.match(html,/Retry video analysis/);
+ }
+});
+
+
+test("a retained valid upload never offers upload again; verified unavailable media does", () => {
+ for (const mediaUnavailable of [false, true]) {
+  const session={...initialPerceptionSession(),source:"perception" as const,upload:mediaUnavailable?undefined:{ticket:"retained"},mediaUnavailable};
+  const html=render(<PerceptionPanel hasDesign={false} busy={false} accepting={false} onBusy={()=>{}} onUse={()=>{}} session={session} />);
+  assert.equal(html.includes("Upload again (expired or unavailable media)"),mediaUnavailable);
+  if(!mediaUnavailable) assert.match(html,/UPLOAD COMPLETE · ANALYSIS PENDING/);
+  assert.ok(!html.includes("SAM IS TRACKING"));
+ }
+});
+
+test("an unsuccessful scene response retains upload without claiming analysis is still pending", () => {
+ const session={...initialPerceptionSession(),source:"perception" as const,upload:{ticket:"retained"},error:"No confident candidate",failure:{kind:"validation" as const,retryable:false,stage:"scene" as const}};
+ const html=render(<PerceptionPanel hasDesign={false} busy={false} accepting={false} onBusy={()=>{}} onUse={()=>{}} session={session} />);
+ assert.match(html,/UPLOAD RETAINED · Scene analysis did not complete/);
+ assert.ok(!html.includes("ANALYSIS PENDING"));assert.ok(!html.includes("Upload again"));
+});

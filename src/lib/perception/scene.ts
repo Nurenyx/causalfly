@@ -30,7 +30,7 @@ export interface SceneProvenance {
   selection: "candidate" | "manual"; selectedConcept: string;
 }
 export type SceneResponse = { ok: true; scene: SceneRecord; diagnostics: RunDiagnostics } |
-  { ok: false; error: string; kind: "configuration" | "provider" | "malformed" | "no_candidates" | "media" | "request"; diagnostics?: RunDiagnostics };
+  { ok: false; error: string; mediaUnavailable?: boolean; kind: "configuration" | "provider" | "malformed" | "no_candidates" | "media" | "request"; diagnostics?: RunDiagnostics };
 export const offlineScene: SceneUnderstanding = {
   summary: "Calibration fixture: a red square grows against a dark background.",
   candidates: [{ label: "red square", samPrompt: "red square", reason: "Its apparent size increases across the calibration clip.", confidence: 1 }],

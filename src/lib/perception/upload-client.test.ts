@@ -25,7 +25,7 @@ test("failed upload preserves selected file and can retry without refreshing; su
   await assert.rejects(uploadVideo(file, stage => stages.push(stage), transport), /not enabled/);
   assert.equal(stages.at(-1), "Upload incomplete · video remains local"); assert.equal(puts, 0);
   assert.deepEqual(await uploadVideo(file, stage => stages.push(stage), transport), { ticket: "signed-ticket" });
-  assert.equal(stages.at(-1), "Upload complete · not yet analyzed"); assert.equal(puts, 1);
+  assert.equal(stages.at(-1), "UPLOAD COMPLETE · ANALYSIS PENDING"); assert.equal(puts, 1);
 });
 
 test("authorization timeout and unreadable responses end the busy upload stage", async () => {
@@ -46,6 +46,6 @@ test("PUT rejection, network loss and timeout permit a fresh signed retry", asyn
     await assert.rejects(uploadVideo(file,s=>stages.push(s),transport), /failed|interrupted/);
     assert.match(stages.at(-1)!,/incomplete/);
     assert.deepEqual(await uploadVideo(file,s=>stages.push(s),transport),{ticket:"ticket-2"});
-    assert.equal(stages.at(-1),"Upload complete · not yet analyzed");
+    assert.equal(stages.at(-1),"UPLOAD COMPLETE · ANALYSIS PENDING");
   }
 });

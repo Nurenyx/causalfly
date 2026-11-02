@@ -1,5 +1,6 @@
 "use client";
 
+import { classifyVideoFailure, failureFromError, type VideoFailure } from "@/lib/perception/video-failure";
 import { videoContentType } from "@/lib/perception/blob-contract";
 import { uploadVideo } from "@/lib/perception/upload-client";
 import dynamic from "next/dynamic";
@@ -57,15 +58,16 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
   const { source, file, url, concept, ready, analysis, editing } = session;
   const update = (patch: Partial<PerceptionSession>) => setSession(current => ({ ...current, ...patch }));
   const [pending, setPending] = useState<"live" | "fixture" | "scene-live" | "scene-fixture" | "">("");
+  const [requested, setRequested] = useState<"scene" | "tracking" | "">("");
   const error = session.error ?? "";
-  const setError = (error: string) => update({ error, errorDiagnostics: undefined });
+  const setError = (error: string) => update({ error, failure: undefined, errorDiagnostics: undefined });
   const [offline, setOffline] = useState(false);
   useEffect(() => { let current = true; fetch("/api/health").then(r => r.json()).then(data => { if (current) setOffline(data.metaMode === "offline"); }).catch(() => {}); return () => { current = false; }; }, []);
   async function secureMedia() {
     if (session.upload) return session.upload;
     if (!file) throw new Error("Choose a video first.");
     const reference = await uploadVideo(file, transport => update({ transport }));
-    update({ upload: reference }); return reference;
+    update({ upload: reference, mediaUnavailable: false }); return reference;
   }
   const gate = useRef(new PerceptionRequestGate());
   useEffect(() => { const currentGate = gate.current; return () => currentGate.invalidate(); }, []);
@@ -76,7 +78,14 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
   const acceptedHere = Boolean(record && record.id === accepted?.id);
   const showResult = Boolean(record && !editing);
   const retainedMedia = showResult && record?.mode === "OFFLINE SAM FIXTURE" ? <OfflineTrack key={record.id} perception={record} /> : showResult && analysis?.overlay && session.analyzedFile ? <TrackedVideo key={analysis.perception.id} file={session.analyzedFile} overlay={analysis.overlay} perception={analysis.perception} /> : null;
-  function fail(message: string, diagnostics?: RunDiagnostics) { update({ error: message, errorDiagnostics: diagnostics }); if (/upload reference|private upload|private storage|uploaded Blob/i.test(message)) update({ upload: undefined, transport: "Upload incomplete · retry with the selected video" }); onFailure?.(message, diagnostics); }
+  const configurationBlocked = session.failure?.kind === "configuration";
+  function fail(message: string, diagnostics?: RunDiagnostics, failure?: VideoFailure) {
+    update({ error: message, errorDiagnostics: diagnostics, failure });
+    if (failure?.mediaUnavailable) update({ upload: undefined, mediaUnavailable: true, scene: undefined, selectedCandidate: undefined, manual: false, transport: "Secure upload unavailable or expired." });
+    else if (failure?.stage === "upload") update({ transport: failure.kind === "configuration" ? "Upload unavailable · video remains local" : "Upload incomplete · video remains local" });
+    onFailure?.(message, diagnostics);
+  }
+
   function choose(event: ChangeEvent<HTMLInputElement>) {
     const next = event.target.files?.[0];
     setError("");
@@ -84,7 +93,7 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
     // Keep the authoritative result, but never submit a previous draft file after an invalid selection.
     gate.current.invalidate();
     if (url) URL.revokeObjectURL(url);
-    update({ ready: false, file: undefined, upload: undefined, transport: "", url: "", scene: undefined, selectedCandidate: undefined, manual: false });
+    update({ ready: false, file: undefined, upload: undefined, mediaUnavailable: false, transport: "", url: "", scene: undefined, selectedCandidate: undefined, manual: false });
     try { videoContentType(next.name, next.type); } catch { fail("Choose an MP4 or MOV video with a matching file type."); return; }
     if (!next.size || next.size > MAX_VIDEO_BYTES) { fail("Choose a nonempty clip of at most 20 MiB."); return; }
     update({ ready: false, file: next, url: URL.createObjectURL(next), concept: conceptForVideo(next.name, concept) });
@@ -95,14 +104,15 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
     setPending(mode === "live" ? "scene-live" : "scene-fixture"); onBusy(true); setError("");
     try {
       const media = mode === "live" ? await secureMedia() : undefined;
+      setRequested("scene");
       const response = await fetch("/api/perception/scene", { method: "POST", signal: AbortSignal.timeout(240_000), headers: { "Content-Type": "application/json", "X-Scene-Request": crypto.randomUUID() }, body: JSON.stringify({ mode, ...(media ? { media } : {}) }) });
       const data = await response.json() as SceneResponse;
       if (!gate.current.current(generation)) return;
-      if (!data.ok) { fail(data.error, data.diagnostics); update({ manual: true }); }
+      if (!data.ok) { fail(data.error, data.diagnostics, classifyVideoFailure("scene", {kind:data.kind,status:response.status,mediaUnavailable:data.mediaUnavailable})); if (data.kind !== "configuration") update({ manual: true }); }
       else if (!response.ok) fail("Muse discovery failed. Retry or enter a concept manually.");
       else { update({ scene: data.scene, selectedCandidate: undefined, manual: false }); requestAnimationFrame(() => document.getElementById("perception-source")?.scrollTo({ top: 0 })); }
-    } catch (error) { if (gate.current.current(generation)) { fail(videoRequestError(error, "Scene understanding could not reach CausalFly. Retry discovery or enter a concept manually.")); update({ manual: true }); } }
-    finally { if (gate.current.finish(generation)) setPending(""); if (!gate.current.busy) onBusy(false); }
+    } catch (error) { if (gate.current.current(generation)) { const failure = failureFromError(error, "scene"); fail(videoRequestError(error, "Scene understanding could not reach CausalFly. Retry discovery or enter a concept manually."), undefined, failure); if (failure.kind !== "configuration" && failure.stage !== "upload") update({ manual: true }); } }
+    finally { if (gate.current.finish(generation)) { setPending(""); setRequested(""); } if (!gate.current.busy) onBusy(false); }
   }
   async function analyze(mode: "live" | "fixture") {
     if (busy || mode === "live" && (!file || !ready || !samConceptSchema.safeParse(selectedConcept).success)) return;
@@ -111,17 +121,18 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
     try {
       const selection = scene && selectedConcept ? { sceneId: scene.id, candidate: session.manual ? "manual" : String(session.selectedCandidate), concept: selectedConcept } : undefined;
       const media = mode === "live" ? await secureMedia() : undefined;
+      setRequested("tracking");
       const response = await fetch("/api/perception", { method: "POST", signal: AbortSignal.timeout(240_000), headers: { "X-Perception-Request": crypto.randomUUID(), "Content-Type": "application/json" }, body: JSON.stringify(mode === "fixture" ? { mode, ...(scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" ? selection : {}) } : { mode, media, concept: selectedConcept, ...selection }) });
       const data = await response.json() as PerceptionResponse;
       if (!gate.current.current(generation)) return;
       if (!data.ok) {
-        fail(`SAM tracking failed. ${data.error} Choose another Meta suggestion or refine the concept.`, data.diagnostics);
+        fail(data.error, data.diagnostics, classifyVideoFailure("tracking", {kind:data.kind,status:response.status,mediaUnavailable:data.mediaUnavailable}));
         if (/scene result expired|server restarted/i.test(data.error)) update({ scene: undefined, selectedCandidate: undefined, manual: true });
       }
       else if (!response.ok) fail("Perception request failed. Retry explicitly.");
       else update({ analysis: data, analyzedFile: mode === "live" ? file : undefined, editing: false });
-    } catch (error) { if (gate.current.current(generation)) fail(videoRequestError(error, "Tracking could not reach CausalFly. Retry explicitly.")); }
-    finally { if (gate.current.finish(generation)) setPending(""); if (!gate.current.busy) onBusy(false); }
+    } catch (error) { if (gate.current.current(generation)) fail(videoRequestError(error, "Tracking could not reach CausalFly. Retry explicitly."), undefined, { ...failureFromError(error, "tracking"), retryAction: "tracking" }); }
+    finally { if (gate.current.finish(generation)) { setPending(""); setRequested(""); } if (!gate.current.busy) onBusy(false); }
   }
   return <section className={`perception-panel${compact ? " perception-compact" : ""}`} aria-label="Stimulus source" id="perception-source" tabIndex={-1} data-success={showResult} data-accepted={acceptedHere} data-scene={Boolean(scene)}>
     <div className="perception-source" role="group" aria-label="Choose stimulus source"><span className="eyebrow">STIMULUS SOURCE</span>
@@ -131,29 +142,29 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
     </div>
     {source === "perception" && <div className="perception-content"><header className="perception-result-header"><div><span className="eyebrow amber-text">{showResult ? record?.mode === "SAM LIVE" ? "META SAM 3.1 — OBJECT TRACKED ✓" : "OFFLINE SAM FIXTURE — GEOMETRY READY ✓" : "META / SCENE UNDERSTANDING"}</span><h3>{showResult ? record?.concept : "Find an object worth tracking."}</h3>{showResult && <small>{record?.measurement.frames.length} frames · {record?.mode === "SAM LIVE" ? "META SAM 3.1 — PERCEPTION" : "OFFLINE TRACKING FIXTURE"}</small>}</div>{showResult && <button type="button" className="text-button" disabled={busy} onClick={() => { setError(""); update({ editing: true }); }}>CHANGE VIDEO</button>}{editing && record && <button type="button" className="text-button" disabled={busy} onClick={() => { setError(""); update({ editing: false }); }}>Keep retained result</button>}</header>
       {!showResult && !scene && <div className="perception-upload"><label className="secondary-button">Choose video<input aria-label="Choose video" type="file" accept=".mp4,.mov,video/mp4,video/quicktime" disabled={busy} onChange={choose} /></label>
-        {!scene && !session.manual && <button type="button" className="primary-button" disabled={busy || !offline && (!file || !ready)} aria-busy={pending === "scene-live"} onClick={() => void discover(offline ? "fixture" : "live")}>{offline ? "LOAD OFFLINE CALIBRATION SCENE" : pending === "scene-live" ? session.transport?.startsWith("Upload complete") ? "ANALYZING SCENE…" : "PREPARING SCENE INPUT…" : "DISCOVER WITH META"}</button>}
+        {!scene && !session.manual && <button type="button" className="primary-button" disabled={busy || configurationBlocked || !offline && (!file || !ready)} aria-busy={pending === "scene-live"} onClick={() => void discover(offline ? "fixture" : "live")}>{offline ? "LOAD OFFLINE CALIBRATION SCENE" : pending === "scene-live" ? requested === "scene" ? "ANALYZING SCENE…" : "PREPARING SCENE INPUT…" : "DISCOVER WITH META"}</button>}
         <small>MP4 / MOV · ≤15 s · ≤20 MiB · ≤1920 px per side. Direct secure upload · sent to Meta only on your explicit live request.</small>
       </div>}
-      {!showResult && session.transport && <p role="status">{session.transport}</p>}
-      {!showResult && session.upload && <button type="button" className="text-button" disabled={busy} onClick={() => update({ upload: undefined, transport: "" })}>Upload again (expired or unavailable media)</button>}
-      {!showResult && <div className="meta-scene" aria-label="Meta scene understanding">
+      {(session.upload || session.transport) && <p className="upload-status" role="status">{showResult ? "TRACKING COMPLETE · UPLOAD RETAINED" : session.upload ? requested === "scene" ? "UPLOAD COMPLETE · ANALYZING SCENE" : requested === "tracking" ? "UPLOAD RETAINED · TRACKING OBJECT…" : error ? session.failure?.stage === "tracking" ? "UPLOAD RETAINED · Tracking did not complete." : "UPLOAD RETAINED · Scene analysis did not complete." : scene ? "UPLOAD RETAINED · Select an object to track." : "UPLOAD COMPLETE · ANALYSIS PENDING" : session.transport}</p>}
+      {!showResult && session.mediaUnavailable && !configurationBlocked && <button type="button" className="text-button" disabled={busy || !file || !ready} onClick={() => { update({ mediaUnavailable: false, transport: "", manual: false }); void discover("live"); }}>Upload again (expired or unavailable media)</button>}
+      {(!showResult || scene) && <div className="meta-scene" aria-label="Meta scene understanding">
         <ol className="meta-role-chain" aria-label="Perception responsibilities"><li><strong>MUSE SPARK</strong><small>Scene understanding</small></li><li><strong>SAM 3.1</strong><small>Object tracking</small></li><li><strong>CAUSALFLY</strong><small>Deterministic measurement</small></li></ol>
-        <p className="scene-status" role="status">{pending === "live" ? `TRACKING “${selectedConcept.toUpperCase()}” WITH SAM 3.1…` : scene ? `${scene.mode === "META LIVE" ? "META FOUND" : "OFFLINE FIXTURE /"} ${scene.result.candidates.length} TRACKABLE OBJECT${scene.result.candidates.length === 1 ? "" : "S"}` : file ? "VIDEO SELECTED" : "CHOOSE A VIDEO"}</p>
+        <p className="scene-status" role="status">{pending === "live" ? requested === "tracking" ? `TRACKING “${selectedConcept.toUpperCase()}” WITH SAM 3.1…` : "PREPARING SECURE VIDEO INPUT…" : scene ? `${scene.mode === "META LIVE" ? "META FOUND" : "OFFLINE FIXTURE /"} ${scene.result.candidates.length} TRACKABLE OBJECT${scene.result.candidates.length === 1 ? "" : "S"}` : file ? "VIDEO SELECTED" : "CHOOSE A VIDEO"}</p>
         {scene && <><span className="eyebrow">{scene.mode === "META LIVE" ? `META / SCENE UNDERSTANDING · ${scene.model}` : scene.mode}</span><p className="scene-summary">{scene.result.summary}</p>
-          <div className="scene-candidates" role="radiogroup" aria-label="Trackable concepts">{scene.result.candidates.map((candidate, index) => <label key={candidate.samPrompt} data-selected={!session.manual && session.selectedCandidate === index}><input type="radio" name="scene-candidate" disabled={busy} checked={!session.manual && session.selectedCandidate === index} onChange={() => { setError(""); update({ selectedCandidate: index, manual: false }); }} /><span><strong>{candidate.label}</strong><small>{candidate.reason}</small>{index === 0 && <small className="amber-text">Suggested · select to confirm</small>}</span></label>)}</div>
+          <div className="scene-candidates" role="radiogroup" aria-label="Trackable concepts">{scene.result.candidates.map((candidate, index) => <label key={candidate.samPrompt} data-selected={!session.manual && session.selectedCandidate === index}><input type="radio" name="scene-candidate" disabled={busy || showResult} checked={!session.manual && session.selectedCandidate === index} onChange={() => { setError(""); update({ selectedCandidate: index, manual: false }); }} /><span><strong>{candidate.label}</strong><small>{candidate.reason}</small>{index === 0 && <small className="amber-text">Suggested · select to confirm</small>}</span></label>)}</div>
           </>}
-        {session.manual && <label className="scene-manual">Concept<input aria-label="Object concept" value={concept} maxLength={80} disabled={busy} onChange={e => update({ concept: e.target.value })} placeholder="hand" /><small>One short noun phrase · manual selection</small></label>}
-        {(chosen || session.manual) && <button type="button" className="primary-button scene-track" disabled={busy || scene?.mode !== "OFFLINE SCENE-UNDERSTANDING FIXTURE" && (!file || !ready) || !samConceptSchema.safeParse(selectedConcept).success} aria-busy={pending === "live"} onClick={() => void analyze(scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" || offline ? "fixture" : "live")}>{pending === "live" ? "SAM IS TRACKING…" : scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" || offline ? "LOAD OFFLINE TRACKING FIXTURE" : `TRACK ${selectedConcept.toUpperCase() || "CONCEPT"} WITH SAM 3.1`}</button>}
-        <button type="button" className="text-button" disabled={busy} onClick={() => { setError(""); update({ manual: true, selectedCandidate: undefined }); }}>Enter a different concept</button>
+        {!showResult && session.manual && <label className="scene-manual">Concept<input aria-label="Object concept" value={concept} maxLength={80} disabled={busy} onChange={e => update({ concept: e.target.value })} placeholder="hand" /><small>One short noun phrase · manual selection</small></label>}
+        {!showResult && (chosen || session.manual) && <button type="button" className="primary-button scene-track" disabled={busy || configurationBlocked || scene?.mode !== "OFFLINE SCENE-UNDERSTANDING FIXTURE" && (!file || !ready) || !samConceptSchema.safeParse(selectedConcept).success} aria-busy={pending === "live"} onClick={() => void analyze(scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" || offline ? "fixture" : "live")}>{pending === "live" ? requested === "tracking" ? "SAM IS TRACKING…" : "PREPARING SECURE VIDEO INPUT…" : scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" || offline ? "LOAD OFFLINE TRACKING FIXTURE" : `TRACK ${selectedConcept.toUpperCase() || "CONCEPT"} WITH SAM 3.1`}</button>}
+        {!showResult && <button type="button" className="text-button" disabled={busy} onClick={() => { setError(""); update({ manual: true, selectedCandidate: undefined }); }}>Enter a different concept</button>}
         {scene && <details className="scene-limitations"><summary>Scene limitations · confidence is uncalibrated</summary>{scene.result.limitations.map(item => <p key={item}>{item}</p>)}</details>}
-        {(scene || session.manual) && <button type="button" className="text-button" disabled={busy || !file || !ready} onClick={() => void discover(offline || scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" ? "fixture" : "live")}>{offline || scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" ? "Load calibration scene again" : "Discover again with Meta"}</button>}
-        {scene && <button type="button" className="text-button" disabled={busy} onClick={() => { setError(""); update({ scene: undefined, selectedCandidate: undefined, manual: false }); }}>Choose another video</button>}
+        {!showResult && (scene || session.manual) && <button type="button" className="text-button" disabled={busy || configurationBlocked || !file || !ready} onClick={() => void discover(offline || scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" ? "fixture" : "live")}>{offline || scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" ? "Load calibration scene again" : "Discover again with Meta"}</button>}
+        {!showResult && scene && <button type="button" className="text-button" disabled={busy} onClick={() => { setError(""); update({ scene: undefined, selectedCandidate: undefined, manual: false }); }}>Choose another video</button>}
       </div>}
-      {(error || workflowError) && <p role="alert" className="perception-error">{error || workflowError}</p>}
+      {(error || workflowError) && <div role="alert" className="perception-error" data-failure-kind={session.failure?.kind ?? "validation"}>{configurationBlocked && <strong>VIDEO ANALYSIS UNAVAILABLE ON THIS HOST</strong>}<span>{error || workflowError}</span>{configurationBlocked && <small>{session.upload ? "Your upload reference is retained; no successful analysis is claimed." : "Your video remains local."} Use Synthetic stimulus, or ask the host to configure secure media storage and provider access.</small>}</div>}
       {error && session.errorDiagnostics && <RunDiagnosticsDetails diagnostics={session.errorDiagnostics} />}
-      {error && file && ready && !showResult && <button type="button" className="secondary-button" disabled={busy} onClick={() => void discover(offline ? "fixture" : "live")}>Retry video analysis</button>}
+      {error && session.failure?.retryable && file && ready && !showResult && <button type="button" className="secondary-button" disabled={busy} onClick={() => { const retryMode = offline || scene?.mode === "OFFLINE SCENE-UNDERSTANDING FIXTURE" ? "fixture" : "live"; void (session.failure?.stage === "tracking" || session.failure?.retryAction === "tracking" ? analyze(retryMode) : discover(retryMode)); }}>Retry video analysis</button>}
       {compact && acceptedHere && showResult && record ? <details className="perception-retained-media"><summary>VIEW RETAINED MEDIA / TRACK</summary>{retainedMedia}<PerceptionDetails perception={record} />{analysis?.diagnostics && <RunDiagnosticsDetails diagnostics={analysis.diagnostics} />}</details> : retainedMedia}
-      {!showResult && url && <details className="perception-local-media"><summary>VIEW SELECTED VIDEO / LOCAL PREVIEW</summary><div className="perception-preview"><video key={url} src={url} controls preload="metadata" playsInline aria-label="Selected video preview" onLoadedMetadata={event => { const v = event.currentTarget; const valid = Number.isFinite(v.duration) && v.duration > 0 && v.duration <= MAX_VIDEO_SECONDS && v.videoWidth <= 1920 && v.videoHeight <= 1920; update({ ready: valid }); if (!valid) fail("Choose a clip of at most 15 seconds and 1920 pixels per side."); }} onError={() => { update({ ready: false }); fail("This browser cannot preview the clip. Export a short H.264 MP4."); }} /><small>LOCAL PREVIEW · NO SAM DETECTION YET · not evidence of upload or analysis</small></div></details>}
+      {!showResult && url && <details key="local-preview" className="perception-local-media"><summary>VIEW SELECTED VIDEO / LOCAL PREVIEW</summary><div className="perception-preview"><video key={url} src={url} controls preload="metadata" playsInline aria-label="Selected video preview" onLoadedMetadata={event => { const v = event.currentTarget; const valid = Number.isFinite(v.duration) && v.duration > 0 && v.duration <= MAX_VIDEO_SECONDS && v.videoWidth <= 1920 && v.videoHeight <= 1920; update({ ready: valid }); if (!valid) fail("Choose a clip of at most 15 seconds and 1920 pixels per side."); }} onError={() => { update({ ready: false }); fail("This browser cannot preview the clip. Export a short H.264 MP4."); }} /><small>LOCAL PREVIEW · NO SAM DETECTION YET · not evidence of upload or analysis</small></div></details>}
       {showResult && record && <>{acceptedHere && <p className="scene-status" role="status">PERCEPTION COMPLETE ✓</p>}<span className="eyebrow cyan-text">CAUSALFLY — DETERMINISTIC MEASUREMENT</span><PerceptionSummary perception={record} /><ol className="perception-chain" aria-label="Perception to experiment"><li>{record.mode === "SAM LIVE" ? "REAL VIDEO" : "OFFLINE FIXTURE"}</li><li>{record.mode === "SAM LIVE" ? "META SAM TRACKS OBJECT" : "TRACK GEOMETRY FIXTURE"}</li><li>CAUSALFLY MEASURES EXPANSION</li><li data-active={!hasDesign}>META DESIGNS TEST</li><li data-active={acceptedHere && !measured}>CAUSALFLY RUNS EXPERIMENT</li><li data-active={measured}>META EXPLAINS</li></ol>
         {acceptedHere ? <div className="perception-ready" role="status"><strong>PERCEPTION COMPLETE ✓ · STIMULUS READY ✓ <output>{record.measurement.amplitude.toFixed(3)}</output></strong>{!measured && !compact && <button type="button" className="secondary-button" disabled={busy} onClick={onRun}>APPROVE & RUN EXPERIMENT ↓</button>}</div> : <><button type="button" className="primary-button" disabled={busy} aria-busy={accepting || designing} onClick={() => hasDesign ? onUse(record.id, analysis?.receipt) : onDesign?.(record.id, analysis?.receipt)}>{designing ? <span role="status"><span className="spinner" aria-hidden="true" /> META IS DESIGNING WITH THIS STIMULUS…</span> : accepting ? "Preparing validated stimulus…" : hasDesign ? "USE AS EXPERIMENT STIMULUS" : "DESIGN EXPERIMENT WITH THIS STIMULUS"}</button>{!hasDesign && <small>Meta will design a controlled test using the measured stimulus.</small>}</>}
         {(!compact || !acceptedHere) && <><PerceptionDetails perception={record} />{analysis?.diagnostics && <RunDiagnosticsDetails diagnostics={analysis.diagnostics} />}</>}</>}

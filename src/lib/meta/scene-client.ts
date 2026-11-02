@@ -38,6 +38,7 @@ export async function discoverScene(file: File, options: { env?: MetaEnvironment
     return response.output_text;
   } catch (error) {
     if (error instanceof SceneError) throw error;
+    if (error instanceof OpenAI.APIError && [401,403].includes(error.status ?? 0)) throw new SceneError("Meta scene access is unavailable on this host. Ask the host to check provider credentials and model access.", "configuration");
     if (error instanceof OpenAI.APIError && [400, 415, 422].includes(error.status ?? 0)) throw new SceneError("Muse could not accept this media. Export a short H.264 MP4, choose another clip, or enter a concept manually.", "media");
     throw new SceneError("Muse scene understanding is unavailable. Retry Discover with Meta or enter a concept manually. No SAM request was made.");
   } finally {

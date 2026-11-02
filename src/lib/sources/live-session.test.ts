@@ -192,7 +192,7 @@ test("disconnect and reconnect preserve the snapshot and ignore callbacks from t
   assert.equal(session.snapshot.state, "DATA RECEIVED");
   assert.equal(session.snapshot.evidence!.telemetry.sequence, 2);
   sockets[1].fail();
-  assert.equal(session.snapshot.state, "DISCONNECTED");
+  assert.equal(session.snapshot.state, "ERROR");
   assert.equal(session.frames.length, 2);
   connection.dispose();
 });
@@ -271,7 +271,7 @@ test("configured auto-connect opens the existing read-only protocol and no uncon
   let session = emptyLiveSession(), opens = 0;
   const socket = new MockSubscription();
   const connection = createLiveConnection(s => { session = receiveSnapshot(session, s); }, url => { opens++; assert.equal(url, "/api/sources/fruitfly"); return socket; });
-  connection.autoConnect(false); assert.equal(opens, 0); assert.equal(session.snapshot.state, "ERROR");
+  connection.autoConnect(false); assert.equal(opens, 0); assert.equal(session.snapshot.state, "DISCONNECTED");
   assert.match(session.snapshot.message, /No research\/brain-server endpoint is configured/); assert.equal(session.snapshot.evidence, null);
   connection.autoConnect(true); connection.autoConnect(true); assert.equal(opens, 1); assert.equal(session.snapshot.state, "CONNECTING"); assert.equal(session.frames.length, 0);
   socket.receive(snapshot(null, "CONNECTED")); assert.equal(sessionStatus(session.snapshot, now).label, "WAITING FOR DATA");

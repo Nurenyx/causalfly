@@ -45,6 +45,7 @@ export interface RunManifest {
 }
 
 export interface RunDiagnostics {
+  readonly sceneDiscovery?: import("../perception/scene-diagnostics").SceneResponseReceipt | import("../perception/scene-diagnostics").SceneDiscoveryDiagnostics;
   readonly schemaVersion: "causalfly-flight-recorder-v1";
   readonly manifest: RunManifest;
   readonly events: readonly RunEvent[];

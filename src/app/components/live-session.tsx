@@ -59,7 +59,7 @@ export function AiObserverRail({ evidence, historical, onEvidence, onInterpret }
   </InstrumentPanel><section className={styles.provenance} data-verified={Boolean(evidence)}><span className={styles.microLabel}>{evidence ? "VALIDATED CONNECTOME SOURCE" : "SOURCE PROVENANCE"}</span><strong><i />{evidence ? evidence.provenance.dataset : "Awaiting source verification"}</strong>{evidence && <dl><div><dd>{number(evidence.provenance.neurons)}</dd><dt>neurons</dt></div><div><dd>{number(evidence.provenance.edges)}</dd><dt>structural edges</dt></div></dl>}<p>Published structure <span> / </span> Simulated dynamics</p><p>Not recordings from a living fly</p></section></aside>;
 }
 
-export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConnect, onDisconnect, onInterpret }: { snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
+export function LiveSessionWorkspace({ replayTotal, snapshot, frames, now, onEvidence, onConnect, onDisconnect, onInterpret }: { replayTotal?: number; snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
   const [embodiment, setEmbodiment] = useState(false);
   const status = sessionStatus(snapshot, now ?? 0);
   const event = liveEventSummary(snapshot, frames);
@@ -73,7 +73,7 @@ export function LiveSessionWorkspace({ snapshot, frames, now, onEvidence, onConn
   }
   return <div className={styles.session}>
     <LiveSessionHeader snapshot={snapshot} status={status} onConnect={onConnect} onDisconnect={onDisconnect} />
-    <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{snapshot.presentation ? "Original timestamps · no current activity claimed" : status.historical && receivedAt ? `LAST RECEIVED ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{frames.length} / {LIVE_FRAME_LIMIT} received frames</span></div>
+    <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{snapshot.presentation ? "Original timestamps · no current activity claimed" : status.historical && receivedAt ? `LAST RECEIVED ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{snapshot.presentation ? `REPLAY FRAME ${frames.length} / ${replayTotal ?? frames.length}` : `DISPLAY BUFFER ${frames.length} / ${LIVE_FRAME_LIMIT} frames`}</span></div>
     {!snapshot.presentation && <button type="button" className="text-button" aria-expanded={embodiment} onClick={() => setEmbodiment(value => !value)}>{embodiment ? "Close experimental embodiment" : "Open experimental embodiment"}</button>}
     {embodiment && !snapshot.presentation && <AutonomyPanel snapshot={snapshot} />}
     {event && <section className="live-event-highlight" aria-label="Retained event"><span className="eyebrow">{event.label}</span><p>{event.headline}</p><small>Received simulation frames only · gaps unobserved · no causal claim</small><button type="button" className="text-button" onClick={onInterpret ?? onEvidence}>Understand this event ↗</button></section>}

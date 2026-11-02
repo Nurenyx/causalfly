@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { type get, type head, type list } from "@vercel/blob";
+import { BlobNotFoundError, type get, type head, type list } from "@vercel/blob";
 import { authorizeMedia, resolveMedia, verifyMediaReference, cleanupMedia, MEDIA_LIFETIME_MS, CLEANUP_GRACE_MS } from "./blob-media";
 import { inspectVideo } from "./media";
 import { MAX_VIDEO_BYTES } from "./contracts";
@@ -156,4 +156,17 @@ test("authorization rejects cross-origin requests and cleanup requires an operat
   const form = new FormData(); form.set("video", new File([new Uint8Array(MAX_VIDEO_BYTES)], "clip.mp4"));
   const req = new Request("http://localhost/api/perception", { method: "POST", headers: { "X-Perception-Request": randomUUID() }, body: form });
   assert.equal((await perceptionAction(req, { analyze: forbidden })).status, 400);
+});
+
+
+test("only expiry, missing Blob or failed verification invalidates retained media; transport failures do not", async () => {
+ const {authorization,storage}=await uploaded();
+ for(const [error,unavailable] of [[new Error("network"),false],[new BlobNotFoundError(),true]] as const) {
+  const resolve=()=>resolveMedia(authorization.reference,{...storage,head:async()=>{throw error;}});
+  for(const response of [await sceneAction(request("/api/perception/scene",{mode:"live",media:authorization.reference}),{resolve,discover:forbidden}),await perceptionAction(request("/api/perception",{mode:"live",media:authorization.reference,concept:"hand"}),{resolve,analyze:forbidden})]) {
+   assert.equal(Boolean((await response.json()).mediaUnavailable),unavailable);
+  }
+ }
+ const invalid=await sceneAction(request("/api/perception/scene",{mode:"live",media:{ticket:"expired"}}),{resolve:ref=>resolveMedia(ref,{head:forbidden,get:forbidden}),discover:forbidden});
+ assert.equal((await invalid.json()).mediaUnavailable,true);
 });

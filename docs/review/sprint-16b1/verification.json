@@ -1,0 +1,78 @@
+{
+  "branch": "feat/hackathon-final-acceptance",
+  "head": "4bc1dfd",
+  "tests": {
+    "libraryAndServer": 387,
+    "components": 117,
+    "total": 504,
+    "failures": 0
+  },
+  "build": "PASS",
+  "lint": "PASS",
+  "browser": {
+    "checks": 47,
+    "pageErrors": 0,
+    "populatedGeometry": [
+      {
+        "width": 1366,
+        "height": 768,
+        "worldHeight": 3018.515625,
+        "inspectorHeight": 3018.515625,
+        "clipped": false
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "worldHeight": 2826.640625,
+        "inspectorHeight": 2826.640625,
+        "clipped": false
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "worldHeight": 2842.671875,
+        "inspectorHeight": 2842.671875,
+        "clipped": false
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "worldHeight": 2449.78125,
+        "inspectorHeight": 2449.78125,
+        "clipped": false
+      }
+    ]
+  },
+  "boundedFixture": {
+    "sameReference": true,
+    "contiguousGuidedLifecycle": true,
+    "attempts": {
+      "authorization": 1,
+      "put": 1,
+      "discovery": 1,
+      "tracking": 1
+    }
+  },
+  "live": {
+    "attempts": {
+      "authorization": 1,
+      "put": 1,
+      "discovery": 1,
+      "tracking": 0
+    },
+    "paidMuseRequests": 1,
+    "paidSamRequests": 0,
+    "automaticRetries": 0,
+    "secondPut": false,
+    "contiguousGuidedLifecycle": false,
+    "result": "Muse returned no confident candidate; stopped without SAM or fallback",
+    "afterSamScreenshotAvailable": false
+  },
+  "humanLiveAcceptance": "NOT PASSED \u2014 human review required",
+  "diffCheck": "PASS",
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "priorSprint16BPreserved": true,
+  "fruitflyXRModified": false
+}

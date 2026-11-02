@@ -1,0 +1,21 @@
+{
+  "startedAt": "2026-11-02T05:31:38.589Z",
+  "attempts": {
+    "authorization": 2,
+    "put": 2,
+    "discovery": 1,
+    "tracking": 1
+  },
+  "localSelected": true,
+  "authorizationSucceeded": true,
+  "privatePutSucceeded": true,
+  "storedObjectVerified": true,
+  "museResponseReceived": true,
+  "samResponseReceived": true,
+  "resultVisiblyAttributed": true,
+  "status": "LIVE STAGES VERIFIED; GUIDED HANDOFF NOT ACCEPTED",
+  "completedAt": "2026-11-02T05:38:42.255Z",
+  "trackingContinuationStarted": true,
+  "manualConceptContinuation": true,
+  "contiguousGuidedLifecycle": false
+}

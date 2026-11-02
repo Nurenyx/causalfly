@@ -36,3 +36,11 @@ test("summary respects the snapshot cutoff, sorts received frames, and includes 
   assert.match(summary.headline, /IDLE to ESCAPE across received ticks 1–3/);
   assert.doesNotMatch(summary.headline, /WALK|5,000/);
 });
+
+test("replay's first frame describes the current sample, never a premature window peak", () => {
+  const first=frame(1,"IDLE",0), later=frame(2,"ESCAPE",2810);
+  const before=liveEventSummary({...snapshot(first),presentation:"RECORDED_REPLAY"},[first,later])!;
+  assert.equal(before.label,"CURRENT FRAME");assert.equal(before.headline,"0 simulated spike events. Decoder: IDLE.");assert.doesNotMatch(before.headline,/peak|2,810/);
+  const after=liveEventSummary({...snapshot(later),presentation:"RECORDED_REPLAY"},[first,later])!;
+  assert.equal(after.label,"DECODER CHANGE / RETAINED WINDOW");assert.match(after.headline,/IDLE to ESCAPE across received ticks 1–2/);
+});

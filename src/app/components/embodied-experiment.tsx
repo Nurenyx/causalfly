@@ -564,6 +564,7 @@ export function EmbodiedExperiment({
   return (
     <section
       className="embodied-experiment organism-first-workspace"
+      data-view={autonomous ? "autonomous" : "recorded"}
       aria-label="Embodied experiment"
       id="demo-watch"
       data-comparing={compare}
@@ -621,6 +622,7 @@ export function EmbodiedExperiment({
           {autonomous ? (
             <AutonomyPanel model={model} onModelStatus={setModelStatus} onBrainControlStatus={onBrainControlStatus} />
           ) : (
+            <>
             <div className="embodied-arena" data-model-choice={model} data-model-status={modelStatus}>
               {model === "anatomical" && modelStatus === "loading" && <p className="anatomical-loading" role="status">Loading anatomical model…</p>}
               {model === "anatomical" && modelStatus === "fallback" && <p className="anatomical-loading" role="status">Anatomical model unavailable · Lightweight fallback</p>}
@@ -630,18 +632,24 @@ export function EmbodiedExperiment({
                 step={step}
                 reset={reset}
                 compare={compare}
+                fitComparisonToPanel
                 condition={condition}
                 playing={playback.playing}
                 pulseKey={`${playback.pass}-${condition}-${step}`}
                 model={model}
                 onModelStatus={setModelStatus}
               />
+            </div>
+              <div className="recorded-viewport-tools">
               <button type="button" className="world-reset-view text-button" aria-label="Reset View" onClick={() => setReset(value => value + 1)}>
                 Reset View
               </button>
               <div className="world-stimulus-label">
                 LOOMING STIMULUS <span>{result ? step === 0 && result.spec.stimulus.amplitude > 0 ? "STEP 0 / INPUT PULSE" : "PULSE COMPLETE" : "PLANNED INPUT / NOT MEASURED"}</span>
               </div>
+              <span className="world-orbit-hint">DRAG TO ORBIT · SCROLL TO ZOOM</span>
+              </div>
+            <div className="recorded-world-instruments">
               <div className="world-condition-labels">
                 {selected.map(run => (
                   <span key={run} data-run={run}>
@@ -672,8 +680,8 @@ export function EmbodiedExperiment({
                 </div>
               </div>
 
-              <span className="world-orbit-hint">DRAG TO ORBIT · SCROLL TO ZOOM</span>
             </div>
+            </>
           )}
         </div>
 

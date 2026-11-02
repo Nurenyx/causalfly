@@ -1,4 +1,5 @@
 import "server-only";
+import { sceneDiscoveryDiagnostics } from "../perception/scene-diagnostics";
 import { createHash, randomUUID } from "node:crypto";
 import { freezeRecord } from "../experiment/engine";
 import { createCompactEvidence } from "../meta/compact-evidence";
@@ -21,6 +22,7 @@ export class FlightRecorder {
   private events: RunEvent[] = [];
   private manifest: RunManifest;
   private designClaimed = false;
+  private sceneDiscovery?: RunDiagnostics["sceneDiscovery"];
 
   constructor(parent?: FlightRecorder) {
     const at = now();
@@ -135,8 +137,20 @@ export class FlightRecorder {
     if (analysis) this.event("meta.next_experiment.proposed");
   }
 
+  startSceneDiscovery(live: boolean) {
+    this.sceneDiscovery = { source: live ? "provider" : "offline_fixture", providerResponseAccepted: false, sceneParsingSucceeded: false, refusalDetected: null };
+  }
+
+  acceptSceneResponse(live: boolean) {
+    this.sceneDiscovery = { source: live ? "provider" : "offline_fixture", providerResponseAccepted: live, sceneParsingSucceeded: false, refusalDetected: live ? false : null };
+  }
+
+  recordSceneDiscovery(result: import("../perception/scene").SceneUnderstanding, live: boolean) {
+    this.sceneDiscovery = sceneDiscoveryDiagnostics(result, live);
+  }
+
   snapshot(): RunDiagnostics {
-    return freezeRecord(structuredClone({ schemaVersion: "causalfly-flight-recorder-v1" as const, manifest: this.manifest, events: this.events }));
+    return freezeRecord(structuredClone({ schemaVersion: "causalfly-flight-recorder-v1" as const, manifest: this.manifest, events: this.events, ...(this.sceneDiscovery ? { sceneDiscovery: this.sceneDiscovery } : {}) }));
   }
 }
 

@@ -1,0 +1,16 @@
+{
+  "privateStorageConfigured": true,
+  "mediaSigningConfigured": true,
+  "readWriteTokenPresent": true,
+  "blobStoreIdPresent": false,
+  "oidcTokenPresent": true,
+  "vercelRuntime": false,
+  "oidcAuthenticationSupported": true,
+  "oidcRequestContextRequired": false,
+  "credentialsVerified": false,
+  "metaConfigured": true,
+  "metaEnabled": true,
+  "brainEndpointConfigured": false,
+  "brainControlConfigured": false,
+  "providersChecked": false
+}

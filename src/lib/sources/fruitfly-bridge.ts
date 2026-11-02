@@ -44,7 +44,9 @@ export function connectFruitFly(publish: (snapshot: FruitFlySnapshot) => void, d
   };
   emit("CONNECTING", "Opening the read-only research connection.");
   try {
-    const endpoint = configuredEndpoint(dependencies.endpoint ?? process.env.FRUITFLY_XR_OBSERVATORY_URL);
+    const endpointValue = dependencies.endpoint ?? process.env.FRUITFLY_XR_OBSERVATORY_URL;
+    if (!endpointValue) { stop("DISCONNECTED", "Live backend is offline: no research endpoint is configured. Replay is available."); return () => {}; }
+    const endpoint = configuredEndpoint(endpointValue);
     socket = (dependencies.createSocket ?? ((url) => new WebSocket(url)))(endpoint);
     handshakeTimer = setTimeout(() => stop("ERROR", "Live connectome simulation did not complete its telemetry handshake. Check the server."), dependencies.handshakeTimeoutMs ?? 5000);
     socket.addEventListener("open", () => {

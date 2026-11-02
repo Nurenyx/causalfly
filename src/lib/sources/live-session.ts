@@ -41,7 +41,7 @@ export function sessionStatus(snapshot: FruitFlySnapshot, now: number) {
   const ageMs = frameAgeMs(snapshot.evidence, now);
   const connected = !snapshot.presentation && (snapshot.state === "CONNECTED" || snapshot.state === "DATA RECEIVED");
   const live = !snapshot.presentation && snapshot.state === "DATA RECEIVED" && ageMs !== null && ageMs < LIVE_STALE_AFTER_MS;
-  const label = snapshot.presentation === "RECORDED_REPLAY" ? "RECORDED VALIDATED SIMULATION" : snapshot.state === "ERROR" ? "ERROR" : snapshot.state === "CONNECTING" ? "CONNECTING" :
+  const label = snapshot.presentation === "RECORDED_REPLAY" ? "VALIDATED SIMULATION CAPTURE" : snapshot.state === "ERROR" ? "ERROR" : snapshot.state === "CONNECTING" ? "CONNECTING" :
     !connected ? "DISCONNECTED" : !snapshot.evidence ? "WAITING FOR DATA" : live ? "LIVE DATA" : "STALE";
   return { label, connected, live, ageMs, historical: Boolean(snapshot.evidence) && !live,
     tone: live ? "cyan" : label === "ERROR" ? "red" : label === "STALE" ? "amber" : "muted" };
@@ -123,7 +123,7 @@ export function createLiveConnection(
         subscription.onerror = () => {
           if (current !== subscription) return;
           close();
-          emitState("DISCONNECTED", "The telemetry connection was lost. Reconnect to receive new data.");
+          emitState("ERROR", "The telemetry connection was lost. Reconnect to receive new data.");
         };
       } catch {
         emitState("ERROR", "Unable to open the telemetry stream. Reconnect to retry.");
@@ -131,7 +131,7 @@ export function createLiveConnection(
     },
     autoConnect(configured: boolean) {
       if (configured) { if (!current) this.connect(); }
-      else { close(); emitState("ERROR", "No research/brain-server endpoint is configured. Configure the simulation service; this does not launch the FruitFly XR Quest application."); }
+      else { close(); emitState("DISCONNECTED", "No research/brain-server endpoint is configured. Live backend is offline; replay is available."); }
     },
     disconnect() { close(); emitState("DISCONNECTED", "Disconnected. Any evidence shown is the last received snapshot."); },
     dispose: close,

@@ -7,6 +7,8 @@ import { sceneAction as realSceneAction } from "./scene-action";
 import { perceptionAction as realPerceptionAction } from "./perception-action";
 import { offlineScene } from "../perception/scene";
 import { offlinePerceptionFixture } from "../perception/fixture";
+import { retainedRecorder } from "./flight-recorder";
+import { museSceneReceipt } from "../../../scripts/muse-scene-receipt.mjs";
 import { SceneError } from "../meta/scene-client";
 import { SamError } from "../meta/sam-client";
 
@@ -91,3 +93,74 @@ test("manual override passes exactly the entered concept and recovery preserves 
 process.env.CAUSALFLY_META_ENABLED = "1";
 function perceptionAction(request: Request, deps: NonNullable<Parameters<typeof realPerceptionAction>[1]> = {}) { return realPerceptionAction(request, { ...deps, resolve: fixtureResolver(deps.inspect) }); }
 function sceneAction(request: Request, deps: NonNullable<Parameters<typeof realSceneAction>[1]> = {}) { return realSceneAction(request, { ...deps, resolve: fixtureResolver(deps.inspect) }); }
+
+
+test("zero candidates retains accepted-provider and parsed-scene diagnostics before the no-candidate gate", async () => {
+  const response = await sceneAction(await request(), {discover: async () => JSON.stringify({...offlineScene,candidates:[]})});
+  const data = await response.json();
+  assert.equal(response.status,422);assert.equal(data.kind,"no_candidates");
+  assert.deepEqual(data.diagnostics.sceneDiscovery,{
+    source:"provider",parsedCandidateCount:0,qualifyingCandidateCount:0,confidenceThreshold:0.5,
+    candidateConfidenceValues:[],maximumCandidateConfidence:null,
+    providerResponseAccepted:true,sceneParsingSucceeded:true,refusalDetected:false,
+  });
+  assert.deepEqual(retainedRecorder(data.diagnostics.manifest.run_id)?.snapshot().sceneDiscovery,data.diagnostics.sceneDiscovery);
+  const receipt=museSceneReceipt(response.ok,data);
+  assert.equal(receipt.museProviderResponseAccepted,true);assert.equal(receipt.museSceneParsed,true);assert.equal(receipt.museSceneAcceptedByApplication,false);
+  assert.equal(receipt.sceneDiscovery?.parsedCandidateCount,0);
+});
+
+test("three subthreshold candidates retain all confidence observations without becoming selectable", async () => {
+  const candidates=[0.12,0.31,0.49].map((confidence,i)=>({...offlineScene.candidates[0],samPrompt:`object ${i}`,confidence}));
+  const response=await sceneAction(await request(),{discover:async()=>JSON.stringify({...offlineScene,candidates})});
+  const data=await response.json();const observed=data.diagnostics.sceneDiscovery;
+  assert.equal(response.status,422);assert.equal(data.kind,"no_candidates");assert.equal(data.scene,undefined);
+  assert.equal(observed.parsedCandidateCount,3);assert.equal(observed.qualifyingCandidateCount,0);
+  assert.equal(observed.maximumCandidateConfidence,0.49);assert.deepEqual(observed.candidateConfidenceValues,[0.12,0.31,0.49]);
+  assert.equal(museSceneReceipt(response.ok,data).sceneDiscovery?.parsedCandidateCount,3);
+  assert.equal(data.diagnostics.events.some((e:{type:string})=>e.type==="sam.requested"),false);
+});
+
+test("exact confidence boundary stays accepted and counts are computed before filtering without rounding the gate", async () => {
+  const candidates=[0.4999,0.5].map((confidence,i)=>({...offlineScene.candidates[0],samPrompt:`object ${i}`,confidence}));
+  const response=await sceneAction(await request(),{discover:async()=>JSON.stringify({...offlineScene,candidates})});
+  const data=await response.json();assert.equal(response.status,200);
+  assert.equal(data.scene.result.candidates.length,1);assert.equal(data.scene.result.candidates[0].confidence,0.5);
+  assert.equal(data.diagnostics.sceneDiscovery.parsedCandidateCount,2);assert.equal(data.diagnostics.sceneDiscovery.qualifyingCandidateCount,1);
+  assert.deepEqual(data.diagnostics.sceneDiscovery.candidateConfidenceValues,[0.5,0.5]);
+  const receipt=museSceneReceipt(response.ok,data);
+  assert.equal(receipt.museProviderResponseAccepted,true);assert.equal(receipt.museSceneParsed,true);assert.equal(receipt.museSceneAcceptedByApplication,true);
+});
+
+test("malformed JSON and absent required fields keep malformed semantics and never claim scene parsing succeeded", async () => {
+  for(const raw of ["not JSON",JSON.stringify({...offlineScene,candidates:[{label:"object",confidence:0.1}]})]) {
+    const response=await sceneAction(await request(),{discover:async()=>raw});const data=await response.json();
+    assert.equal(response.status,502);assert.equal(data.kind,"malformed");
+    assert.equal(data.diagnostics.sceneDiscovery.providerResponseAccepted,true);
+    assert.equal(data.diagnostics.sceneDiscovery.sceneParsingSucceeded,false);
+    assert.equal(data.diagnostics.sceneDiscovery.parsedCandidateCount,undefined);
+    const receipt=museSceneReceipt(response.ok,data);
+    assert.equal(receipt.museProviderResponseAccepted,true);assert.equal(receipt.museSceneParsed,false);assert.equal(receipt.museSceneAcceptedByApplication,false);
+  }
+});
+
+test("no-candidate diagnostics and report projection omit provider text, credentials, URLs and unknown metadata", async () => {
+  const sensitive="Bearer PRIVATE_TEST_KEY https://private.invalid/video?signature=PRIVATE_TEST_SIGNATURE";
+  const result={...offlineScene,summary:sensitive,limitations:[sensitive],candidates:[{...offlineScene.candidates[0],label:"PRIVATE_TEST_LABEL",samPrompt:"PRIVATE TEST CONCEPT",reason:sensitive,confidence:0.31}]};
+  const response=await sceneAction(await request(),{discover:async()=>JSON.stringify(result)});const data=await response.json();
+  const serialized=JSON.stringify(data.diagnostics);
+  for(const marker of [sensitive,"PRIVATE_TEST_KEY","PRIVATE_TEST_LABEL","PRIVATE TEST CONCEPT","PRIVATE_TEST_SIGNATURE","rawOutput"])assert.ok(!serialized.includes(marker));
+  const observed=data.diagnostics.sceneDiscovery;
+  const receipt=museSceneReceipt(false,{...data,rawEnvelope:sensitive,diagnostics:{sceneDiscovery:{...observed,headers:sensitive,rawEnvelope:sensitive,candidateConcepts:[sensitive]}}});
+  const safe=JSON.stringify(receipt);assert.ok(!safe.includes("PRIVATE"));assert.ok(!safe.includes("private.invalid"));assert.ok(!safe.includes("rawEnvelope"));assert.ok(!safe.includes("candidateConcepts"));
+});
+
+test("provider failures and offline fixtures do not claim a live provider response was accepted", async () => {
+  const response=await sceneAction(await request(),{discover:async()=>{throw new SceneError("Provider unavailable");}});
+  const failed=await response.json();assert.equal(failed.diagnostics.sceneDiscovery.providerResponseAccepted,false);
+  assert.equal(failed.diagnostics.sceneDiscovery.sceneParsingSucceeded,false);
+  const offline=await (await sceneAction(await request("fixture"),{discover:forbidden})).json();
+  assert.equal(offline.diagnostics.sceneDiscovery.providerResponseAccepted,false);
+  assert.equal(offline.diagnostics.sceneDiscovery.source,"offline_fixture");
+  assert.equal(museSceneReceipt(true,offline).museSceneAcceptedByApplication,false);
+});

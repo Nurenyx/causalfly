@@ -33,7 +33,7 @@ function ContextRecovery({ onLost }: { onLost: (lost: boolean) => void }) {
   return null;
 }
 
-function Camera({ reset, compare, focus = "both" }: { reset: number; compare: boolean; focus?: "both" | "control" | "perturbed" }) {
+function Camera({ reset, compare, focus = "both", fitComparisonToPanel = false }: { reset: number; compare: boolean; focus?: "both" | "control" | "perturbed"; fitComparisonToPanel?: boolean }) {
   const { camera, gl, invalidate, size } = useThree();
   const controls = useRef<OrbitControls | null>(null);
   useEffect(() => {
@@ -46,17 +46,25 @@ function Camera({ reset, compare, focus = "both" }: { reset: number; compare: bo
     // The asset is normalized from its actual bounds to a 3.6-unit arena span.
     // Widen camera distance only when the responsive canvas would crop that span.
     direction.multiplyScalar(Math.max(1, (compare ? (focus !== "both" ? 0.95 : 1.15) : .95) / (size.width / Math.max(1, size.height))));
+    // A tall embedded panel needs enough horizontal frustum for both normalized flies.
+    // Full-screen Compare retains its existing camera; only the recorded panel opts in.
+    if (compare && fitComparisonToPanel && camera instanceof PerspectiveCamera) {
+      const span = ((focus === "both" ? 2 * 2.35 : 0) + 3.6) * 1.1;
+      const horizontalTangent = Math.tan(camera.fov * Math.PI / 360) * size.width / Math.max(1, size.height);
+      direction.setLength(Math.max(direction.length(), span / (2 * Math.max(.01, horizontalTangent))));
+    }
+    if (!compare) direction.multiplyScalar(.94); // Slightly closer normal Experiment composition; Compare stays unchanged.
     camera.position.copy(orbit.target).add(direction);
     if (camera instanceof PerspectiveCamera) camera.updateProjectionMatrix();
     orbit.minDistance = compare ? 3.5 : 4; orbit.maxDistance = Math.max(19, direction.length() * 2);
     orbit.minPolarAngle = .25; orbit.maxPolarAngle = Math.PI / 2.1;
     orbit.enablePan = false; orbit.enableZoom = true;
     orbit.update(); orbit.saveState(); invalidate();
-    gl.domElement.setAttribute("data-world-camera", JSON.stringify({ position: camera.position.toArray(), target: orbit.target.toArray(), width: size.width, height: size.height, focus }));
+    gl.domElement.setAttribute("data-world-camera", JSON.stringify({ position: camera.position.toArray(), target: orbit.target.toArray(), width: size.width, height: size.height, focus, fitComparisonToPanel, fov: camera instanceof PerspectiveCamera ? camera.fov : null }));
     const changed = () => { gl.domElement.setAttribute("data-world-camera-view", JSON.stringify({ position: camera.position.toArray(), target: orbit.target.toArray() })); invalidate(); };
     orbit.addEventListener("change", changed);
     return () => { orbit.removeEventListener("change", changed); orbit.dispose(); };
-  }, [camera, gl, invalidate, compare, focus, size.width, size.height]);
+  }, [camera, gl, invalidate, compare, focus, fitComparisonToPanel, size.width, size.height]);
   useEffect(() => { controls.current?.reset(); }, [reset]);
   return null;
 }
@@ -108,7 +116,7 @@ function RecordedTrail({ path, color }: { path: WorldState[]; color: string }) {
   return <group><lineSegments><bufferGeometry><bufferAttribute attach="attributes-position" args={[vertices, 3]} /></bufferGeometry><lineBasicMaterial color={color} transparent opacity={.35} /></lineSegments>{[path[0], path[path.length - 1]].map((p, i) => <mesh key={i} position={[p.x, (p.altitude ?? 0) + .03, p.z]}><sphereGeometry args={[.045, 12, 8]} /><meshBasicMaterial color={color} transparent opacity={.6} /></mesh>)}</group>;
 }
 
-export default function EmbodiedWorld({ result, step, reset, compare, condition, playing, pulseKey, previewStrength = 0, model = "anatomical", onModelStatus, autonomy, focus = "both" }: { result: MeasuredExperimentResult | null; step: number; reset: number; compare: boolean; condition: "control" | "perturbed"; playing: boolean; pulseKey: string; previewStrength?: number; model?: FlyModelKind; onModelStatus?: (status: FlyModelStatus) => void; autonomy?: { frame: AutonomyFrame | null; state: WorldState; path?: WorldState[] }[]; focus?: "both" | "control" | "perturbed" }) {
+export default function EmbodiedWorld({ result, step, reset, compare, condition, playing, pulseKey, previewStrength = 0, model = "anatomical", onModelStatus, autonomy, focus = "both", fitComparisonToPanel = false }: { result: MeasuredExperimentResult | null; step: number; reset: number; compare: boolean; condition: "control" | "perturbed"; playing: boolean; pulseKey: string; previewStrength?: number; model?: FlyModelKind; onModelStatus?: (status: FlyModelStatus) => void; autonomy?: { frame: AutonomyFrame | null; state: WorldState; path?: WorldState[] }[]; focus?: "both" | "control" | "perturbed"; fitComparisonToPanel?: boolean }) {
   const [contextLost, setContextLost] = useState(false);
   const [visualRevision, setVisualRevision] = useState(0);
   const conditions = compare ? ["control", "perturbed"] as const : [condition];
@@ -148,6 +156,6 @@ export default function EmbodiedWorld({ result, step, reset, compare, condition,
       </group>;
     })}
     <ContextRecovery onLost={setContextLost} />
-    <Camera reset={reset} compare={compare} focus={focus} />
+    <Camera reset={reset} compare={compare} focus={focus} fitComparisonToPanel={fitComparisonToPanel} />
   </Canvas>{contextLost && <div className="world-fallback" role="status" style={{ position: "absolute", inset: 0 }}>3D view interrupted. Scientific results are retained. <button type="button" onClick={() => { setContextLost(false); setVisualRevision(v => v + 1); }}>Restore visual view</button></div>}</div></WorldBoundary>;
 }

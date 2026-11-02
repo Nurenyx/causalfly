@@ -54,3 +54,36 @@
 .workspace-shell .compare-toolbar-playback,.workspace-shell .compare-focus-toolbar { grid-column:1/-1; }
 .workspace-shell .compare-focus-toolbar { justify-content:flex-start; padding-top:4px; }
 .workspace-shell .compare-toolbar-playback .playback-track { flex:1 1 220px; min-width:170px; }
+
+/* Sprint 16B: the recorded world shares the inspector's natural grid-row height. */
+.workspace-shell .research-cockpit .organism-first-workspace[data-view="recorded"] .embodied-stage { align-items:stretch; }
+.workspace-shell .research-cockpit .organism-first-workspace[data-view="recorded"] .embodied-world-column { align-self:stretch; display:flex; flex-direction:column; height:auto; min-height:0; overflow:visible; }
+.workspace-shell .research-cockpit .organism-first-workspace[data-view="recorded"] .embodied-context-rail { align-self:stretch; }
+.workspace-shell .research-cockpit .organism-first-workspace[data-view="recorded"] .embodied-arena { flex:1 1 auto; height:auto !important; min-height:0; aspect-ratio:4/3; }
+.recorded-viewport-tools { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border-block:1px solid #234454; background:#04151f; }
+.workspace-shell .research-cockpit .recorded-viewport-tools .world-reset-view,.workspace-shell .research-cockpit .recorded-viewport-tools .world-stimulus-label,.workspace-shell .research-cockpit .recorded-viewport-tools .world-orbit-hint { position:static; inset:auto; transform:none; min-width:0; }
+.workspace-shell .research-cockpit .recorded-world-instruments .world-condition-labels { position:static; inset:auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; padding:12px; }
+.workspace-shell .research-cockpit .recorded-world-instruments .world-condition-labels > span { min-width:0; }
+.workspace-shell .research-cockpit .recorded-world-instruments .recorded-behaviour-chip { position:static; inset:auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; }
+.recorded-world-instruments .readout-telemetry-strip { grid-column:1/-1; display:flex; flex-wrap:wrap; gap:10px 16px; }
+.recorded-world-instruments > * { min-width:0; }
+.perception-error strong,.perception-error span,.perception-error small { display:block; margin-block:4px; }
+
+.recorded-world-instruments .readout-source-value,.recorded-world-instruments .readout-motor-value { white-space:normal; overflow-wrap:anywhere; }
+
+/* Keep the real tracked-video controls and attribution in normal flow. */
+.workspace-shell .research-cockpit .perception-player { max-height:none; display:flex; flex-direction:column; gap:8px; float:none; clear:both; }
+.workspace-shell .research-cockpit .perception-player-controls { flex-wrap:wrap; margin:0; }
+.workspace-shell .research-cockpit .perception-player > small { padding-top:0; }
+
+/* Sprint 16B.1: inspector content determines row height, including populated video results. */
+.workspace-shell .research-cockpit .embodied-context-rail .embodied-inputs { display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; }
+.workspace-shell .research-cockpit .embodied-context-rail .embodied-inputs > * { flex-shrink:0; width:100%; min-width:0; }
+.workspace-shell .research-cockpit .embodied-context-rail .perception-compact { max-height:none; overflow:visible; flex-shrink:0; }
+.workspace-shell .research-cockpit .embodied-context-rail .scene-candidates { max-height:none; overflow:visible; }
+.workspace-shell .research-cockpit .embodied-context-rail .scene-summary { display:block; overflow-wrap:anywhere; }
+.workspace-shell .research-cockpit .embodied-context-rail .perception-content { display:flex; flex-direction:column; gap:8px; }
+.workspace-shell .research-cockpit .embodied-context-rail .perception-content > * { flex-shrink:0; min-width:0; order:0; }
+.workspace-shell .research-cockpit .embodied-context-rail .perception-player { width:100%; box-sizing:border-box; }
+.workspace-shell .research-cockpit .embodied-context-rail .perception-player > :first-child { height:auto !important; min-height:150px; aspect-ratio:4/3; }
+.workspace-shell .research-cockpit .embodied-context-rail .perception-offline { float:none; width:100%; box-sizing:border-box; }

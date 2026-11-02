@@ -166,7 +166,8 @@ test("invalid or missing endpoint never opens a guessed control connection", () 
   for (const url of ["", "http://localhost/observatory/v1", "ws://localhost:8765/brain/v1", "ws://user:secret@localhost/observatory/v1", `${endpoint}?key=secret`]) {
     const snapshots: FruitFlySnapshot[] = [];
     connectFruitFly((snapshot) => snapshots.push(snapshot), { endpoint: url, createSocket: () => { assert.fail("must not open"); } });
-    assert.equal(snapshots.at(-1)!.state, "ERROR");
+    assert.equal(snapshots.at(-1)!.state, url ? "ERROR" : "DISCONNECTED");
+    assert.equal(snapshots.at(-1)!.evidence, null);
     assert.ok(!JSON.stringify(snapshots).includes("secret"));
   }
 });

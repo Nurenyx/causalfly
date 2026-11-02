@@ -1,0 +1,915 @@
+{
+  "checks": [
+    {
+      "name": "experiment",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "experiment",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "measured-experiment",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1366,
+      "height": 768,
+      "geometry": {
+        "world": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "rail": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "canvas": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "cards": {
+          "x": 260,
+          "y": 626.015625,
+          "width": 658.359375,
+          "height": 79,
+          "bottom": 705.015625,
+          "right": 918.359375
+        },
+        "readout": {
+          "x": 260,
+          "y": 705.015625,
+          "width": 658.359375,
+          "height": 88.5,
+          "bottom": 793.515625,
+          "right": 918.359375
+        },
+        "orbit": {
+          "x": 660.359375,
+          "y": 587.015625,
+          "width": 246,
+          "height": 16,
+          "bottom": 603.015625,
+          "right": 906.359375
+        },
+        "step": {
+          "x": 270,
+          "y": 772.515625,
+          "width": 638.359375,
+          "height": 15,
+          "bottom": 787.515625,
+          "right": 908.359375
+        }
+      },
+      "growth": {
+        "before": 493.765625,
+        "after": 733.765625
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "world": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "rail": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "canvas": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "cards": {
+          "x": 260,
+          "y": 631.109375,
+          "width": 704.109375,
+          "height": 79,
+          "bottom": 710.109375,
+          "right": 964.109375
+        },
+        "readout": {
+          "x": 260,
+          "y": 710.109375,
+          "width": 704.109375,
+          "height": 88.5,
+          "bottom": 798.609375,
+          "right": 964.109375
+        },
+        "orbit": {
+          "x": 706.109375,
+          "y": 592.109375,
+          "width": 246,
+          "height": 16,
+          "bottom": 608.109375,
+          "right": 952.109375
+        },
+        "step": {
+          "x": 270,
+          "y": 777.609375,
+          "width": 684.109375,
+          "height": 15,
+          "bottom": 792.609375,
+          "right": 954.109375
+        }
+      },
+      "growth": {
+        "before": 528.078125,
+        "after": 768.078125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1536,
+      "height": 1024,
+      "geometry": {
+        "world": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "rail": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "canvas": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "webgl": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "cards": {
+          "x": 272,
+          "y": 668.375,
+          "width": 756.046875,
+          "height": 79,
+          "bottom": 747.375,
+          "right": 1028.046875
+        },
+        "readout": {
+          "x": 272,
+          "y": 747.375,
+          "width": 756.046875,
+          "height": 88.5,
+          "bottom": 835.875,
+          "right": 1028.046875
+        },
+        "orbit": {
+          "x": 770.046875,
+          "y": 629.375,
+          "width": 246,
+          "height": 16,
+          "bottom": 645.375,
+          "right": 1016.046875
+        },
+        "step": {
+          "x": 282,
+          "y": 814.875,
+          "width": 736.046875,
+          "height": 15,
+          "bottom": 829.875,
+          "right": 1018.046875
+        }
+      },
+      "growth": {
+        "before": 567.03125,
+        "after": 807.03125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-single",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "world": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "rail": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "canvas": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "webgl": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "cards": {
+          "x": 278,
+          "y": 844.828125,
+          "width": 986.0625,
+          "height": 79,
+          "bottom": 923.828125,
+          "right": 1264.0625
+        },
+        "readout": {
+          "x": 278,
+          "y": 923.828125,
+          "width": 986.0625,
+          "height": 88.5,
+          "bottom": 1012.328125,
+          "right": 1264.0625
+        },
+        "orbit": {
+          "x": 1006.0625,
+          "y": 805.828125,
+          "width": 246,
+          "height": 16,
+          "bottom": 821.828125,
+          "right": 1252.0625
+        },
+        "step": {
+          "x": 288,
+          "y": 991.328125,
+          "width": 966.046875,
+          "height": 15,
+          "bottom": 1006.328125,
+          "right": 1254.046875
+        }
+      },
+      "growth": {
+        "before": 739.546875,
+        "after": 979.546875
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1366,
+      "height": 768,
+      "geometry": {
+        "world": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "rail": {
+          "y": 0.25,
+          "height": 794.265625,
+          "bottom": 794.515625
+        },
+        "canvas": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 70.25,
+          "width": 658.359375,
+          "height": 493.765625,
+          "bottom": 564.015625,
+          "right": 918.359375
+        },
+        "cards": {
+          "x": 260,
+          "y": 626.015625,
+          "width": 658.359375,
+          "height": 79,
+          "bottom": 705.015625,
+          "right": 918.359375
+        },
+        "readout": {
+          "x": 260,
+          "y": 705.015625,
+          "width": 658.359375,
+          "height": 88.5,
+          "bottom": 793.515625,
+          "right": 918.359375
+        },
+        "orbit": {
+          "x": 660.359375,
+          "y": 587.015625,
+          "width": 246,
+          "height": 16,
+          "bottom": 603.015625,
+          "right": 906.359375
+        },
+        "step": {
+          "x": 270,
+          "y": 772.515625,
+          "width": 638.359375,
+          "height": 15,
+          "bottom": 787.515625,
+          "right": 908.359375
+        }
+      },
+      "growth": {
+        "before": 493.765625,
+        "after": 733.765625
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1440,
+      "height": 900,
+      "geometry": {
+        "world": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "rail": {
+          "y": 2.03125,
+          "height": 797.578125,
+          "bottom": 799.609375
+        },
+        "canvas": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "webgl": {
+          "x": 260,
+          "y": 41.03125,
+          "width": 704.109375,
+          "height": 528.078125,
+          "bottom": 569.109375,
+          "right": 964.109375
+        },
+        "cards": {
+          "x": 260,
+          "y": 631.109375,
+          "width": 704.109375,
+          "height": 79,
+          "bottom": 710.109375,
+          "right": 964.109375
+        },
+        "readout": {
+          "x": 260,
+          "y": 710.109375,
+          "width": 704.109375,
+          "height": 88.5,
+          "bottom": 798.609375,
+          "right": 964.109375
+        },
+        "orbit": {
+          "x": 706.109375,
+          "y": 592.109375,
+          "width": 246,
+          "height": 16,
+          "bottom": 608.109375,
+          "right": 952.109375
+        },
+        "step": {
+          "x": 270,
+          "y": 777.609375,
+          "width": 684.109375,
+          "height": 15,
+          "bottom": 792.609375,
+          "right": 954.109375
+        }
+      },
+      "growth": {
+        "before": 528.078125,
+        "after": 768.078125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1536,
+      "height": 1024,
+      "geometry": {
+        "world": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "rail": {
+          "y": 0.34375,
+          "height": 836.53125,
+          "bottom": 836.875
+        },
+        "canvas": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "webgl": {
+          "x": 272,
+          "y": 39.34375,
+          "width": 756.046875,
+          "height": 567.03125,
+          "bottom": 606.375,
+          "right": 1028.046875
+        },
+        "cards": {
+          "x": 272,
+          "y": 668.375,
+          "width": 756.046875,
+          "height": 79,
+          "bottom": 747.375,
+          "right": 1028.046875
+        },
+        "readout": {
+          "x": 272,
+          "y": 747.375,
+          "width": 756.046875,
+          "height": 88.5,
+          "bottom": 835.875,
+          "right": 1028.046875
+        },
+        "orbit": {
+          "x": 770.046875,
+          "y": 629.375,
+          "width": 246,
+          "height": 16,
+          "bottom": 645.375,
+          "right": 1016.046875
+        },
+        "step": {
+          "x": 282,
+          "y": 814.875,
+          "width": 736.046875,
+          "height": 15,
+          "bottom": 829.875,
+          "right": 1018.046875
+        }
+      },
+      "growth": {
+        "before": 567.03125,
+        "after": 807.03125
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "experiment-recorded-compare",
+      "width": 1920,
+      "height": 1080,
+      "geometry": {
+        "world": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "rail": {
+          "y": 4.28125,
+          "height": 1009.046875,
+          "bottom": 1013.328125
+        },
+        "canvas": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "webgl": {
+          "x": 278,
+          "y": 43.28125,
+          "width": 986.0625,
+          "height": 739.546875,
+          "bottom": 782.828125,
+          "right": 1264.0625
+        },
+        "cards": {
+          "x": 278,
+          "y": 844.828125,
+          "width": 986.0625,
+          "height": 79,
+          "bottom": 923.828125,
+          "right": 1264.0625
+        },
+        "readout": {
+          "x": 278,
+          "y": 923.828125,
+          "width": 986.0625,
+          "height": 88.5,
+          "bottom": 1012.328125,
+          "right": 1264.0625
+        },
+        "orbit": {
+          "x": 1006.0625,
+          "y": 805.828125,
+          "width": 246,
+          "height": 16,
+          "bottom": 821.828125,
+          "right": 1252.0625
+        },
+        "step": {
+          "x": 288,
+          "y": 991.328125,
+          "width": 966.046875,
+          "height": 15,
+          "bottom": 1006.328125,
+          "right": 1254.046875
+        }
+      },
+      "growth": {
+        "before": 739.546875,
+        "after": 979.546875
+      },
+      "noHorizontalOverflow": true
+    },
+    {
+      "name": "compare",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "compare",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "evidence",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "overview",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "live-offline",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "recorded-replay",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1920,
+      "height": 1080,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "34px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1536,
+      "height": 1024,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "24px 28px",
+        "font": "30.72px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1440,
+      "height": 900,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "28.8px"
+      }
+    },
+    {
+      "name": "recorded-evidence",
+      "width": 1366,
+      "height": 768,
+      "noHorizontalOverflow": true,
+      "header": {
+        "padding": "20px 24px",
+        "font": "27.32px"
+      }
+    },
+    {
+      "name": "live-state-transitions",
+      "states": [
+        "OFFLINE",
+        "CONNECTING",
+        "READY",
+        "RUNNING",
+        "READY/stale",
+        "ERROR",
+        "RECORDED_REPLAY"
+      ]
+    },
+    {
+      "name": "tracked-player-layout-only",
+      "controlsBottom": 288.640625,
+      "attributionBottom": 314.640625,
+      "measurementsTop": 342.828125,
+      "providerData": false
+    },
+    {
+      "name": "video-failure-retry",
+      "attempts": 4,
+      "visibleFailureErrors": 1,
+      "fileRetained": true,
+      "retryUploadSucceeded": true,
+      "liveTrackingAnalyzed": false,
+      "fixtureTrackingCompleted": true,
+      "analysisResponse": "Authored offline scene fixture"
+    }
+  ],
+  "errors": [],
+  "providers": "Local deterministic fixtures and intercepted storage; no live provider verification"
+}

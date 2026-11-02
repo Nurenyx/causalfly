@@ -2,6 +2,7 @@ import { referenceBody, fixtureResolver } from "./media-test-fixture";
 import test, { mock } from "node:test";
 import assert from "node:assert/strict";
 import { randomUUID, createHash } from "node:crypto";
+import { offlineScene } from "../perception/scene";
 import { FlightRecorder } from "./flight-recorder";
 import { runGuidedAction } from "./guided-workflow";
 import { perceptionAction as realPerceptionAction } from "./perception-action";
@@ -178,3 +179,12 @@ test("event metadata is allowlisted and SAM geometry validation can fail without
 
 process.env.CAUSALFLY_META_ENABLED = "1";
 function perceptionAction(request: Request, deps: NonNullable<Parameters<typeof realPerceptionAction>[1]> = {}) { return realPerceptionAction(request, { ...deps, resolve: fixtureResolver(deps.inspect) }); }
+
+
+test("a new discovery attempt resets prior confidence and parsing observations on a reused upload recorder", () => {
+  const recorder=new FlightRecorder();recorder.recordSceneDiscovery(offlineScene,true);
+  const previous=recorder.snapshot();assert.equal(previous.sceneDiscovery?.sceneParsingSucceeded,true);
+  recorder.startSceneDiscovery(true);recorder.acceptSceneResponse(true);
+  assert.deepEqual(recorder.snapshot().sceneDiscovery,{source:"provider",providerResponseAccepted:true,sceneParsingSucceeded:false,refusalDetected:false});
+  assert.equal(previous.sceneDiscovery?.sceneParsingSucceeded,true);
+});
