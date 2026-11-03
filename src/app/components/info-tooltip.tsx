@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 export const cockpitHelp = {
-  input: "Choose how the fly is stimulated. Synthetic input uses CausalFly’s built-in controlled stimulus. With video, Muse identifies candidate objects; you select one; SAM tracks it. CausalFly measures visual expansion and converts it into an experiment stimulus. Video input is optional.",
+  input: "Choose how the fly is stimulated. Synthetic input uses CausalFly’s built-in controlled stimulus. With video, Muse identifies candidate objects; you select one; SAM tracks it. CausalFly measures visual expansion and converts it into an experimental proxy, not biologically calibrated visual input. Video input is optional.",
   stimulus: "Input amplitude supplied identically to control and intervention runs.",
   control: "Baseline run with the network unchanged.",
   intervention: "Matched run with only the selected pathway changed.",
@@ -19,7 +19,7 @@ export function InfoTooltip({ label, children }: { label: string; children: stri
 }
 
 /** Shared optional context for help and instrument status: hover, focus, tap and Escape. */
-export function AccessiblePopover({ label, trigger: content, children, className, buttonClassName }: { label: string; trigger: ReactNode; children: ReactNode; className: string; buttonClassName: string }) {
+export function AccessiblePopover({ label, trigger: content, children, className, buttonClassName, clickOnly = false }: { clickOnly?: boolean; label: string; trigger: ReactNode; children: ReactNode; className: string; buttonClassName: string }) {
   const id = useId();
   const root = useRef<HTMLSpanElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -29,18 +29,20 @@ export function AccessiblePopover({ label, trigger: content, children, className
     if (rect) setPosition({ left: Math.max(12, Math.min(rect.left, window.innerWidth - 352)), top: Math.max(12, Math.min(rect.bottom + 8, window.innerHeight - 290)) });
   }
   const [hover, setHover] = useState(false), [focused, setFocused] = useState(false), [pinned, setPinned] = useState(false), [dismissed, setDismissed] = useState(false);
-  const open = !dismissed && (hover || focused || pinned);
+  const open = !dismissed && (pinned || !clickOnly && (hover || focused));
   useEffect(() => {
     if (!open) return;
     function close(event: PointerEvent) { if (!root.current?.contains(event.target as Node)) { setDismissed(true); setPinned(false); } }
     function escape(event: KeyboardEvent) { if (event.key === "Escape") { setDismissed(true); setPinned(false); } }
+    const navigate = () => { setDismissed(true); setPinned(false); };
+    document.addEventListener("causalfly:navigation", navigate);
     document.addEventListener("pointerdown", close); document.addEventListener("keydown", escape);
-    return () => { document.removeEventListener("pointerdown", close); document.removeEventListener("keydown", escape); };
+    return () => { document.removeEventListener("causalfly:navigation", navigate); document.removeEventListener("pointerdown", close); document.removeEventListener("keydown", escape); };
   }, [open]);
-  return <span ref={root} className={className} onMouseEnter={() => { place(); setHover(true); setDismissed(false); }} onMouseLeave={() => setHover(false)}>
+  return <span ref={root} className={`${className}${clickOnly ? " click-popover" : ""}`} onMouseEnter={() => { place(); setHover(true); setDismissed(false); }} onMouseLeave={() => setHover(false)}>
     <button ref={trigger} type="button" className={buttonClassName} aria-label={label} aria-describedby={id} aria-expanded={open} aria-controls={id}
       onFocus={() => { place(); setFocused(true); setDismissed(false); }} onBlur={() => { setFocused(false); setPinned(false); setDismissed(false); }}
-      onClick={() => { if (pinned) { setPinned(false); setDismissed(true); } else { setPinned(true); setDismissed(false); } }}
+      onClick={() => { if (pinned) { setPinned(false); setDismissed(true); } else { place(); setPinned(true); setDismissed(false); } }}
       onKeyDown={event => { if (event.key === "Escape") { event.stopPropagation(); setDismissed(true); setPinned(false); } }}>{content}</button>
     <span id={id} className="context-popover" role="tooltip" style={position} hidden={!open}>{children}</span>
   </span>;

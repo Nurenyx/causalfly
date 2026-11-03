@@ -1,7 +1,10 @@
 // Local production acceptance: deterministic Meta fixtures; no paid provider or XR calls.
+import { reviewDemoLayout, reviewDemoLive } from "./demo-layout-browser-review.mjs";
+import { reviewLiveStability } from "./live-stability-browser-review.mjs";
 import { humanRecoveryMeasurement, reviewRetainedStimulusRecovery } from "./retained-stimulus-browser-review.mjs";
 import { videoGeometry } from "./video-acceptance-geometry.mjs";
 import { reviewProxyClarity } from "./proxy-clarity-browser-review.mjs";
+import { reviewHumanAcceptance } from "./human-state-browser-review.mjs";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
@@ -17,7 +20,7 @@ page.on("pageerror", error => errors.push(error.message));
 await context.route("**/*", route => ["127.0.0.1", "localhost"].includes(new URL(route.request().url()).hostname) ? route.continue() : route.abort());
 const nav = name => page.getByRole("navigation", { name: "Experiment workspaces" }).getByRole("button", { name, exact: true }).click();
 async function audit(name, target) {
-  for (const [width, height] of [[1920,1080],[1536,1024],[1440,900],[1366,768]]) {
+  for (const [width, height] of [[1920,1080],[1728,1080],[1536,1024],[1440,900],[1366,768]]) {
     await page.setViewportSize({ width, height }); await page.waitForTimeout(250);
     if (target) await page.locator(target).scrollIntoViewIfNeeded(); else await page.evaluate(() => window.scrollTo(0,0));
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `${name}: horizontal overflow at ${width}`);
@@ -34,7 +37,7 @@ async function audit(name, target) {
   }
 }
 async function recordedGeometry(state) {
-  for (const [width,height] of [[1366,768],[1440,900],[1536,1024],[1920,1080]]) {
+  for (const [width,height] of [[1366,768],[1440,900],[1536,1024],[1728,1080],[1920,1080]]) {
     await page.setViewportSize({width,height}); await page.waitForTimeout(250);
     const world=page.locator('.organism-first-workspace[data-view="recorded"] .embodied-world-column');
     await world.scrollIntoViewIfNeeded();
@@ -97,7 +100,10 @@ try {
   await page.getByRole('link', { name:'CausalFly home',exact:true }).click(); await audit("overview");
   await nav('Live Connectome'); await page.locator('.live-launcher').waitFor(); await audit("live-offline");
   assert.equal(await page.locator('.live-launcher').getAttribute('data-live-state'),'OFFLINE');
-  assert.equal(await page.getByRole('button',{name:'START LIVE TRIAL',exact:true}).isDisabled(),true);
+  assert.equal(await page.getByRole('button',{name:'START LIVE TRIAL',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'START EXPERIMENTAL INPUT TRIAL',exact:true}).count(),0);
+  assert.equal(await page.locator('.live-telemetry-capability[data-control=read-only]').isVisible(),true);
+  assert.match(await page.locator('.live-telemetry-capability').innerText(),/Trial control unavailable on this host/);
   await page.getByRole('button',{name:'REPLAY VALIDATED RUN',exact:true}).click();
   await page.getByText('PARTIAL CAPTURE', { exact:false }).waitFor();
   await page.getByRole('button',{name:'Pause recorded replay',exact:true}).click();
@@ -126,7 +132,10 @@ try {
   await page.evaluate(() => window.__testerStream.onmessage({data:JSON.stringify({source:'FRUITFLY_XR',state:'CONNECTED',message:'Verified offline review transport',evidence:null})}));
   await page.locator('.live-launcher[data-live-state=READY]').waitFor();
   // No host control endpoint exists: a ready telemetry-only connection must not claim trial control.
-  assert.equal(await page.getByRole('button',{name:'START LIVE TRIAL',exact:true}).isDisabled(),true);
+  assert.equal(await page.getByRole('button',{name:'START LIVE TRIAL',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'START EXPERIMENTAL INPUT TRIAL',exact:true}).count(),0);
+  assert.equal(await page.locator('.live-telemetry-capability[data-control=read-only]').isVisible(),true);
+  assert.match(await page.locator('.live-telemetry-capability').innerText(),/Trial control unavailable on this host/);
   await page.clock.install({ time:new Date(recorded[0].receivedAt) });
   await page.evaluate(evidence => window.__testerStream.onmessage({data:JSON.stringify({source:'FRUITFLY_XR',state:'DATA RECEIVED',message:'Genuine captured frame under fixed review clock',evidence})}),recorded[0]);
   await page.locator('.live-launcher[data-live-state=RUNNING]').waitFor();
@@ -231,8 +240,12 @@ try {
   checks.push({name:'replacement-and-verified-expiry',newUploadRequired:true,unavailableOnlyAfterServerVerification:true});
   await videoContext.close();
   checks.push(await reviewProxyClarity(browser,base,dir));
+  checks.push(...await reviewHumanAcceptance(browser,base,dir));
+  checks.push(await reviewLiveStability(browser,base,dir));
+  checks.push(await reviewDemoLayout(browser,base,dir));
+  checks.push(await reviewDemoLive(browser,base,dir));
   fs.writeFileSync(`${dir}/results.json`,JSON.stringify({checks,errors},null,2));
-  for (const width of [1920,1536,1440,1366]) {
+  for (const width of [1920,1728,1536,1440,1366]) {
     const headers = checks.filter(c => c.width === width && c.header).map(c => c.header);
     assert.ok(headers.every(h => JSON.stringify(h) === JSON.stringify(headers[0])), `Shared header geometry at ${width}`);
   }

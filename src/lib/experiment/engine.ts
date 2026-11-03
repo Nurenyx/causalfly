@@ -1,5 +1,6 @@
 import { validateNetwork } from "./network";
 import { applyPerturbation, validatePerturbation } from "./perturbation";
+import { decodeFixtureOutput, isStimulusResponse } from "./semantics";
 import type {
   Condition,
   ExperimentSpec,
@@ -57,26 +58,33 @@ export function runTrial(
 ): TrialResult {
   validateNetwork(network);
   validateExperiment(spec);
-  validatePerturbation(network, spec.perturbation);
-  if (condition !== "CONTROL" && condition !== "PERTURBED") {
+  const environment = isStimulusResponse(spec);
+  if (environment) {
+    if (spec.perturbation !== null || spec.stimulus.amplitude <= 0) throw new Error("Stimulus response requires positive test input and no neural intervention.");
+  } else {
+    if (!spec.perturbation) throw new Error("A neural intervention must declare a perturbation.");
+    validatePerturbation(network, spec.perturbation);
+  }
+  if (condition !== "CONTROL" && condition !== (environment ? "TEST" : "PERTURBED")) {
     throw new Error(`Unknown condition: ${condition}`);
   }
 
   const appliedPerturbation =
     condition === "PERTURBED" ? spec.perturbation : null;
+  const amplitude = environment && condition === "CONTROL" ? 0 : spec.stimulus.amplitude;
   const emptyState = (): Record<string, number> =>
     Object.fromEntries(network.nodes.map((node) => [node.id, 0]));
   let current = emptyState();
-  current[network.inputNodeId] = spec.stimulus.amplitude;
+  current[network.inputNodeId] = amplitude;
   applyPerturbation(current, appliedPerturbation);
 
-  const activity: { step: number; nodes: Record<string, number> }[] = [];
+  const activity: { step: number; nodes: Record<string, number>; decoder?: import("./types").FixtureDecoder }[] = [];
   let outputPeakActivity = 0;
   let outputThresholdCrossingStep: number | null = null;
 
   for (let step = 0; step <= spec.maxSteps; step++) {
-    activity.push({ step, nodes: current });
     const output = current[network.outputNodeId];
+    activity.push({ step, nodes: current, ...(spec.experimentType ? { decoder: decodeFixtureOutput(output, spec.outputThreshold) } : {}) });
     outputPeakActivity = Math.max(outputPeakActivity, output);
     if (outputThresholdCrossingStep === null && output >= spec.outputThreshold) {
       outputThresholdCrossingStep = step;
@@ -112,6 +120,7 @@ export function runTrial(
       network: structuredClone(network),
       experiment: structuredClone(spec),
       appliedPerturbation: structuredClone(appliedPerturbation),
+      ...(spec.experimentType ? { stimulus: { amplitude } } : {}),
     },
   });
 }

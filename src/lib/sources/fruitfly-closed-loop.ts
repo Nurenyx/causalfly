@@ -39,6 +39,11 @@ export function configuredBrainEndpoint(value: string | undefined, production = 
 /** Explicitly opt-in research client. Independent of the read-only observatory bridge.
  * New instance per reset/reconnect; every callback checks its closed/session boundary. */
 export class ExperimentalBrainAdapter {
+  // Presentation receipt only; never influences drive validation or transport cadence.
+  private feedbackReceipt: "ARMED" | "SENDING" | "ACCEPTED" | "REJECTED" = "ARMED";
+  private feedbackReason = "";
+  get feedbackDetail() { return this.feedbackReason || this.status; }
+  get feedbackState() { return this.feedbackReceipt; }
   private socket: BrainSocket | null = null;
   private session: string | null = null;
   private sequence = 0;
@@ -68,9 +73,10 @@ export class ExperimentalBrainAdapter {
         if (t.sessionId !== this.session || t.sequence <= this.outputSequence || t.simulationMs <= this.modelMs) throw new Error("Session/order mismatch");
         this.outputSequence = t.sequence; this.modelMs = t.simulationMs; this.lastReceived = now();
         const captured = this.sent.get(t.inputSequence), age = captured === undefined ? Infinity : now() - captured;
-        if (t.totalSpikes < t.spikes || !t.inputFresh || t.inputAgeMs < 0 || t.inputAgeMs > 500 || captured !== t.capturedMs || age < 0 || age > 750) { onDrive(null); return; }
+        if (t.totalSpikes < t.spikes || !t.inputFresh || t.inputAgeMs < 0 || t.inputAgeMs > 500 || captured !== t.capturedMs || age < 0 || age > 750) { this.feedbackReceipt = "REJECTED"; this.feedbackReason = "Server telemetry failed the existing stimulus reference/freshness validation."; onDrive(null); return; }
         // Match BrainClient's genuine jump criterion; do not treat a latched mode as a new jump.
         const escape = t.motorMode === "ESCAPE" && t.jump && t.escape && t.populations.some(p => p.name === "DNp01" && p.spikes > 0);
+        this.feedbackReceipt = "ACCEPTED"; this.feedbackReason = "Stimulus reference and freshness validated.";
         onDrive({ source: "FRUITFLY_XR", activity: null, decoder: escape ? "ESCAPE" : null, reference: { sessionId: t.sessionId, sequence: t.sequence, inputSequence: t.inputSequence, receivedAt: new Date(this.wallNow()).toISOString(), transport: "brain/v1" } });
       } catch { this.close("Experimental brain message rejected"); }
     });
@@ -88,12 +94,13 @@ export class ExperimentalBrainAdapter {
     this.lastSend = now; this.sent.set(input.sequence, now);
     for (const [sequence, captured] of this.sent) if (now - captured > 1000) this.sent.delete(sequence);
     const json = JSON.stringify(input);
-    try { this.socket.send(json); this.record.messages.push({ direction: "sent", atMs: now, json }); }
+    try { this.socket.send(json); this.feedbackReceipt = "SENDING"; this.feedbackReason = "Stimulus sent; server acceptance pending."; this.record.messages.push({ direction: "sent", atMs: now, json }); }
     catch { this.close("Experimental brain send failed"); }
   }
   close(status = "Experimental brain disconnected") {
     if (this.closed) return;
-    this.closed = true; this.record.status = status; this.onDrive(null);
+    this.closed = true; this.record.status = status; this.feedbackReason = status;
+    if (/rejected|send failed/i.test(status)) { this.feedbackReceipt = "REJECTED"; this.feedbackReason = status; } this.onDrive(null);
     try { this.socket?.close(); } catch { /* A failed handshake may already have closed the transport. */ }
   }
   evidence(): BrainTransportEvidence { return structuredClone(this.record); }

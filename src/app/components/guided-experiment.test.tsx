@@ -18,9 +18,16 @@ const measured: MeasuredExperimentResult = { researchQuestion: question, mode: d
 const forbidden = () => { assert.fail("Rendering a workflow must not submit or navigate"); };
 const props = { question, pending: "", mode: "FAKE META CLIENT" as const, result: null, onQuestion: forbidden, onDemo: forbidden, onDesign: forbidden, onRun: forbidden, onExplain: forbidden, onNext: forbidden, onCompare: forbidden, onConnectome: forbidden };
 
+test("completed result prioritizes measured change and retains setup in a closed keyboard-accessible disclosure", () => {
+  const html=renderToStaticMarkup(<GuidedExperiment {...props} design={design} result={measured} />);
+  assert.match(html,/<details class="completed-setup"><summary>Review question, design &amp; run settings<\/summary>/);
+  assert.ok(html.indexOf('class="completed-result-summary"')<html.indexOf('class="completed-setup"'));
+  for (const text of ["Signal reduced 50%","CONTROL · INTACT","INTERVENTION · SILENCED","Body pose is illustrative","EDIT QUESTION","NEW QUESTION","Inspect design","Inspect evidence &amp; provenance"]) assert.ok(html.includes(text),text);
+});
+
 test("initial story offers demo and own-question paths without measured or AI findings", () => {
   const html = renderToStaticMarkup(<GuidedExperiment {...props} />);
-  for (const text of [/RETAINED RESEARCH QUESTION/, /Embodied experiment/, /Autonomy is a separate experimental controller/, /AWAITING APPROVED TEST/, /Ask Your Own Question/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
+  for (const text of [/RETAINED RESEARCH QUESTION/, /Embodied experiment/, /Autonomy is a separate experimental controller/, /AWAITING APPROVED TEST/, /EDIT QUESTION/, /NEW QUESTION/, /Design with Meta/, /Connectome observatory \/ simulated dynamics/, /OFFLINE DEMO/, /META AI SCIENTIST/, /CONTROLLED MODEL/]) assert.match(html, text);
   assert.doesNotMatch(html, /Signal reduced|MEASURED BY CAUSALFLY|Approve &amp; Run Experiment|Explain with Meta/);
   assert.match(html, /REAL-FLY VALIDATION — Not established/);
   assert.match(html, /Synthetic engineering fixture/);
@@ -130,7 +137,7 @@ test("hero starts with one recorded condition and requires explicit approval for
 
 test("expanded approval settings show the selected amplitude and distinguish it from Meta's proposal", () => {
   const html = renderToStaticMarkup(<DesignReview design={design} stimulusAmplitude={.6} busy={false} onRun={forbidden} />);
-  assert.match(html, /<dt>Stimulus amplitude<\/dt><dd>0\.6<\/dd>/);
-  assert.match(html, /selected by you/);
+  assert.match(html, /<dt>Test stimulus<\/dt><dd>0\.6<\/dd>/);
+  assert.match(html, /Selected stimulus 0\.6; original proposal 1/);
   assert.equal(design.spec.stimulus.amplitude, 1);
 });

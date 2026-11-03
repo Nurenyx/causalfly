@@ -154,7 +154,7 @@ test("CockpitReadouts renders Causal Pipeline with 4 truthful stages without fab
 
   assert.match(html, /class="causal-pipeline"/);
   assert.match(html, /CAUSAL PIPELINE/);
-  assert.match(html, /ENGINE MEASURED TRIAL AVERAGE/);
+  assert.match(html, /ENGINE VALUES · PROCEDURAL MOVEMENT IS SEPARATE/);
 
   // Stage 1: Stimulus
   assert.match(html, /class="causal-stage stimulus-stage"/);
@@ -169,9 +169,9 @@ test("CockpitReadouts renders Causal Pipeline with 4 truthful stages without fab
   assert.match(html, /class="causal-stage decision-stage"/);
   assert.match(html, /DECISION/);
 
-  // Stage 4: Motor Output
+  // Stage 4: Procedural Mapping
   assert.match(html, /class="causal-stage motor-stage"/);
-  assert.match(html, /MOTOR OUTPUT/);
+  assert.match(html, /PROCEDURAL MAPPING/);
   assert.match(html, /Procedural controller/);
 
   // Ensure no fabricated statistics are present
@@ -195,5 +195,5 @@ test("Awaiting experiment state renders projected causal pipeline cleanly", () =
   assert.match(html, /Step 0 Pulse/);
   assert.match(html, /Intact Circuit/);
   assert.match(html, /Threshold Gate/);
-  assert.match(html, /Grounded Locomotion/);
+  assert.match(html, /Awaiting measured state/);
 });

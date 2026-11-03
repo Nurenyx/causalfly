@@ -3,6 +3,7 @@ import type { ObservationalEvidence } from "./observational-evidence";
 import type { MetaClient, MetaRequest } from "./client";
 import type { CompactEvidencePayload } from "./compact-evidence";
 import { eligiblePerturbationTargetIds, type ScientificAnalysis } from "./schemas";
+import { isStimulusResponse } from "../experiment/semantics";
 
 /** Offline template client, not a model and not a general natural-language reasoner. */
 export class FakeMetaClient implements MetaClient {
@@ -21,21 +22,23 @@ export class FakeMetaClient implements MetaClient {
         causalClaimAllowed: false });
     }
     if (request.task === "design") {
+      if (JSON.parse(request.inputJson).experimentType === "STIMULUS_RESPONSE") return JSON.stringify({ ...demoExperimentSpec, experimentType:"STIMULUS_RESPONSE", perturbation:null, hypothesis:"A positive pulse will produce a different output than zero input on the identical synthetic circuit." });
       return JSON.stringify(demoExperimentSpec);
     }
     const evidence = JSON.parse(request.inputJson) as CompactEvidencePayload;
     const { control, perturbed, deltas } = evidence.comparison;
     const eligibleTargets = eligiblePerturbationTargetIds(evidence.provenance.control.network);
     const nextTarget = eligibleTargets.find(
-      (id) => id !== evidence.experimentSpec.perturbation.targetNodeId,
+      (id) => id !== evidence.experimentSpec.perturbation?.targetNodeId,
     ) ?? eligibleTargets[0];
+    const environment = isStimulusResponse(evidence.experimentSpec);
     const analysis: ScientificAnalysis = {
       observations: [
         `Control output peak: ${control.outputPeakActivity}; perturbed output peak: ${perturbed.outputPeakActivity}.`,
         `Control threshold crossing step: ${control.outputThresholdCrossingStep ?? "not reached"}; perturbed threshold crossing step: ${perturbed.outputThresholdCrossingStep ?? "not reached"}.`,
         `Perturbed minus control peak: ${deltas.outputPeakActivity}; crossing-step delta: ${deltas.outputThresholdCrossingSteps ?? "not comparable"}; outcome changed: ${deltas.outcomeChanged}.`,
       ],
-      interpretation: "Offline template: the measured differences describe this synthetic fixture under the declared silence intervention. This fake client does not evaluate arbitrary research questions or biological hypotheses.",
+      interpretation: `Offline template: the measured differences describe this synthetic fixture under ${environment ? "zero versus positive input on the identical network" : "the declared silence intervention"}. This fake client does not evaluate arbitrary research questions or biological hypotheses. Body motion is procedurally rendered, not measured biomechanics.`,
       limitations: [
         "Hand-authored synthetic network; no biological or Drosophila validity.",
         "Deterministic synchronous propagation and a finite observation window; no biological time or noise.",

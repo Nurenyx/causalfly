@@ -24,6 +24,13 @@ function fixture() {
   return { retentionId, sessionId, sequences: [1, 3] };
 }
 
+test("unobserved ESCAPE event is rejected before constructing a Meta client", async () => {
+  const reference=fixture();
+  const result=await runWebObservation({...reference,sequences:[1],researchQuestion:"What changed before the decoder entered ESCAPE?"},{createClient:()=>assert.fail("No provider client for absent ESCAPE")});
+  assert.equal(result.ok,false);
+  if (!result.ok) { assert.equal(result.kind,"validation"); assert.match(result.error,/ESCAPE event is not established/); }
+});
+
 test("compaction contains exact supplied counts, transitions, provenance and diagnostics without raw spikes/coordinates", () => {
   const evidence = createObservationalEvidence(question, fixture());
   assert.equal(evidence.exactQuestion, question);

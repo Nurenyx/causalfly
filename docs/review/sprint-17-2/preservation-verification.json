@@ -1,0 +1,17 @@
+{
+  "verifiedCount": 1420,
+  "scientificAndHistoricalUnchangedCount": 1410,
+  "scientificLibChanged": [],
+  "refreshedSprint17ReviewOutputs": [
+    "docs/review/sprint-17/edge-feedback-accepted-1728.png",
+    "docs/review/sprint-17/edge-feedback-rejected-1728.png",
+    "docs/review/sprint-17/edge-feedback-unavailable-1728.png",
+    "docs/review/sprint-17/edge-retained-snapshot-1728.png",
+    "docs/review/sprint-17/judge-design-awaiting-approval-1728.png",
+    "docs/review/sprint-17/judge-evidence-1728.png",
+    "docs/review/sprint-17/judge-retained-1728.png",
+    "docs/review/sprint-17/judge-topology-source-context-1728.png",
+    "docs/review/sprint-17/layout-instability-summary.json",
+    "docs/review/sprint-17/layout-instability.json"
+  ]
+}

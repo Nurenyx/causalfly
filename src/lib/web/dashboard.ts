@@ -2,6 +2,7 @@ import type { CompactTrialSummary } from "../meta/compact-evidence";
 import type { MeasuredExperimentResult as WebExperimentResult } from "./contracts";
 import type { GuidedDesign } from "./contracts";
 import type { RunDiagnostics } from "./flight-recorder-types";
+import type { ExperimentType } from "../experiment/types";
 
 export type Workspace = "observatory" | "live" | "compare" | "scientist" | "evidence";
 export const chartNodes = ["primary_a", "primary_b", "alternate_c", "motor"] as const;
@@ -32,6 +33,7 @@ export function propagationTiming(trial: CompactTrialSummary) {
 }
 
 export interface WorkspaceState {
+  experimentType?: ExperimentType;
   investigationId?: number;
   history?: readonly { investigationId: number; result: WebExperimentResult; design?: GuidedDesign }[];
   nextFromId?: string;
@@ -53,6 +55,7 @@ export type WorkspaceAction = (
   | { type: "interpreted"; result: WebExperimentResult; workspace?: Workspace }
   | { type: "navigate"; workspace: Workspace }
   | { type: "question"; question: string }
+  | { type: "experiment-type"; experimentType: ExperimentType; question?: string }
   | { type: "fruitfly-question"; question: string }
   | { type: "fruitfly-ask"; question: string; sessionId?: string; startedAt?: string; excluded?: readonly string[] }
   | { type: "fruitfly-session"; sessionId: string }
@@ -70,6 +73,7 @@ export function workspaceReducer(state: WorkspaceState, action: WorkspaceAction)
     case "navigate": return { ...state, workspace: action.workspace };
     case "begin": return { ...startInvestigation(state, action.question), nextFromId: action.question === state.question ? state.nextFromId : undefined };
     case "question": return action.question === state.question ? state : startInvestigation(state, action.question);
+    case "experiment-type": return { ...startInvestigation(state,action.question ?? state.question), experimentType:action.experimentType, workspace:"observatory" };
     case "fruitfly-question": return { ...state, fruitFlyQuestion: action.question };
     case "fruitfly-ask": return action.question.trim() ? { ...state, fruitFlyQuestion: action.question, fruitFlyAskedQuestion: action.question, fruitFlyQuestionSessionId: action.sessionId, observation: { id: (state.observation?.id ?? 0) + 1, startedAt: action.startedAt ?? new Date().toISOString(), excluded: action.excluded ?? [] }, workspace: "live" } : state;
     case "fruitfly-session": return state.fruitFlyAskedQuestion !== undefined && !state.fruitFlyQuestionSessionId ? { ...state, fruitFlyQuestionSessionId: action.sessionId } : state;

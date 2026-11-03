@@ -1,13 +1,18 @@
 "use client";
+import { experimentConditions } from "@/lib/experiment/semantics";
+import type { ExperimentType } from "@/lib/experiment/types";
+import { ExperimentConditions } from "./experiment-conditions";
+import { RecordedMotorReadout } from "./recorded-motor-readout";
 
 import { AutonomyPanel } from "./autonomy-panel";
 import dynamic from "next/dynamic";
 import { useEffect, useState, type ReactNode } from "react";
 import type { GuidedDesign, MeasuredExperimentResult, ExecutionMode } from "@/lib/web/contracts";
 import { playbackSteps, crossing } from "@/lib/web/dashboard";
-import { advanceEmbodiedPlayback, embodiedFrame, embodimentAtStep, type EmbodiedPlayback } from "@/lib/web/embodiment";
+import { advanceEmbodiedPlayback, embodiedFrame, embodimentAtStep, recordedMotorFrame, type EmbodiedPlayback } from "@/lib/web/embodiment";
 import { nodeLabel, signalValue } from "@/lib/web/display-labels";
 import { SyntheticNetworkViz } from "./synthetic-network-viz";
+import { SourceContext } from "./source-context";
 import { FixtureTopology } from "./observatory-preview";
 import { ExperimentPlayback } from "./experiment-playback";
 import { ActivityChart } from "./activity-chart";
@@ -15,12 +20,14 @@ import { InfoTooltip, cockpitHelp } from "./info-tooltip";
 import type { FlyModelKind, FlyModelStatus } from "@/lib/web/fly-model";
 import type { InstrumentMode } from "@/lib/web/instrument-mode";
 import { resultSummary } from "@/lib/web/result-summary";
+import { NeuralResponseSummary } from "./neural-response-summary";
 
 const World = dynamic(() => import("./embodied-world"), { ssr: false, loading: () => <div className="world-fallback">Preparing embodied world…</div> });
 
 /** One world, two sequential conditions. Organism-first hierarchy with contextual action rail. */
 export function EmbodiedExperiment({
   result,
+  experimentType,
   design,
   busy,
   strength,
@@ -40,6 +47,7 @@ export function EmbodiedExperiment({
   mode,
 }: {
   result: MeasuredExperimentResult | null;
+  experimentType?: ExperimentType;
   design?: GuidedDesign;
   busy: boolean;
   strength: number;
@@ -105,20 +113,30 @@ export function EmbodiedExperiment({
   }
 
   const target = result
-    ? nodeLabel(result.spec.perturbation.targetNodeId)
+    ? nodeLabel(result.spec.perturbation?.targetNodeId ?? "pathway")
     : design
-    ? nodeLabel(design.spec.perturbation.targetNodeId)
+    ? nodeLabel(design.spec.perturbation?.targetNodeId ?? "pathway")
     : "one pathway";
   const maxValue = result
     ? Math.max(1, ...[result.measuredEvidence.control, result.measuredEvidence.perturbed].flatMap(trial => trial.activity.flatMap(sample => Object.values(sample.nodes))))
     : 1;
 
   const summary = result ? resultSummary(result) : null;
-  const controlStepState = result ? embodimentAtStep(result.measuredEvidence.control, step) : null;
-  const perturbedStepState = result ? embodimentAtStep(result.measuredEvidence.perturbed, step) : null;
+  const conditions = experimentConditions(result?.spec ?? design?.spec ?? {experimentType,stimulus:{amplitude:strength},perturbation:null});
+  const controlStepState = result ? recordedMotorFrame(result.measuredEvidence.control, step) : null;
+  const perturbedStepState = result ? recordedMotorFrame(result.measuredEvidence.perturbed, step) : null;
   const currentRecordedStep = result ? (condition === "control" ? controlStepState : perturbedStepState) : null;
 
   // ========================================================
+  if (conditions.environment && !isCompareMode) return <section className="embodied-experiment stimulus-response-workspace" id="demo-watch" aria-label="Embodied experiment">
+    <header className="embodied-heading"><h2>No stimulus → Looming stimulus</h2><span className="eyebrow">SYNTHETIC ENGINEERING FIXTURE</span></header>
+    {design && <ExperimentConditions spec={design.spec}/>}
+    <div className="stimulus-experiment-layout"><div><div className="stimulus-preview-world"><World result={result} step={step} reset={reset} compare={Boolean(result)} condition="control" playing={playback.playing} pulseKey={String(playback.pass)} previewStrength={strength} model={model} onModelStatus={setModelStatus}/><button type="button" className="world-reset-view text-button" onClick={()=>setReset(v=>v+1)}>Reset View</button></div><p className="procedural-trajectory-note">{result ? "Decoder-selected procedural playback · not body measurements" : "Unmeasured scene preview · design and approve to obtain engine evidence"}</p>
+    {!design?.perceptionInput && <label className="stimulus-response-strength">Looming stimulus strength <output>{strength.toFixed(2)}</output><input type="range" aria-label="Synthetic stimulus strength" min="0.05" max="1" step="0.05" value={strength} disabled={busy} onChange={e=>onStrength(Number(e.target.value))}/><small>Control remains 0.0. Test receives this step-zero pulse; network identical.</small></label>}
+    {result && <ExperimentPlayback steps={steps} index={index} playing={playback.playing} onToggle={()=>setPlayback(p=>({...p,playing:!p.playing}))} onSeek={cursor=>setPlayback(p=>({...p,cursor,playing:false}))} onReplay={replay} onReset={resetView}/>}
+    <details><summary>Optional video-derived input</summary>{source}</details></div>{scientist}</div>
+  </section>;
+
   // 1. COMPARE MODE: Near-Full-Width Comparison Workspace
   // ========================================================
   if (isCompareMode) {
@@ -135,7 +153,7 @@ export function EmbodiedExperiment({
         <header className="embodied-heading compare-heading">
           <div className="embodied-heading-main">
             <span className="eyebrow cyan-text">CONTROLLED COMPARISON WORKSPACE · WHAT CHANGED?</span>
-            <h2>Control vs Intervention Analysis</h2>
+            <h2>Control vs {conditions.second.toLowerCase()}</h2>
           </div>
           <div className="embodied-heading-meta">
             <span className={result ? "verified-signal" : "idle-signal"}>
@@ -146,6 +164,8 @@ export function EmbodiedExperiment({
 
         {result ? (
           <>
+            <ExperimentConditions spec={result.spec}/>
+            <section className="compare-summary-bar" aria-label="Comparison result summary"><span className="eyebrow">ENGINE MEASURED · SYNTHETIC FIXTURE</span><h3>{summary?.signal}</h3><p>{summary?.response} · simulation steps, not biological time. Body motion is procedural.</p></section>
             {/* Top of Stage: Prominent Synchronized Playback (Requirement 4 & 10, Sprint 13C.2 Row Grouping) */}
             <div className="compare-playback-container" aria-label="Synchronized comparison playback toolbar">
               {/* ROW 1: SAME STEP / BOTH RUNS & Synchronized playback explanation */}
@@ -191,7 +211,7 @@ export function EmbodiedExperiment({
                     aria-pressed={compareFocus === f}
                     onClick={() => setCompareFocus(f)}
                   >
-                    {f === "both" ? "Both side-by-side" : f === "control" ? "01 Control only" : "02 Intervention only"}
+                    {f === "both" ? "Both side-by-side" : f === "control" ? "01 Control only" : conditions.environment ? "02 Test only" : "02 Intervention only"}
                   </button>
                 ))}
               </div>
@@ -199,53 +219,7 @@ export function EmbodiedExperiment({
 
             {/* Near-Full-Width Comparison Stage: Single WebGL Canvas (Requirement 1, 2, 5) */}
             <div className="compare-stage" aria-label="Organism comparison stage">
-              <div className="compare-condition-readouts">
-                {/* Overlaid DOM Cards for Control and Intervention (Requirement 2 & 3) */}
-                <div className="compare-overlay control-overlay" aria-label="Control Organism State">
-                  <div className="overlay-badge">
-                    <span className="overlay-dot cyan-dot" aria-hidden="true" />
-                    <strong>01 / CONTROL</strong>
-                  </div>
-                  <span className="overlay-subtitle">Network unchanged</span>
-                  <div className="overlay-metrics">
-                    <div className="overlay-metric-row">
-                      <span className="overlay-metric-label">RECORDED BEHAVIOUR</span>
-                      <b className="cyan-text">{controlStepState?.thresholdReached ? "ESCAPE" : "WALK"}</b>
-                    </div>
-                    <div className="overlay-metric-row">
-                      <span className="overlay-metric-label">MEASURED STATE</span>
-                      <span>Output {signalValue(controlStepState?.output)}</span>
-                    </div>
-                    <div className="overlay-metric-row">
-                      <span className="overlay-metric-label">THRESHOLD</span>
-                      <small>{controlStepState?.thresholdReached ? "✓ Reached" : "Below threshold"}</small>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="compare-overlay intervention-overlay" aria-label="Intervention Organism State">
-                  <div className="overlay-badge">
-                    <span className="overlay-dot magenta-dot" aria-hidden="true" />
-                    <strong>02 / INTERVENTION</strong>
-                  </div>
-                  <span className="overlay-subtitle">Silence {target.toUpperCase()}</span>
-                  <div className="overlay-metrics">
-                    <div className="overlay-metric-row">
-                      <span className="overlay-metric-label">RECORDED BEHAVIOUR</span>
-                      <b className="magenta-text">{perturbedStepState?.thresholdReached ? "ESCAPE" : "WALK"}</b>
-                    </div>
-                    <div className="overlay-metric-row">
-                      <span className="overlay-metric-label">MEASURED STATE</span>
-                      <span>Output {signalValue(perturbedStepState?.output)}</span>
-                    </div>
-                    <div className="overlay-metric-row">
-                      <span className="overlay-metric-label">THRESHOLD</span>
-                      <small>{perturbedStepState?.thresholdReached ? "✓ Reached" : "Below threshold"}</small>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
+              <div className="compare-condition-readouts"><RecordedMotorReadout trial={result.measuredEvidence.control} step={step} label="Control" index={1}/><RecordedMotorReadout trial={result.measuredEvidence.perturbed} step={step} label={conditions.environment ? "Test" : "Intervention"} index={2}/></div>
               <div className="compare-arena" data-focus={compareFocus}>
                 <World
                   result={result}
@@ -301,8 +275,8 @@ export function EmbodiedExperiment({
                   <thead>
                     <tr>
                       <th scope="col">MEASURED METRIC</th>
-                      <th scope="col" className="cyan-col">CONTROL (INTACT)</th>
-                      <th scope="col" className="magenta-col">INTERVENTION (SILENCE {target.toUpperCase()})</th>
+                      <th scope="col" className="cyan-col">CONTROL ({conditions.environment ? "NO STIMULUS" : "INTACT"})</th>
+                      <th scope="col" className="magenta-col">{conditions.environment ? "TEST (STIMULUS)" : `INTERVENTION (SILENCE ${target.toUpperCase()})`}</th>
                       <th scope="col" className="delta-col">MEASURED DELTA</th>
                     </tr>
                   </thead>
@@ -314,14 +288,14 @@ export function EmbodiedExperiment({
                       <td className="delta-text">
                         {summary?.percentage !== null && summary?.percentage !== undefined
                           ? `${summary.percentage > 0 ? "+" : ""}${summary.percentage.toFixed(0)}% normalized peak output`
-                          : "No baseline"}
+                          : conditions.environment ? `+${result.measuredEvidence.deltas.outputPeakActivity.toFixed(3)} absolute output` : "No baseline"}
                       </td>
                     </tr>
                     <tr>
                       <th scope="row">Threshold Crossing</th>
                       <td>{result.measuredEvidence.control.outcome === "THRESHOLD_REACHED" ? "Reached (Escape)" : "Not reached (Grounded)"}</td>
                       <td>{result.measuredEvidence.perturbed.outcome === "THRESHOLD_REACHED" ? "Reached (Escape)" : "Not reached (Grounded)"}</td>
-                      <td>{result.measuredEvidence.deltas.outcomeChanged ? "Escape blocked under intervention" : "Outcome unchanged"}</td>
+                      <td>{result.measuredEvidence.deltas.outcomeChanged ? (conditions.environment ? "Escape evoked by stimulus" : "Escape blocked under intervention") : "Outcome unchanged"}</td>
                     </tr>
                     <tr>
                       <th scope="row">Response Step</th>
@@ -330,10 +304,10 @@ export function EmbodiedExperiment({
                       <td>{summary?.response ?? "Timing unchanged"}</td>
                     </tr>
                     <tr>
-                      <th scope="row">Motor Execution</th>
-                      <td>{result.measuredEvidence.control.outcome === "THRESHOLD_REACHED" ? "Takeoff escape" : "Grounded walk"}</td>
-                      <td>{result.measuredEvidence.perturbed.outcome === "THRESHOLD_REACHED" ? "Takeoff escape" : "Grounded walk"}</td>
-                      <td>{result.measuredEvidence.deltas.outcomeChanged ? "Changed from Escape to Grounded" : "Motor execution unchanged"}</td>
+                      <th scope="row">Threshold outcome</th>
+                      <td>{result.measuredEvidence.control.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"}</td>
+                      <td>{result.measuredEvidence.perturbed.outcome === "THRESHOLD_REACHED" ? "Reached" : "Not reached"}</td>
+                      <td>{result.measuredEvidence.deltas.outcomeChanged ? "Changed" : "Unchanged"}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -396,7 +370,9 @@ export function EmbodiedExperiment({
               <div className="compare-neural-grid">
                 <article className="compare-neural-card control">
                   <header>
-                    <span className="circuit-tag cyan-text">01 / CONTROL (INTACT CIRCUIT)</span>
+                    <span className="circuit-tag cyan-text">
+                      {conditions.environment ? "01 / CONTROL (NO STIMULUS · 0.0)" : "01 / CONTROL (INTACT CIRCUIT)"}
+                    </span>
                     <span className="circuit-metric">
                       OUTPUT AT STEP {step}: <b>{signalValue(controlStepState?.output)}</b>
                     </span>
@@ -410,7 +386,9 @@ export function EmbodiedExperiment({
                 <article className="compare-neural-card perturbed">
                   <header>
                     <span className="circuit-tag magenta-text">
-                      02 / INTERVENTION (SILENCE {target.toUpperCase()})
+                      {conditions.environment
+                        ? `02 / TEST (LOOMING STIMULUS · ${result.spec.stimulus.amplitude.toFixed(1)})`
+                        : `02 / INTERVENTION (SILENCE ${target.toUpperCase()})`}
                     </span>
                     <span className="circuit-metric">
                       OUTPUT AT STEP {step}: <b>{signalValue(perturbedStepState?.output)}</b>
@@ -438,9 +416,9 @@ export function EmbodiedExperiment({
                     <span className="causal-stage-glyph">⤢</span>
                     <span>STIMULUS</span>
                   </header>
-                  <strong>Looming Stimulus</strong>
-                  <p>Amplitude: {result.spec.stimulus.amplitude.toFixed(3)}</p>
-                  <small>Identical in both runs</small>
+                  <strong>{conditions.environment ? `0.0 → ${result.spec.stimulus.amplitude.toFixed(3)}` : "Looming Stimulus"}</strong>
+                  <p>{conditions.environment ? "Control quiescent · Test stimulated" : `Amplitude: ${result.spec.stimulus.amplitude.toFixed(3)}`}</p>
+                  <small>{conditions.environment ? "Only declared change" : "Identical in both runs"}</small>
                 </article>
                 <span className="causal-arrow" aria-hidden="true">→</span>
                 <article className="causal-stage neural-stage">
@@ -448,7 +426,7 @@ export function EmbodiedExperiment({
                     <span className="causal-stage-glyph">∿</span>
                     <span>NEURAL RESPONSE</span>
                   </header>
-                  <strong>Silence {target.toUpperCase()}</strong>
+                  <strong>{conditions.environment ? "Intact Circuit" : `Silence ${target.toUpperCase()}`}</strong>
                   <p>Peak: {result.measuredEvidence.perturbed.outputPeakActivity.toFixed(3)} (norm)</p>
                   <small>Control: {result.measuredEvidence.control.outputPeakActivity.toFixed(3)}</small>
                 </article>
@@ -458,9 +436,17 @@ export function EmbodiedExperiment({
                     <span className="causal-stage-glyph">⚖</span>
                     <span>DECISION</span>
                   </header>
-                  <strong>{result.measuredEvidence.deltas.outcomeChanged ? "Threshold Blocked" : "Threshold Reached"}</strong>
+                  <strong>
+                    {conditions.environment
+                      ? result.measuredEvidence.perturbed.outcome === "THRESHOLD_REACHED"
+                        ? "Threshold Evoked"
+                        : "Below Threshold"
+                      : result.measuredEvidence.deltas.outcomeChanged
+                      ? "Threshold Blocked"
+                      : "Threshold Reached"}
+                  </strong>
                   <p>Control: {crossing(result.measuredEvidence.control.outputThresholdCrossingStep)}</p>
-                  <small>Intervention: {crossing(result.measuredEvidence.perturbed.outputThresholdCrossingStep)}</small>
+                  <small>{conditions.environment ? "Test" : "Intervention"}: {crossing(result.measuredEvidence.perturbed.outputThresholdCrossingStep)}</small>
                 </article>
                 <span className="causal-arrow" aria-hidden="true">→</span>
                 <article className="causal-stage motor-stage">
@@ -468,8 +454,24 @@ export function EmbodiedExperiment({
                     <span className="causal-stage-glyph">⇲</span>
                     <span>MOTOR OUTPUT</span>
                   </header>
-                  <strong>{result.measuredEvidence.deltas.outcomeChanged ? "Escape → Grounded" : "Takeoff Escape"}</strong>
-                  <p>{result.measuredEvidence.deltas.outcomeChanged ? "Motor altered by intervention" : "Motor execution unchanged"}</p>
+                  <strong>
+                    {conditions.environment
+                      ? result.measuredEvidence.perturbed.outcome === "THRESHOLD_REACHED"
+                        ? "Grounded → Takeoff Escape"
+                        : "Grounded"
+                      : result.measuredEvidence.deltas.outcomeChanged
+                      ? "Escape → Grounded"
+                      : "Takeoff Escape"}
+                  </strong>
+                  <p>
+                    {conditions.environment
+                      ? result.measuredEvidence.deltas.outcomeChanged
+                        ? "Procedural takeoff triggered by decoder ESCAPE"
+                        : "Motor execution unchanged"
+                      : result.measuredEvidence.deltas.outcomeChanged
+                      ? "Motor altered by intervention"
+                      : "Motor execution unchanged"}
+                  </p>
                   <small>Procedural controller</small>
                 </article>
               </div>
@@ -487,7 +489,11 @@ export function EmbodiedExperiment({
               <div className="matched-checks-grid">
                 <div className="matched-check-item">
                   <span className="check-mark">✓</span>
-                  <span>Matched stimulus: {result.spec.stimulus.amplitude.toFixed(3)}</span>
+                  <span>
+                    {conditions.environment
+                      ? "Network unchanged: no neural perturbation"
+                      : `Matched stimulus: ${result.spec.stimulus.amplitude.toFixed(3)}`}
+                  </span>
                 </div>
                 <div className="matched-check-item">
                   <span className="check-mark">✓</span>
@@ -511,7 +517,11 @@ export function EmbodiedExperiment({
                 </div>
                 <div className="matched-check-item highlight-item">
                   <span className="check-mark">★</span>
-                  <span>Only declared perturbation differs: Silence {target}</span>
+                  <span>
+                    {conditions.environment
+                      ? `Only declared stimulus differs: Control 0.0 vs Test ${result.spec.stimulus.amplitude.toFixed(3)}`
+                      : `Only declared perturbation differs: Silence ${target}`}
+                  </span>
                 </div>
               </div>
               {onEvidence && (
@@ -549,7 +559,7 @@ export function EmbodiedExperiment({
           <span>Autonomy is a separate experimental controller; recorded measurements remain unchanged.</span>
           <details>
             <summary>Show how we measured this</summary>
-            <p>Stimulus strength sets ExperimentSpec.stimulus.amplitude for both trials after explicit approval and server validation. The declared step-zero pulse is illustrated as an approaching, expanding object; approach phase is presentation, not a measured trajectory. Current recorded output maps to displacement (0.4 scene units), lift (0.18), pitch (0.1 radians), wing opening (0.08), and a ground-ring indicator. Poses ease visually; readouts are never interpolated. Missing samples remain unknown. Node brightness uses recorded activity; edge emphasis requires adjacent recorded samples and declared weights. Anatomy and arena are illustrative, not biological simulation.</p>
+            <p>Stimulus strength sets ExperimentSpec.stimulus.amplitude for approved trials after server validation. The declared step-zero pulse is illustrated as an approaching, expanding object; approach phase is presentation, not a measured trajectory. Recorded output and threshold crossing determine the fixture decoder state (IDLE, WALK, ESCAPE). CausalFly&apos;s procedural controller renders grounded posture for IDLE, forward ground steps for WALK, and a deterministic takeoff trajectory beginning at the recorded ESCAPE crossing step. Poses ease visually; readouts are never interpolated. Missing samples remain unknown. Node brightness uses recorded activity; edge emphasis requires adjacent recorded samples and declared weights. Anatomy and arena are illustrative, not biological simulation.</p>
             <p>High-fidelity Drosophila visual embodiment. Visual mesh source: female Drosophila anatomical model. Neural source when connected to the live connectome brain server: published male CNS connectome. The visual embodiment is not sex-matched to the connectome. No male anatomical modifications were made. This cockpit measures a separate deterministic synthetic network; no neural anatomy is inferred inside the fly.</p>
             <p>FlyBody model by the FlyBody contributors, developed by Google DeepMind and HHMI Janelia Research Campus; Vaxenburg et al. (2025). Underlying mesh and FruitFly XR FlyV2 asset predate the hackathon; the web derivative and integration were created during the hackathon. Wild-type-inspired PBR appearance is authored, not measured biological optical/material data. <a href="/models/flyv2/NOTICE.txt" target="_blank" rel="noreferrer">Attribution &amp; modifications</a> · <a href="/models/flyv2/LICENSE-FlyBody.txt" target="_blank" rel="noreferrer">Apache-2.0 license</a>. The anatomical model loads without a procedural preview. Lightweight is an explicit visual choice and the automatic fallback if anatomical loading fails.</p>
           </details>
@@ -653,8 +663,8 @@ export function EmbodiedExperiment({
               <div className="world-condition-labels">
                 {selected.map(run => (
                   <span key={run} data-run={run}>
-                    {run === "control" ? "01 / CONTROL" : "02 / INTERVENTION"}
-                    <small>{run === "control" ? "Network unchanged" : `Silence ${target}`}</small>
+                    {run === "control" ? "01 / CONTROL" : conditions?.environment ? "02 / TEST" : "02 / INTERVENTION"}
+                    <small>{run === "control" ? (conditions?.environment ? "No stimulus · 0.0" : "Network unchanged") : conditions?.environment ? `Looming stimulus · ${result?.spec.stimulus.amplitude.toFixed(1)}` : `Silence ${target}`}</small>
                   </span>
                 ))}
               </div>
@@ -663,15 +673,23 @@ export function EmbodiedExperiment({
               <div className="recorded-behaviour-chip" aria-live="off">
                 <div className="readout-behaviour-card">
                   <span className="readout-label">RECORDED BEHAVIOUR</span>
-                  <b className="readout-state-value">{currentRecordedStep?.thresholdReached ? "ESCAPE" : "WALK"}</b>
+                  <b className="readout-state-value">{currentRecordedStep?.decoder ?? "UNOBSERVED"}</b>
                 </div>
                 <div className="readout-source-card">
                   <span className="readout-label">DECISION SOURCE</span>
-                  <span className="readout-source-value">{condition === "control" ? "Intact network baseline" : `Intervention: Silence ${target}`}</span>
+                  <span className="readout-source-value">
+                    {condition === "control"
+                      ? conditions?.environment
+                        ? "Control: no stimulus (0.0)"
+                        : "Intact network baseline"
+                      : conditions?.environment
+                      ? `Test: stimulus ${result?.spec.stimulus.amplitude.toFixed(1)}`
+                      : `Intervention: Silence ${target}`}
+                  </span>
                 </div>
                 <div className="readout-motor-card">
                   <span className="readout-label">MOTOR EXECUTION</span>
-                  <span className="readout-motor-value">CausalFly procedural controller ({currentRecordedStep?.thresholdReached ? "Takeoff / escape" : "Grounded"})</span>
+                  <span className="readout-motor-value">CausalFly procedural controller ({currentRecordedStep?.phase ?? "No command"})</span>
                 </div>
                 <div className="readout-telemetry-strip">
                   <span>Step {String(step).padStart(2, "0")}</span>
@@ -785,17 +803,28 @@ export function EmbodiedExperiment({
       </div>
 
       {/* Current State / Neural Instrumentation: Spanning full width directly below stage */}
-      <div className="embodied-signals" aria-label="Neural topology and activity">
+      <div className="embodied-signals" aria-label="Neural topology and activity" data-neural-response={Boolean(result)}>
+        {result && <SourceContext source="SYNTHETIC_FIXTURE" />}
         <div className="cockpit-region-title">
           <div className="signals-title-group">
             <span className="neural-glyph" aria-hidden="true">∿</span>
-            <h3>NEURAL SYSTEM</h3>
+            <h3>NEURAL RESPONSE</h3>
           </div>
-          <span className="cyan-text">CONTROLLED MODEL · SYNTHETIC FIXTURE</span>
+          <span className="cyan-text">{result ? "Recorded network response · synthetic controlled model" : "Declared network topology · synthetic controlled model"}</span>
         </div>
         <div className="signal-title">
           <span>RECORDED SIGNAL <InfoTooltip label="Recorded signal">{cockpitHelp.signal}</InfoTooltip></span>
-          <small>{result ? `STEP ${String(step).padStart(2, "0")} / PLAYBACK` : "TOPOLOGY PREVIEW"}</small>
+          {result && <div className="embodied-condition-switch" role="group" aria-label="Select recorded condition">
+            <span className="recorded-sequence-label">{compare ? "SAME STEP / BOTH RUNS" : conditions?.environment ? "PLAYBACK: CONTROL → TEST" : "PLAYBACK: CONTROL → INTERVENTION"}</span>
+            {(["control", "perturbed"] as const).map((run, i) => <span key={run} className="condition-option" data-run={run}>
+              <button type="button" aria-pressed={!compare && condition === run} disabled={compare} onClick={() => {
+                setAutonomous(false);
+                setPlayback(current => ({ cursor: i * steps.length, playing: false, pass: current.pass + 1 }));
+              }}>{i ? (conditions?.environment ? "Test" : "Intervention") : "Control"}</button>
+              <InfoTooltip label={i ? (conditions?.environment ? "Test" : "Intervention") : "Control"}>{i ? cockpitHelp.intervention : cockpitHelp.control}</InfoTooltip>
+            </span>)}
+          </div>}
+          <small>{result ? `STEP ${String(step).padStart(2, "0")} / ${steps.at(-1)}${compare ? " · BOTH RUNS" : ""}` : "TOPOLOGY PREVIEW"}</small>
         </div>
 
         {result ? (
@@ -804,9 +833,17 @@ export function EmbodiedExperiment({
               const trial = result.measuredEvidence[run];
               const state = embodimentAtStep(trial, step);
               return (
-                <article key={run} className={`embodied-signal ${run}`}>
+                <article key={compare ? run : "selected-response"} className={`embodied-signal ${run}`}>
                   <header>
-                    <span>{run === "control" ? "CONTROL" : `INTERVENTION / SILENCE ${target.toUpperCase()}`}</span>
+                    <span>
+                      {run === "control"
+                        ? conditions?.environment
+                          ? "CONTROL / NO STIMULUS (0.0)"
+                          : "CONTROL"
+                        : conditions?.environment
+                        ? `TEST / LOOMING STIMULUS (${result.spec.stimulus.amplitude.toFixed(1)})`
+                        : `INTERVENTION / SILENCE ${target.toUpperCase()}`}
+                    </span>
                     <span>
                       OUTPUT <b title={state.output?.toString()}>{signalValue(state.output)}</b>{" "}
                       <small>{state.thresholdReached === null ? "NO SAMPLE" : state.thresholdReached ? "✓ THRESHOLD" : "BELOW THRESHOLD"}</small>
@@ -814,7 +851,10 @@ export function EmbodiedExperiment({
                   </header>
                   <div className="signal-viz-row">
                     <SyntheticNetworkViz trial={trial} step={step} playing={playback.playing} />
-                    {!compare && <ActivityChart compact trial={trial} step={step} maxStep={Math.max(1, ...steps)} maxValue={maxValue} />}
+                    <div className="neural-response-measured">
+                      <NeuralResponseSummary trial={trial} summary={summary!} outcomeChanged={result.measuredEvidence.deltas.outcomeChanged} />
+                      {!compare && <ActivityChart trial={trial} step={step} maxStep={Math.max(1, ...steps)} maxValue={maxValue} />}
+                    </div>
                   </div>
                 </article>
               );
@@ -824,7 +864,7 @@ export function EmbodiedExperiment({
           <div className="embodied-preview">
             <FixtureTopology />
             <p>STIMULUS → PATHWAYS → OUTPUT</p>
-            <small>Design preview · no measured activity yet. Hand-authored engineering fixture · not biological.</small>
+            <SourceContext source="SYNTHETIC_FIXTURE" />
             <div className="network-preview-instrument">
               <span>CONTROL <b>INTACT NETWORK</b></span>
               <span>INTERVENTION <b>{design ? `SILENCE ${target.toUpperCase()}` : "AWAITING DESIGN"}</b></span>
@@ -833,30 +873,6 @@ export function EmbodiedExperiment({
           </div>
         )}
 
-        {result && (
-          <div className="embodied-condition-switch" role="group" aria-label="Select recorded condition">
-            <span>{compare ? "SAME STEP / BOTH RUNS" : "PLAYBACK: CONTROL → INTERVENTION"}</span>
-            {(["control", "perturbed"] as const).map((run, i) => (
-              <span key={run} className="condition-option" data-run={run}>
-                <button
-                  type="button"
-                  aria-pressed={!compare && condition === run}
-                  disabled={compare}
-                  onClick={() => {
-                    setAutonomous(false);
-                    setPlayback(current => ({ cursor: i * steps.length, playing: false, pass: current.pass + 1 }));
-                  }}
-                >
-                  {i ? "Intervention" : "Control"}
-                </button>
-                <InfoTooltip label={i ? "Intervention" : "Control"}>
-                  {i ? cockpitHelp.intervention : cockpitHelp.control}
-                </InfoTooltip>
-              </span>
-            ))}
-            <small>Same fly representation · separate experiment conditions</small>
-          </div>
-        )}
       </div>
 
       {result ? (
@@ -894,7 +910,7 @@ export function EmbodiedExperiment({
         <span>Autonomy is a separate experimental controller; recorded measurements remain unchanged.</span>
         <details>
           <summary>Show how we measured this</summary>
-          <p>Stimulus strength sets ExperimentSpec.stimulus.amplitude for both trials after explicit approval and server validation. The declared step-zero pulse is illustrated as an approaching, expanding object; approach phase is presentation, not a measured trajectory. Current recorded output maps to displacement (0.4 scene units), lift (0.18), pitch (0.1 radians), wing opening (0.08), and a ground-ring indicator. Poses ease visually; readouts are never interpolated. Missing samples remain unknown. Node brightness uses recorded activity; edge emphasis requires adjacent recorded samples and declared weights. Anatomy and arena are illustrative, not biological simulation.</p>
+          <p>Stimulus strength sets ExperimentSpec.stimulus.amplitude for approved trials after server validation. The declared step-zero pulse is illustrated as an approaching, expanding object; approach phase is presentation, not a measured trajectory. Recorded output and threshold crossing determine the fixture decoder state (IDLE, WALK, ESCAPE). CausalFly&apos;s procedural controller renders grounded posture for IDLE, forward ground steps for WALK, and a deterministic takeoff trajectory beginning at the recorded ESCAPE crossing step. Poses ease visually; readouts are never interpolated. Missing samples remain unknown. Node brightness uses recorded activity; edge emphasis requires adjacent recorded samples and declared weights. Anatomy and arena are illustrative, not biological simulation.</p>
           <p>High-fidelity Drosophila visual embodiment. Visual mesh source: female Drosophila anatomical model. Neural source when connected to the live connectome brain server: published male CNS connectome. The visual embodiment is not sex-matched to the connectome. No male anatomical modifications were made. This cockpit measures a separate deterministic synthetic network; no neural anatomy is inferred inside the fly.</p>
           <p>FlyBody model by the FlyBody contributors, developed by Google DeepMind and HHMI Janelia Research Campus; Vaxenburg et al. (2025). Underlying mesh and FruitFly XR FlyV2 asset predate the hackathon; the web derivative and integration were created during the hackathon. Wild-type-inspired PBR appearance is authored, not measured biological optical/material data. <a href="/models/flyv2/NOTICE.txt" target="_blank" rel="noreferrer">Attribution &amp; modifications</a> · <a href="/models/flyv2/LICENSE-FlyBody.txt" target="_blank" rel="noreferrer">Apache-2.0 license</a>. The anatomical model loads without a procedural preview. Lightweight is an explicit visual choice and the automatic fallback if anatomical loading fails.</p>
         </details>

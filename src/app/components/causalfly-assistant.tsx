@@ -6,9 +6,11 @@ import type { ExecutionMode, MeasuredExperimentResult as WebExperimentResult } f
 import type { Workspace } from "@/lib/web/dashboard";
 import type { ObservationalMetaState } from "@/lib/web/observational-contracts";
 import { assistantActions, captureAssistantQuestion, observationalBoundary, syntheticAssistantAnswer, workspaceLabels, type AssistantAction, type AssistantAnswer, type AssistantQuestion } from "@/lib/web/assistant";
+import { escapeCompatibility } from "@/lib/web/live-state-presentation";
 import { observationalRequestKey } from "@/lib/web/observational-action";
 import { observationalAnalysis } from "@/lib/web/observational-analysis";
 import { Badge } from "./workspace-ui";
+import { QuestionCompatibility } from "./live-state-summary";
 import { MetaRequestLabel } from "./meta-request-label";
 
 interface Props {
@@ -48,6 +50,7 @@ export function CausalFlyAssistant(props: Props) {
   const external = source === "FRUITFLY_XR";
   const history = observationalAnalysis(snapshot, frames, now ?? 0).history;
   const retained = external ? `${history.length} retained frame${history.length === 1 ? "" : "s"}` : result ? "Matched experiment retained" : "No experiment retained";
+  const eventBlocked = Boolean(fruitFlyAsked && escapeCompatibility(fruitFlyAsked.question, fruitFlyAsked.snapshot, fruitFlyAsked.frames)?.blocked);
   const frozenKey = fruitFlyAsked ? observationalRequestKey(fruitFlyAsked.question, fruitFlyAsked.snapshot, fruitFlyAsked.frames) : undefined;
   const matchingMeta = frozenKey && meta.requestKey === frozenKey ? meta : undefined;
   const provider = matchingMeta?.result;
@@ -97,7 +100,7 @@ export function CausalFlyAssistant(props: Props) {
         <div><dt>SOURCE</dt><dd>{dataSources[source].label}</dd></div><div><dt>CONTEXT / STAGE</dt><dd>{props.workflowContext?.stage ?? workspaceLabels[workspace]}</dd></div>
         {props.workflowContext && <div><dt>EXPERIMENT / SESSION</dt><dd>{props.workflowContext.identity}</dd></div>}
         {external && props.investigationQuestion && <div><dt>INVESTIGATION QUESTION</dt><dd className="exact-question">{props.investigationQuestion}</dd></div>}
-        <div><dt>EVIDENCE</dt><dd>{retained}</dd></div><div><dt>META STATUS</dt><dd>{mode === "META LIVE" ? "Live configured · on demand" : mode === "FAKE META CLIENT" ? "Offline / fake client" : "Configuration needed"}</dd></div>
+        <div><dt>EVIDENCE</dt><dd>{retained}</dd></div><div><dt>META STATUS</dt><dd>{mode === "META LIVE" ? "Ready · explicit requests only" : mode === "FAKE META CLIENT" ? "Offline / fake client" : "Configuration needed"}</dd></div>
       </dl>
       <div className="assistant-analysis-status"><span className={matchingMeta?.pending ? "assistant-status-dot pending" : "assistant-status-dot"} /><span>{external && matchingMeta?.pending ? "Meta analysis in progress · frozen window" : "Local / deterministic · Meta requires explicit action"}</span></div>
       <div className="assistant-scroll" ref={scroll}>
@@ -108,11 +111,12 @@ export function CausalFlyAssistant(props: Props) {
           <div className="assistant-actions">{assistantActions(source, workspace, Boolean(result)).map(action => <button type="button" key={action.label} onClick={() => act(action)} disabled={busy}><span>{action.label}</span><span aria-hidden="true">↗</span></button>)}</div>
         </section>
         {answer && <div className="assistant-response" aria-live="polite" aria-atomic="false"><div className="assistant-question"><span className="eyebrow">QUESTION / FROZEN AT SUBMISSION</span><p>{asked}</p></div><AssistantLocalAnswer answer={answer} />
-          {external && fruitFlyAsked && <section className="assistant-meta" aria-label="Optional Meta analysis" aria-busy={Boolean(matchingMeta?.pending)}>
-            <div className="assistant-meta-heading"><span className="eyebrow amber-text">OPTIONAL INTERPRETATION</span><Badge tone="amber">{provider?.mode === "META LIVE" ? "META MUSE / LIVE" : provider ? "OFFLINE / FAKE TEMPLATE" : "EXPLICIT ACTION ONLY"}</Badge></div>
+          {external && fruitFlyAsked && eventBlocked && <QuestionCompatibility question={fruitFlyAsked.question} snapshot={fruitFlyAsked.snapshot} frames={fruitFlyAsked.frames} onEvidence={() => { onNavigate("evidence"); close(); }} />}
+          {external && fruitFlyAsked && !eventBlocked && <section className="assistant-meta" aria-label="Optional Meta analysis" aria-busy={Boolean(matchingMeta?.pending)}>
+            <div className="assistant-meta-heading"><span className="eyebrow amber-text">OPTIONAL INTERPRETATION</span><Badge tone="amber">{provider?.mode === "META LIVE" ? "META MUSE / GENERATED" : provider ? "OFFLINE / FAKE TEMPLATE" : "EXPLICIT ACTION ONLY"}</Badge></div>
             <p>{provider ? "Validated response for this exact question and frozen window." : "Send this exact question and frozen retained window through the existing Meta scientist."}</p>
             {!provider && <button type="button" className="primary-button" disabled={!frozenKey || meta.pending || !mode} aria-busy={Boolean(matchingMeta?.pending)} onClick={() => { void onAnalyze(fruitFlyAsked.question, fruitFlyAsked.snapshot, fruitFlyAsked.frames); }}><MetaRequestLabel pending={Boolean(matchingMeta?.pending)} task="explain">{matchingMeta?.error ? "Retry Meta analysis" : "Explain with Meta"}</MetaRequestLabel></button>}
-            {!frozenKey && <small>Server-retained evidence is required. Receive telemetry and submit again.</small>}
+            {!frozenKey && <small>{fruitFlyAsked && escapeCompatibility(fruitFlyAsked.question, fruitFlyAsked.snapshot, fruitFlyAsked.frames)?.message || "Server-retained evidence is required. Receive telemetry and submit again."}</small>}
             {meta.pending && !matchingMeta?.pending && <small>Another explicit analysis is in progress.</small>}
             {matchingMeta?.error && <p role="alert" className="assistant-error">{matchingMeta.error} Your frozen local evidence is preserved.</p>}
             {provider && <><section><h3>INTERPRETATION</h3><p>{provider.analysis.interpretation}</p><Badge tone="amber">{provider.analysis.evidenceSufficiency}</Badge></section><section className="assistant-limits"><h3>LIMITATIONS</h3><ul>{provider.analysis.limitations.map((item, i) => <li key={i}>{item}</li>)}</ul></section><section><h3>WHAT TO TEST NEXT</h3><p>{provider.analysis.nextExperiment.title}</p><p>{provider.analysis.nextExperiment.rationale}</p><small>SUGGESTION / NOT A FINDING</small></section></>}

@@ -6,6 +6,7 @@ import type { FruitFlyEvidence } from "@/lib/sources/contracts";
 import { ANATOMY_HASH, parseAnatomy, projectAnatomy, type Anatomy } from "@/lib/sources/anatomy";
 import { ACTIVITY_EMPHASIS, buildConnectomeStructure, classifyConnectomeActivity } from "@/lib/sources/connectome-view";
 import { activityRaster, activitySeries, number } from "@/lib/sources/live-session";
+import { SourceContext } from "./source-context";
 import styles from "./live-session.module.css";
 
 const Connectome3D = dynamic(() => import("./connectome-3d"), { ssr: false, loading: () => <div className={styles.loadingAnatomy}>Preparing 3D viewer…</div> });
@@ -118,16 +119,17 @@ export function ConnectomeActivityView({ frames, historical }: { frames: readonl
     return () => controller.abort();
   }, [hash]);
   return <InstrumentPanel title="Connectome observatory" tag="PUBLISHED SOMA COORDINATES" className={styles.connectome}>
+    <SourceContext source="FRUITFLY_XR" evidence={evidence} historical={historical} />
     <div className={styles.heroToolbar}><span><i className={styles.cyanKey} /> {historical ? "Last tick" : "Current tick"} <i className={styles.recentKey} /> Recent <i className={styles.dimKey} /> Structure</span><div role="group" aria-label="Activity visualization"><button aria-pressed={view === "3d"} disabled={webglFailed || failed} onClick={() => setView("3d")}>3D</button><button aria-pressed={view === "projection"} onClick={() => setView("projection")}>Projection</button><button aria-pressed={view === "raster"} onClick={() => setView("raster")}>ID raster</button></div></div>
     {webglFailed && <p className={styles.viewerNotice} role="status">3D unavailable in this browser. Projection remains available.</p>}
-    {failed ? <><p className={styles.viewerNotice}>Published anatomy unavailable. Showing supplied ID events only.</p><EventRaster frames={frames} /></> : view === "raster" ? <EventRaster frames={frames} /> : anatomy && structure && activity ? view === "3d" ? <div className={styles.spatialViewer} data-historical={historical} data-waiting={!evidence}>
+    <div className={styles.viewerSlot}>{failed ? <><p className={styles.viewerNotice}>Published anatomy unavailable. Showing supplied ID events only.</p><EventRaster frames={frames} /></> : view === "raster" ? <EventRaster frames={frames} /> : anatomy && structure && activity ? view === "3d" ? <div className={styles.spatialViewer} data-historical={historical} data-waiting={!evidence}>
       <Connectome3D structure={structure} activity={activity} reset={reset} onFailure={failWebGL} />
       <div className={styles.spatialTop}><span>3D · FULL STRUCTURE</span><span>{evidence ? `${historical ? "LAST SNAPSHOT" : "RECEIVED"} · TICK ${number(evidence.telemetry.neuralTick)}` : "WAITING · STRUCTURE ONLY"}</span></div>
       <button type="button" className={styles.resetView} onClick={() => setReset(value => value + 1)} aria-label="Reset View">↺ &nbsp; Reset View</button>
       <div className={styles.spatialBottom}><span>Drag rotate · Scroll zoom · Right-drag pan</span><span>Orientation unspecified</span></div>
-    </div> : <AnatomyProjection anatomy={anatomy} frames={frames} historical={historical} /> : <div className={styles.loadingAnatomy}>Loading verified static anatomy…</div>}
-    <div className={styles.mappingBar} aria-label="Supplied neuron ID mapping"><span><b>{activity && evidence ? number(activity.mapped) : "—"}</b> mapped supplied IDs</span><span data-unmapped={Boolean(activity?.unmapped)}><b>{activity && evidence ? number(activity.unmapped) : "—"}</b> unmapped</span><span>{activity?.recent.length ?? 0} recent mapped IDs · ≤3 prior received frames</span></div>
-    <div className={styles.heroFooter}><div><strong>{anatomy ? number(anatomy.count) : "—"}</strong><span>published soma coordinates</span></div><div><strong>{evidence ? number(evidence.telemetry.displaySpikeEvents) : "—"}</strong><span>supplied spike events / tick</span></div><p>{!evidence ? "Waiting for telemetry · published structure only; no activity received." : "Supplied spiking IDs only · recent emphasis follows received frames · no inferred connections."}</p></div>
+    </div> : <AnatomyProjection anatomy={anatomy} frames={frames} historical={historical} /> : <div className={styles.loadingAnatomy}>Loading verified static anatomy…</div>}</div>
+    <div className={styles.mappingBar} aria-label="Supplied neuron ID mapping"><span><b>{activity && evidence ? number(activity.mapped) : "—"}</b> mapped unique spiking IDs</span><span data-unmapped={Boolean(activity?.unmapped)}><b>{activity && evidence ? number(activity.unmapped) : "—"}</b> unmapped unique IDs</span><span>{activity?.recent.length ?? 0} recent mapped IDs · ≤3 prior received frames</span></div>
+    <div className={styles.heroFooter}><div><strong>{anatomy ? number(anatomy.count) : "—"}</strong><span>published soma coordinates</span></div><div><strong>{evidence ? number(evidence.telemetry.displaySpikeEvents) : "—"}</strong><span>display-supplied spike events / tick</span></div><p>{!evidence ? "Waiting for telemetry · published structure only; no activity received." : "Supplied spiking IDs only · recent emphasis follows received frames · no inferred connections."}</p></div>
   </InstrumentPanel>;
 }
 

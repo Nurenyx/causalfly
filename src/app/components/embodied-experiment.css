@@ -272,3 +272,36 @@
 .local-live-progress button:disabled { opacity:.4; cursor:not-allowed; }
 .source-option-content strong { overflow-wrap:anywhere; white-space:normal; }
 @media(max-width:600px) { .autonomy-details dl { grid-template-columns:1fr; } .autonomy-controls { gap:8px; } }
+/* Controlled experiment semantics and recorded-state playback. */
+.persistent-question { margin-bottom:16px; }
+.retained-question-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.persistent-question-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.persistent-question-actions button { min-height:40px; }
+.question-edit-warning { max-width:80ch; color:var(--cf-amber-bright); font-size:13px; line-height:1.6; margin:8px 0; }
+.experiment-type-choice { display:flex; gap:10px; flex-wrap:wrap; border:0; padding:12px 0 0; margin-top:12px; }
+.experiment-type-choice legend { font-size:11px; letter-spacing:1px; color:var(--cf-text-secondary); }
+.experiment-type-choice button { display:grid; gap:6px; flex:1 1 230px; min-width:0; text-align:left; padding:12px; border:1px solid var(--cf-border); background:var(--cf-bg-deep); color:var(--cf-text); }
+.experiment-type-choice button[aria-pressed=true] { border-color:var(--cf-cyan); }
+.experiment-type-choice small { color:var(--cf-text-secondary); }
+.experiment-conditions { display:grid; grid-template-columns:minmax(0,1fr) repeat(2,minmax(0,1.2fr)); gap:12px; padding:14px 16px; border-block:1px solid var(--cf-border); margin:12px 0; }
+.experiment-conditions > div { display:grid; gap:6px; min-width:0; }
+.experiment-conditions span { color:var(--cf-text-muted); font:11px/1.5 var(--font-geist-mono),monospace; }
+.experiment-conditions strong { font-size:17px; }
+.experiment-conditions > p { grid-column:1/-1; color:var(--cf-text-secondary); font-size:12px; margin:0; }
+.zero-stimulus-guard { padding:16px; border-left:3px solid var(--cf-amber); margin-bottom:16px; background:var(--cf-bg-elevated); }
+.zero-stimulus-guard p { max-width:75ch; font-size:14px; line-height:1.6; margin:8px 0 12px; }
+.stimulus-experiment-layout { display:grid; grid-template-columns:minmax(0,2fr) minmax(250px,1fr); gap:16px; }
+.stimulus-preview-world { position:relative; height:440px; }
+.stimulus-response-strength { display:grid; gap:8px; padding:16px; }
+.stimulus-response-strength input { width:100%; }
+.recorded-state-chain { display:grid!important; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px!important; }
+.recorded-state-chain > div { min-width:0; display:grid; grid-template-rows:28px 36px 34px; align-content:start; border-left:2px solid transparent; padding-left:5px; }
+.recorded-state-chain > div > span { font-size:10px; color:var(--cf-text-secondary); line-height:1.4; }
+.recorded-state-chain b { font:600 13px/1.4 var(--font-geist-mono),monospace; overflow-wrap:anywhere; }
+.recorded-state-chain small { font-size:11px; line-height:1.4; color:var(--cf-text-muted); }
+.recorded-state-chain [data-changed=true] { border-left-color:var(--cf-amber); }
+.compare-condition-readouts .overlay-badge { min-height:24px; justify-content:space-between; }
+.procedural-trajectory-note { font-size:11px; line-height:1.5; color:var(--cf-text-secondary); min-height:34px; margin:8px 0 0; }
+.compare-condition-readouts .compare-overlay { min-height:196px; }
+@media(max-width:1000px) { .stimulus-experiment-layout { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:760px) { .experiment-conditions { grid-template-columns:minmax(0,1fr); } .recorded-state-chain { grid-template-columns:repeat(2,minmax(0,1fr)); } .compare-condition-readouts .compare-overlay { min-height:290px; } }

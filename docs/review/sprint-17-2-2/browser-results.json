@@ -1,0 +1,67 @@
+[
+  {
+    "suite": "workspace",
+    "script": "scripts/sprint1722-live-workspace-review.mjs",
+    "exitCode": 0,
+    "seconds": 159.8189086,
+    "output": "docs/review/sprint-17-2-2"
+  },
+  {
+    "suite": "semantic",
+    "script": "scripts/sprint172-timeline-semantic-stability.mjs",
+    "exitCode": 1,
+    "seconds": 374.8471164,
+    "output": "docs/review/sprint-17-2-2/regressions/semantic"
+  },
+  {
+    "suite": "timeline171",
+    "script": "scripts/sprint171-timeline-stability.mjs",
+    "exitCode": 0,
+    "seconds": 36.949991,
+    "output": "docs/review/sprint-17-2-2/regressions/timeline171"
+  },
+  {
+    "suite": "neural171",
+    "script": "scripts/sprint171-neural-response-review.mjs",
+    "exitCode": 0,
+    "seconds": 15.5186367,
+    "output": "docs/review/sprint-17-2-2/regressions/neural171"
+  },
+  {
+    "suite": "layout17",
+    "script": "scripts/sprint17-live-layout-stability.mjs",
+    "exitCode": 0,
+    "seconds": 46.1128695,
+    "output": "docs/review/sprint-17-2-2/regressions/layout17"
+  },
+  {
+    "suite": "judge",
+    "script": "scripts/sprint17-judge-journey.mjs",
+    "exitCode": 0,
+    "seconds": 21.7082216,
+    "output": "docs/review/sprint-17-2-2/regressions/judge"
+  },
+  {
+    "suite": "aggregate",
+    "script": "scripts/sprint16a-browser-review.mjs",
+    "exitCode": 0,
+    "seconds": 212.9507102,
+    "output": "docs/review/sprint-17-2-2/regressions/aggregate"
+  },
+  {
+    "suite": "semantic-recheck",
+    "script": "scripts/sprint172-timeline-semantic-stability.mjs",
+    "exitCode": 1,
+    "output": "docs/review/sprint-17-2-2/regressions/semantic",
+    "log": "logs/semantic-recheck.log",
+    "note": "Pre-navigation waits alone did not resolve the model-fetch error; failed attempt preserved."
+  },
+  {
+    "suite": "semantic-isolated",
+    "script": "scripts/sprint172-timeline-semantic-stability.mjs",
+    "exitCode": 0,
+    "seconds": 307.5027103,
+    "output": "docs/review/sprint-17-2-2/regressions/semantic",
+    "log": "logs/semantic-final-isolated.log"
+  }
+]

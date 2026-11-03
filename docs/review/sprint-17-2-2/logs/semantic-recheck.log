@@ -1,0 +1,397 @@
+Mozilla Firefox 159.0: real app 1728 top
+Mozilla Firefox 159.0: real app 1728 middle
+Mozilla Firefox 159.0: real app 1728 bottom
+Mozilla Firefox 159.0: real app 1366 top
+Mozilla Firefox 159.0: real app 1366 middle
+Mozilla Firefox 159.0: real app 1366 bottom
+Mozilla Firefox 159.0: real app 760 top
+Mozilla Firefox 159.0: real app 760 middle
+Mozilla Firefox 159.0: real app 760 bottom
+Mozilla Firefox 159.0: real app 1728 top with procedural embodiment
+Microsoft Edge 156.0.4314.42: real app 1728 top
+Microsoft Edge 156.0.4314.42: real app 1728 middle
+Microsoft Edge 156.0.4314.42: real app 1728 bottom
+Microsoft Edge 156.0.4314.42: real app 1366 top
+Microsoft Edge 156.0.4314.42: real app 1366 middle
+Microsoft Edge 156.0.4314.42: real app 1366 bottom
+Microsoft Edge 156.0.4314.42: real app 760 top
+Microsoft Edge 156.0.4314.42: real app 760 middle
+Microsoft Edge 156.0.4314.42: real app 760 bottom
+Microsoft Edge 156.0.4314.42: real app 1728 top with procedural embodiment
+{
+  "firefoxExecutable": "C:\\Users\\Jason\\AppData\\Local\\Microsoft\\WindowsApps\\firefox.exe",
+  "browsers": [
+    {
+      "name": "firefox",
+      "browserVersion": "Mozilla Firefox 159.0",
+      "realAppLifecycle": {
+        "coldStartWaitingVisible": true,
+        "coldStartCategories": [
+          "FRAME",
+          "NEURAL",
+          "INPUT",
+          "DECODER",
+          "STREAM"
+        ],
+        "coldStartPlaceholders": [
+          "—",
+          "—",
+          "—",
+          "—",
+          "—"
+        ],
+        "connectedCategories": [
+          "FRAME",
+          "NEURAL",
+          "INPUT",
+          "DECODER",
+          "STREAM"
+        ],
+        "connectedPlaceholders": [
+          "—",
+          "—",
+          "—",
+          "—",
+          "—"
+        ],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "laneOrderViolations": [],
+        "singleLaneUpdateViolations": [],
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "historyOpen": false,
+        "historyCount": 8,
+        "phasesTested": [
+          "cold-start",
+          "cold-start-mounted",
+          "connected-waiting",
+          "live-1-frame-received",
+          "live-2-neural-tick",
+          "live-3-input-changed",
+          "live-4-decoder-changed",
+          "live-5-input-changed-2",
+          "live-6-neural-tick-2",
+          "disconnected-retained",
+          "reconnected-transport",
+          "post-reconnect-frame",
+          "post-reconnect-input",
+          "live-rapid-complete",
+          "final-disconnected",
+          "retained-settled"
+        ]
+      },
+      "cases": [
+        {
+          "width": 1728,
+          "scroll": 0,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1728,
+          "scroll": 800,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1728,
+          "scroll": "bottom",
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1366,
+          "scroll": 0,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1366,
+          "scroll": 800,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1366,
+          "scroll": "bottom",
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 760,
+          "scroll": 0,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 760,
+          "scroll": 800,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 760,
+          "scroll": "bottom",
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        }
+      ],
+      "errors": [
+        "Error: Could not load /models/flyv2/FlyVisualV2_Web.glb: NetworkError when attempting to fetch resource."
+      ]
+    },
+    {
+      "name": "edge",
+      "browserVersion": "Microsoft Edge 156.0.4314.42",
+      "realAppLifecycle": {
+        "coldStartWaitingVisible": true,
+        "coldStartCategories": [
+          "FRAME",
+          "NEURAL",
+          "INPUT",
+          "DECODER",
+          "STREAM"
+        ],
+        "coldStartPlaceholders": [
+          "—",
+          "—",
+          "—",
+          "—",
+          "—"
+        ],
+        "connectedCategories": [
+          "FRAME",
+          "NEURAL",
+          "INPUT",
+          "DECODER",
+          "STREAM"
+        ],
+        "connectedPlaceholders": [
+          "—",
+          "—",
+          "—",
+          "—",
+          "—"
+        ],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "laneOrderViolations": [],
+        "singleLaneUpdateViolations": [],
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "historyOpen": false,
+        "historyCount": 8,
+        "phasesTested": [
+          "cold-start",
+          "cold-start-mounted",
+          "connected-waiting",
+          "live-1-frame-received",
+          "live-2-neural-tick",
+          "live-3-input-changed",
+          "live-4-decoder-changed",
+          "live-5-input-changed-2",
+          "live-6-neural-tick-2",
+          "disconnected-retained",
+          "reconnected-transport",
+          "post-reconnect-frame",
+          "post-reconnect-input",
+          "live-rapid-complete",
+          "final-disconnected",
+          "retained-settled"
+        ]
+      },
+      "cases": [
+        {
+          "width": 1728,
+          "scroll": 0,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1728,
+          "scroll": 800,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1728,
+          "scroll": "bottom",
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1366,
+          "scroll": 0,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1366,
+          "scroll": 800,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 1366,
+          "scroll": "bottom",
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 760,
+          "scroll": 0,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 760,
+          "scroll": 800,
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        },
+        {
+          "width": 760,
+          "scroll": "bottom",
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7
+        }
+      ],
+      "errors": []
+    }
+  ]
+}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: firefox: unexpected browser errors
++ actual - expected
+
++ [
++   'Error: Could not load /models/flyv2/FlyVisualV2_Web.glb: NetworkError when attempting to fetch resource.'
++ ]
+- []
+
+    at file:///C:/Users/Jason/Documents/GitHub/causalfly/scripts/sprint172-timeline-semantic-stability.mjs:981:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'Error: Could not load /models/flyv2/FlyVisualV2_Web.glb: NetworkError when attempting to fetch resource.'
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

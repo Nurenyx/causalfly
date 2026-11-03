@@ -1,0 +1,316 @@
+{
+  "fixtureOnly": true,
+  "viewport": [
+    1728,
+    1080
+  ],
+  "question": "What happens if I silence the primary pathway?",
+  "result": "Signal reduced 50%",
+  "actions": [
+    "design",
+    "run",
+    "interpret"
+  ],
+  "passiveViewingActions": [
+    "design",
+    "run",
+    "interpret"
+  ],
+  "explicitApproval": true,
+  "doubleSubmitGuard": true,
+  "keyboardActivation": true,
+  "stableFocusButton": {
+    "initial": {
+      "x": 1186.34375,
+      "y": 1086.265625,
+      "width": 451.53125,
+      "height": 40
+    },
+    "hovered": {
+      "x": 1186.34375,
+      "y": 1086.265625,
+      "width": 451.53125,
+      "height": 40
+    },
+    "focused": {
+      "x": 1186.34375,
+      "y": 1086.265625,
+      "width": 451.53125,
+      "height": 40
+    }
+  },
+  "topology": {
+    "width": 1048.5,
+    "height": 316.203125,
+    "labels": [
+      {
+        "text": "1",
+        "visible": true
+      },
+      {
+        "text": "1",
+        "visible": true
+      },
+      {
+        "text": "1",
+        "visible": true
+      },
+      {
+        "text": "0.5",
+        "visible": true
+      },
+      {
+        "text": "1",
+        "visible": true
+      },
+      {
+        "text": "1",
+        "visible": true
+      },
+      {
+        "text": "1",
+        "visible": true
+      },
+      {
+        "text": "Input",
+        "visible": true
+      },
+      {
+        "text": "Primary A",
+        "visible": true
+      },
+      {
+        "text": "Primary B",
+        "visible": true
+      },
+      {
+        "text": "Alternate A",
+        "visible": true
+      },
+      {
+        "text": "Alternate B",
+        "visible": true
+      },
+      {
+        "text": "Alternate C",
+        "visible": true
+      },
+      {
+        "text": "Output",
+        "visible": true
+      }
+    ]
+  },
+  "views": [
+    {
+      "focus": "both",
+      "camera": {
+        "position": [
+          0,
+          6.652640858401265,
+          10.760424129780585
+        ],
+        "target": [
+          0,
+          0.8335,
+          -2.1710000000000003
+        ],
+        "width": 1392,
+        "height": 518.390625,
+        "focus": "both",
+        "fitComparisonToPanel": false,
+        "fov": 34,
+        "bounds": {
+          "min": [
+            -4.675,
+            -0.3,
+            -6.667
+          ],
+          "max": [
+            4.675,
+            1.967,
+            2.3249999999999997
+          ]
+        },
+        "framing": "visual-bounds"
+      },
+      "distance": 14.18041361717586,
+      "projected": [
+        [
+          -0.3037820095934752,
+          0.1415675056454182
+        ],
+        [
+          -0.5399962306563242,
+          -0.8928571428571428
+        ],
+        [
+          -0.31964522681822166,
+          0.5285176224248119
+        ],
+        [
+          -0.592241973550888,
+          -0.2759946813384957
+        ],
+        [
+          0.3037820095934752,
+          0.1415675056454182
+        ],
+        [
+          0.5399962306563242,
+          -0.8928571428571428
+        ],
+        [
+          0.31964522681822166,
+          0.5285176224248119
+        ],
+        [
+          0.592241973550888,
+          -0.2759946813384957
+        ]
+      ]
+    },
+    {
+      "focus": "control",
+      "camera": {
+        "position": [
+          -2.35,
+          3.0865387637891994,
+          9.094193818946
+        ],
+        "target": [
+          -2.35,
+          0.8335,
+          -2.1710000000000003
+        ],
+        "width": 1392,
+        "height": 518.390625,
+        "focus": "control",
+        "fitComparisonToPanel": false,
+        "fov": 34,
+        "bounds": {
+          "min": [
+            -4.675,
+            -0.3,
+            -6.667
+          ],
+          "max": [
+            -0.02500000000000019,
+            1.967,
+            2.3249999999999997
+          ]
+        },
+        "framing": "visual-bounds"
+      },
+      "distance": 11.488288621442095,
+      "projected": [
+        [
+          -0.17569373626855642,
+          -0.04661986770314877
+        ],
+        [
+          -0.3878521654737725,
+          -0.8928571428571427
+        ],
+        [
+          -0.18067709778595673,
+          0.4159286750709107
+        ],
+        [
+          -0.4129986859443686,
+          0.10958810774488913
+        ],
+        [
+          0.17569373626855642,
+          -0.04661986770314877
+        ],
+        [
+          0.3878521654737725,
+          -0.8928571428571427
+        ],
+        [
+          0.18067709778595673,
+          0.4159286750709107
+        ],
+        [
+          0.4129986859443686,
+          0.10958810774488913
+        ]
+      ]
+    },
+    {
+      "focus": "perturbed",
+      "camera": {
+        "position": [
+          2.35,
+          3.0865387637891994,
+          9.094193818946
+        ],
+        "target": [
+          2.35,
+          0.8335,
+          -2.1710000000000003
+        ],
+        "width": 900,
+        "height": 518.390625,
+        "focus": "perturbed",
+        "fitComparisonToPanel": false,
+        "fov": 34,
+        "bounds": {
+          "min": [
+            0.02500000000000019,
+            -0.3,
+            -6.667
+          ],
+          "max": [
+            4.675,
+            1.967,
+            2.3249999999999997
+          ]
+        },
+        "framing": "visual-bounds"
+      },
+      "distance": 11.488288621442095,
+      "projected": [
+        [
+          -0.2717396454287006,
+          -0.04661986770314877
+        ],
+        [
+          -0.5998780159327681,
+          -0.8928571428571427
+        ],
+        [
+          -0.27944724457561304,
+          0.4159286750709107
+        ],
+        [
+          -0.6387713009272902,
+          0.10958810774488913
+        ],
+        [
+          0.2717396454287006,
+          -0.04661986770314877
+        ],
+        [
+          0.5998780159327681,
+          -0.8928571428571427
+        ],
+        [
+          0.27944724457561304,
+          0.4159286750709107
+        ],
+        [
+          0.6387713009272902,
+          0.10958810774488913
+        ]
+      ]
+    }
+  ],
+  "errors": [],
+  "blocked": [],
+  "providerRequests": 0,
+  "mediaUploads": 0,
+  "realBrainMessages": 0,
+  "feedback": "OFF in app; authored ARMED/ACCEPTED/REJECTED covered by live-layout and existing real-adapter fixture"
+}

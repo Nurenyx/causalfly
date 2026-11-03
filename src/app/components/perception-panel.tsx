@@ -44,13 +44,14 @@ export function OfflineTrack({ perception }: { perception: PerceptionRecord }) {
   return <div className="perception-offline"><strong>OFFLINE SAM FIXTURE · NO LIVE DETECTION</strong><svg viewBox="0 0 640 480" role="img" aria-label="Synthetic geometry fixture, not a SAM detection"><rect width="640" height="480" fill="#071925" /><rect x={frame.left} y={frame.top} width={frame.right - frame.left} height={frame.bottom - frame.top} fill="#ffba4220" stroke="#ffba42" strokeWidth="3" /><text x="20" y="35" fill="#ffba42">TEST OBJECT / GEOMETRY ONLY</text></svg><label>Fixture frame {frame.frameIndex}<input aria-label="Offline fixture frame" type="range" min="0" max={perception.measurement.frames.length - 1} value={index} onChange={e => setIndex(Number(e.target.value))} /></label></div>;
 }
 
-export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designing = false, measured = false, compact = false, onBusy, onUse, onDesign, onRun, onFailure, workflowError, session: suppliedSession, onSession }: {
+export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designing = false, measured = false, compact = false, onBusy, onUse, onDesign, onRun, onFailure, workflowError, onInference, session: suppliedSession, onSession }: {
   accepted?: PerceptionRecord; hasDesign: boolean; busy: boolean; accepting: boolean;
   designing?: boolean; measured?: boolean;
   compact?: boolean;
   onBusy: (busy: boolean) => void; onUse: (perceptionId: string | null, receipt?: string) => void;
   onDesign?: (perceptionId: string, receipt?: string) => void; onRun?: () => void;
   onFailure?: (message: string, diagnostics?: RunDiagnostics) => void; workflowError?: string;
+  onInference?: (active: boolean) => void;
   session?: PerceptionSession; onSession?: Dispatch<SetStateAction<PerceptionSession>>;
 }) {
   const [localSession, setLocalSession] = useState<PerceptionSession>(() => ({ ...initialPerceptionSession(), source: accepted ? "perception" : "synthetic" }));
@@ -60,6 +61,7 @@ export function PerceptionPanel({ accepted, hasDesign, busy, accepting, designin
   const update = (patch: Partial<PerceptionSession>) => setSession(current => ({ ...current, ...patch }));
   const [pending, setPending] = useState<"live" | "fixture" | "scene-live" | "scene-fixture" | "">("");
   const [requested, setRequested] = useState<"scene" | "tracking" | "">("");
+  useEffect(() => { onInference?.(Boolean(requested && (pending === "live" || pending === "scene-live"))); return () => onInference?.(false); }, [requested, pending, onInference]);
   const error = session.error ?? "";
   const setError = (error: string) => update({ error, failure: undefined, errorDiagnostics: undefined });
   const [offline, setOffline] = useState(false);

@@ -1,0 +1,15 @@
+warning: in the working copy of 'docs/HACKATHON_FINAL_TESTER_BUILD_REVIEW.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/ai-scientist.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/causalfly-assistant.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/fruitfly-analysis.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/fruitfly-meta-analysis.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/guided-experiment.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/info-tooltip.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/instrument-shell.test.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/navigation-status.test.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/perception-panel.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/status-indicator.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/app/components/tester-build.test.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/lib/sources/fruitfly-closed-loop.test.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/lib/web/observational-action.ts', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/lib/web/observational-workflow.ts', LF will be replaced by CRLF the next time Git touches it

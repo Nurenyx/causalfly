@@ -29,7 +29,7 @@ test("recorded source stays explicitly recorded in Evidence", () => {
 test("brain status chips distinguish fresh activity, disconnection and errors", () => {
   const evidence = validatedRecording()[0];
   const snapshot = {source:"FRUITFLY_XR" as const,state:"DATA RECEIVED" as const,message:"Validated telemetry",evidence};
-  assert.match(render(<BrainServerStatus snapshot={snapshot} now={Date.parse(evidence.receivedAt)} />), /data-status="ACTIVE"/);
+  assert.match(render(<BrainServerStatus snapshot={snapshot} now={Date.parse(evidence.receivedAt)} />), /data-status="READY"/);
   assert.match(render(<BrainServerStatus snapshot={{...snapshot,state:"DISCONNECTED",evidence:null}} now={Date.now()} />), /data-status="OFFLINE"/);
   assert.match(render(<BrainServerStatus snapshot={{...snapshot,state:"ERROR",evidence:null}} now={Date.now()} />), /data-status="ERROR"/);
 });

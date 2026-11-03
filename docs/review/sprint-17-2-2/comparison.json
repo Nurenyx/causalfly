@@ -1,0 +1,355 @@
+[
+  {
+    "width": 1728,
+    "height": 1080,
+    "sidebar": 244,
+    "main": 1484,
+    "mainRight": 1728,
+    "gutter": 24,
+    "surfaces": {
+      "observatory": {
+        "before": [
+          699.94,
+          801
+        ],
+        "after": [
+          752.31,
+          921
+        ],
+        "areaGainPercent": 23.59
+      },
+      "viewer": {
+        "before": [
+          697.94,
+          360
+        ],
+        "after": [
+          750.31,
+          480
+        ],
+        "areaGainPercent": 43.34
+      },
+      "embodiment": {
+        "before": [
+          432.06,
+          880
+        ],
+        "after": [
+          395.97,
+          880
+        ],
+        "areaGainPercent": -8.35
+      },
+      "fly": {
+        "before": [
+          415.06,
+          320
+        ],
+        "after": [
+          378.97,
+          420
+        ],
+        "areaGainPercent": 19.84
+      },
+      "observations": {
+        "before": [
+          280,
+          1054.5
+        ],
+        "after": [
+          263.72,
+          1072.5
+        ],
+        "areaGainPercent": -4.21
+      }
+    },
+    "columnShares": {
+      "observatory": 53.28,
+      "embodiment": 28.04,
+      "observations": 18.68
+    },
+    "waitingEmbodimentBefore": false,
+    "waitingEmbodimentAfter": true,
+    "steadyMaximum": 0
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "sidebar": 232,
+    "main": 1208,
+    "mainRight": 1440,
+    "gutter": 18,
+    "surfaces": {
+      "observatory": {
+        "before": [
+          536.69,
+          802.5
+        ],
+        "after": [
+          605.36,
+          922.5
+        ],
+        "areaGainPercent": 29.66
+      },
+      "viewer": {
+        "before": [
+          534.69,
+          360
+        ],
+        "after": [
+          603.36,
+          480
+        ],
+        "areaGainPercent": 50.46
+      },
+      "embodiment": {
+        "before": [
+          331.31,
+          880
+        ],
+        "after": [
+          318.63,
+          880
+        ],
+        "areaGainPercent": -3.83
+      },
+      "fly": {
+        "before": [
+          314.31,
+          320
+        ],
+        "after": [
+          301.63,
+          420
+        ],
+        "areaGainPercent": 25.95
+      },
+      "observations": {
+        "before": [
+          280,
+          1050.5
+        ],
+        "after": [
+          224,
+          1091
+        ],
+        "areaGainPercent": -16.92
+      }
+    },
+    "columnShares": {
+      "observatory": 52.73,
+      "embodiment": 27.76,
+      "observations": 19.51
+    },
+    "waitingEmbodimentBefore": false,
+    "waitingEmbodimentAfter": true,
+    "steadyMaximum": 0
+  },
+  {
+    "width": 1366,
+    "height": 768,
+    "sidebar": 232,
+    "main": 1134,
+    "mainRight": 1366,
+    "gutter": 18,
+    "surfaces": {
+      "observatory": {
+        "before": [
+          806,
+          802.5
+        ],
+        "after": [
+          861.98,
+          802.5
+        ],
+        "areaGainPercent": 6.95
+      },
+      "viewer": {
+        "before": [
+          804,
+          360
+        ],
+        "after": [
+          859.98,
+          360
+        ],
+        "areaGainPercent": 6.96
+      },
+      "embodiment": {
+        "before": [
+          806,
+          880
+        ],
+        "after": [
+          861.98,
+          880
+        ],
+        "areaGainPercent": 6.95
+      },
+      "fly": {
+        "before": [
+          789,
+          320
+        ],
+        "after": [
+          844.98,
+          320
+        ],
+        "areaGainPercent": 7.1
+      },
+      "observations": {
+        "before": [
+          280,
+          1050.5
+        ],
+        "after": [
+          224,
+          1091
+        ],
+        "areaGainPercent": -16.92
+      }
+    },
+    "columnShares": null,
+    "waitingEmbodimentBefore": false,
+    "waitingEmbodimentAfter": false,
+    "steadyMaximum": 0
+  },
+  {
+    "width": 1024,
+    "height": 768,
+    "sidebar": 244,
+    "main": 780,
+    "mainRight": 1024,
+    "gutter": 24,
+    "surfaces": {
+      "observatory": {
+        "before": [
+          732,
+          802.5
+        ],
+        "after": [
+          732,
+          802.5
+        ],
+        "areaGainPercent": 0
+      },
+      "viewer": {
+        "before": [
+          730,
+          360
+        ],
+        "after": [
+          730,
+          360
+        ],
+        "areaGainPercent": 0
+      },
+      "embodiment": {
+        "before": [
+          732,
+          880
+        ],
+        "after": [
+          732,
+          880
+        ],
+        "areaGainPercent": 0
+      },
+      "fly": {
+        "before": [
+          715,
+          320
+        ],
+        "after": [
+          715,
+          320
+        ],
+        "areaGainPercent": 0
+      },
+      "observations": {
+        "before": [
+          732,
+          823
+        ],
+        "after": [
+          732,
+          823
+        ],
+        "areaGainPercent": 0
+      }
+    },
+    "columnShares": null,
+    "waitingEmbodimentBefore": false,
+    "waitingEmbodimentAfter": false,
+    "steadyMaximum": 0
+  },
+  {
+    "width": 760,
+    "height": 1080,
+    "sidebar": 760,
+    "main": 760,
+    "mainRight": 760,
+    "gutter": 16,
+    "surfaces": {
+      "observatory": {
+        "before": [
+          728,
+          782.5
+        ],
+        "after": [
+          728,
+          782.5
+        ],
+        "areaGainPercent": 0
+      },
+      "viewer": {
+        "before": [
+          726,
+          340
+        ],
+        "after": [
+          726,
+          340
+        ],
+        "areaGainPercent": 0
+      },
+      "embodiment": {
+        "before": [
+          728,
+          880
+        ],
+        "after": [
+          728,
+          880
+        ],
+        "areaGainPercent": 0
+      },
+      "fly": {
+        "before": [
+          711,
+          320
+        ],
+        "after": [
+          711,
+          320
+        ],
+        "areaGainPercent": 0
+      },
+      "observations": {
+        "before": [
+          728,
+          1037
+        ],
+        "after": [
+          728,
+          1037
+        ],
+        "areaGainPercent": 0
+      }
+    },
+    "columnShares": null,
+    "waitingEmbodimentBefore": false,
+    "waitingEmbodimentAfter": false,
+    "steadyMaximum": 0
+  }
+]

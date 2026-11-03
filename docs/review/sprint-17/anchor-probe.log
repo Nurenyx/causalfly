@@ -1,0 +1,60 @@
+{
+  "summary": [
+    {
+      "engine": "edge",
+      "runs": [
+        {
+          "position": "top",
+          "samples": 103,
+          "received": 711,
+          "retained": 120,
+          "evidenceUnchanged": true,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "maximumPrimaryDelta": 0,
+          "maximumSlotDelta": 0,
+          "presentationHz": 4.59732814096792,
+          "identityChanges": [],
+          "longTasks": 94,
+          "memoryGrowth": -18218745
+        },
+        {
+          "position": "middle",
+          "samples": 100,
+          "received": 1431,
+          "retained": 120,
+          "evidenceUnchanged": true,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "maximumPrimaryDelta": 0,
+          "maximumSlotDelta": 0,
+          "presentationHz": 4.44432473196521,
+          "identityChanges": [],
+          "longTasks": 93,
+          "memoryGrowth": 3528580
+        },
+        {
+          "position": "bottom",
+          "samples": 105,
+          "received": 2201,
+          "retained": 120,
+          "evidenceUnchanged": true,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "maximumPrimaryDelta": 0,
+          "maximumSlotDelta": 0,
+          "presentationHz": 4.981420647379378,
+          "identityChanges": [],
+          "longTasks": 50,
+          "memoryGrowth": 1644923
+        }
+      ],
+      "errors": [],
+      "forbidden": []
+    }
+  ],
+  "firefox": {
+    "available": false,
+    "limitation": "Playwright Firefox runtime is absent; no browser download attempted. Human Firefox live acceptance required."
+  }
+}

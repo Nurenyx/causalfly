@@ -1,0 +1,52 @@
+ M docs/HACKATHON_FINAL_TESTER_BUILD_REVIEW.md
+ M scripts/sprint16a-browser-review.mjs
+ M src/app/components/ai-scientist.tsx
+ M src/app/components/autonomy-panel.tsx
+ M src/app/components/causalfly-assistant.tsx
+ M src/app/components/data-source-panel.tsx
+ M src/app/components/embodied-experiment.tsx
+ M src/app/components/embodied-world.tsx
+ M src/app/components/fruitfly-analysis.tsx
+ M src/app/components/fruitfly-meta-analysis.tsx
+ M src/app/components/guided-experiment.test.tsx
+ M src/app/components/guided-experiment.tsx
+ M src/app/components/info-tooltip.tsx
+ M src/app/components/instrument-shell.test.tsx
+ M src/app/components/live-session.module.css
+ M src/app/components/live-session.tsx
+ M src/app/components/live-visualizations.tsx
+ M src/app/components/navigation-status.test.tsx
+ M src/app/components/perception-panel.tsx
+ M src/app/components/research-cockpit.tsx
+ M src/app/components/status-indicator.tsx
+ M src/app/components/tester-build.css
+ M src/app/components/tester-build.test.tsx
+ M src/app/observatory.tsx
+ M src/lib/meta/observational.test.ts
+ M src/lib/sources/fruitfly-closed-loop.test.ts
+ M src/lib/sources/fruitfly-closed-loop.ts
+ M src/lib/web/observational-action.ts
+ M src/lib/web/observational-workflow.ts
+?? docs/review/sprint-16b5/
+?? docs/review/sprint-16b5a/
+?? docs/review/sprint-16b5b/
+?? docs/review/sprint-16b6/
+?? docs/review/sprint-17/
+?? scripts/demo-layout-browser-review.mjs
+?? scripts/human-state-browser-review.mjs
+?? scripts/live-stability-browser-review.mjs
+?? scripts/sprint17-judge-journey.mjs
+?? scripts/sprint17-live-layout-stability.mjs
+?? src/app/components/absent-event-guard.test.tsx
+?? src/app/components/compare-camera.test.tsx
+?? src/app/components/compare-camera.ts
+?? src/app/components/human-state-clarity.test.tsx
+?? src/app/components/live-state-summary.tsx
+?? src/app/components/sensory-feedback-control.test.tsx
+?? src/app/components/sensory-feedback-control.tsx
+?? src/app/components/source-context.test.tsx
+?? src/app/components/source-context.tsx
+?? src/lib/web/live-presentation.test.ts
+?? src/lib/web/live-presentation.ts
+?? src/lib/web/live-state-presentation.test.ts
+?? src/lib/web/live-state-presentation.ts

@@ -1,0 +1,17 @@
+{
+  "verifiedCount": 1846,
+  "changedSinceTakeover": [
+    "scripts/demo-layout-browser-review.mjs",
+    "scripts/sprint171-neural-response-review.mjs",
+    "scripts/sprint171-timeline-stability.mjs",
+    "scripts/sprint172-timeline-semantic-stability.mjs",
+    "src/app/components/event-timeline-lanes.test.tsx",
+    "src/app/components/live-session.module.css",
+    "src/app/components/live-session.tsx",
+    "src/app/components/live-visualizations.tsx",
+    "src/app/components/tester-build.css"
+  ],
+  "scientificChanges": [],
+  "historicalArtifactChanges": [],
+  "missing": []
+}

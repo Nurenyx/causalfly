@@ -1,0 +1,949 @@
+[
+  {
+    "name": "human-ux-state-journeys",
+    "fixtureOnly": true,
+    "viewport": {
+      "width": 1728,
+      "height": 1080
+    },
+    "overview": [
+      {
+        "width": 1366,
+        "height": 768,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1728,
+        "height": 1080,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "noHorizontalOverflow": true
+      }
+    ],
+    "experiment": [
+      {
+        "width": 1366,
+        "height": 768,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1728,
+        "height": 1080,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "noHorizontalOverflow": true
+      }
+    ],
+    "compare": [
+      {
+        "width": 1366,
+        "height": 768,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1728,
+        "height": 1080,
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "noHorizontalOverflow": true
+      }
+    ],
+    "waiting": [
+      {
+        "width": 1366,
+        "height": 768,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 250,
+              "y": 142.046875,
+              "right": 901.59375,
+              "bottom": 725.546875,
+              "width": 651.59375,
+              "height": 583.5
+            },
+            {
+              "x": 913.59375,
+              "y": 142.046875,
+              "right": 1347.984375,
+              "bottom": 435.53125,
+              "width": 434.390625,
+              "height": 293.484375
+            }
+          ],
+          "summary": {
+            "x": 262,
+            "y": 11.046875,
+            "right": 1336,
+            "bottom": 55.046875,
+            "width": 1074,
+            "height": 44
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 250,
+              "y": 141.828125,
+              "right": 946,
+              "bottom": 725.328125,
+              "width": 696,
+              "height": 583.5
+            },
+            {
+              "x": 958,
+              "y": 141.828125,
+              "right": 1422,
+              "bottom": 435.3125,
+              "width": 464,
+              "height": 293.484375
+            }
+          ],
+          "summary": {
+            "x": 262,
+            "y": 10.828125,
+            "right": 1410,
+            "bottom": 54.828125,
+            "width": 1148,
+            "height": 44
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 262,
+              "y": 239.140625,
+              "right": 1008.390625,
+              "bottom": 822.640625,
+              "width": 746.390625,
+              "height": 583.5
+            },
+            {
+              "x": 1020.390625,
+              "y": 239.140625,
+              "right": 1518,
+              "bottom": 532.625,
+              "width": 497.609375,
+              "height": 293.484375
+            }
+          ],
+          "summary": {
+            "x": 274,
+            "y": 108.140625,
+            "right": 1506,
+            "bottom": 152.140625,
+            "width": 1232,
+            "height": 44
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1728,
+        "height": 1080,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 268,
+              "y": 383.078125,
+              "right": 1122.390625,
+              "bottom": 879.078125,
+              "width": 854.390625,
+              "height": 496
+            },
+            {
+              "x": 1134.390625,
+              "y": 383.078125,
+              "right": 1703.984375,
+              "bottom": 652.765625,
+              "width": 569.59375,
+              "height": 269.6875
+            }
+          ],
+          "summary": {
+            "x": 286,
+            "y": 252.078125,
+            "right": 1686,
+            "bottom": 296.078125,
+            "width": 1400,
+            "height": 44
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 268,
+              "y": 383.078125,
+              "right": 1237.59375,
+              "bottom": 879.078125,
+              "width": 969.59375,
+              "height": 496
+            },
+            {
+              "x": 1249.59375,
+              "y": 383.078125,
+              "right": 1896,
+              "bottom": 652.765625,
+              "width": 646.40625,
+              "height": 269.6875
+            }
+          ],
+          "summary": {
+            "x": 286,
+            "y": 252.078125,
+            "right": 1878,
+            "bottom": 296.078125,
+            "width": 1592,
+            "height": 44
+          }
+        },
+        "noHorizontalOverflow": true
+      }
+    ],
+    "live": [
+      {
+        "width": 1366,
+        "height": 768,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 250,
+              "y": 397.8125,
+              "right": 736.984375,
+              "bottom": 1021.3125,
+              "width": 486.984375,
+              "height": 623.5
+            },
+            {
+              "x": 748.984375,
+              "y": 397.8125,
+              "right": 1056,
+              "bottom": 1021.3125,
+              "width": 307.015625,
+              "height": 623.5
+            },
+            {
+              "x": 250,
+              "y": 1033.3125,
+              "right": 1056,
+              "bottom": 1144.3125,
+              "width": 806,
+              "height": 111
+            },
+            {
+              "x": 250,
+              "y": 1156.3125,
+              "right": 1056,
+              "bottom": 1370.09375,
+              "width": 806,
+              "height": 213.78125
+            }
+          ],
+          "summary": {
+            "x": 262,
+            "y": 11.046875,
+            "right": 1336,
+            "bottom": 55.046875,
+            "width": 1074,
+            "height": 44
+          },
+          "observer": {
+            "x": 1068,
+            "y": 397.8125,
+            "right": 1348,
+            "bottom": 1370.09375,
+            "width": 280,
+            "height": 972.28125
+          },
+          "charts": {
+            "x": 748.984375,
+            "y": 397.8125,
+            "right": 1056,
+            "bottom": 1021.3125,
+            "width": 307.015625,
+            "height": 623.5
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 250,
+              "y": 399.375,
+              "right": 782.359375,
+              "bottom": 1022.875,
+              "width": 532.359375,
+              "height": 623.5
+            },
+            {
+              "x": 794.359375,
+              "y": 399.375,
+              "right": 1130,
+              "bottom": 1022.875,
+              "width": 335.640625,
+              "height": 623.5
+            },
+            {
+              "x": 250,
+              "y": 1034.875,
+              "right": 1130,
+              "bottom": 1145.875,
+              "width": 880,
+              "height": 111
+            },
+            {
+              "x": 250,
+              "y": 1157.875,
+              "right": 1130,
+              "bottom": 1371.65625,
+              "width": 880,
+              "height": 213.78125
+            }
+          ],
+          "summary": {
+            "x": 262,
+            "y": 10.828125,
+            "right": 1410,
+            "bottom": 54.828125,
+            "width": 1148,
+            "height": 44
+          },
+          "observer": {
+            "x": 1142,
+            "y": 399.375,
+            "right": 1422,
+            "bottom": 1371.65625,
+            "width": 280,
+            "height": 972.28125
+          },
+          "charts": {
+            "x": 794.359375,
+            "y": 399.375,
+            "right": 1130,
+            "bottom": 1022.875,
+            "width": 335.640625,
+            "height": 623.5
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 262,
+              "y": 401.140625,
+              "right": 845.890625,
+              "bottom": 1006.640625,
+              "width": 583.890625,
+              "height": 605.5
+            },
+            {
+              "x": 857.890625,
+              "y": 401.140625,
+              "right": 1226,
+              "bottom": 1006.640625,
+              "width": 368.109375,
+              "height": 605.5
+            },
+            {
+              "x": 262,
+              "y": 1018.640625,
+              "right": 1226,
+              "bottom": 1129.640625,
+              "width": 964,
+              "height": 111
+            },
+            {
+              "x": 262,
+              "y": 1141.640625,
+              "right": 1226,
+              "bottom": 1355.421875,
+              "width": 964,
+              "height": 213.78125
+            }
+          ],
+          "summary": {
+            "x": 274,
+            "y": 11.140625,
+            "right": 1506,
+            "bottom": 55.140625,
+            "width": 1232,
+            "height": 44
+          },
+          "observer": {
+            "x": 1238,
+            "y": 401.140625,
+            "right": 1518,
+            "bottom": 1355.421875,
+            "width": 280,
+            "height": 954.28125
+          },
+          "charts": {
+            "x": 857.890625,
+            "y": 401.140625,
+            "right": 1226,
+            "bottom": 1006.640625,
+            "width": 368.109375,
+            "height": 605.5
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1728,
+        "height": 1080,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 268,
+              "y": 409.078125,
+              "right": 962.28125,
+              "bottom": 1066.015625,
+              "width": 694.28125,
+              "height": 656.9375
+            },
+            {
+              "x": 974.28125,
+              "y": 409.078125,
+              "right": 1412,
+              "bottom": 1066.015625,
+              "width": 437.71875,
+              "height": 656.9375
+            },
+            {
+              "x": 268,
+              "y": 1078.015625,
+              "right": 1412,
+              "bottom": 1189.015625,
+              "width": 1144,
+              "height": 111
+            },
+            {
+              "x": 268,
+              "y": 1201.015625,
+              "right": 1412,
+              "bottom": 1370.203125,
+              "width": 1144,
+              "height": 169.1875
+            }
+          ],
+          "summary": {
+            "x": 286,
+            "y": 11.078125,
+            "right": 1686,
+            "bottom": 55.078125,
+            "width": 1400,
+            "height": 44
+          },
+          "observer": {
+            "x": 1424,
+            "y": 409.078125,
+            "right": 1704,
+            "bottom": 1370.203125,
+            "width": 280,
+            "height": 961.125
+          },
+          "charts": {
+            "x": 974.28125,
+            "y": 409.078125,
+            "right": 1412,
+            "bottom": 1066.015625,
+            "width": 437.71875,
+            "height": 656.9375
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 268,
+              "y": 409.078125,
+              "right": 1080.046875,
+              "bottom": 1127.453125,
+              "width": 812.046875,
+              "height": 718.375
+            },
+            {
+              "x": 1092.046875,
+              "y": 409.078125,
+              "right": 1604,
+              "bottom": 1127.453125,
+              "width": 511.953125,
+              "height": 718.375
+            },
+            {
+              "x": 268,
+              "y": 1139.453125,
+              "right": 1604,
+              "bottom": 1250.453125,
+              "width": 1336,
+              "height": 111
+            },
+            {
+              "x": 268,
+              "y": 1262.453125,
+              "right": 1604,
+              "bottom": 1431.640625,
+              "width": 1336,
+              "height": 169.1875
+            }
+          ],
+          "summary": {
+            "x": 286,
+            "y": 11.078125,
+            "right": 1878,
+            "bottom": 55.078125,
+            "width": 1592,
+            "height": 44
+          },
+          "observer": {
+            "x": 1616,
+            "y": 409.078125,
+            "right": 1896,
+            "bottom": 1431.640625,
+            "width": 280,
+            "height": 1022.5625
+          },
+          "charts": {
+            "x": 1092.046875,
+            "y": 409.078125,
+            "right": 1604,
+            "bottom": 1127.453125,
+            "width": 511.953125,
+            "height": 718.375
+          }
+        },
+        "noHorizontalOverflow": true
+      }
+    ],
+    "retained": [
+      {
+        "width": 1366,
+        "height": 768,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 250,
+              "y": 397.8125,
+              "right": 736.984375,
+              "bottom": 1021.3125,
+              "width": 486.984375,
+              "height": 623.5
+            },
+            {
+              "x": 748.984375,
+              "y": 397.8125,
+              "right": 1056,
+              "bottom": 1021.3125,
+              "width": 307.015625,
+              "height": 623.5
+            },
+            {
+              "x": 250,
+              "y": 1033.3125,
+              "right": 1056,
+              "bottom": 1163.3125,
+              "width": 806,
+              "height": 130
+            },
+            {
+              "x": 250,
+              "y": 1175.3125,
+              "right": 1056,
+              "bottom": 1389.09375,
+              "width": 806,
+              "height": 213.78125
+            }
+          ],
+          "summary": {
+            "x": 262,
+            "y": 11.046875,
+            "right": 1336,
+            "bottom": 55.046875,
+            "width": 1074,
+            "height": 44
+          },
+          "observer": {
+            "x": 1068,
+            "y": 397.8125,
+            "right": 1348,
+            "bottom": 1389.09375,
+            "width": 280,
+            "height": 991.28125
+          },
+          "charts": {
+            "x": 748.984375,
+            "y": 397.8125,
+            "right": 1056,
+            "bottom": 1021.3125,
+            "width": 307.015625,
+            "height": 623.5
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1440,
+        "height": 900,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 250,
+              "y": 399.375,
+              "right": 782.359375,
+              "bottom": 1022.875,
+              "width": 532.359375,
+              "height": 623.5
+            },
+            {
+              "x": 794.359375,
+              "y": 399.375,
+              "right": 1130,
+              "bottom": 1022.875,
+              "width": 335.640625,
+              "height": 623.5
+            },
+            {
+              "x": 250,
+              "y": 1034.875,
+              "right": 1130,
+              "bottom": 1164.875,
+              "width": 880,
+              "height": 130
+            },
+            {
+              "x": 250,
+              "y": 1176.875,
+              "right": 1130,
+              "bottom": 1390.65625,
+              "width": 880,
+              "height": 213.78125
+            }
+          ],
+          "summary": {
+            "x": 262,
+            "y": 10.828125,
+            "right": 1410,
+            "bottom": 54.828125,
+            "width": 1148,
+            "height": 44
+          },
+          "observer": {
+            "x": 1142,
+            "y": 399.375,
+            "right": 1422,
+            "bottom": 1390.65625,
+            "width": 280,
+            "height": 991.28125
+          },
+          "charts": {
+            "x": 794.359375,
+            "y": 399.375,
+            "right": 1130,
+            "bottom": 1022.875,
+            "width": 335.640625,
+            "height": 623.5
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1536,
+        "height": 1024,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 262,
+              "y": 401.140625,
+              "right": 845.890625,
+              "bottom": 1006.640625,
+              "width": 583.890625,
+              "height": 605.5
+            },
+            {
+              "x": 857.890625,
+              "y": 401.140625,
+              "right": 1226,
+              "bottom": 1006.640625,
+              "width": 368.109375,
+              "height": 605.5
+            },
+            {
+              "x": 262,
+              "y": 1018.640625,
+              "right": 1226,
+              "bottom": 1148.640625,
+              "width": 964,
+              "height": 130
+            },
+            {
+              "x": 262,
+              "y": 1160.640625,
+              "right": 1226,
+              "bottom": 1374.421875,
+              "width": 964,
+              "height": 213.78125
+            }
+          ],
+          "summary": {
+            "x": 274,
+            "y": 11.140625,
+            "right": 1506,
+            "bottom": 55.140625,
+            "width": 1232,
+            "height": 44
+          },
+          "observer": {
+            "x": 1238,
+            "y": 401.140625,
+            "right": 1518,
+            "bottom": 1374.421875,
+            "width": 280,
+            "height": 973.28125
+          },
+          "charts": {
+            "x": 857.890625,
+            "y": 401.140625,
+            "right": 1226,
+            "bottom": 1006.640625,
+            "width": 368.109375,
+            "height": 605.5
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1728,
+        "height": 1080,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 268,
+              "y": 409.078125,
+              "right": 962.28125,
+              "bottom": 1066.015625,
+              "width": 694.28125,
+              "height": 656.9375
+            },
+            {
+              "x": 974.28125,
+              "y": 409.078125,
+              "right": 1412,
+              "bottom": 1066.015625,
+              "width": 437.71875,
+              "height": 656.9375
+            },
+            {
+              "x": 268,
+              "y": 1078.015625,
+              "right": 1412,
+              "bottom": 1208.015625,
+              "width": 1144,
+              "height": 130
+            },
+            {
+              "x": 268,
+              "y": 1220.015625,
+              "right": 1412,
+              "bottom": 1389.203125,
+              "width": 1144,
+              "height": 169.1875
+            }
+          ],
+          "summary": {
+            "x": 286,
+            "y": 11.078125,
+            "right": 1686,
+            "bottom": 55.078125,
+            "width": 1400,
+            "height": 44
+          },
+          "observer": {
+            "x": 1424,
+            "y": 409.078125,
+            "right": 1704,
+            "bottom": 1389.203125,
+            "width": 280,
+            "height": 980.125
+          },
+          "charts": {
+            "x": 974.28125,
+            "y": 409.078125,
+            "right": 1412,
+            "bottom": 1066.015625,
+            "width": 437.71875,
+            "height": 656.9375
+          }
+        },
+        "noHorizontalOverflow": true
+      },
+      {
+        "width": 1920,
+        "height": 1080,
+        "boxes": {
+          "instrumentPanels": [
+            {
+              "x": 268,
+              "y": 409.078125,
+              "right": 1080.046875,
+              "bottom": 1127.453125,
+              "width": 812.046875,
+              "height": 718.375
+            },
+            {
+              "x": 1092.046875,
+              "y": 409.078125,
+              "right": 1604,
+              "bottom": 1127.453125,
+              "width": 511.953125,
+              "height": 718.375
+            },
+            {
+              "x": 268,
+              "y": 1139.453125,
+              "right": 1604,
+              "bottom": 1250.453125,
+              "width": 1336,
+              "height": 111
+            },
+            {
+              "x": 268,
+              "y": 1262.453125,
+              "right": 1604,
+              "bottom": 1431.640625,
+              "width": 1336,
+              "height": 169.1875
+            }
+          ],
+          "summary": {
+            "x": 286,
+            "y": 11.078125,
+            "right": 1878,
+            "bottom": 55.078125,
+            "width": 1592,
+            "height": 44
+          },
+          "observer": {
+            "x": 1616,
+            "y": 409.078125,
+            "right": 1896,
+            "bottom": 1431.640625,
+            "width": 280,
+            "height": 1022.5625
+          },
+          "charts": {
+            "x": 1092.046875,
+            "y": 409.078125,
+            "right": 1604,
+            "bottom": 1127.453125,
+            "width": 511.953125,
+            "height": 718.375
+          }
+        },
+        "noHorizontalOverflow": true
+      }
+    ],
+    "actions": [
+      "design",
+      "run",
+      "interpret"
+    ],
+    "popoverBox": {
+      "x": 1376,
+      "y": 157.390625,
+      "width": 300,
+      "height": 210
+    },
+    "sourcePopover": {
+      "clickOnly": true,
+      "outsideClose": true,
+      "escapeClose": true,
+      "navigationClose": true,
+      "keyboardAccessible": true
+    },
+    "retainedValuesUnchanged": true,
+    "escapeNotObserved": true,
+    "escapeInterpretationDisabled": true,
+    "proceduralDisclosure": true,
+    "blocked": [],
+    "errors": [],
+    "providerRequests": 0
+  },
+  {
+    "name": "meta-ready-processing-boundary",
+    "fixtureOnly": true,
+    "actualStatusComponent": true,
+    "states": [
+      "READY",
+      "PROCESSING",
+      "READY"
+    ],
+    "interceptedRequests": 1,
+    "providerRequests": 0
+  }
+]

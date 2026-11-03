@@ -45,7 +45,7 @@ test("valid model proposal is validated and converted to the existing Experiment
     ...demoExperimentSpec,
     perturbation: { type: "SILENCE", targetNodeId: "primary_a" },
   }), input);
-  assert.equal(proposal.perturbation.type, "SILENCE");
+  assert.equal(proposal.perturbation?.type, "SILENCE");
   assert.deepEqual(spec, demoExperimentSpec);
   assert.ok(Object.isFrozen(spec.perturbation));
 });
@@ -70,7 +70,7 @@ test("the eligibility helper and model validation accept only intermediate nodes
     const { spec } = await designExperiment(responseClient({
       ...demoExperimentSpec, perturbation: { type: "silence", targetNodeId },
     }), input);
-    assert.equal(spec.perturbation.targetNodeId, targetNodeId);
+    assert.equal(spec.perturbation?.targetNodeId, targetNodeId);
   }
 });
 
@@ -262,7 +262,7 @@ test("fake client runs deterministically without credentials or any network acce
 test("fake client recommends an eligible internal target different from the current intervention", async () => {
   const fake = new FakeMetaClient();
   const { spec } = await designExperiment(fake, input);
-  assert.ok(eligibleTargets.includes(spec.perturbation.targetNodeId));
+  assert.ok(eligibleTargets.includes(spec.perturbation?.targetNodeId ?? ''));
   for (const targetNodeId of eligibleTargets) {
     const evidence = makeEvidence({
       ...demoExperimentSpec, perturbation: { type: "silence", targetNodeId },

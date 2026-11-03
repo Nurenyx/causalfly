@@ -3,6 +3,8 @@ import type { ExecutionMode } from "@/lib/web/contracts";
 import type { FruitFlySnapshot, DataSourceKind } from "@/lib/sources/contracts";
 import { sessionStatus } from "@/lib/sources/live-session";
 import { AccessiblePopover } from "./info-tooltip";
+import { liveStatePresentation } from "@/lib/web/live-state-presentation";
+import { LiveStateSummary } from "./live-state-summary";
 import { SCIENTIFIC_PROVENANCE } from "@/lib/sources/provenance-constants";
 
 export function StatusIndicator({ label, active, working = false, children, tone, state }: {
@@ -17,6 +19,7 @@ export function StatusIndicator({ label, active, working = false, children, tone
   const toneClass = tone ? ` tone-${tone}` : active ? " available" : "";
   return (
     <AccessiblePopover
+      clickOnly
       label={`${label} status`}
       trigger={<StatusChip state={chipState}>{label}</StatusChip>}
       className="status-indicator"
@@ -37,48 +40,49 @@ export function MetaStatus({
   mode,
   working,
   disabled = false,
-  error,
+  error: retainedError,
 }: {
   mode: ExecutionMode | null;
   working: boolean;
   disabled?: boolean;
   error?: string | null;
 }) {
+  const error = working ? null : retainedError;
   const live = mode === "META LIVE";
   const isAuthError = Boolean(error && /auth|credential|unauthorized|forbidden|api key/i.test(error));
 
-  let label = "Meta · Not configured";
+  let label = "META UNAVAILABLE";
   let tone: "green" | "amber" | "neutral" = "neutral";
   let active = false;
 
   if (isAuthError) {
-    label = "Meta · Auth error";
+    label = "META ERROR";
     tone = "amber";
     active = false;
   } else if (error) {
-    label = "Meta · Request error";
+    label = "META ERROR";
     tone = "amber";
     active = false;
-  } else if (working) {
-    label = live ? "Meta · Working" : "Meta · Fixture Working";
+  } else if (working && !disabled && mode) {
+    label = live && !disabled ? "META PROCESSING" : "META FIXTURE RUNNING";
     tone = live ? "green" : "amber";
     active = true;
   } else if (disabled) {
-    label = "Meta · Disabled";
+    label = "META UNAVAILABLE";
     tone = "neutral";
     active = false;
   } else if (live) {
-    label = "Meta · Live mode";
+    label = "META READY";
     tone = "amber";
     active = true;
   } else if (mode) {
-    label = "Meta · Offline Fixture";
+    label = "META OFFLINE FIXTURE";
     tone = "neutral";
     active = false;
   }
 
   return (
-    <StatusIndicator label={label} active={active} working={working} tone={tone}>
+    <StatusIndicator label={label} active={active} working={working && live && !disabled} tone={tone} state={error ? "ERROR" : disabled || !mode ? "OFFLINE" : working && live ? "ACTIVE" : live ? "READY" : "INFORMATIONAL"}>
       <strong>
         {isAuthError
           ? "META AUTHENTICATION ERROR"
@@ -105,7 +109,7 @@ export function MetaStatus({
       ) : (
         <span>
           {live
-            ? "Live Meta Model API is configured and enabled for on-demand experiment design and scientific interpretation."
+            ? "Meta Model API is configured for explicit requests. Ready indicates configuration, not a verified provider connection or active inference."
             : mode
             ? "Demonstration responses use local deterministic fixtures. No live Meta model requests are being made."
             : disabled
@@ -159,17 +163,7 @@ export function QuestStatus() {
   );
 }
 
-/**
- * Truthful Brain Server dual-channel status indicator.
- * Distinguishes read-only observatory from closed-loop sensory/control.
- *
- * Primary status semantics:
- * - State 1: Neither channel connected -> "Brain · Disconnected" (neutral)
- * - State 2: Observatory connected waiting for first frame -> "Brain · Telemetry Standby" (amber)
- * - State 3: Retained last snapshot / stale -> "Brain · Telemetry Standby" (amber)
- * - State 4: Fresh/current observatory telemetry -> "Brain · Telemetry Live" (green)
- * - State 5: Fresh telemetry + active closed-loop control -> "Brain · Telemetry + Control" (green)
- */
+/** Server connectivity is independent of stream freshness, retained evidence and the optional control channel. */
 export function BrainServerStatus({
   snapshot,
   now,
@@ -181,66 +175,13 @@ export function BrainServerStatus({
   controlAvailable?: boolean;
   controlStatus?: string;
 }) {
-  const status = sessionStatus(snapshot, now ?? 0);
-  const telemetryConnected = status.connected;
-  const isTelemetryLive = status.live;
-
-  let primaryLabel = "Brain · Disconnected";
-  let primaryTone: "green" | "amber" | "neutral" = "neutral";
-  let active = false;
-
-  if (isTelemetryLive && controlAvailable) {
-    // State 5: Fresh telemetry + active closed-loop control
-    primaryLabel = "Brain · Telemetry + Control";
-    primaryTone = "green";
-    active = true;
-  } else if (isTelemetryLive) {
-    // State 4: Fresh/current observatory telemetry
-    primaryLabel = "Brain · Telemetry Live";
-    primaryTone = "green";
-    active = true;
-  } else if (telemetryConnected || status.historical) {
-    // State 2 & 3: Connected waiting for first frame, or retained last snapshot / stale
-    primaryLabel = controlAvailable ? "Brain · Telemetry Standby + Control" : "Brain · Telemetry Standby";
-    primaryTone = "amber";
-    active = true;
-  } else if (controlAvailable) {
-    primaryLabel = "Brain · Control Active";
-    primaryTone = "green";
-    active = true;
-  } else {
-    // State 1: Disconnected
-    primaryLabel = "Brain · Disconnected";
-    primaryTone = "neutral";
-    active = false;
-  }
-
-  let observatoryDetail = "Disconnected";
-  if (snapshot.state === "ERROR") {
-    observatoryDetail = `Error: ${snapshot.message}`;
-  } else if (snapshot.state === "CONNECTING") {
-    observatoryDetail = "Connecting...";
-  } else if (isTelemetryLive) {
-    observatoryDetail = "Current / fresh (streaming)";
-  } else if (status.historical || status.label === "STALE") {
-    observatoryDetail = "Last snapshot / stale (no current frames)";
-  } else if (telemetryConnected) {
-    observatoryDetail = "Connected / waiting for first frame";
-  } else {
-    observatoryDetail = "Disconnected";
-  }
-
-  const closedLoopDetail = controlAvailable ? "Connected / active" : (controlStatus || "Configured / standby");
-
-  return (
-    <StatusIndicator label={primaryLabel} active={active} tone={primaryTone} state={snapshot.state === "ERROR" && !controlAvailable ? "ERROR" : isTelemetryLive || controlAvailable ? "ACTIVE" : telemetryConnected || status.historical || snapshot.state === "CONNECTING" ? "STANDBY" : "OFFLINE"}>
-      <strong>JAVA BRAIN SERVER CAPABILITIES</strong>
-      <span>• Read-only observatory telemetry: {observatoryDetail}</span>
-      <span>• Closed-loop sensory/control: {closedLoopDetail}</span>
-      <span>Transport: Local/Tailscale WebSocket bridge</span>
-      <small>Connectome dynamics are simulated. Does not launch the FruitFly XR Quest headset application.</small>
-    </StatusIndicator>
-  );
+  const state = liveStatePresentation(snapshot, now ?? 0);
+  return <StatusIndicator label={`SERVER ${state.server}`} active={state.server === "CONNECTED"} tone={state.server === "ERROR" ? "red" : state.server === "CONNECTED" ? "green" : "neutral"} state={state.server === "ERROR" ? "ERROR" : state.server === "CONNECTED" ? "READY" : state.server === "CONNECTING" ? "STANDBY" : "OFFLINE"}>
+    <strong>BRAIN SERVER / READ-ONLY TELEMETRY</strong>
+    <LiveStateSummary snapshot={snapshot} now={now ?? 0} />
+    <span>Closed-loop sensory/control: {controlAvailable ? "Connected / active" : controlStatus}</span>
+    <small>Connection, frame freshness and retained evidence are independent. Simulated dynamics; no Quest headset launch.</small>
+  </StatusIndicator>;
 }
 
 /**

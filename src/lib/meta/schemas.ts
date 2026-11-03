@@ -28,6 +28,7 @@ export function eligiblePerturbationTargetIds(network: NetworkDefinition): strin
 export function experimentProposalSchema(network: NetworkDefinition) {
   const eligibleTargets = eligiblePerturbationTargetIds(network);
   return z.strictObject({
+    experimentType: z.literal("NEURAL_INTERVENTION").optional(),
     id: text,
     hypothesis: text,
     stimulus: z.strictObject({ amplitude: z.number().min(0).max(1) }),
@@ -44,14 +45,20 @@ export function experimentProposalSchema(network: NetworkDefinition) {
 
 export type ExperimentProposal = z.infer<ReturnType<typeof experimentProposalSchema>>;
 
+/** An input contrast cannot carry a neural intervention. */
+export function stimulusResponseProposalSchema(network: NetworkDefinition) {
+  return experimentProposalSchema(network).extend({ experimentType: z.literal("STIMULUS_RESPONSE"), stimulus: z.strictObject({ amplitude: z.number().gt(0).max(1) }), perturbation: z.null() });
+}
+
 export function validateExperimentProposal(
   value: unknown,
   network: NetworkDefinition,
-): { proposal: ExperimentProposal; spec: ExperimentSpec } {
-  const proposal = experimentProposalSchema(network).parse(value);
+): { proposal: ExperimentProposal | z.infer<ReturnType<typeof stimulusResponseProposalSchema>>; spec: ExperimentSpec } {
+  const environment = value !== null && typeof value === "object" && "experimentType" in value && value.experimentType === "STIMULUS_RESPONSE";
+  const proposal = (environment ? stimulusResponseProposalSchema(network) : experimentProposalSchema(network)).parse(value);
   const spec: ExperimentSpec = {
     ...structuredClone(proposal),
-    perturbation: { type: "silence", targetNodeId: proposal.perturbation.targetNodeId },
+    perturbation: proposal.perturbation ? { type: "silence", targetNodeId: proposal.perturbation.targetNodeId } : null,
   };
   return freezeRecord({ proposal, spec });
 }

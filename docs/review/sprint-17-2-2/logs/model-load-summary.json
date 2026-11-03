@@ -1,0 +1,904 @@
+[
+  {
+    "browser": "Mozilla Firefox 159.0",
+    "errors": [
+      "Error: Could not load /models/flyv2/FlyVisualV2_Web.glb: NetworkError when attempting to fetch resource."
+    ],
+    "blocked": [],
+    "realAppCases": [
+      {
+        "width": 1728,
+        "scroll": "top",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 639.433349609375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1258
+      },
+      {
+        "width": 1728,
+        "scroll": "middle",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 639.433349609375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1186
+      },
+      {
+        "width": 1728,
+        "scroll": "bottom",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 639.433349609375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1246
+      },
+      {
+        "width": 1366,
+        "scroll": "top",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 469,
+          "panelDocumentYDelta": 151.0999755859375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1352
+      },
+      {
+        "width": 1366,
+        "scroll": "middle",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 469,
+          "panelDocumentYDelta": 151.0999755859375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1319
+      },
+      {
+        "width": 1366,
+        "scroll": "bottom",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 469,
+          "panelDocumentYDelta": 151.0999755859375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1333
+      },
+      {
+        "width": 760,
+        "scroll": "top",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 1358,
+          "panelDocumentYDelta": 874.2666015625
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1363
+      },
+      {
+        "width": 760,
+        "scroll": "middle",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 1358,
+          "panelDocumentYDelta": 874.2667236328125
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1233
+      },
+      {
+        "width": 760,
+        "scroll": "bottom",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0.000030517578125,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 1358,
+          "panelDocumentYDelta": 874.266845703125
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1365
+      },
+      {
+        "width": 1728,
+        "scroll": "top",
+        "embodiment": true,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 639.433349609375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 1163
+      }
+    ],
+    "fixtureCases": [
+      {
+        "width": 1728,
+        "scroll": 0,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1728,
+        "scroll": 800,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1728,
+        "scroll": "bottom",
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1366,
+        "scroll": 0,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1366,
+        "scroll": 800,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1366,
+        "scroll": "bottom",
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 760,
+        "scroll": 0,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 760,
+        "scroll": 800,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 760,
+        "scroll": "bottom",
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      }
+    ]
+  },
+  {
+    "browser": "Microsoft Edge 156.0.4314.42",
+    "errors": [],
+    "blocked": [],
+    "realAppCases": [
+      {
+        "width": 1728,
+        "scroll": "top",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 638.9375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 377
+      },
+      {
+        "width": 1728,
+        "scroll": "middle",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 638.9375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 367
+      },
+      {
+        "width": 1728,
+        "scroll": "bottom",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 638.9375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 359
+      },
+      {
+        "width": 1366,
+        "scroll": "top",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 468,
+          "panelDocumentYDelta": 150.59375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 371
+      },
+      {
+        "width": 1366,
+        "scroll": "middle",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 468,
+          "panelDocumentYDelta": 150.59375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 382
+      },
+      {
+        "width": 1366,
+        "scroll": "bottom",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 468,
+          "panelDocumentYDelta": 150.59375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 376
+      },
+      {
+        "width": 760,
+        "scroll": "top",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 1358,
+          "panelDocumentYDelta": 873.75
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 367
+      },
+      {
+        "width": 760,
+        "scroll": "middle",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 1358,
+          "panelDocumentYDelta": 873.75
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 377
+      },
+      {
+        "width": 760,
+        "scroll": "bottom",
+        "embodiment": false,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 1358,
+          "panelDocumentYDelta": 873.75
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 367
+      },
+      {
+        "width": 1728,
+        "scroll": "top",
+        "embodiment": true,
+        "laneOrderViolations": [],
+        "eventIsolationViolations": [],
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "coldMountRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "rapidRange": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "panelHeight": 0,
+          "scrollY": 0,
+          "height": 0
+        },
+        "maxLiveGeometryDelta": 0,
+        "maxInternalTimelineGeometryDelta": 0,
+        "firstReceiptInitialization": {
+          "documentHeightDelta": 950,
+          "panelDocumentYDelta": 638.9375
+        },
+        "retainedValuesUnchanged": true,
+        "buffer": "DISPLAY BUFFER 120 / 120 frames",
+        "horizontalOverflow": false,
+        "samples": 406
+      }
+    ],
+    "fixtureCases": [
+      {
+        "width": 1728,
+        "scroll": 0,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1728,
+        "scroll": 800,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1728,
+        "scroll": "bottom",
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1366,
+        "scroll": 0,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1366,
+        "scroll": 800,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 1366,
+        "scroll": "bottom",
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 760,
+        "scroll": 0,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 760,
+        "scroll": 800,
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      },
+      {
+        "width": 760,
+        "scroll": "bottom",
+        "geometry": 0,
+        "scrollDelta": 0,
+        "heightRange": 0,
+        "replacements": [],
+        "eventIsolationViolations": []
+      }
+    ]
+  }
+]

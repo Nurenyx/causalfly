@@ -1,10 +1,11 @@
 import type { FruitFlyEvidence, FruitFlySnapshot } from "../sources/contracts";
 import type { ObservationalMetaState, WebObservationalResponse } from "./observational-contracts";
 import { observationalAnalysis } from "./observational-analysis";
+import { escapeCompatibility } from "./live-state-presentation";
 import { observationalResponseSchema } from "../meta/observational-schema";
 
 export function observationalRequest(question: string, snapshot: FruitFlySnapshot, frames: readonly FruitFlyEvidence[]) {
-  if (!question.trim() || !snapshot.evidence || !snapshot.retentionId) return null;
+  if (!question.trim() || !snapshot.evidence || !snapshot.retentionId || escapeCompatibility(question, snapshot, frames)?.blocked) return null;
   const sessionId = snapshot.evidence.telemetry.sessionId;
   const sequences = observationalAnalysis(snapshot, frames, 0).history.map(f => f.telemetry.sequence);
   return { researchQuestion: question, retentionId: snapshot.retentionId, sessionId, sequences };

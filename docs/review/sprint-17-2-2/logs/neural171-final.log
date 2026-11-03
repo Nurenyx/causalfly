@@ -1,0 +1,282 @@
+{
+  "before": false,
+  "playbackStates": 36,
+  "geometry": [
+    {
+      "width": 1728,
+      "condition": "Control",
+      "boxes": {
+        "outer": {
+          "x": 268,
+          "y": 1678.984375,
+          "width": 1436,
+          "height": 940.796875
+        },
+        "network": {
+          "x": 291,
+          "y": 2058.28125,
+          "width": 890.5,
+          "height": 416
+        },
+        "trace": {
+          "x": 1201.5,
+          "y": 2344.78125,
+          "width": 479.5,
+          "height": 200
+        },
+        "figure": {
+          "x": 291,
+          "y": 2054.28125,
+          "width": 890.5,
+          "height": 420
+        },
+        "toolbar": {
+          "x": 832.1875,
+          "y": 1799.78125,
+          "width": 307.625,
+          "height": 56
+        },
+        "response": {
+          "x": 1201.5,
+          "y": 1927.78125,
+          "width": 479.5,
+          "height": 673
+        },
+        "scrollY": 175,
+        "documentHeight": 3396,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1728,
+      "condition": "Intervention",
+      "boxes": {
+        "outer": {
+          "x": 268,
+          "y": 1678.984375,
+          "width": 1436,
+          "height": 940.796875
+        },
+        "network": {
+          "x": 291,
+          "y": 2058.28125,
+          "width": 890.5,
+          "height": 416
+        },
+        "trace": {
+          "x": 1201.5,
+          "y": 2344.78125,
+          "width": 479.5,
+          "height": 200
+        },
+        "figure": {
+          "x": 291,
+          "y": 2054.28125,
+          "width": 890.5,
+          "height": 420
+        },
+        "toolbar": {
+          "x": 832.1875,
+          "y": 1799.78125,
+          "width": 307.625,
+          "height": 56
+        },
+        "response": {
+          "x": 1201.5,
+          "y": 1927.78125,
+          "width": 479.5,
+          "height": 673
+        },
+        "scrollY": 175,
+        "documentHeight": 3396,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1366,
+      "condition": "Control",
+      "boxes": {
+        "outer": {
+          "x": 250,
+          "y": 1575.1875,
+          "width": 1098,
+          "height": 944.796875
+        },
+        "network": {
+          "x": 273,
+          "y": 1956.484375,
+          "width": 670.796875,
+          "height": 416
+        },
+        "trace": {
+          "x": 963.796875,
+          "y": 2244.984375,
+          "width": 361.1875,
+          "height": 200
+        },
+        "figure": {
+          "x": 273,
+          "y": 1952.484375,
+          "width": 670.796875,
+          "height": 420
+        },
+        "toolbar": {
+          "x": 645.1875,
+          "y": 1695.984375,
+          "width": 307.625,
+          "height": 56
+        },
+        "response": {
+          "x": 963.796875,
+          "y": 1823.984375,
+          "width": 361.1875,
+          "height": 677
+        },
+        "scrollY": 197,
+        "documentHeight": 3287,
+        "overflow": false
+      }
+    },
+    {
+      "width": 1366,
+      "condition": "Intervention",
+      "boxes": {
+        "outer": {
+          "x": 250,
+          "y": 1575.1875,
+          "width": 1098,
+          "height": 944.796875
+        },
+        "network": {
+          "x": 273,
+          "y": 1956.484375,
+          "width": 670.796875,
+          "height": 416
+        },
+        "trace": {
+          "x": 963.796875,
+          "y": 2244.984375,
+          "width": 361.1875,
+          "height": 200
+        },
+        "figure": {
+          "x": 273,
+          "y": 1952.484375,
+          "width": 670.796875,
+          "height": 420
+        },
+        "toolbar": {
+          "x": 645.1875,
+          "y": 1695.984375,
+          "width": 307.625,
+          "height": 56
+        },
+        "response": {
+          "x": 963.796875,
+          "y": 1823.984375,
+          "width": 361.1875,
+          "height": 677
+        },
+        "scrollY": 197,
+        "documentHeight": 3287,
+        "overflow": false
+      }
+    },
+    {
+      "width": 760,
+      "condition": "Control",
+      "boxes": {
+        "outer": {
+          "x": 16,
+          "y": 2643.984375,
+          "width": 728,
+          "height": 1407.984375
+        },
+        "network": {
+          "x": 39,
+          "y": 3003.96875,
+          "width": 682,
+          "height": 336
+        },
+        "trace": {
+          "x": 39,
+          "y": 3776.96875,
+          "width": 682,
+          "height": 200
+        },
+        "figure": {
+          "x": 39,
+          "y": 2999.96875,
+          "width": 682,
+          "height": 340
+        },
+        "toolbar": {
+          "x": 39,
+          "y": 2823.96875,
+          "width": 585.296875,
+          "height": 56
+        },
+        "response": {
+          "x": 39,
+          "y": 3359.96875,
+          "width": 682,
+          "height": 673
+        },
+        "scrollY": 695,
+        "documentHeight": 5447,
+        "overflow": false
+      }
+    },
+    {
+      "width": 760,
+      "condition": "Intervention",
+      "boxes": {
+        "outer": {
+          "x": 16,
+          "y": 2643.984375,
+          "width": 728,
+          "height": 1407.984375
+        },
+        "network": {
+          "x": 39,
+          "y": 3003.96875,
+          "width": 682,
+          "height": 336
+        },
+        "trace": {
+          "x": 39,
+          "y": 3776.96875,
+          "width": 682,
+          "height": 200
+        },
+        "figure": {
+          "x": 39,
+          "y": 2999.96875,
+          "width": 682,
+          "height": 340
+        },
+        "toolbar": {
+          "x": 39,
+          "y": 2823.96875,
+          "width": 585.296875,
+          "height": 56
+        },
+        "response": {
+          "x": 39,
+          "y": 3359.96875,
+          "width": 682,
+          "height": 673
+        },
+        "scrollY": 695,
+        "documentHeight": 5447,
+        "overflow": false
+      }
+    }
+  ],
+  "actions": [
+    "design",
+    "run"
+  ],
+  "errors": [],
+  "blocked": []
+}

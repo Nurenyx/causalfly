@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { useRef, useState, type Dispatch, type SetStateAction, type ReactNode } from "react";
 import type { ExecutionMode, GuidedDesign, MeasuredExperimentResult } from "@/lib/web/contracts";
 import type { PerceptionSession } from "@/lib/web/perception-session";
 import type { RunDiagnostics } from "@/lib/web/flight-recorder-types";
@@ -9,7 +9,7 @@ import { ComparisonMeasurements } from "./compare-dashboard";
 import { ScientistView } from "./ai-scientist";
 import { EvidenceView } from "./evidence-view";
 import { PerceptionPanel } from "./perception-panel";
-import { CockpitReadouts, CockpitScientist } from "./research-cockpit";
+import { CockpitReadouts, CockpitScientist, CompletedResultSummary } from "./research-cockpit";
 import { ResearchQuestion } from "./research-question";
 import { InfoTooltip, cockpitHelp } from "./info-tooltip";
 import { stimulusDraft } from "@/lib/web/stimulus-draft";
@@ -17,14 +17,24 @@ import { nodeLabel } from "@/lib/web/display-labels";
 import { guideViewportTo } from "@/lib/web/guided-scroll";
 import type { FlyModelKind } from "@/lib/web/fly-model";
 import type { InstrumentMode } from "@/lib/web/instrument-mode";
+import type { ExperimentType } from "@/lib/experiment/types";
+import { isStimulusResponse } from "@/lib/experiment/semantics";
+
+function CompletedSetup({ complete, children }: { complete: boolean; children: ReactNode }) {
+  return complete ? <details className="completed-setup"><summary>Review question, design & run settings</summary>{children}</details> : <>{children}</>;
+}
 
 interface Props {
+  experimentType?: ExperimentType;
+  onExperimentType?: (type:ExperimentType)=>void;
+  onStimulusComparison?: ()=>void;
   question: string;
   design?: GuidedDesign;
   result: MeasuredExperimentResult | null;
   pending: string;
   mode: ExecutionMode | null;
   onQuestion: (question: string) => void;
+  onPerceptionInference?: (active: boolean) => void;
   onDemo: () => void;
   onDesign: (amplitude?: number) => void;
   amplitude?: number;
@@ -65,12 +75,11 @@ export function GuidedExperiment(props: Props) {
   const [localAmplitude, setLocalAmplitude] = useState(1);
   const [autoPlay, setAutoPlay] = useState(false);
   const [questionEditing, setQuestionEditing] = useState(false);
-  const [questionOpen, setQuestionOpen] = useState(false);
   const [designOpen, setDesignOpen] = useState(false);
   const [runOpen, setRunOpen] = useState(false);
 
   const busy = Boolean(pending);
-  const retainedDesign = design?.researchQuestion.trim() === question.trim() ? design : undefined;
+  const retainedDesign = design?.researchQuestion.trim() === question.trim() && (!props.experimentType || (design.spec.experimentType ?? "NEURAL_INTERVENTION") === props.experimentType) ? design : undefined;
   const draft = stimulusDraft(retainedDesign, props.amplitude ?? localAmplitude);
   const currentDesign = draft.stale ? undefined : retainedDesign;
   const currentResult = currentDesign ? result : null;
@@ -80,7 +89,7 @@ export function GuidedExperiment(props: Props) {
   const perceived = Boolean(perception && currentDesign?.perceptionInput?.id === perception.id);
 
   const target = currentDesign
-    ? nodeLabel(currentDesign.spec.perturbation.targetNodeId)
+    ? nodeLabel(currentDesign.spec.perturbation?.targetNodeId ?? "unchanged network")
     : "Primary pathway";
 
   const nextTarget =
@@ -173,6 +182,7 @@ export function GuidedExperiment(props: Props) {
         control?.focus();
       }}
       onBusy={props.onPerceptionBusy ?? (() => {})}
+      onInference={props.onPerceptionInference}
       onUse={props.onStimulus ?? (() => {})}
     />
   );
@@ -194,59 +204,17 @@ export function GuidedExperiment(props: Props) {
           SECTION 1: QUESTION
           Progressive Disclosure: Collapses to concise summary when completed.
           ======================================================== */}
-      {currentDesign && !questionOpen ? (
-        <div className="guided-collapsed-summary question-collapsed-summary" id="demo-question-summary">
-          <div className="summary-left">
-            <span className="summary-status-tag">✓ Question</span>
-            <strong className="summary-text">&ldquo;{question}&rdquo;</strong>
-          </div>
-          <button
-            type="button"
-            className="secondary-button summary-toggle-btn"
-            onClick={() => setQuestionOpen(true)}
-            aria-expanded={false}
-          >
-            Edit question
-          </button>
-        </div>
-      ) : (
-        <section className="cockpit-command" id="demo-question" aria-label="Research question">
-          <ResearchQuestion
-            question={question}
-            busy={busy}
-            underTest={Boolean(currentDesign)}
-            onUse={props.onQuestion}
-            onEditing={setQuestionEditing}
-          />
-          <div className="cockpit-command-state">
-            <span className={currentResult ? "validated-text" : "cyan-text"}>
-              {pending
-                ? `${pending === "perception" ? "INPUT" : pending.toUpperCase()} / IN PROGRESS`
-                : questionEditing
-                ? "EDITING · USE THIS QUESTION TO CONTINUE"
-                : draft.stale
-                ? "INPUT CHANGED — REDESIGN REQUIRED"
-                : currentResult
-                ? "MEASUREMENT COMPLETE"
-                : currentDesign
-                ? "DESIGN VALIDATED / AWAITING APPROVAL"
-                : "QUESTION RETAINED · DESIGN WITH META NEXT"}
-            </span>
-          </div>
-          {questionOpen && currentDesign && (
-            <div className="stage-done-row">
-              <button
-                type="button"
-                className="secondary-button"
-                onClick={() => setQuestionOpen(false)}
-              >
-                Done editing question
-              </button>
-            </div>
-          )}
-        </section>
-      )}
-
+      <section className="cockpit-command persistent-question" id="demo-question" aria-label="Research question">
+        <ResearchQuestion question={question} busy={busy} underTest={Boolean(currentDesign)} completed={Boolean(currentResult)} onUse={props.onQuestion} onEditing={setQuestionEditing} />
+        <fieldset className="experiment-type-choice" disabled={busy}>
+          <legend>WHAT DO YOU WANT TO CHANGE?</legend>
+          <button type="button" aria-pressed={props.experimentType === "STIMULUS_RESPONSE"} onClick={()=>props.onExperimentType?.("STIMULUS_RESPONSE")}><strong>The environment</strong><small>Compare no stimulus with a stimulus.</small></button>
+          <button type="button" aria-pressed={props.experimentType !== "STIMULUS_RESPONSE"} onClick={()=>props.onExperimentType?.("NEURAL_INTERVENTION")}><strong>The nervous system</strong><small>Keep the same stimulus and change one pathway.</small></button>
+        </fieldset>
+      </section>
+      {currentResult && <CompletedResultSummary result={currentResult} onEvidence={props.onEvidence ?? (() => showDisclosure(evidenceDetails))} />}
+      {props.experimentType !== "STIMULUS_RESPONSE" && strength === 0 && <section className="zero-stimulus-guard" aria-label="No evoked signal to compare"><strong>{currentResult ? "NO EVOKED SIGNAL TO COMPARE" : "NO STIMULUS SELECTED"}</strong><p>Both runs {currentResult ? "received" : "will receive"} stimulus 0.0. To measure a stimulus response, compare no stimulus with a positive stimulus on the unchanged network.</p><button type="button" className="secondary-button" disabled={busy} onClick={props.onStimulusComparison}>COMPARE NO STIMULUS VS STIMULUS →</button></section>}
+      <CompletedSetup complete={Boolean(currentResult)}>
       {/* Progress Orientation (Requirement 5) */}
       <nav className="cockpit-progress" aria-label="Guided experiment progress">
         <ol>
@@ -287,7 +255,7 @@ export function GuidedExperiment(props: Props) {
           <div className="summary-left">
             <span className="summary-status-tag">✓ Experiment design</span>
             <strong className="summary-text">
-              One matched intervention: Silence {target.toUpperCase()} · Stimulus amplitude {strength.toFixed(3)}
+              {currentDesign && isStimulusResponse(currentDesign.spec) ? "No stimulus vs looming stimulus · identical network" : `One matched intervention: Silence ${target.toUpperCase()}`} · Stimulus amplitude {strength.toFixed(3)}
             </strong>
           </div>
           <button
@@ -321,6 +289,7 @@ export function GuidedExperiment(props: Props) {
         </div>
       )}
 
+      </CompletedSetup>
       {/* Clear Completion Transition Card (Requirement 9) */}
       {currentResult && props.instrumentMode !== "compare" && (
         <div className="matched-complete-transition" role="region" aria-label="Matched experiment complete">
@@ -329,7 +298,7 @@ export function GuidedExperiment(props: Props) {
             <strong>MATCHED EXPERIMENT COMPLETE</strong>
           </div>
           <p className="transition-summary">
-            Control and intervention runs finished. CausalFly measured peak normalized output, threshold crossing, and motor execution.
+            Both runs finished. CausalFly measured output and threshold timing. Decoder-selected body movement is procedurally rendered.
           </p>
           <button
             type="button"
@@ -402,6 +371,7 @@ export function GuidedExperiment(props: Props) {
           <EmbodiedExperiment
             key={`${currentDesign?.id ?? "preview"}-${currentResult ? "recorded" : "draft"}`}
             result={currentResult}
+            experimentType={props.experimentType}
             design={currentDesign}
             busy={busy}
             strength={strength}
@@ -453,6 +423,7 @@ export function GuidedExperiment(props: Props) {
           <EmbodiedExperiment
             key={`compare-${currentResult.researchQuestion}`}
             result={currentResult}
+            experimentType={props.experimentType}
             design={currentDesign}
             busy={busy}
             strength={strength}

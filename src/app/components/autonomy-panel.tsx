@@ -9,6 +9,7 @@ import { autonomyRecording } from "@/lib/web/autonomy-recorder";
 import { ExperimentalBrainAdapter, configuredBrainEndpoint } from "@/lib/sources/fruitfly-closed-loop";
 import type { FruitFlySnapshot } from "@/lib/sources/contracts";
 import type { FlyModelKind, FlyModelStatus } from "@/lib/web/fly-model";
+import { SensoryFeedbackControl, type FeedbackReceipt } from "./sensory-feedback-control";
 import { InfoTooltip } from "./info-tooltip";
 
 const World = dynamic(() => import("./embodied-world"), { ssr: false, loading: () => <div className="world-fallback">Preparing autonomous world…</div> });
@@ -19,7 +20,9 @@ export function AutonomyPanel({
   onModelStatus,
   snapshot,
   onBrainControlStatus,
+  readSnapshot,
 }: {
+  readSnapshot?: () => FruitFlySnapshot;
   model?: FlyModelKind;
   startLiveTrial?: boolean;
   onModelStatus?: (status: FlyModelStatus) => void;
@@ -36,6 +39,9 @@ export function AutonomyPanel({
   const [brainInput, setBrainInput] = useState(startLiveTrial);
   const [frames, setFrames] = useState<(AutonomyFrame | null)[]>([null]);
   const [retained, setRetained] = useState<AutonomyFrame[][]>([]);
+  const [acceptedContext, setAcceptedContext] = useState<{sessionId: string; tick: number; mode: string} | null>(null);
+  const [feedbackDetail, setFeedbackDetail] = useState("");
+  const [feedbackReceipt, setFeedbackReceipt] = useState<FeedbackReceipt>("ARMED");
   const [transportStatus, setTransportStatus] = useState("");
   const [replay, setReplay] = useState<{ cursor: number; length: number; playing: boolean } | null>(null);
   const [retainedCount, setRetainedCount] = useState(0);
@@ -43,6 +49,7 @@ export function AutonomyPanel({
   const adapter = useRef<ExperimentalBrainAdapter | null>(null);
   const player = useRef<AutonomyTrajectoryReplay | null>(null);
   const latestSnapshot = useRef(snapshot);
+  const sourceReader = useRef(readSnapshot);
   const pausedRef = useRef(false);
   const pulseAt = useRef(60);
   const [pulseTick, setPulseTick] = useState(60);
@@ -54,7 +61,7 @@ export function AutonomyPanel({
     configuredBrainEndpoint(process.env.NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL, process.env.NODE_ENV === "production")
   );
 
-  useEffect(() => { latestSnapshot.current = snapshot; }, [snapshot]);
+  useEffect(() => { latestSnapshot.current = snapshot; sourceReader.current = readSnapshot; }, [snapshot, readSnapshot]);
   useEffect(() => {
     const started = Date.now(), mode = trial ? "trial" : "exploration";
     const runs = [new AutonomyEngine({ source: external ? "fruitfly" : "synthetic", mode }, started)];
@@ -76,7 +83,7 @@ export function AutonomyPanel({
       } else {
         const isConnected = brain?.status === "Experimental brain input connected";
         const statusText = isConnected
-          ? "Connected / active"
+          ? "Connected / awaiting stimulus acceptance"
           : brain?.status?.includes("unavailable")
           ? "Unavailable"
           : brain?.status || "Connecting";
@@ -93,7 +100,7 @@ export function AutonomyPanel({
         for (const run of runs) {
           if (run.complete) continue;
           run.setPaused(pausedRef.current || document.hidden);
-          if (external && !brain) run.observe(latestSnapshot.current!, Date.now());
+          if (external && !brain) run.observe(sourceReader.current?.() ?? latestSnapshot.current!, Date.now());
           run.advance(elapsed, tick => scheduledStimulus(tick, pulseAt.current));
         }
         if (brain && !pausedRef.current && !document.hidden && !runs[0].complete) {
@@ -109,10 +116,16 @@ export function AutonomyPanel({
         else setRetainedCount(runs[0].tick === 0 ? 0 : (runs[0].tick - 1) % MAX_TICKS + 1);
         const currentBrainStatus = brain?.status ?? "";
         setTransportStatus(currentBrainStatus);
+        setFeedbackReceipt(brain?.feedbackState ?? "ARMED");
+        setFeedbackDetail(brain?.feedbackDetail ?? "");
+        if (brain?.feedbackState === "ACCEPTED") {
+          const t=(sourceReader.current?.() ?? latestSnapshot.current)?.evidence?.telemetry;
+          if (t) setAcceptedContext(current => current ?? {sessionId:t.sessionId,tick:t.neuralTick,mode:t.motorMode});
+        }
         if (onBrainControlStatus && brainInput && external) {
           const isConnected = currentBrainStatus === "Experimental brain input connected";
           const statusText = isConnected
-            ? "Connected / active"
+            ? "Connected / awaiting stimulus acceptance"
             : currentBrainStatus.includes("unavailable")
             ? "Unavailable"
             : currentBrainStatus || "Connecting";
@@ -129,6 +142,7 @@ export function AutonomyPanel({
     if (next && brainInput) adapter.current?.close("Paused; start a new brain session to reconnect experimental input");
   }
   function reset() {
+    setAcceptedContext(null); setFeedbackReceipt("ARMED"); setFeedbackDetail(""); setTransportStatus("");
     pausedRef.current = false; setPaused(false); player.current = null; setReplay(null);
     setPulseTick(60); setRetainedCount(0); setRetained([]); setFrames([null]); setSession(value => value + 1);
   }
@@ -168,6 +182,8 @@ export function AutonomyPanel({
   const isClosedLoopUnavailable = external && (!brainInput || !brainEndpointConfigured || transportStatus?.includes("unavailable"));
 
   return <section className="autonomy-panel" aria-label="Autonomous experimental behaviour" data-mode={replay ? "replay" : trial ? "trial" : "exploration"} data-behaviour={frame?.decision.state ?? "IDLE"} data-source={frame?.decision.source ?? "BASELINE_AUTONOMOUS_POLICY"} data-tick={frame?.tick ?? 0} data-altitude={frame?.after.altitude ?? 0}>
+    <div className="procedural-boundary" role="note"><strong>PROCEDURAL EMBODIMENT</strong><span>Decoder selects supported states; CausalFly executes movement.</span></div>
+    {external && <SensoryFeedbackControl decoderChangedAfterAcceptance={Boolean(acceptedContext && snapshot?.evidence?.telemetry.sessionId === acceptedContext.sessionId && snapshot.evidence.telemetry.neuralTick > acceptedContext.tick && snapshot.evidence.telemetry.motorMode !== acceptedContext.mode)} disabled={Boolean(replay)} armed={brainInput} available={brainEndpointConfigured && !replay && !paused && !complete && !/unavailable|disconnected|ended|capacity|failed/i.test(transportStatus)} receipt={feedbackReceipt} detail={feedbackDetail || transportStatus} onChange={value => { setBrainInput(value); reset(); }} />}
     <div className="autonomy-world" data-model-status={modelStatus} >
       {model === "anatomical" && modelStatus === "loading" && <p className="anatomical-loading" role="status">Loading anatomical model…</p>}
       {model === "anatomical" && modelStatus === "fallback" && <p className="anatomical-loading" role="status">Anatomical model unavailable · Lightweight fallback</p>}
@@ -225,20 +241,20 @@ export function AutonomyPanel({
       {replay && <><button type="button" className="text-button" onClick={toggleReplay}>{replay.playing ? "Pause replay" : "Play replay"}</button><button type="button" className="text-button" onClick={restartReplay}>Restart replay</button><button type="button" className="text-button" onClick={exitReplay}>Return to autonomous world</button></>}
     </div>
 
-    {external && isClosedLoopUnavailable && (
-      <div className="stimulus-brain-warning" role="note">
-        <p><strong>Closed-loop Brain control is not connected.</strong> Telemetry observation remains available.</p>
-        <small>Presenting a stimulus in this mode tests visual perception and arena geometry without closed-loop connectome control. Baseline autonomous steering will continue.</small>
+    {external && (
+      <div className="stimulus-brain-warning" role="note" data-unavailable={isClosedLoopUnavailable}>
+        <p><strong>{isClosedLoopUnavailable ? "Closed-loop Brain control is not connected." : "Experimental sensory proxy channel."}</strong> Telemetry observation remains available.</p>
+        <small>{isClosedLoopUnavailable ? "Presenting a stimulus in this mode tests visual perception and arena geometry without closed-loop connectome control. Baseline autonomous steering will continue." : "Only validated server receipts establish stimulus acceptance. Rendered movement remains procedural."}</small>
       </div>
     )}
 
     <p className="autonomy-timing">{replay ? `Retained trajectory · frame ${replay.cursor + 1} / ${replay.length} · no new decisions` : trial ? `${Math.min((frame?.tick ?? 0) * .05, 60).toFixed(1)} / 60.0 s · ${Math.max(0, 60 - (frame?.tick ?? 0) * .05).toFixed(1)} s remaining` : `${((frame?.tick ?? 0) * .05).toFixed(1)} s elapsed · continuous exploration, not a measured experiment`}</p>
     <small id="autonomy-replay-help" className="autonomy-replay-help">{replay ? "Past recorded trajectory. Does not rerun the experiment, create neural decisions, or change evidence; autonomy is paused." : retainedCount < 2 ? "Replay unavailable: no retained motion trajectory yet." : "Replay uses the current retained recording window. Export evidence before reset or starting a new session."}</small>
-    {external && <div className="autonomy-transport"><label><input type="checkbox" checked={brainInput} disabled={Boolean(replay)} onChange={event => { setBrainInput(event.target.checked); reset(); }} /> Experimental sensory feedback to brain server</label><small>{brainInput ? transportStatus || "Connecting experimental brain input" : "Observational decoder input only; no sensor messages sent."} Experimental research brain sessions remain bounded; exploration can continue under the baseline policy after disconnection. Neural perturbations are unavailable.</small></div>}
+
     {matched && <div className="matched-disclosure"><strong>ONE THING CHANGED: Primary A silenced</strong><span>Same world · same starting conditions · same seed (12) · same scheduled stimulus · same 60 s window</span><small>Matched deterministic fixture; sensed feedback can diverge as the flies move.</small><span>SHARED STIMULUS: {frame?.stimulus ? "PRESENT IN BOTH CONDITIONS" : (frame?.tick ?? 0) < pulseTick ? `SCHEDULED AT ${(pulseTick * .05).toFixed(1)} s` : "PULSE COMPLETE"}</span></div>}
 
     <p className="autonomy-policy">Baseline locomotion is engineered. Neural simulation can modify/select supported behavioral states. Motor execution: CausalFly procedural controller.</p>
-    {frame?.motor.trigger?.source === "FRUITFLY_XR" && frame.motor.phase !== "GROUNDED" && <p className="autonomy-lineage">Simulated connectome activity → Decoder: ESCAPE → Behavior: ESCAPE / recovery → CausalFly procedural motor execution. The brain server supplies neural signals, not body mechanics.</p>}
+    <p className="autonomy-lineage">{frame?.motor.trigger?.source === "FRUITFLY_XR" && frame.motor.phase !== "GROUNDED" ? "Simulated connectome activity → Decoder: ESCAPE → Behavior: ESCAPE / recovery → CausalFly procedural motor execution. The brain server supplies neural signals, not body mechanics." : "Rendered movement uses the CausalFly procedural controller. No biological body mechanics are claimed."}</p>
     <div className="autonomy-caption"><span>{matched ? "Left: control · right: silence synthetic primary_a. Same seed and external object; sensed feedback can diverge." : external ? "Live connectome decoder signals select supported states; CausalFly executes movement." : "Separate synthetic controller demonstration; approved experiment measurements remain separate."} Not real-fly validated.</span><button type="button" className="text-button" onClick={exportEvidence}>Export autonomy evidence</button></div>
     {external && <p className="autonomy-comparison">Female anatomical visual mesh · male CNS neural simulation. Not sex-matched. <a href="/models/flyv2/NOTICE.txt" target="_blank" rel="noreferrer">FlyBody attribution and modifications</a></p>}
     {matched && <p className="autonomy-comparison">{frames.map((f, i) => `${i ? "Silenced primary_a" : "Control"}: ${f?.decision.state ?? "IDLE"} / ${behaviourSourceLabels[f?.decision.source ?? "BASELINE_AUTONOMOUS_POLICY"]} / speed ${f?.after.speed.toFixed(2) ?? "0.00"}`).join(" · ")}</p>}

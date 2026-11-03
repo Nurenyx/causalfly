@@ -32,13 +32,13 @@ test("Live workflow uses local steps with completion independent of optional Met
 });
 test("Meta availability, explicit activity, offline fixtures and missing config have distinct truthful semantics", () => {
   const live = render(<MetaStatus mode="META LIVE" working={false} />);
-  assert.match(live, /Meta · Live mode status/); assert.match(live, /META AI/);
+  assert.match(live, /META READY status/); assert.match(live, /META AI/);
   assert.match(live, /No Meta request occurs until you explicitly choose/);
-  assert.doesNotMatch(live, /Meta · Working/);
-  assert.match(render(<MetaStatus mode="META LIVE" working />), /Meta · Working status/);
+  assert.doesNotMatch(live, /META PROCESSING/);
+  assert.match(render(<MetaStatus mode="META LIVE" working />), /META PROCESSING status/);
   const fake = render(<MetaStatus mode="FAKE META CLIENT" working={false} />);
   assert.match(fake, /OFFLINE META MODE/); assert.match(fake, /No live Meta model requests/);
-  assert.doesNotMatch(render(<MetaStatus mode="FAKE META CLIENT" working />), /Meta · Working/);
+  assert.doesNotMatch(render(<MetaStatus mode="FAKE META CLIENT" working />), /META PROCESSING/);
   assert.match(render(<MetaStatus mode={null} working={false} />), /META CONFIGURATION NEEDED/);
   for (const html of [live, fake]) {
     assert.match(html, /aria-describedby=/); assert.match(html, /aria-expanded="false"/); assert.match(html, /role="tooltip"/); assert.match(html, /hidden=""/);

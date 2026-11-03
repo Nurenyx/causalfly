@@ -1,0 +1,311 @@
+[
+  {
+    "state": "CONNECTED",
+    "boxes": {
+      "0 main-content": {
+        "y": 344.296875,
+        "h": 1979.734375,
+        "margin": "0px",
+        "border": "0px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSLive telemetry readyWAITIN"
+      },
+      "1 live-launcher": {
+        "y": 354.296875,
+        "h": 267.984375,
+        "margin": "0px 0px 20px",
+        "border": "1px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSLive telemetry readyWAITIN"
+      },
+      "2 live-launcher-heading": {
+        "y": 371.296875,
+        "h": 68.390625,
+        "margin": "0px",
+        "border": "0px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSLive telemetry readyWAITIN"
+      },
+      "3 ": {
+        "y": 439.6875,
+        "h": 72,
+        "margin": "0px",
+        "border": "0px",
+        "text": "Connected to the brain server. Waiting for the simulation ho"
+      },
+      "4 live-telemetry-capability": {
+        "y": 371.296875,
+        "h": 140.390625,
+        "margin": "0px",
+        "border": "0px 0px 0px 1px",
+        "text": "READ-ONLY TELEMETRYTrial control unavailable on this host. S"
+      },
+      "5 live-launcher-actions": {
+        "y": 529.6875,
+        "h": 43.59375,
+        "margin": "18px 0px 14px",
+        "border": "0px",
+        "text": "REPLAY VALIDATED RUNReconnect backend"
+      },
+      "6 secondary-button": {
+        "y": 529.6875,
+        "h": 43.59375,
+        "margin": "0px",
+        "border": "1px",
+        "text": "REPLAY VALIDATED RUN"
+      },
+      "7 text-button": {
+        "y": 531.484375,
+        "h": 40,
+        "margin": "0px",
+        "border": "0px",
+        "text": "Reconnect backend"
+      },
+      "8 ": {
+        "y": 587.28125,
+        "h": 18,
+        "margin": "0px",
+        "border": "0px",
+        "text": "No neural frames received yet. Telemetry begins when the sim"
+      },
+      "9 live-session_session__A9RDe": {
+        "y": 642.28125,
+        "h": 1471,
+        "margin": "0px",
+        "border": "0px",
+        "text": "LIVE CONNECTOME SIMULATIONSERVERCONNECTEDSTREAMWAITING FOR F"
+      },
+      "10 live-session_sessionBar__f7_zE": {
+        "y": 642.28125,
+        "h": 84,
+        "margin": "0px",
+        "border": "1px 0px",
+        "text": "LIVE CONNECTOME SIMULATIONSERVERCONNECTEDSTREAMWAITING FOR F"
+      },
+      "11 live-session_statusStrip__DuNQx ": {
+        "y": 734.28125,
+        "h": 36,
+        "margin": "8px 2px 10px",
+        "border": "0px",
+        "text": "fixtureDISPLAY BUFFER 0 / 120 frames"
+      },
+      "12 panel session-question": {
+        "y": 2113.28125,
+        "h": 163.75,
+        "margin": "0px 0px 16px",
+        "border": "1px",
+        "text": "What do you want to understand from this simulation?What cha"
+      },
+      "13 trace-note": {
+        "y": 2293.03125,
+        "h": 17,
+        "margin": "8px 0px 0px",
+        "border": "0px",
+        "text": "XR PREVIEW · The current bridge supplies no video or image f"
+      }
+    }
+  },
+  {
+    "state": "DATA RECEIVED",
+    "boxes": {
+      "0 main-content": {
+        "y": 344.296875,
+        "h": 3211.859375,
+        "margin": "0px",
+        "border": "0px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSReceiving live telemetryRE"
+      },
+      "1 live-launcher": {
+        "y": 354.296875,
+        "h": 249.984375,
+        "margin": "0px 0px 20px",
+        "border": "1px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSReceiving live telemetryRE"
+      },
+      "2 live-launcher-heading": {
+        "y": 371.296875,
+        "h": 68.390625,
+        "margin": "0px",
+        "border": "0px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSReceiving live telemetryRE"
+      },
+      "3 ": {
+        "y": 439.6875,
+        "h": 72,
+        "margin": "0px",
+        "border": "0px",
+        "text": "Simulation frames are arriving from the host. This telemetry"
+      },
+      "4 live-telemetry-capability": {
+        "y": 371.296875,
+        "h": 140.390625,
+        "margin": "0px",
+        "border": "0px 0px 0px 1px",
+        "text": "READ-ONLY TELEMETRYTrial control unavailable on this host. S"
+      },
+      "5 live-launcher-actions": {
+        "y": 529.6875,
+        "h": 43.59375,
+        "margin": "18px 0px 14px",
+        "border": "0px",
+        "text": "REPLAY VALIDATED RUNReconnect backend"
+      },
+      "6 secondary-button": {
+        "y": 529.6875,
+        "h": 43.59375,
+        "margin": "0px",
+        "border": "1px",
+        "text": "REPLAY VALIDATED RUN"
+      },
+      "7 text-button": {
+        "y": 531.484375,
+        "h": 40,
+        "margin": "0px",
+        "border": "0px",
+        "text": "Reconnect backend"
+      },
+      "8 live-session_session__A9RDe": {
+        "y": 624.28125,
+        "h": 2696.625,
+        "margin": "0px",
+        "border": "0px",
+        "text": "LIVE CONNECTOME SIMULATIONSERVERCONNECTEDSTREAMLIVEEVIDENCEC"
+      },
+      "9 live-session_sessionBar__f7_zE": {
+        "y": 624.28125,
+        "h": 245,
+        "margin": "0px",
+        "border": "1px 0px",
+        "text": "LIVE CONNECTOME SIMULATIONSERVERCONNECTEDSTREAMLIVEEVIDENCEC"
+      },
+      "10 live-session_statusStrip__DuNQx ": {
+        "y": 877.28125,
+        "h": 36,
+        "margin": "8px 2px 10px",
+        "border": "0px",
+        "text": "Published fruit-fly connectome · Simulated neural dynamicsDI"
+      },
+      "11 panel session-question": {
+        "y": 3320.90625,
+        "h": 163.75,
+        "margin": "0px 0px 16px",
+        "border": "1px",
+        "text": "What do you want to understand from this simulation?What cha"
+      },
+      "12 workflow-notice": {
+        "y": 3500.65625,
+        "h": 16.5,
+        "margin": "8px 26px 0px",
+        "border": "0px",
+        "text": "Retained telemetry is historical context for this question. "
+      },
+      "13 trace-note": {
+        "y": 3525.15625,
+        "h": 17,
+        "margin": "8px 0px 0px",
+        "border": "0px",
+        "text": "XR PREVIEW · The current bridge supplies no video or image f"
+      }
+    }
+  },
+  {
+    "state": "DISCONNECTED",
+    "boxes": {
+      "0 main-content": {
+        "y": 344.296875,
+        "h": 3213.859375,
+        "margin": "0px",
+        "border": "0px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSRetained simulation snapsh"
+      },
+      "1 live-launcher": {
+        "y": 354.296875,
+        "h": 251.984375,
+        "margin": "0px 0px 20px",
+        "border": "1px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSRetained simulation snapsh"
+      },
+      "2 live-launcher-heading": {
+        "y": 371.296875,
+        "h": 68.390625,
+        "margin": "0px",
+        "border": "0px",
+        "text": "male-cns:v1.0 · SIMULATED DYNAMICSRetained simulation snapsh"
+      },
+      "3 ": {
+        "y": 439.6875,
+        "h": 72,
+        "margin": "0px",
+        "border": "0px",
+        "text": "The last received simulation snapshot remains inspectable. N"
+      },
+      "4 live-telemetry-capability": {
+        "y": 371.296875,
+        "h": 140.390625,
+        "margin": "0px",
+        "border": "0px 0px 0px 1px",
+        "text": "READ-ONLY TELEMETRYTrial control unavailable on this host. S"
+      },
+      "5 live-launcher-actions": {
+        "y": 529.6875,
+        "h": 45.59375,
+        "margin": "18px 0px 14px",
+        "border": "0px",
+        "text": "REPLAY VALIDATED RUNReconnect backend"
+      },
+      "6 primary-button": {
+        "y": 529.6875,
+        "h": 45.59375,
+        "margin": "0px",
+        "border": "1px",
+        "text": "REPLAY VALIDATED RUN"
+      },
+      "7 text-button": {
+        "y": 532.484375,
+        "h": 40,
+        "margin": "0px",
+        "border": "0px",
+        "text": "Reconnect backend"
+      },
+      "8 live-session_session__A9RDe": {
+        "y": 626.28125,
+        "h": 2696.625,
+        "margin": "0px",
+        "border": "0px",
+        "text": "LIVE CONNECTOME SIMULATIONSERVERDISCONNECTEDSTREAMINACTIVEEV"
+      },
+      "9 live-session_sessionBar__f7_zE": {
+        "y": 626.28125,
+        "h": 245,
+        "margin": "0px",
+        "border": "1px 0px",
+        "text": "LIVE CONNECTOME SIMULATIONSERVERDISCONNECTEDSTREAMINACTIVEEV"
+      },
+      "10 live-session_statusStrip__DuNQx live-session_historical__k22Ea": {
+        "y": 879.28125,
+        "h": 36,
+        "margin": "8px 2px 10px",
+        "border": "0px",
+        "text": "Last received: 2026-11-03 01:10:39.380 UTC · No current acti"
+      },
+      "11 panel session-question": {
+        "y": 3322.90625,
+        "h": 163.75,
+        "margin": "0px 0px 16px",
+        "border": "1px",
+        "text": "What do you want to understand from this simulation?What cha"
+      },
+      "12 workflow-notice": {
+        "y": 3502.65625,
+        "h": 16.5,
+        "margin": "8px 26px 0px",
+        "border": "0px",
+        "text": "Retained telemetry is historical context for this question. "
+      },
+      "13 trace-note": {
+        "y": 3527.15625,
+        "h": 17,
+        "margin": "8px 0px 0px",
+        "border": "0px",
+        "text": "XR PREVIEW · The current bridge supplies no video or image f"
+      }
+    }
+  }
+]

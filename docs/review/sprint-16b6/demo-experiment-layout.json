@@ -1,0 +1,132 @@
+{
+  "name": "demo-experiment-layout",
+  "fixtureOnly": true,
+  "topology": {
+    "x": 279,
+    "y": 383.265625,
+    "width": 1048.5,
+    "height": 316.203125
+  },
+  "views": [
+    {
+      "focus": "both",
+      "camera": {
+        "position": [
+          0,
+          9.098107765896309,
+          10.543781178302009
+        ],
+        "target": [
+          0,
+          0.8335,
+          -2.1710000000000003
+        ],
+        "width": 1392,
+        "height": 518.390625,
+        "focus": "both",
+        "fitComparisonToPanel": false,
+        "fov": 34,
+        "bounds": {
+          "min": [
+            -4.675,
+            -0.3,
+            -6.667
+          ],
+          "max": [
+            4.675,
+            1.967,
+            2.3249999999999997
+          ]
+        },
+        "framing": "visual-bounds"
+      },
+      "arena": {
+        "x": 290,
+        "y": 577.28125,
+        "width": 1392,
+        "height": 518.390625
+      }
+    },
+    {
+      "focus": "control",
+      "camera": {
+        "position": [
+          -2.35,
+          9.098107765896309,
+          10.543781178302009
+        ],
+        "target": [
+          -2.35,
+          0.8335,
+          -2.1710000000000003
+        ],
+        "width": 1392,
+        "height": 518.390625,
+        "focus": "control",
+        "fitComparisonToPanel": false,
+        "fov": 34,
+        "bounds": {
+          "min": [
+            -4.675,
+            -0.3,
+            -6.667
+          ],
+          "max": [
+            -0.02500000000000019,
+            1.967,
+            2.3249999999999997
+          ]
+        },
+        "framing": "visual-bounds"
+      },
+      "arena": {
+        "x": 536,
+        "y": 684.28125,
+        "width": 900,
+        "height": 518.390625
+      }
+    },
+    {
+      "focus": "perturbed",
+      "camera": {
+        "position": [
+          2.35,
+          9.098107765896309,
+          10.543781178302009
+        ],
+        "target": [
+          2.35,
+          0.8335,
+          -2.1710000000000003
+        ],
+        "width": 900,
+        "height": 518.390625,
+        "focus": "perturbed",
+        "fitComparisonToPanel": false,
+        "fov": 34,
+        "bounds": {
+          "min": [
+            0.02500000000000019,
+            -0.3,
+            -6.667
+          ],
+          "max": [
+            4.675,
+            1.967,
+            2.3249999999999997
+          ]
+        },
+        "framing": "visual-bounds"
+      },
+      "arena": {
+        "x": 536,
+        "y": 684.28125,
+        "width": 900,
+        "height": 518.390625
+      }
+    }
+  ],
+  "providerRequests": 0,
+  "realBrainMessages": 0,
+  "errors": []
+}

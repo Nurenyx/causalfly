@@ -85,14 +85,16 @@ test("Control vs Intervention DOM overlays and visual semantics are immediately 
   // Control overlay
   assert.match(html, /class="compare-overlay control-overlay"/);
   assert.match(html, /01 \/ CONTROL/);
-  assert.match(html, /Network unchanged/);
+  assert.match(html, /Intact network/);
   assert.match(html, /cyan-dot/);
-  assert.match(html, /class="overlay-metric-label">RECORDED BEHAVIOUR<\/span>/);
+  assert.match(html, /<span>DECODER<\/span>/);
+  assert.match(html, /<span>PROCEDURAL BODY<\/span>/);
+  assert.match(html, /Rendered displacement 0\.00 scene units · not a body measurement/);
 
   // Intervention overlay with dynamic target
   assert.match(html, /class="compare-overlay intervention-overlay"/);
   assert.match(html, /02 \/ INTERVENTION/);
-  assert.match(html, /Silence PRIMARY A/i);
+  assert.match(html, /Silence Primary A/i);
   assert.match(html, /magenta-dot/);
 });
 
@@ -157,7 +159,7 @@ test("Compact difference summary displays truthful engine measurements without u
   assert.match(html, /Peak Normalized Output/);
   assert.match(html, /Threshold Crossing/);
   assert.match(html, /Response Step/);
-  assert.match(html, /Motor Execution/);
+  assert.match(html, /Threshold outcome/);
   assert.match(html, /-50% normalized peak output/);
 
   // Prohibited unscientific units & metrics

@@ -1,3 +1,5 @@
+import { escapeCompatibility } from "@/lib/web/live-state-presentation";
+import { QuestionCompatibility } from "./live-state-summary";
 import type { FruitFlyEvidence, FruitFlySnapshot } from "@/lib/sources/contracts";
 import { number } from "@/lib/sources/live-session";
 import { observationalAnalysis } from "@/lib/web/observational-analysis";
@@ -39,11 +41,13 @@ export function FruitFlyScientist({ snapshot, frames, now, question, meta, onLiv
   const evidence = snapshot.evidence;
   const t = evidence?.telemetry;
   const { status, history, observations, changes, suggestions } = observationalAnalysis(snapshot, frames, now ?? 0);
+  const eventBlocked = Boolean(question && escapeCompatibility(question, snapshot, frames)?.blocked);
   const answer = question === undefined ? null : answerObservationalQuestion(question, snapshot, frames, now ?? 0);
   return <div className="xr-scientist" aria-label="Live connectome simulation observational analysis">
     <div className="xr-analysis-heading"><div className="page-intro"><span className="eyebrow cyan-text">LIVE CONNECTOME SIMULATION / OBSERVATIONAL ANALYSIS</span><h2>What the evidence shows.</h2><p>Local interpretation of received simulation telemetry.</p></div><div className="xr-analysis-badges"><Badge tone="amber">DETERMINISTIC / LOCAL</Badge><Badge tone={status.historical ? "amber" : status.live ? "green" : status.tone}>{status.historical ? "LAST SNAPSHOT" : status.live ? "LIVE" : status.label}</Badge></div></div>
     <section className="xr-question-answer" aria-label="Question and retained evidence answer"><span className="eyebrow cyan-text">QUESTION ASKED</span><h3 className="xr-exact-question">{question ?? "No question submitted yet."}</h3><span className="eyebrow amber-text">WHAT THE EVIDENCE SHOWS</span><p className="xr-answer-summary">{answer?.summary ?? "Ask a question in the Observatory to organize this retained evidence."}</p>{answer && <><ul>{answer.facts.map((fact, i) => <li key={i}>{fact}</li>)}</ul>{answer.missing && <p className="xr-missing-evidence"><strong>Evidence needed:</strong> {answer.missing}</p>}<small>Received frames only · deterministic / local · {answer.intent.replaceAll("_", " ")}</small></>}</section>
-    <FruitFlyMetaAnalysis {...(meta ?? { state: { pending: false }, enabled: false, onAnalyze: () => {} })} />
+    <QuestionCompatibility question={question} snapshot={snapshot} frames={frames} onEvidence={onEvidence} />
+    {!eventBlocked && <FruitFlyMetaAnalysis {...(meta ?? { state: { pending: false }, enabled: false, onAnalyze: () => {} })} />}
     <details className="panel"><summary>Session identity, timing & source details</summary><section className="panel xr-session-summary"><SectionTitle index="XR" title="Session summary"><Badge tone={evidence ? "green" : "muted"}>{evidence ? "VERIFIED SOURCE" : "AWAITING SOURCE EVIDENCE"}</Badge></SectionTitle><dl>
       <div><dt>Dataset / source</dt><dd>{evidence?.provenance.dataset ?? "Awaiting validated frame"}<small>Live connectome simulation · simulated dynamics</small></dd></div><div className="xr-session-id"><dt>Session</dt><dd>{t?.sessionId ?? "—"}</dd></div><div><dt>Sequence</dt><dd>{t ? number(t.sequence) : "—"}</dd></div><div><dt>Model time</dt><dd>{t ? `${number(t.simulationMs)} ms` : "—"}</dd></div><div><dt>Simulation tick</dt><dd>{t ? number(t.neuralTick) : "—"}</dd></div><div><dt>Stream state</dt><dd>{status.label}<small>Transport: {snapshot.state}</small></dd></div>
     </dl>{status.historical && <p className="xr-historical-note" role="status">Last received snapshot retained. No current activity is claimed.</p>}</section></details>

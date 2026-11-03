@@ -1,0 +1,17 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.evaluate: TypeError: Cannot read properties of null (reading 'getBoundingClientRect')
+    at rect (eval at evaluate (:311:30), <anonymous>:2:59)
+    at eval (eval at evaluate (:311:30), <anonymous>:5:148)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at geometry (C:\Users\Jason\Documents\GitHub\causalfly\scripts\human-state-browser-review.mjs:46:32)
+    at async reviewHumanStates (C:\Users\Jason\Documents\GitHub\causalfly\scripts\human-state-browser-review.mjs:104:19)
+    at async reviewHumanAcceptance (C:\Users\Jason\Documents\GitHub\causalfly\scripts\human-state-browser-review.mjs:165:11)
+    at async file:///C:/Users/Jason/Documents/GitHub/causalfly/scripts/sprint16a-browser-review.mjs:243:18 {
+  log: []
+}
+
+Node.js v24.18.0

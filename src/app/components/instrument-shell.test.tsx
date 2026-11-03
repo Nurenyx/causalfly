@@ -182,34 +182,34 @@ test("BrainServerStatus accurately reflects the 5 operational states", () => {
   // State 1: Disconnected
   const disconnected = disconnectedFruitFly();
   const htmlState1 = render(<BrainServerStatus snapshot={disconnected} now={null} controlAvailable={false} />);
-  assert.match(htmlState1, /Brain · Disconnected/);
-  assert.match(htmlState1, /• Read-only observatory telemetry: Disconnected/);
+  assert.match(htmlState1, /SERVER DISCONNECTED/);
+  assert.match(htmlState1, /SERVER DISCONNECTED/);
 
   // State 2: Observatory connected, waiting for first frame (no frames received yet)
   const connectedWaiting = makeSnapshot("CONNECTED");
   const htmlState2 = render(<BrainServerStatus snapshot={connectedWaiting} now={baseTime} controlAvailable={false} controlStatus="Configured / standby" />);
-  assert.match(htmlState2, /Brain · Telemetry Standby/);
-  assert.doesNotMatch(htmlState2, /Telemetry Live/);
-  assert.match(htmlState2, /• Read-only observatory telemetry: Connected \/ waiting for first frame/);
-  assert.match(htmlState2, /• Closed-loop sensory\/control: Configured \/ standby/);
+  assert.match(htmlState2, /SERVER CONNECTED/);
+  assert.doesNotMatch(htmlState2, /data-state="LIVE"/);
+  assert.match(htmlState2, /WAITING FOR FIRST FRAME/);
+  assert.match(htmlState2, /Closed-loop sensory\/control: Configured \/ standby/);
 
   // State 3: Retained/last snapshot, no current frames (stale: age > 5000ms)
   const staleSnapshot = makeSnapshot("DATA RECEIVED", baseTime - 10_000);
   const htmlState3 = render(<BrainServerStatus snapshot={staleSnapshot} now={baseTime} controlAvailable={false} />);
-  assert.match(htmlState3, /Brain · Telemetry Standby/);
-  assert.doesNotMatch(htmlState3, /Telemetry Live/);
-  assert.match(htmlState3, /• Read-only observatory telemetry: Last snapshot \/ stale/);
+  assert.match(htmlState3, /SERVER CONNECTED/);
+  assert.doesNotMatch(htmlState3, /data-state="LIVE"/);
+  assert.match(htmlState3, /RETAINED SNAPSHOT/);
 
   // State 4: Fresh/current observatory frames (received 500ms ago)
   const freshSnapshot = makeSnapshot("DATA RECEIVED", baseTime - 500);
   const htmlState4 = render(<BrainServerStatus snapshot={freshSnapshot} now={baseTime} controlAvailable={false} />);
-  assert.match(htmlState4, /Brain · Telemetry Live/);
-  assert.match(htmlState4, /• Read-only observatory telemetry: Current \/ fresh \(streaming\)/);
+  assert.match(htmlState4, /SERVER CONNECTED/);
+  assert.match(htmlState4, /CURRENT/);
 
   // State 5: Fresh telemetry + active closed-loop control
   const htmlState5 = render(<BrainServerStatus snapshot={freshSnapshot} now={baseTime} controlAvailable={true} />);
-  assert.match(htmlState5, /Brain · Telemetry \+ Control/);
-  assert.match(htmlState5, /• Closed-loop sensory\/control: Connected \/ active/);
+  assert.match(htmlState5, /SERVER CONNECTED/);
+  assert.match(htmlState5, /Closed-loop sensory\/control: Connected \/ active/);
 });
 
 // ==========================================
@@ -217,18 +217,18 @@ test("BrainServerStatus accurately reflects the 5 operational states", () => {
 // ==========================================
 test("MetaStatus semantics accurately describe live mode enabled without claiming continuous verification", () => {
   const live = render(<MetaStatus mode="META LIVE" working={false} />);
-  assert.match(live, /Meta · Live mode/);
+  assert.match(live, /META READY/);
   assert.match(live, /META AI/);
   assert.match(live, /No live provider ping or health check is performed in the background/);
   assert.match(live, /No Meta request occurs until you explicitly choose a Meta AI action/);
   assert.match(live, /Availability\/configuration indicator · no continuous inference/);
 
   const fake = render(<MetaStatus mode="FAKE META CLIENT" working={false} />);
-  assert.match(fake, /Meta · Offline Fixture/);
+  assert.match(fake, /META OFFLINE FIXTURE/);
   assert.match(fake, /No live Meta model requests/);
 
   const working = render(<MetaStatus mode="META LIVE" working={true} />);
-  assert.match(working, /Meta · Working/);
+  assert.match(working, /META PROCESSING/);
 
   const authError = render(
     <MetaStatus
@@ -237,9 +237,9 @@ test("MetaStatus semantics accurately describe live mode enabled without claimin
       error="Meta Model API authentication failed. Check the server configuration."
     />
   );
-  assert.match(authError, /Meta · Auth error/);
+  assert.match(authError, /META ERROR/);
   assert.match(authError, /authentication failed/);
-  assert.doesNotMatch(authError, /Meta · Live mode/);
+  assert.doesNotMatch(authError, /META READY/);
 });
 
 // ==========================================

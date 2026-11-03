@@ -1,0 +1,5417 @@
+{
+  "fixtureOnly": true,
+  "tolerancePx": 1,
+  "expectedCategories": [
+    "FRAME",
+    "NEURAL",
+    "INPUT",
+    "DECODER",
+    "STREAM"
+  ],
+  "expectedLaneIds": [
+    "frame",
+    "neural",
+    "input",
+    "decoder",
+    "stream"
+  ],
+  "firefoxExecutable": "C:\\Users\\Jason\\AppData\\Local\\Microsoft\\WindowsApps\\firefox.exe",
+  "browsers": [
+    {
+      "name": "firefox",
+      "browserVersion": "Mozilla Firefox 159.0",
+      "realAppLifecycle": {
+        "browserName": "Mozilla Firefox 159.0",
+        "coldStart": {
+          "phase": "cold-start",
+          "waitingVisible": true,
+          "activityVisible": false,
+          "categories": [
+            "FRAME",
+            "NEURAL",
+            "INPUT",
+            "DECODER",
+            "STREAM"
+          ],
+          "laneIds": [
+            "frame",
+            "neural",
+            "input",
+            "decoder",
+            "stream"
+          ],
+          "laneSnapshots": [
+            {
+              "category": "FRAME",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "NEURAL",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "INPUT",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "DECODER",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "STREAM",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            }
+          ],
+          "changedLanes": []
+        },
+        "connectedStep": {
+          "phase": "connected-waiting",
+          "waitingVisible": true,
+          "activityVisible": false,
+          "categories": [
+            "FRAME",
+            "NEURAL",
+            "INPUT",
+            "DECODER",
+            "STREAM"
+          ],
+          "laneIds": [
+            "frame",
+            "neural",
+            "input",
+            "decoder",
+            "stream"
+          ],
+          "laneSnapshots": [
+            {
+              "category": "FRAME",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "NEURAL",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "INPUT",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "DECODER",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "STREAM",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            }
+          ],
+          "changedLanes": []
+        },
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "laneOrderViolations": [],
+        "singleLaneUpdateViolations": [
+          {
+            "phase": "live-2-neural-tick",
+            "expectedLane": 1,
+            "actualChangedLanes": [
+              1,
+              4
+            ],
+            "previous": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ],
+            "current": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ]
+          }
+        ],
+        "maxLiveGeometryDelta": 24,
+        "historyOpen": false,
+        "historyCount": 8,
+        "blockedUrls": [],
+        "lifecycleSteps": [
+          {
+            "phase": "cold-start",
+            "waitingVisible": true,
+            "activityVisible": false,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              }
+            ],
+            "changedLanes": []
+          },
+          {
+            "phase": "connected-waiting",
+            "waitingVisible": true,
+            "activityVisible": false,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              }
+            ],
+            "changedLanes": []
+          },
+          {
+            "phase": "live-1-frame-received",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              0,
+              4
+            ]
+          },
+          {
+            "phase": "live-2-neural-tick",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              1,
+              4
+            ]
+          },
+          {
+            "phase": "live-3-input-changed",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 286",
+                "time": "14,300 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              2
+            ]
+          },
+          {
+            "phase": "live-4-decoder-changed",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 286",
+                "time": "14,300 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              3
+            ]
+          },
+          {
+            "phase": "live-5-input-changed-2",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              2
+            ]
+          },
+          {
+            "phase": "live-6-neural-tick-2",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:29:18 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              1
+            ]
+          },
+          {
+            "phase": "disconnected-retained",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:29:43 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              4
+            ]
+          },
+          {
+            "phase": "reconnected-transport",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream reconnected",
+                "value": "Transport restored",
+                "time": "Last received 23:29:48 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              4
+            ]
+          },
+          {
+            "phase": "post-reconnect-frame",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 290",
+                "time": "14,500 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream reconnected",
+                "value": "Transport restored",
+                "time": "Last received 23:29:48 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              0
+            ]
+          },
+          {
+            "phase": "post-reconnect-input",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 290",
+                "time": "14,500 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 291",
+                "time": "14,550 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream reconnected",
+                "value": "Transport restored",
+                "time": "Last received 23:29:48 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              2
+            ]
+          },
+          {
+            "phase": "final-disconnected",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 290",
+                "time": "14,500 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 291",
+                "time": "14,550 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:29:48 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              4
+            ]
+          }
+        ]
+      },
+      "cases": [
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1728,
+          "scrollPosition": 0,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1728,
+          "scrollPosition": 800,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1366,
+          "scrollPosition": 0,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1366,
+          "scrollPosition": 800,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 760,
+          "scrollPosition": 0,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 760,
+          "scrollPosition": 800,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        }
+      ],
+      "scrolling": {
+        "before": 800,
+        "after": 900
+      },
+      "errors": []
+    },
+    {
+      "name": "edge",
+      "browserVersion": "Microsoft Edge 156.0.4314.42",
+      "realAppLifecycle": {
+        "browserName": "Microsoft Edge 156.0.4314.42",
+        "coldStart": {
+          "phase": "cold-start",
+          "waitingVisible": true,
+          "activityVisible": false,
+          "categories": [
+            "FRAME",
+            "NEURAL",
+            "INPUT",
+            "DECODER",
+            "STREAM"
+          ],
+          "laneIds": [
+            "frame",
+            "neural",
+            "input",
+            "decoder",
+            "stream"
+          ],
+          "laneSnapshots": [
+            {
+              "category": "FRAME",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "NEURAL",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "INPUT",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "DECODER",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "STREAM",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            }
+          ],
+          "changedLanes": []
+        },
+        "connectedStep": {
+          "phase": "connected-waiting",
+          "waitingVisible": true,
+          "activityVisible": false,
+          "categories": [
+            "FRAME",
+            "NEURAL",
+            "INPUT",
+            "DECODER",
+            "STREAM"
+          ],
+          "laneIds": [
+            "frame",
+            "neural",
+            "input",
+            "decoder",
+            "stream"
+          ],
+          "laneSnapshots": [
+            {
+              "category": "FRAME",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "NEURAL",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "INPUT",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "DECODER",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            },
+            {
+              "category": "STREAM",
+              "title": "—",
+              "value": "—",
+              "time": "—",
+              "empty": "true"
+            }
+          ],
+          "changedLanes": []
+        },
+        "replacements": [],
+        "mutationRemovals": [],
+        "mutationAdditions": [],
+        "laneOrderViolations": [],
+        "singleLaneUpdateViolations": [
+          {
+            "phase": "live-2-neural-tick",
+            "expectedLane": 1,
+            "actualChangedLanes": [
+              1,
+              4
+            ],
+            "previous": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ],
+            "current": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ]
+          }
+        ],
+        "maxLiveGeometryDelta": 24,
+        "historyOpen": false,
+        "historyCount": 8,
+        "blockedUrls": [],
+        "lifecycleSteps": [
+          {
+            "phase": "cold-start",
+            "waitingVisible": true,
+            "activityVisible": false,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              }
+            ],
+            "changedLanes": []
+          },
+          {
+            "phase": "connected-waiting",
+            "waitingVisible": true,
+            "activityVisible": false,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              }
+            ],
+            "changedLanes": []
+          },
+          {
+            "phase": "live-1-frame-received",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              0,
+              4
+            ]
+          },
+          {
+            "phase": "live-2-neural-tick",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              1,
+              4
+            ]
+          },
+          {
+            "phase": "live-3-input-changed",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 286",
+                "time": "14,300 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "—",
+                "value": "—",
+                "time": "—",
+                "empty": "true"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              2
+            ]
+          },
+          {
+            "phase": "live-4-decoder-changed",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 286",
+                "time": "14,300 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              3
+            ]
+          },
+          {
+            "phase": "live-5-input-changed-2",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 285",
+                "time": "14,250 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              2
+            ]
+          },
+          {
+            "phase": "live-6-neural-tick-2",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream live",
+                "value": "Live telemetry",
+                "time": "Last received 23:30:03 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              1
+            ]
+          },
+          {
+            "phase": "disconnected-retained",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:30:28 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              4
+            ]
+          },
+          {
+            "phase": "reconnected-transport",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 284",
+                "time": "14,200 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream reconnected",
+                "value": "Transport restored",
+                "time": "Last received 23:30:33 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              4
+            ]
+          },
+          {
+            "phase": "post-reconnect-frame",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 290",
+                "time": "14,500 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 288",
+                "time": "14,400 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream reconnected",
+                "value": "Transport restored",
+                "time": "Last received 23:30:33 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              0
+            ]
+          },
+          {
+            "phase": "post-reconnect-input",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 290",
+                "time": "14,500 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 291",
+                "time": "14,550 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream reconnected",
+                "value": "Transport restored",
+                "time": "Last received 23:30:33 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              2
+            ]
+          },
+          {
+            "phase": "final-disconnected",
+            "waitingVisible": false,
+            "activityVisible": true,
+            "categories": [
+              "FRAME",
+              "NEURAL",
+              "INPUT",
+              "DECODER",
+              "STREAM"
+            ],
+            "laneIds": [
+              "frame",
+              "neural",
+              "input",
+              "decoder",
+              "stream"
+            ],
+            "laneSnapshots": [
+              {
+                "category": "FRAME",
+                "title": "Frame received",
+                "value": "Tick 290",
+                "time": "14,500 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "NEURAL",
+                "title": "Neural tick",
+                "value": "Tick 289",
+                "time": "14,450 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "INPUT",
+                "title": "Input reference changed",
+                "value": "Tick 291",
+                "time": "14,550 model ms",
+                "empty": "false"
+              },
+              {
+                "category": "DECODER",
+                "title": "Decoder changed",
+                "value": "IDLE → ESCAPE",
+                "time": "Tick 287",
+                "empty": "false"
+              },
+              {
+                "category": "STREAM",
+                "title": "Stream inactive",
+                "value": "Snapshot retained",
+                "time": "Last received 23:30:33 UTC",
+                "empty": "false"
+              }
+            ],
+            "changedLanes": [
+              4
+            ]
+          }
+        ]
+      },
+      "cases": [
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1728,
+          "scrollPosition": 0,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1728,
+          "scrollPosition": 800,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1366,
+          "scrollPosition": 0,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 1366,
+          "scrollPosition": 800,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 760,
+          "scrollPosition": 0,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        },
+        {
+          "replacements": [],
+          "laneOrderViolations": [],
+          "singleLaneUpdateViolations": [],
+          "historyOpen": false,
+          "historyCount": 7,
+          "maxima": {
+            "panel": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "track": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "history": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "footer": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-0": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-1": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-2": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-3": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "slot-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "label-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "tick-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "time-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "category-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "marker-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            },
+            "baseline-4": {
+              "x": 0,
+              "y": 0,
+              "width": 0,
+              "height": 0
+            }
+          },
+          "maxGeometryDelta": 0,
+          "scrollDelta": 0,
+          "documentHeightRange": 0,
+          "width": 760,
+          "scrollPosition": 800,
+          "step10Snapshot": [
+            {
+              "category": "FRAME",
+              "title": "Frame received",
+              "value": "Tick 290",
+              "time": "14,500 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "NEURAL",
+              "title": "Neural tick",
+              "value": "Tick 289",
+              "time": "14,450 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "INPUT",
+              "title": "Input reference changed",
+              "value": "Tick 291",
+              "time": "14,550 model ms",
+              "empty": "false"
+            },
+            {
+              "category": "DECODER",
+              "title": "Decoder changed",
+              "value": "IDLE → ESCAPE",
+              "time": "Tick 287",
+              "empty": "false"
+            },
+            {
+              "category": "STREAM",
+              "title": "Stream inactive",
+              "value": "Snapshot retained",
+              "time": "Last received 21:07:22 UTC",
+              "empty": "false"
+            }
+          ]
+        }
+      ],
+      "scrolling": {
+        "before": 800,
+        "after": 900
+      },
+      "errors": []
+    }
+  ],
+  "providerRequests": 0,
+  "realBrainMessages": 0
+}

@@ -1,0 +1,167 @@
+Mozilla Firefox 159.0: workspace 1728x1080
+Mozilla Firefox 159.0: workspace 1440x900
+Mozilla Firefox 159.0: workspace 1366x768
+Mozilla Firefox 159.0: workspace 1024x768
+Mozilla Firefox 159.0: workspace 760x1080
+Microsoft Edge 156.0.4314.42: workspace 1728x1080
+Microsoft Edge 156.0.4314.42: workspace 1440x900
+Microsoft Edge 156.0.4314.42: workspace 1366x768
+Microsoft Edge 156.0.4314.42: workspace 1024x768
+Microsoft Edge 156.0.4314.42: workspace 760x1080
+{
+  "before": false,
+  "browsers": [
+    {
+      "name": "Mozilla Firefox 159.0",
+      "cases": [
+        {
+          "width": 1728,
+          "observatory": 752.3333129882812,
+          "embodiment": 395.9666748046875,
+          "rail": 263.70001220703125,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 449
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 1440,
+          "observatory": 605.38330078125,
+          "embodiment": 318.6166687011719,
+          "rail": 224,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 431
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 1366,
+          "observatory": 862,
+          "embodiment": 862,
+          "rail": 224,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 465
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 1024,
+          "observatory": 732,
+          "embodiment": 732,
+          "rail": 732,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 462
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 760,
+          "observatory": 728,
+          "embodiment": 728,
+          "rail": 728,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 462
+          },
+          "valuesRetained": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "Microsoft Edge 156.0.4314.42",
+      "cases": [
+        {
+          "width": 1728,
+          "observatory": 752.3125,
+          "embodiment": 395.96875,
+          "rail": 263.71875,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 255
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 1440,
+          "observatory": 605.359375,
+          "embodiment": 318.625,
+          "rail": 224,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 266
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 1366,
+          "observatory": 861.984375,
+          "embodiment": 861.984375,
+          "rail": 224,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 240
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 1024,
+          "observatory": 732,
+          "embodiment": 732,
+          "rail": 732,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 255
+          },
+          "valuesRetained": true
+        },
+        {
+          "width": 760,
+          "observatory": 728,
+          "embodiment": 728,
+          "rail": 728,
+          "steady": {
+            "maximumDelta": 0,
+            "replacements": [],
+            "documentHeightRange": 0,
+            "scrollRange": 0,
+            "samples": 251
+          },
+          "valuesRetained": true
+        }
+      ],
+      "errors": []
+    }
+  ]
+}

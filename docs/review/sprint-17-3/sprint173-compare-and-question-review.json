@@ -1,0 +1,390 @@
+{
+  "firefox": {
+    "browserTag": "firefox-real",
+    "journeyAInitial": {
+      "editing": "false",
+      "buttons": [
+        "EDIT QUESTION",
+        "NEW QUESTION"
+      ],
+      "text": "What happens if I silence the primary pathway?"
+    },
+    "editState": {
+      "editing": "true",
+      "value": "What happens if I silence the primary pathway?",
+      "focused": true
+    },
+    "newQuestionState": {
+      "editing": "true",
+      "value": "",
+      "focused": true
+    },
+    "zeroGuardState": {
+      "text": "NO STIMULUS SELECTEDBoth runs will receive stimulus 0.0. To measure a stimulus response, compare no stimulus with a positive stimulus on the unchanged network.COMPARE NO STIMULUS VS STIMULUS →",
+      "hasCompareBtn": true
+    },
+    "stimulusCompareSteps": {
+      "experimentType": "STIMULUS RESPONSE",
+      "conditionsText": "ONLY THING CHANGEDStimulusCONTROLNo stimulusStimulus 0.0TESTLooming stimulusStimulus 1.0Network identical · no neural intervention · synthetic engineering fixture",
+      "persistentQuestionInCompare": true,
+      "steps": [
+        {
+          "step": 0,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 1,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 2,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 3,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 1.39 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 4,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 2.53 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 5,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 3.69 scene units · not a body measurement"
+          }
+        }
+      ]
+    },
+    "neuralCompareSteps": {
+      "experimentType": "NEURAL INTERVENTION",
+      "conditionsText": "ONLY THING CHANGEDPrimary ACONTROLIntact networkStimulus 1.0INTERVENTIONSilence Primary AStimulus 1.0Stimulus identical · 1.0 in both runs · synthetic engineering fixture",
+      "steps": [
+        {
+          "step": 0,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 1,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 2,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 3,
+          "control": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 1.39 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 4,
+          "control": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 2.53 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 1.39 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 5,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 3.69 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 2.53 scene units · not a body measurement"
+          }
+        }
+      ]
+    }
+  },
+  "edge": {
+    "browserTag": "msedge",
+    "journeyAInitial": {
+      "editing": "false",
+      "buttons": [
+        "EDIT QUESTION",
+        "NEW QUESTION"
+      ],
+      "text": "What happens if I silence the primary pathway?"
+    },
+    "editState": {
+      "editing": "true",
+      "value": "What happens if I silence the primary pathway?",
+      "focused": true
+    },
+    "newQuestionState": {
+      "editing": "true",
+      "value": "",
+      "focused": true
+    },
+    "zeroGuardState": {
+      "text": "NO STIMULUS SELECTEDBoth runs will receive stimulus 0.0. To measure a stimulus response, compare no stimulus with a positive stimulus on the unchanged network.COMPARE NO STIMULUS VS STIMULUS →",
+      "hasCompareBtn": true
+    },
+    "stimulusCompareSteps": {
+      "experimentType": "STIMULUS RESPONSE",
+      "conditionsText": "ONLY THING CHANGEDStimulusCONTROLNo stimulusStimulus 0.0TESTLooming stimulusStimulus 1.0Network identical · no neural intervention · synthetic engineering fixture",
+      "persistentQuestionInCompare": true,
+      "steps": [
+        {
+          "step": 0,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 1,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 2,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 3,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 1.39 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 4,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 2.53 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 5,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "test": {
+            "decoder": "IDLE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 3.69 scene units · not a body measurement"
+          }
+        }
+      ]
+    },
+    "neuralCompareSteps": {
+      "experimentType": "NEURAL INTERVENTION",
+      "conditionsText": "ONLY THING CHANGEDPrimary ACONTROLIntact networkStimulus 1.0INTERVENTIONSilence Primary AStimulus 1.0Stimulus identical · 1.0 in both runs · synthetic engineering fixture",
+      "steps": [
+        {
+          "step": 0,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 1,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 2,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 3,
+          "control": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 1.39 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "GROUNDED",
+            "note": "Rendered displacement 0.00 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 4,
+          "control": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 2.53 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "ESCAPE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 1.39 scene units · not a body measurement"
+          }
+        },
+        {
+          "step": 5,
+          "control": {
+            "decoder": "IDLE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 3.69 scene units · not a body measurement"
+          },
+          "intervention": {
+            "decoder": "IDLE",
+            "motor": "TAKEOFF_ESCAPE",
+            "note": "Rendered displacement 2.53 scene units · not a body measurement"
+          }
+        }
+      ]
+    }
+  }
+}

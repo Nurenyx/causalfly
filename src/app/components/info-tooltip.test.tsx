@@ -11,5 +11,5 @@ test("optional help exposes a keyboard button, labelled relationship, and initia
 });
 test("retained question has explicit edit entry and cannot submit or request Meta during rendering", () => {
   const html = renderToStaticMarkup(<ResearchQuestion question="Does input change output?" busy={false} underTest={false} onUse={() => assert.fail("Explicit action only")} />);
-  assert.match(html, /RETAINED RESEARCH QUESTION/); assert.match(html, /Ask Your Own Question/); assert.doesNotMatch(html, /<textarea|type="submit"/);
+  assert.match(html, /RETAINED RESEARCH QUESTION/); assert.match(html, /EDIT QUESTION/); assert.match(html, /NEW QUESTION/); assert.doesNotMatch(html, /<textarea|type="submit"/);
 });

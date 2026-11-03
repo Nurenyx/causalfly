@@ -1,3 +1,4 @@
+import { isStimulusResponse, validComparison } from "../experiment/semantics";
 import type { GuidedDesign, MeasuredExperimentResult } from "./contracts";
 import type { Workspace } from "./dashboard";
 export type StageState = "LOCKED" | "READY" | "ACTIVE" | "COMPLETE" | "NOT APPLICABLE";
@@ -13,6 +14,7 @@ export function comparisonRequirements(external: boolean, design?: GuidedDesign,
     { label: "Matched stimulus conditions", status: "unknown" },
   ];
   const checks = result?.measuredEvidence.provenance.matchedConditions;
+  if ((result ?? design) && isStimulusResponse((result ?? design)!.spec)) return [{label:"Validated stimulus response",status:design||result ? "satisfied" : "missing"},{label:"Control: no stimulus",status:result ? "satisfied":"missing"},{label:"Test: positive stimulus",status:result ? "satisfied":"missing"},{label:"Only stimulus differs; identical network",status:result ? validComparison(result.measuredEvidence.provenance) ? "satisfied":"missing" : "unknown"}];
   return [
     { label: "Validated ExperimentSpec", status: design || result ? "satisfied" : "missing" },
     { label: "Control result", status: result ? "satisfied" : "missing" },

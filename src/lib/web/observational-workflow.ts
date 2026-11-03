@@ -7,6 +7,7 @@ import { interpretObservationalEvidence } from "../meta/observational-interprete
 import { researchQuestionSchema } from "../meta/schemas";
 import { configuredClient, safeWebProviderError } from "./workflow";
 import type { WebObservationalResponse } from "./observational-contracts";
+import { escapeWindowCompatibility } from "./live-state-presentation";
 
 const inputSchema = z.strictObject({ researchQuestion: researchQuestionSchema, retentionId: z.uuid(),
   sessionId: z.string().min(1).max(200), sequences: z.array(z.number().int().nonnegative()).min(1).max(120) });
@@ -19,6 +20,7 @@ export async function runWebObservation(input: unknown, dependencies: {
   let evidence;
   try { evidence = createObservationalEvidence(parsed.data.researchQuestion, parsed.data, dependencies.now); }
   catch { return { ok: false, kind: "evidence", error: "This evidence window is no longer retained on the server. Reconnect to receive validated telemetry, then retry." }; }
+  if (escapeWindowCompatibility(evidence.exactQuestion, evidence.frames.map(f => ({ motorMode:f.decoderState, neuralTick:f.simulationTick, sequence:f.sequence })))?.blocked) return { ok: false, kind: "validation", error: "The requested ESCAPE event is not established in this retained window. Inspect observed decoder states or collect another trial." };
   let client;
   try { client = (dependencies.createClient ?? configuredClient)(dependencies.env ?? readMetaEnvironment()); }
   catch { return { ok: false, kind: "configuration", error: "Meta Model API configuration is incomplete or invalid. Check the server configuration." }; }

@@ -1,0 +1,711 @@
+{
+  "name": "live-stream-stability",
+  "fixtureOnly": true,
+  "actualComponents": true,
+  "cases": [
+    {
+      "width": 1366,
+      "height": 768,
+      "tolerancePx": 0.5,
+      "maximumGeometryDeltaPx": 0,
+      "baseline": {
+        ".sensory-feedback": {
+          "x": 12,
+          "y": 71.5,
+          "width": 1342,
+          "height": 211
+        },
+        ".feedback-status": {
+          "x": 29,
+          "y": 148.5,
+          "width": 1308,
+          "height": 76
+        },
+        ".autonomy-world": {
+          "x": 12,
+          "y": 290.5,
+          "width": 1342,
+          "height": 437.109375
+        },
+        ".autonomy-controls": {
+          "x": 12,
+          "y": 939.609375,
+          "width": 1342,
+          "height": 87
+        },
+        ".telemetry-primary": {
+          "x": 24,
+          "y": 1470.109375,
+          "width": 1318,
+          "height": 139.5
+        },
+        ".live-session-title .live-state-summary": {
+          "x": 862,
+          "y": 1399.109375,
+          "width": 480,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(1)": {
+          "x": 862,
+          "y": 1399.109375,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(2)": {
+          "x": 1029.328125,
+          "y": 1399.109375,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(3)": {
+          "x": 1196.65625,
+          "y": 1399.109375,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".telemetry-primary dl > div:nth-child(1)": {
+          "x": 24,
+          "y": 1510.109375,
+          "width": 320.5,
+          "height": 75
+        },
+        ".telemetry-primary dl > div:nth-child(2)": {
+          "x": 356.5,
+          "y": 1510.109375,
+          "width": 320.5,
+          "height": 75
+        },
+        ".telemetry-primary dl > div:nth-child(3)": {
+          "x": 689,
+          "y": 1510.109375,
+          "width": 320.5,
+          "height": 75
+        },
+        ".telemetry-primary dl > div:nth-child(4)": {
+          "x": 1021.5,
+          "y": 1510.109375,
+          "width": 320.5,
+          "height": 75
+        },
+        "[class*=\"instruments\"]": {
+          "x": 12,
+          "y": 1839.609375,
+          "width": 1050,
+          "height": 1127.5
+        },
+        "[class*=\"timeline\"]": {
+          "x": 12,
+          "y": 2526.109375,
+          "width": 1050,
+          "height": 154
+        },
+        "[class*=\"lowerPanels\"]": {
+          "x": 12,
+          "y": 2692.109375,
+          "width": 1050,
+          "height": 275
+        },
+        "[class*=\"health\"]": {
+          "x": 660.625,
+          "y": 2692.109375,
+          "width": 401.375,
+          "height": 275
+        },
+        "[aria-label=\"Supplied neuron ID mapping\"]": {
+          "x": 13,
+          "y": 2289.109375,
+          "width": 634.625,
+          "height": 90
+        },
+        "#fixture-age": {
+          "x": 12,
+          "y": 2967.109375,
+          "width": 1342,
+          "height": 275
+        }
+      },
+      "counters": [
+        1,
+        9,
+        620,
+        3314,
+        12408
+      ],
+      "decoder": [
+        "IDLE",
+        "ESCAPE"
+      ],
+      "age": [
+        "Unavailable",
+        "numeric"
+      ],
+      "retainedStable": true
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "tolerancePx": 0.5,
+      "maximumGeometryDeltaPx": 0,
+      "baseline": {
+        ".sensory-feedback": {
+          "x": 12,
+          "y": 71.5,
+          "width": 1416,
+          "height": 211
+        },
+        ".feedback-status": {
+          "x": 29,
+          "y": 148.5,
+          "width": 1382,
+          "height": 76
+        },
+        ".autonomy-world": {
+          "x": 12,
+          "y": 290.5,
+          "width": 1416,
+          "height": 460.796875
+        },
+        ".autonomy-controls": {
+          "x": 12,
+          "y": 963.296875,
+          "width": 1416,
+          "height": 87
+        },
+        ".telemetry-primary": {
+          "x": 24,
+          "y": 1493.796875,
+          "width": 1392,
+          "height": 140.375
+        },
+        ".live-session-title .live-state-summary": {
+          "x": 936,
+          "y": 1422.796875,
+          "width": 480,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(1)": {
+          "x": 936,
+          "y": 1422.796875,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(2)": {
+          "x": 1103.328125,
+          "y": 1422.796875,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(3)": {
+          "x": 1270.65625,
+          "y": 1422.796875,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".telemetry-primary dl > div:nth-child(1)": {
+          "x": 24,
+          "y": 1533.796875,
+          "width": 339,
+          "height": 75.875
+        },
+        ".telemetry-primary dl > div:nth-child(2)": {
+          "x": 375,
+          "y": 1533.796875,
+          "width": 339,
+          "height": 75.875
+        },
+        ".telemetry-primary dl > div:nth-child(3)": {
+          "x": 726,
+          "y": 1533.796875,
+          "width": 339,
+          "height": 75.875
+        },
+        ".telemetry-primary dl > div:nth-child(4)": {
+          "x": 1077,
+          "y": 1533.796875,
+          "width": 339,
+          "height": 75.875
+        },
+        "[class*=\"instruments\"]": {
+          "x": 12,
+          "y": 1864.171875,
+          "width": 1124,
+          "height": 1130.25
+        },
+        "[class*=\"timeline\"]": {
+          "x": 12,
+          "y": 2553.421875,
+          "width": 1124,
+          "height": 154
+        },
+        "[class*=\"lowerPanels\"]": {
+          "x": 12,
+          "y": 2719.421875,
+          "width": 1124,
+          "height": 275
+        },
+        "[class*=\"health\"]": {
+          "x": 706.015625,
+          "y": 2719.421875,
+          "width": 429.984375,
+          "height": 275
+        },
+        "[aria-label=\"Supplied neuron ID mapping\"]": {
+          "x": 13,
+          "y": 2316.421875,
+          "width": 680.015625,
+          "height": 90
+        },
+        "#fixture-age": {
+          "x": 12,
+          "y": 2994.421875,
+          "width": 1416,
+          "height": 275
+        }
+      },
+      "counters": [
+        1,
+        9,
+        620,
+        3314,
+        12408
+      ],
+      "decoder": [
+        "IDLE",
+        "ESCAPE"
+      ],
+      "age": [
+        "Unavailable",
+        "numeric"
+      ],
+      "retainedStable": true
+    },
+    {
+      "width": 1536,
+      "height": 1024,
+      "tolerancePx": 0.5,
+      "maximumGeometryDeltaPx": 0,
+      "baseline": {
+        ".sensory-feedback": {
+          "x": 12,
+          "y": 71.5,
+          "width": 1512,
+          "height": 211
+        },
+        ".feedback-status": {
+          "x": 29,
+          "y": 148.5,
+          "width": 1478,
+          "height": 76
+        },
+        ".autonomy-world": {
+          "x": 12,
+          "y": 290.5,
+          "width": 1512,
+          "height": 491.515625
+        },
+        ".autonomy-controls": {
+          "x": 12,
+          "y": 994.015625,
+          "width": 1512,
+          "height": 87
+        },
+        ".telemetry-primary": {
+          "x": 24,
+          "y": 1524.515625,
+          "width": 1488,
+          "height": 142.953125
+        },
+        ".live-session-title .live-state-summary": {
+          "x": 1032,
+          "y": 1453.515625,
+          "width": 480,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(1)": {
+          "x": 1032,
+          "y": 1453.515625,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(2)": {
+          "x": 1199.328125,
+          "y": 1453.515625,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(3)": {
+          "x": 1366.65625,
+          "y": 1453.515625,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".telemetry-primary dl > div:nth-child(1)": {
+          "x": 24,
+          "y": 1564.515625,
+          "width": 363,
+          "height": 78.453125
+        },
+        ".telemetry-primary dl > div:nth-child(2)": {
+          "x": 399,
+          "y": 1564.515625,
+          "width": 363,
+          "height": 78.453125
+        },
+        ".telemetry-primary dl > div:nth-child(3)": {
+          "x": 774,
+          "y": 1564.515625,
+          "width": 363,
+          "height": 78.453125
+        },
+        ".telemetry-primary dl > div:nth-child(4)": {
+          "x": 1149,
+          "y": 1564.515625,
+          "width": 363,
+          "height": 78.453125
+        },
+        "[class*=\"instruments\"]": {
+          "x": 12,
+          "y": 1897.46875,
+          "width": 1220,
+          "height": 1160.96875
+        },
+        "[class*=\"timeline\"]": {
+          "x": 12,
+          "y": 2617.4375,
+          "width": 1220,
+          "height": 154
+        },
+        "[class*=\"lowerPanels\"]": {
+          "x": 12,
+          "y": 2783.4375,
+          "width": 1220,
+          "height": 275
+        },
+        "[class*=\"health\"]": {
+          "x": 764.90625,
+          "y": 2783.4375,
+          "width": 467.09375,
+          "height": 275
+        },
+        "[aria-label=\"Supplied neuron ID mapping\"]": {
+          "x": 13,
+          "y": 2380.4375,
+          "width": 738.90625,
+          "height": 90
+        },
+        "#fixture-age": {
+          "x": 12,
+          "y": 3058.4375,
+          "width": 1512,
+          "height": 275
+        }
+      },
+      "counters": [
+        1,
+        9,
+        620,
+        3314,
+        12408
+      ],
+      "decoder": [
+        "IDLE",
+        "ESCAPE"
+      ],
+      "age": [
+        "Unavailable",
+        "numeric"
+      ],
+      "retainedStable": true
+    },
+    {
+      "width": 1728,
+      "height": 1080,
+      "tolerancePx": 0.5,
+      "maximumGeometryDeltaPx": 0,
+      "baseline": {
+        ".sensory-feedback": {
+          "x": 12,
+          "y": 71.5,
+          "width": 1704,
+          "height": 211
+        },
+        ".feedback-status": {
+          "x": 29,
+          "y": 148.5,
+          "width": 1670,
+          "height": 76
+        },
+        ".autonomy-world": {
+          "x": 12,
+          "y": 290.5,
+          "width": 1704,
+          "height": 552.953125
+        },
+        ".autonomy-controls": {
+          "x": 12,
+          "y": 1055.453125,
+          "width": 1704,
+          "height": 87
+        },
+        ".telemetry-primary": {
+          "x": 30,
+          "y": 1593.953125,
+          "width": 1668,
+          "height": 146.5
+        },
+        ".live-session-title .live-state-summary": {
+          "x": 1218,
+          "y": 1514.953125,
+          "width": 480,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(1)": {
+          "x": 1218,
+          "y": 1514.953125,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(2)": {
+          "x": 1385.328125,
+          "y": 1514.953125,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(3)": {
+          "x": 1552.65625,
+          "y": 1514.953125,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".telemetry-primary dl > div:nth-child(1)": {
+          "x": 30,
+          "y": 1633.953125,
+          "width": 408,
+          "height": 82
+        },
+        ".telemetry-primary dl > div:nth-child(2)": {
+          "x": 450,
+          "y": 1633.953125,
+          "width": 408,
+          "height": 82
+        },
+        ".telemetry-primary dl > div:nth-child(3)": {
+          "x": 870,
+          "y": 1633.953125,
+          "width": 408,
+          "height": 82
+        },
+        ".telemetry-primary dl > div:nth-child(4)": {
+          "x": 1290,
+          "y": 1633.953125,
+          "width": 408,
+          "height": 82
+        },
+        "[class*=\"instruments\"]": {
+          "x": 12,
+          "y": 1970.453125,
+          "width": 1412,
+          "height": 1223.0625
+        },
+        "[class*=\"timeline\"]": {
+          "x": 12,
+          "y": 2752.515625,
+          "width": 1411.984375,
+          "height": 154
+        },
+        "[class*=\"lowerPanels\"]": {
+          "x": 12,
+          "y": 2918.515625,
+          "width": 1411.984375,
+          "height": 275
+        },
+        "[class*=\"health\"]": {
+          "x": 882.65625,
+          "y": 2918.515625,
+          "width": 541.328125,
+          "height": 275
+        },
+        "[aria-label=\"Supplied neuron ID mapping\"]": {
+          "x": 13,
+          "y": 2516.515625,
+          "width": 856.65625,
+          "height": 90
+        },
+        "#fixture-age": {
+          "x": 12,
+          "y": 3193.515625,
+          "width": 1704,
+          "height": 275
+        }
+      },
+      "counters": [
+        1,
+        9,
+        620,
+        3314,
+        12408
+      ],
+      "decoder": [
+        "IDLE",
+        "ESCAPE"
+      ],
+      "age": [
+        "Unavailable",
+        "numeric"
+      ],
+      "retainedStable": true
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "tolerancePx": 0.5,
+      "maximumGeometryDeltaPx": 0,
+      "baseline": {
+        ".sensory-feedback": {
+          "x": 12,
+          "y": 71.5,
+          "width": 1896,
+          "height": 211
+        },
+        ".feedback-status": {
+          "x": 29,
+          "y": 148.5,
+          "width": 1862,
+          "height": 76
+        },
+        ".autonomy-world": {
+          "x": 12,
+          "y": 290.5,
+          "width": 1896,
+          "height": 610
+        },
+        ".autonomy-controls": {
+          "x": 12,
+          "y": 1112.5,
+          "width": 1896,
+          "height": 87
+        },
+        ".telemetry-primary": {
+          "x": 30,
+          "y": 1651,
+          "width": 1860,
+          "height": 146.5
+        },
+        ".live-session-title .live-state-summary": {
+          "x": 1410,
+          "y": 1572,
+          "width": 480,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(1)": {
+          "x": 1410,
+          "y": 1572,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(2)": {
+          "x": 1577.328125,
+          "y": 1572,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".live-session-title .live-state-summary > div:nth-child(3)": {
+          "x": 1744.65625,
+          "y": 1572,
+          "width": 145.328125,
+          "height": 59
+        },
+        ".telemetry-primary dl > div:nth-child(1)": {
+          "x": 30,
+          "y": 1691,
+          "width": 456,
+          "height": 82
+        },
+        ".telemetry-primary dl > div:nth-child(2)": {
+          "x": 498,
+          "y": 1691,
+          "width": 456,
+          "height": 82
+        },
+        ".telemetry-primary dl > div:nth-child(3)": {
+          "x": 966,
+          "y": 1691,
+          "width": 456,
+          "height": 82
+        },
+        ".telemetry-primary dl > div:nth-child(4)": {
+          "x": 1434,
+          "y": 1691,
+          "width": 456,
+          "height": 82
+        },
+        "[class*=\"instruments\"]": {
+          "x": 12,
+          "y": 2027.5,
+          "width": 1604,
+          "height": 1266.5
+        },
+        "[class*=\"timeline\"]": {
+          "x": 12,
+          "y": 2853,
+          "width": 1604,
+          "height": 154
+        },
+        "[class*=\"lowerPanels\"]": {
+          "x": 12,
+          "y": 3019,
+          "width": 1604,
+          "height": 275
+        },
+        "[class*=\"health\"]": {
+          "x": 1000.421875,
+          "y": 3019,
+          "width": 615.578125,
+          "height": 275
+        },
+        "[aria-label=\"Supplied neuron ID mapping\"]": {
+          "x": 13,
+          "y": 2617,
+          "width": 974.421875,
+          "height": 90
+        },
+        "#fixture-age": {
+          "x": 12,
+          "y": 3294,
+          "width": 1896,
+          "height": 275
+        }
+      },
+      "counters": [
+        1,
+        9,
+        620,
+        3314,
+        12408
+      ],
+      "decoder": [
+        "IDLE",
+        "ESCAPE"
+      ],
+      "age": [
+        "Unavailable",
+        "numeric"
+      ],
+      "retainedStable": true
+    }
+  ],
+  "maximumGeometryDeltaPx": 0,
+  "feedbackStates": [
+    "OFF",
+    "ARMED",
+    "SENDING",
+    "ACCEPTED",
+    "REJECTED",
+    "UNAVAILABLE"
+  ],
+  "brainMessages": "in-memory socket only",
+  "providerRequests": 0,
+  "realBrainMessages": 0,
+  "errors": [],
+  "blocked": []
+}

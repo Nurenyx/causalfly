@@ -1,3 +1,4 @@
+import { isStimulusResponse, validComparison } from "@/lib/experiment/semantics";
 import { ResultStory } from "./result-story";
 import { useEffect, useState } from "react";
 import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
@@ -16,7 +17,7 @@ function ConditionPanel({ trial, step, maxStep, maxValue, guided }: { trial: Com
   const sample = activityAtStep(trial, step);
   const measurements = <><ActivityChart trial={trial} step={step} maxStep={maxStep} maxValue={maxValue} /><dl className="condition-summary"><div><dt title={measurementLabels.outputPeakActivity.technical}>{measurementLabels.outputPeakActivity.label}</dt><dd>{trial.outputPeakActivity}</dd></div><div><dt title={measurementLabels.outputThresholdCrossingStep.technical}>{measurementLabels.outputThresholdCrossingStep.label}</dt><dd>{crossing(trial.outputThresholdCrossingStep)}</dd></div><div><dt title={measurementLabels.outcome.technical}>{measurementLabels.outcome.label}</dt><dd className="condition-outcome">{trial.outcome === "THRESHOLD_REACHED" ? "Threshold reached" : "Threshold not reached"}</dd></div></dl></>;
   return <article className={`condition-panel ${trial.condition.toLowerCase()}`} aria-label={`${trial.condition} measurements`}>
-    <header className="condition-header"><h3 title={trial.condition}><span className="status-dot" />{trial.condition === "CONTROL" ? "BEFORE / CONTROL" : "AFTER / INTERVENTION"}</h3><span>{trial.provenance.appliedPerturbation ? `silence / ${trial.provenance.appliedPerturbation.targetNodeId}` : "baseline / intact network"}</span></header>
+    <header className="condition-header"><h3 title={trial.condition}><span className="status-dot" />{trial.condition === "CONTROL" ? "BEFORE / CONTROL" : trial.condition === "TEST" ? "AFTER / TEST" : "AFTER / INTERVENTION"}</h3><span>{trial.provenance.appliedPerturbation ? `silence / ${trial.provenance.appliedPerturbation.targetNodeId}` : "baseline / intact network"}</span></header>
     <SyntheticNetworkViz trial={trial} step={step} />
     {guided ? <><div className="condition-readout"><span>OUTPUT NOW <small>step {step} · normalized</small></span><strong>{sample?.nodes[trial.provenance.network.outputNodeId] ?? "—"}</strong></div><details className="condition-evidence"><summary>Show activity trace & measurements</summary>{measurements}</details></> : measurements}
   </article>;
@@ -35,13 +36,13 @@ export function ComparisonMeasurements({ result, onEvidence, guided = false }: {
     const timer = window.setInterval(() => setIndex((current) => (current + 1) % steps.length), 1100);
     return () => window.clearInterval(timer);
   }, [playing, steps.length]);
-  const matched = Object.values(provenance.matchedConditions).every(Boolean);
+  const matched = validComparison(provenance);
   return <div className={`compare-center${guided ? " demo-comparison" : ""}`}>
-      <div className="compare-title"><h2>Silencing <span className="intervention-target">{result.spec.perturbation.targetNodeId}</span></h2><Badge tone={matched ? "green" : "red"}>{matched ? "✓ MATCHED CONDITIONS" : "CONDITION MISMATCH"}</Badge></div>
+      <div className="compare-title"><h2>{isStimulusResponse(result.spec) ? "No stimulus vs looming stimulus" : <>Silencing <span className="intervention-target">{result.spec.perturbation?.targetNodeId}</span></>}</h2><Badge tone={matched ? "green" : "red"}>{matched ? "✓ MATCHED CONDITIONS" : "CONDITION MISMATCH"}</Badge></div>
       {!guided && <p className="compare-question"><span>HYPOTHESIS</span>{result.spec.hypothesis}</p>}
       <ExperimentPlayback steps={steps} index={index} playing={playing} onToggle={() => setPlaying((value) => !value)} onSeek={(next) => { setPlaying(false); setIndex(next); }} />
       <div className="condition-grid"><ConditionPanel trial={control} step={step} maxStep={maxStep} maxValue={maxValue} guided={guided} /><ConditionPanel trial={perturbed} step={step} maxStep={maxStep} maxValue={maxValue} guided={guided} /></div>
-      {guided ? <details className="demo-measurement-details"><summary>Show how we measured this</summary><p>Node brightness is recorded activity. Edge glow is derived from consecutive recorded node samples and declared weights, not measured edge flow. Faint trails show the previous recorded step.</p><ObservationMetrics result={result} compact /><PropagationTimeline result={result} step={step} /></details> : <><div className="measured-heading"><h2>Measured deltas</h2><span>PERTURBED − CONTROL</span></div><ObservationMetrics result={result} compact /><PropagationTimeline result={result} step={step} /></>}
+      {guided ? <details className="demo-measurement-details"><summary>Show how we measured this</summary><p>Node brightness is recorded activity. Edge glow is derived from consecutive recorded node samples and declared weights, not measured edge flow. Faint trails show the previous recorded step.</p><ObservationMetrics result={result} compact /><PropagationTimeline result={result} step={step} /></details> : <><div className="measured-heading"><h2>Measured deltas</h2><span>{isStimulusResponse(result.spec) ? "TEST − CONTROL" : "PERTURBED − CONTROL"}</span></div><ObservationMetrics result={result} compact /><PropagationTimeline result={result} step={step} /></>}
       <div className="evidence-link-bar"><span>{matched ? "✓ Engine measurements · matched condition provenance" : "Condition mismatch · inspect provenance"}</span><button type="button" className="text-button" onClick={onEvidence}>Inspect evidence ↗</button></div>
   </div>;
 }

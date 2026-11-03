@@ -1,0 +1,121 @@
+{
+  "before": false,
+  "firefoxAvailable": false,
+  "browsers": [
+    {
+      "name": "edge",
+      "cases": [
+        {
+          "width": 1728,
+          "scroll": 0,
+          "samples": 541,
+          "maximum": 0,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "titles": [
+            "Frame received",
+            "—",
+            "Stream inactive",
+            "Neural tick",
+            "Input reference changed",
+            "Stream live",
+            "Decoder changed",
+            "Stream reconnected"
+          ]
+        },
+        {
+          "width": 1728,
+          "scroll": 800,
+          "samples": 541,
+          "maximum": 0,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "titles": [
+            "Frame received",
+            "Neural tick",
+            "—",
+            "Stream live",
+            "Input reference changed",
+            "Decoder changed",
+            "Stream inactive",
+            "Stream reconnected"
+          ]
+        },
+        {
+          "width": 1366,
+          "scroll": 0,
+          "samples": 541,
+          "maximum": 0,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "titles": [
+            "Frame received",
+            "Neural tick",
+            "—",
+            "Stream live",
+            "Input reference changed",
+            "Decoder changed",
+            "Stream inactive",
+            "Stream reconnected"
+          ]
+        },
+        {
+          "width": 1366,
+          "scroll": 800,
+          "samples": 541,
+          "maximum": 0,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "titles": [
+            "Frame received",
+            "Neural tick",
+            "—",
+            "Stream live",
+            "Input reference changed",
+            "Decoder changed",
+            "Stream inactive",
+            "Stream reconnected"
+          ]
+        },
+        {
+          "width": 760,
+          "scroll": 0,
+          "samples": 541,
+          "maximum": 0,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "titles": [
+            "Frame received",
+            "Neural tick",
+            "—",
+            "Stream live",
+            "Input reference changed",
+            "Decoder changed",
+            "Stream inactive",
+            "Stream reconnected"
+          ]
+        },
+        {
+          "width": 760,
+          "scroll": 800,
+          "samples": 541,
+          "maximum": 0,
+          "scrollDelta": 0,
+          "heightRange": 0,
+          "titles": [
+            "Frame received",
+            "Neural tick",
+            "—",
+            "Stream live",
+            "Input reference changed",
+            "Decoder changed",
+            "Stream inactive",
+            "Stream reconnected"
+          ]
+        }
+      ],
+      "errors": [],
+      "blocked": []
+    }
+  ]
+}

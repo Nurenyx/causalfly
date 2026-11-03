@@ -54,7 +54,7 @@ export function syntheticAssistantAnswer(question: string, result: WebExperiment
   if (/next experiment|test next/i.test(question)) return { ...answer, summary: "A new experiment needs an explicit, validated design.", next: result.analysis ? `Meta proposal: ${result.analysis.nextExperiment.researchQuestion} Use it as the next question in Experiment. This proposal is not a measured finding.` : "Choose Explain with Meta to request a bounded interpretation and next-test proposal from the retained evidence." };
   if (!/measured difference|under intervention|current evidence|summari[sz]e|what changed|response.*slow|response.*delay|why.*response|show.*evidence/i.test(question)) return answer;
   const c = result.measuredEvidence;
-  return { ...answer, summary: `Measured control versus silence intervention on ${result.spec.perturbation.targetNodeId}.`, facts: [
+  return { ...answer, summary: result.spec.experimentType === "STIMULUS_RESPONSE" ? "Measured no stimulus versus positive stimulus on the identical synthetic network." : `Measured control versus silence intervention on ${result.spec.perturbation?.targetNodeId}.`, facts: [
     `Output peak: ${c.control.outputPeakActivity} → ${c.perturbed.outputPeakActivity}; delta ${c.deltas.outputPeakActivity}.`,
     `Threshold crossing: ${c.control.outputThresholdCrossingStep === null ? "not reached" : `step ${c.control.outputThresholdCrossingStep}`} → ${c.perturbed.outputThresholdCrossingStep === null ? "not reached" : `step ${c.perturbed.outputThresholdCrossingStep}`}.`,
     `Outcome: ${c.control.outcome} → ${c.perturbed.outcome}.`,

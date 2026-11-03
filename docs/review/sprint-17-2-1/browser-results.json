@@ -1,0 +1,54 @@
+[
+  {
+    "suite": "timeline171",
+    "script": "scripts/sprint171-timeline-stability.mjs",
+    "exitCode": 0,
+    "seconds": 34.3848122,
+    "output": "docs/review/sprint-17-2-1/regressions/timeline171"
+  },
+  {
+    "suite": "layout17",
+    "script": "scripts/sprint17-live-layout-stability.mjs",
+    "exitCode": 0,
+    "seconds": 45.7789829,
+    "output": "docs/review/sprint-17-2-1/regressions/layout17"
+  },
+  {
+    "suite": "judge17",
+    "script": "scripts/sprint17-judge-journey.mjs",
+    "exitCode": 0,
+    "seconds": 18.3480368,
+    "output": "docs/review/sprint-17-2-1/regressions/judge17"
+  },
+  {
+    "suite": "neural171",
+    "script": "scripts/sprint171-neural-response-review.mjs",
+    "exitCode": 0,
+    "seconds": 15.4641401,
+    "output": "docs/review/sprint-17-2-1/regressions/neural171",
+    "priorExitCodes": [
+      1
+    ]
+  },
+  {
+    "suite": "aggregate",
+    "script": "scripts/sprint16a-browser-review.mjs",
+    "exitCode": 0,
+    "seconds": 169.6590481,
+    "output": "docs/review/sprint-17-2-1/regressions/aggregate",
+    "priorExitCodes": [
+      1
+    ]
+  },
+  {
+    "suite": "semantic172",
+    "script": "scripts/sprint172-timeline-semantic-stability.mjs",
+    "exitCode": 0,
+    "seconds": 246.7736921,
+    "output": "docs/review/sprint-17-2-1",
+    "priorExitCodes": [
+      0,
+      1
+    ]
+  }
+]

@@ -110,3 +110,17 @@ test("browser brain configuration is independent of observatory and imports no p
   assert.match(bridge, /process\.env\.FRUITFLY_XR_OBSERVATORY_URL/);
   assert.doesNotMatch(bridge, /NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL/);
 });
+
+test("feedback receipt is armed until send and accepted only for validated matching server telemetry", () => {
+  const f = fixture();
+  assert.equal(f.adapter.feedbackState,"ARMED");
+  f.message(hello); assert.equal(f.adapter.feedbackState,"ARMED");
+  f.adapter.publish(sensors,stimulus); assert.equal(f.adapter.feedbackState,"SENDING");
+  f.message(f.output()); assert.equal(f.adapter.feedbackState,"ACCEPTED");
+  f.setNow(1050); f.adapter.publish(sensors,stimulus); assert.equal(f.adapter.feedbackState,"SENDING");
+  f.message(f.output({sequence:2,simulationMs:100,inputSequence:99}));
+  assert.equal(f.adapter.feedbackState,"REJECTED");
+  assert.match(f.adapter.feedbackDetail,/reference\/freshness validation/);
+  const g=fixture();g.message({bad:true});assert.equal(g.adapter.feedbackState,"REJECTED");
+  assert.match(g.adapter.feedbackDetail,/message rejected/);
+});

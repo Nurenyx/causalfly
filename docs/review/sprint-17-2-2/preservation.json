@@ -1,0 +1,20 @@
+{
+  "baselineManifest": "tmp/sprint1722/takeover-hashes.json",
+  "inheritedFiles": 2108,
+  "changedExistingFiles": [
+    "scripts/demo-layout-browser-review.mjs",
+    "scripts/human-state-browser-review.mjs",
+    "scripts/sprint17-judge-journey.mjs",
+    "scripts/sprint172-timeline-semantic-stability.mjs",
+    "scripts/sprint16a-browser-review.mjs",
+    "src/app/components/live-connectome-gate.tsx",
+    "src/app/components/live-session.module.css",
+    "src/app/components/live-session.tsx",
+    "src/app/components/tester-build.css",
+    "src/app/observatory.tsx"
+  ],
+  "missing": [],
+  "scientificLibrariesUnchanged": true,
+  "publicAssetsUnchanged": true,
+  "historicalReviewsUnchanged": true
+}

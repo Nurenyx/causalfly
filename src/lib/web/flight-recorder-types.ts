@@ -39,7 +39,7 @@ export interface RunManifest {
   readonly specSha256?: string;
   readonly engineVersion?: string;
   readonly measurements?: CompactEvidencePayload["comparison"];
-  readonly validation?: Readonly<Record<"sameInputs" | "sameParameters" | "interventionApplied" | "controlPresent" | "interventionPresent" | "measurementsImmutable" | "replayableInputs", boolean> & { trackReturned?: boolean; derivedStimulusValid?: boolean }>;
+  readonly validation?: Readonly<Record<"sameInputs" | "sameParameters" | "interventionApplied" | "controlPresent" | "interventionPresent" | "measurementsImmutable" | "replayableInputs", boolean> & { trackReturned?: boolean; derivedStimulusValid?: boolean; stimulusOnlyComparison?: boolean; controlledDifferenceValid?: boolean; testPresent?: boolean; networkUnchanged?: boolean }>;
   readonly interpretation: { readonly state: "not_requested" | "requested" | "completed" | "failed"; readonly analysis?: ScientificAnalysis; readonly sha256?: string };
   readonly warnings: readonly string[];
 }

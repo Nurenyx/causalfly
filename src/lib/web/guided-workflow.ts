@@ -16,7 +16,7 @@ import { MAX_PERCEPTION_RECEIPT, PerceptionRetentionError, retainedPerception, r
 import { FlightRecorder, perceptionRecorder } from "./flight-recorder";
 
 const requestSchema = z.discriminatedUnion("action", [
-  z.strictObject({ action: z.literal("design"), researchQuestion: researchQuestionSchema, stimulusAmplitude: z.number().min(0).max(1).multipleOf(.05).optional(), nextFromId: z.string().uuid().optional(), perceptionId: z.string().uuid().optional(), perceptionReceipt: z.string().max(MAX_PERCEPTION_RECEIPT).optional() }),
+  z.strictObject({ action: z.literal("design"), researchQuestion: researchQuestionSchema, experimentType: z.enum(["NEURAL_INTERVENTION", "STIMULUS_RESPONSE"]).optional(), stimulusAmplitude: z.number().min(0).max(1).multipleOf(.05).optional(), nextFromId: z.string().uuid().optional(), perceptionId: z.string().uuid().optional(), perceptionReceipt: z.string().max(MAX_PERCEPTION_RECEIPT).optional() }),
   z.strictObject({ action: z.literal("run"), id: z.string().uuid(), stimulusAmplitude: z.number().min(0).max(1).multipleOf(0.05).optional() }),
   z.strictObject({ action: z.literal("interpret"), id: z.string().uuid() }),
   z.strictObject({ action: z.literal("stimulus"), id: z.string().uuid(), perceptionId: z.string().uuid().nullable(), perceptionReceipt: z.string().max(MAX_PERCEPTION_RECEIPT).optional() }),
@@ -37,6 +37,7 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
   for (const [id, entry] of records) if (entry.expires < Date.now() && !entry.pending) records.delete(id);
   const action = parsed.data;
   if (action.action === "design" && action.perceptionId && action.stimulusAmplitude !== undefined) return { ok: false, kind: "validation", error: "SAM-derived input is measured and locked. Do not supply a synthetic amplitude with a perception result." };
+  if (action.action === "design" && action.experimentType === "STIMULUS_RESPONSE" && action.stimulusAmplitude === 0) return { ok:false, kind:"validation", error:"Choose a positive test stimulus to compare with no stimulus. The network remains unchanged." };
   let entry = action.action === "design" ? undefined : records.get(action.id);
   let recorder = entry?.recorder ?? new FlightRecorder();
   let retainedStimulusReceipt: { id: string; receipt: string } | undefined;
@@ -137,10 +138,10 @@ export async function runGuidedAction(input: unknown, deps: { env?: MetaEnvironm
   const audit = (): RuntimeCall => ({ task: action.action === "design" ? "design" : "interpret", mode: client.mode, model: client.mode === "META LIVE" ? env.META_MODEL?.trim() ?? "Model unavailable" : "FakeMetaClient / offline template", requestedAt, completedAt: new Date().toISOString() });
   try {
     if (action.action === "design") {
-      const { spec: proposed } = await designExperiment(client, { researchQuestion: action.researchQuestion, networkDefinition: syntheticDemoNetwork, perceptionInput: requestedPerception, syntheticAmplitude: action.stimulusAmplitude });
+      const { spec: proposed } = await designExperiment(client, { researchQuestion: action.researchQuestion, networkDefinition: syntheticDemoNetwork, perceptionInput: requestedPerception, syntheticAmplitude: action.stimulusAmplitude, experimentType:action.experimentType });
       // The model sees the fixed input; only CausalFly assigns its authoritative amplitude.
       const amplitude = requestedPerception?.measurement.amplitude ?? action.stimulusAmplitude;
-      const spec = amplitude === undefined ? proposed : validateExperimentProposal({ ...proposed, stimulus: { amplitude } }, syntheticDemoNetwork).spec;
+      const spec = validateExperimentProposal({ ...proposed, ...(action.experimentType ? {experimentType:action.experimentType} : {}), ...(amplitude !== undefined ? {stimulus:{amplitude}} : {}) }, syntheticDemoNetwork).spec;
       if (action.stimulusAmplitude !== undefined) recorder.event("stimulus.accepted", { amplitude: action.stimulusAmplitude, code: "user_selected_synthetic_input" });
       const id = randomUUID();
       recorder.spec(spec); recorder.event("meta.design.completed", { designId: id });

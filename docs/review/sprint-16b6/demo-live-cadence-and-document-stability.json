@@ -1,0 +1,4631 @@
+{
+  "name": "demo-live-cadence-and-document-stability",
+  "fixtureOnly": true,
+  "actualIngestionHook": true,
+  "displayCadenceMs": 180,
+  "receivedFrames": 64,
+  "retainedFrames": 64,
+  "measurements": [
+    {
+      "width": 1366,
+      "height": 768,
+      "before": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 509.5,
+            "width": 1342,
+            "height": 2877.1875
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 509.5,
+            "width": 1050,
+            "height": 1694.5
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2931.6875,
+            "width": 1050,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 660.625,
+            "y": 3111.6875,
+            "width": 401.375,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1075,
+            "y": 776.5,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1089,
+            "y": 1031.5,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1074,
+            "y": 1344.5,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 24,
+            "y": 112,
+            "width": 1318,
+            "height": 139.5
+          },
+          ".live-state-summary": {
+            "x": 862,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 3386.6875,
+            "width": 1342,
+            "height": 21
+          }
+        },
+        "documentHeight": 3420
+      },
+      "during": [
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1342,
+              "height": 2877.1875
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 509.5,
+              "width": 1050,
+              "height": 1694.5
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2931.6875,
+              "width": 1050,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 660.625,
+              "y": 3111.6875,
+              "width": 401.375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1075,
+              "y": 776.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1089,
+              "y": 1031.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1074,
+              "y": 1344.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1318,
+              "height": 139.5
+            },
+            ".live-state-summary": {
+              "x": 862,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 3386.6875,
+              "width": 1342,
+              "height": 21
+            }
+          },
+          "documentHeight": 3420
+        }
+      ],
+      "after": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 509.5,
+            "width": 1342,
+            "height": 2877.1875
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 509.5,
+            "width": 1050,
+            "height": 1694.5
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2931.6875,
+            "width": 1050,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 660.625,
+            "y": 3111.6875,
+            "width": 401.375,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1075,
+            "y": 776.5,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1089,
+            "y": 1031.5,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1074,
+            "y": 1344.5,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 24,
+            "y": 112,
+            "width": 1318,
+            "height": 139.5
+          },
+          ".live-state-summary": {
+            "x": 862,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 3386.6875,
+            "width": 1342,
+            "height": 21
+          }
+        },
+        "documentHeight": 3420
+      },
+      "receivedInBurst": 12,
+      "visibleTickRepaints": 3
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "before": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 510.375,
+            "width": 1416,
+            "height": 2093.3125
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 510.375,
+            "width": 1124,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2148.6875,
+            "width": 1124,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 706.015625,
+            "y": 2328.6875,
+            "width": 429.984375,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1149,
+            "y": 777.375,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1163,
+            "y": 1032.375,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1148,
+            "y": 1345.375,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 24,
+            "y": 112,
+            "width": 1392,
+            "height": 140.375
+          },
+          ".live-state-summary": {
+            "x": 936,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2603.6875,
+            "width": 1416,
+            "height": 21
+          }
+        },
+        "documentHeight": 2637
+      },
+      "during": [
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1416,
+              "height": 2093.3125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 510.375,
+              "width": 1124,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2148.6875,
+              "width": 1124,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 706.015625,
+              "y": 2328.6875,
+              "width": 429.984375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1149,
+              "y": 777.375,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1163,
+              "y": 1032.375,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1148,
+              "y": 1345.375,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1392,
+              "height": 140.375
+            },
+            ".live-state-summary": {
+              "x": 936,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2603.6875,
+              "width": 1416,
+              "height": 21
+            }
+          },
+          "documentHeight": 2637
+        }
+      ],
+      "after": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 510.375,
+            "width": 1416,
+            "height": 2093.3125
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 510.375,
+            "width": 1124,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2148.6875,
+            "width": 1124,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 706.015625,
+            "y": 2328.6875,
+            "width": 429.984375,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1149,
+            "y": 777.375,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1163,
+            "y": 1032.375,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1148,
+            "y": 1345.375,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 24,
+            "y": 112,
+            "width": 1392,
+            "height": 140.375
+          },
+          ".live-state-summary": {
+            "x": 936,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2603.6875,
+            "width": 1416,
+            "height": 21
+          }
+        },
+        "documentHeight": 2637
+      },
+      "receivedInBurst": 12,
+      "visibleTickRepaints": 3
+    },
+    {
+      "width": 1536,
+      "height": 1024,
+      "before": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 512.953125,
+            "width": 1512,
+            "height": 2133.03125
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 512.953125,
+            "width": 1220,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2190.984375,
+            "width": 1220,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 764.90625,
+            "y": 2370.984375,
+            "width": 467.09375,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1245,
+            "y": 779.953125,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1259,
+            "y": 1034.953125,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1244,
+            "y": 1347.953125,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 24,
+            "y": 112,
+            "width": 1488,
+            "height": 142.953125
+          },
+          ".live-state-summary": {
+            "x": 1032,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2645.984375,
+            "width": 1512,
+            "height": 21
+          }
+        },
+        "documentHeight": 2679
+      },
+      "during": [
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1512,
+              "height": 2133.03125
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 512.953125,
+              "width": 1220,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2190.984375,
+              "width": 1220,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 764.90625,
+              "y": 2370.984375,
+              "width": 467.09375,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1245,
+              "y": 779.953125,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1259,
+              "y": 1034.953125,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1244,
+              "y": 1347.953125,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 24,
+              "y": 112,
+              "width": 1488,
+              "height": 142.953125
+            },
+            ".live-state-summary": {
+              "x": 1032,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2645.984375,
+              "width": 1512,
+              "height": 21
+            }
+          },
+          "documentHeight": 2679
+        }
+      ],
+      "after": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 512.953125,
+            "width": 1512,
+            "height": 2133.03125
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 512.953125,
+            "width": 1220,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2190.984375,
+            "width": 1220,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 764.90625,
+            "y": 2370.984375,
+            "width": 467.09375,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1245,
+            "y": 779.953125,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1259,
+            "y": 1034.953125,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1244,
+            "y": 1347.953125,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 24,
+            "y": 112,
+            "width": 1488,
+            "height": 142.953125
+          },
+          ".live-state-summary": {
+            "x": 1032,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2645.984375,
+            "width": 1512,
+            "height": 21
+          }
+        },
+        "documentHeight": 2679
+      },
+      "receivedInBurst": 12,
+      "visibleTickRepaints": 2
+    },
+    {
+      "width": 1728,
+      "height": 1080,
+      "before": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1704,
+            "height": 2213.15625
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1411.984375,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2282.65625,
+            "width": 1411.984375,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 882.65625,
+            "y": 2462.65625,
+            "width": 541.328125,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1437,
+            "y": 791.5,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1451,
+            "y": 1046.5,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1436,
+            "y": 1359.5,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 30,
+            "y": 120,
+            "width": 1668,
+            "height": 146.5
+          },
+          ".live-state-summary": {
+            "x": 1218,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2737.65625,
+            "width": 1704,
+            "height": 21
+          }
+        },
+        "documentHeight": 2771
+      },
+      "during": [
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1704,
+              "height": 2213.15625
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1411.984375,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2282.65625,
+              "width": 1411.984375,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 882.65625,
+              "y": 2462.65625,
+              "width": 541.328125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1437,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1451,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1436,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1668,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1218,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2737.65625,
+              "width": 1704,
+              "height": 21
+            }
+          },
+          "documentHeight": 2771
+        }
+      ],
+      "after": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1704,
+            "height": 2213.15625
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1411.984375,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2282.65625,
+            "width": 1411.984375,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 882.65625,
+            "y": 2462.65625,
+            "width": 541.328125,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1437,
+            "y": 791.5,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1451,
+            "y": 1046.5,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1436,
+            "y": 1359.5,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 30,
+            "y": 120,
+            "width": 1668,
+            "height": 146.5
+          },
+          ".live-state-summary": {
+            "x": 1218,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2737.65625,
+            "width": 1704,
+            "height": 21
+          }
+        },
+        "documentHeight": 2771
+      },
+      "receivedInBurst": 12,
+      "visibleTickRepaints": 3
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "before": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1896,
+            "height": 2292.59375
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1604,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2362.09375,
+            "width": 1604,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 1000.421875,
+            "y": 2542.09375,
+            "width": 615.578125,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1629,
+            "y": 791.5,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1643,
+            "y": 1046.5,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1628,
+            "y": 1359.5,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 30,
+            "y": 120,
+            "width": 1860,
+            "height": 146.5
+          },
+          ".live-state-summary": {
+            "x": 1410,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2817.09375,
+            "width": 1896,
+            "height": 21
+          }
+        },
+        "documentHeight": 2850
+      },
+      "during": [
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        },
+        {
+          "rects": {
+            "[class*=\"layout\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1896,
+              "height": 2292.59375
+            },
+            "[class*=\"heroGrid\"]": {
+              "x": 12,
+              "y": 524.5,
+              "width": 1604,
+              "height": 880
+            },
+            "[class*=\"timeline\"]": {
+              "x": 12,
+              "y": 2362.09375,
+              "width": 1604,
+              "height": 168
+            },
+            "[class*=\"health\"]": {
+              "x": 1000.421875,
+              "y": 2542.09375,
+              "width": 615.578125,
+              "height": 275
+            },
+            "[class*=\"streamNotes\"]": {
+              "x": 1629,
+              "y": 791.5,
+              "width": 278,
+              "height": 255
+            },
+            "[class*=\"investigate\"]": {
+              "x": 1643,
+              "y": 1046.5,
+              "width": 250,
+              "height": 180
+            },
+            "[class*=\"provenance\"]": {
+              "x": 1628,
+              "y": 1359.5,
+              "width": 280,
+              "height": 202
+            },
+            ".telemetry-primary": {
+              "x": 30,
+              "y": 120,
+              "width": 1860,
+              "height": 146.5
+            },
+            ".live-state-summary": {
+              "x": 1410,
+              "y": 41,
+              "width": 480,
+              "height": 59
+            },
+            "#demo-footer": {
+              "x": 12,
+              "y": 2817.09375,
+              "width": 1896,
+              "height": 21
+            }
+          },
+          "documentHeight": 2850
+        }
+      ],
+      "after": {
+        "rects": {
+          "[class*=\"layout\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1896,
+            "height": 2292.59375
+          },
+          "[class*=\"heroGrid\"]": {
+            "x": 12,
+            "y": 524.5,
+            "width": 1604,
+            "height": 880
+          },
+          "[class*=\"timeline\"]": {
+            "x": 12,
+            "y": 2362.09375,
+            "width": 1604,
+            "height": 168
+          },
+          "[class*=\"health\"]": {
+            "x": 1000.421875,
+            "y": 2542.09375,
+            "width": 615.578125,
+            "height": 275
+          },
+          "[class*=\"streamNotes\"]": {
+            "x": 1629,
+            "y": 791.5,
+            "width": 278,
+            "height": 255
+          },
+          "[class*=\"investigate\"]": {
+            "x": 1643,
+            "y": 1046.5,
+            "width": 250,
+            "height": 180
+          },
+          "[class*=\"provenance\"]": {
+            "x": 1628,
+            "y": 1359.5,
+            "width": 280,
+            "height": 202
+          },
+          ".telemetry-primary": {
+            "x": 30,
+            "y": 120,
+            "width": 1860,
+            "height": 146.5
+          },
+          ".live-state-summary": {
+            "x": 1410,
+            "y": 41,
+            "width": 480,
+            "height": 59
+          },
+          "#demo-footer": {
+            "x": 12,
+            "y": 2817.09375,
+            "width": 1896,
+            "height": 21
+          }
+        },
+        "documentHeight": 2850
+      },
+      "receivedInBurst": 12,
+      "visibleTickRepaints": 4
+    }
+  ],
+  "allExistingReducerFramesPreserved": true,
+  "maximumGeometryDeltaPx": 0,
+  "tolerancePx": 0.5,
+  "documentHeightStable": true,
+  "terminalFlush": true,
+  "collapseChoicePreserved": true,
+  "viewports": [
+    [
+      1366,
+      768
+    ],
+    [
+      1440,
+      900
+    ],
+    [
+      1536,
+      1024
+    ],
+    [
+      1728,
+      1080
+    ],
+    [
+      1920,
+      1080
+    ]
+  ],
+  "providerRequests": 0,
+  "realBrainMessages": 0,
+  "errors": []
+}

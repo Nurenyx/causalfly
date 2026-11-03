@@ -144,7 +144,7 @@ test("6. Use as next test → previous evidence retained in history", () => {
 
   assert.ok(state.history && state.history.length === 1);
   assert.equal(state.history[0].result.researchQuestion, question);
-  assert.equal(state.history[0].result.spec.perturbation.targetNodeId, "primary_a");
+  assert.equal(state.history[0].result.spec.perturbation?.targetNodeId, "primary_a");
 });
 
 test("7. completed runs → explicit Compare transition reveals Comparison Workspace", () => {
@@ -160,7 +160,7 @@ test("7. completed runs → explicit Compare transition reveals Comparison Works
   // In compare mode, full comparison workspace is active
   assert.match(html, /data-instrument-mode="compare"/);
   assert.match(html, /CONTROLLED COMPARISON WORKSPACE · WHAT CHANGED\?/);
-  assert.match(html, /Control vs Intervention Analysis/);
+  assert.match(html, /Control vs intervention/);
   assert.match(html, /SAME STEP \/ BOTH RUNS/);
   assert.match(html, /Synchronized playback — both runs are shown at the same simulation step\./);
   assert.match(html, /Both side-by-side/);

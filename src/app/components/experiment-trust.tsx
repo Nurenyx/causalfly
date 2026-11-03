@@ -27,12 +27,12 @@ export function ExperimentTrust({ diagnostics }: { diagnostics?: RunDiagnostics 
   const m = diagnostics.manifest;
   const v = m.validation;
   const checks: [string, boolean | undefined][] = [
-    ["Same input conditions", v?.sameInputs], ["Same experiment parameters", v?.sameParameters],
-    ["Intervention applied", v?.interventionApplied], ["Control result present", v?.controlPresent],
-    ["Intervention result present", v?.interventionPresent], ["Measurements immutable on server", v?.measurementsImmutable],
+    [v?.stimulusOnlyComparison ? "Only declared stimulus differs" : "Same input conditions", v?.stimulusOnlyComparison ? v.controlledDifferenceValid : v?.sameInputs], ["Same experiment parameters", v?.sameParameters],
+    [v?.stimulusOnlyComparison ? "Network unchanged" : "Intervention applied", v?.stimulusOnlyComparison ? v.networkUnchanged : v?.interventionApplied], ["Control result present", v?.controlPresent],
+    [v?.stimulusOnlyComparison ? "Test result present" : "Intervention result present", v?.stimulusOnlyComparison ? v.testPresent : v?.interventionPresent], ["Measurements immutable on server", v?.measurementsImmutable],
     ...(m.perception ? [["Track returned", v?.trackReturned], ["Experimental proxy valid", v?.derivedStimulusValid]] as [string, boolean | undefined][] : []),
   ];
-  const matched = v?.sameInputs && v.sameParameters && v.interventionApplied;
+  const matched = v?.stimulusOnlyComparison ? v.controlledDifferenceValid : v?.sameInputs && v.sameParameters && v.interventionApplied;
   return <section className="experiment-trust" aria-label="Experiment trust">
     <header><strong>EXPERIMENT TRUST</strong><span>DETERMINISTIC MODEL RESULT</span></header>
     <ul>

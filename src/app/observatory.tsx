@@ -1,4 +1,6 @@
 "use client";
+import { QuestionCompatibility } from "./components/live-state-summary";
+import { escapeCompatibility } from "@/lib/web/live-state-presentation";
 import { RecordedSimulationEvidence } from "./components/recorded-simulation-evidence";
 import { PageHeader } from "./components/page-header";
 import { LiveConnectomeGate } from "./components/live-connectome-gate";
@@ -14,6 +16,9 @@ import { DataSourcePanel, useFruitFlySource } from "./components/data-source-pan
 import { FruitFlyEvidenceView } from "./components/fruitfly-evidence";
 import { LiveSessionWorkspace } from "./components/live-session";
 import { GuidedExperiment } from "./components/guided-experiment";
+import { ResearchQuestion } from "./components/research-question";
+import type { ExperimentType } from "@/lib/experiment/types";
+import { isStimulusResponse } from "@/lib/experiment/semantics";
 import { FruitFlyScientist } from "./components/fruitfly-analysis";
 import { ScientistView } from "./components/ai-scientist";
 import { CompareRequirements } from "./components/guided-workflow";
@@ -47,11 +52,14 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   // Direct entry into experiment workspace by default
   const [home, setHome] = useState(false);
   const [instrumentMode, setInstrumentMode] = useState<InstrumentMode>("observe");
+  const [embodimentChoice, setEmbodimentChoice] = useState<boolean | null>(null);
   const [requestedLiveStep, setLiveStep] = useState<LiveConnectomeStep>("question");
-  const [{ workspace, question, design, result, history, investigationId, nextFromId, observation, fruitFlyQuestion = fruitFlyExampleQuestion, fruitFlyAskedQuestion: retainedQuestion }, dispatch] = useReducer(workspaceReducer, { workspace: "observatory", question: defaultQuestion, result: null });
+  const [{ workspace, question, design, result, history, investigationId, nextFromId, experimentType = "NEURAL_INTERVENTION", observation, fruitFlyQuestion = fruitFlyExampleQuestion, fruitFlyAskedQuestion: retainedQuestion }, dispatch] = useReducer(workspaceReducer, { workspace: "observatory", question: defaultQuestion, result: null });
   const [syntheticAmplitude, setSyntheticAmplitude] = useState(1);
   const [flyModel, setFlyModel] = useState<FlyModelKind>("anatomical");
   const [pending, setPending] = useState("");
+  const [perceptionInference, setPerceptionInference] = useState(false);
+  const [metaError, setMetaError] = useState("");
   const [source, setSource] = useState<DataSourceKind>("SYNTHETIC_FIXTURE");
   const fruitFly = useFruitFlySource(!home && workspace === "live" && source === "FRUITFLY_XR", initialStatus.researchConfigured === true);
   const [fruitFlyMeta, setFruitFlyMeta] = useState<ObservationalMetaState>({ pending: false });
@@ -88,6 +96,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
   useEffect(() => () => { if (perceptionSession.url) URL.revokeObjectURL(perceptionSession.url); }, [perceptionSession.url]);
 
   function navigate(next: Workspace) {
+    fruitFly.flush();
     setHome(false); setNotice("");
     if (external && next === "scientist") { setLiveStep("understand"); next = "live"; }
     dispatch({ type: "navigate", workspace: next });
@@ -125,6 +134,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     guideViewportTo("demo-question", "h2, input, textarea, button");
   }
   function reportFailure(task: string, detail: string, diagnostics?: RunDiagnostics) {
+    if (task === "design" || task === "interpret") setMetaError(detail);
     if (diagnostics) dispatch({ type: "diagnostics", diagnostics });
     const designRecovery = /design expired|Design the experiment again/i.test(detail);
     const perceptionRecovery = /receipt|can no longer verify|perception result.*(?:restart|expir|unavailable)|re-analyze/i.test(detail);
@@ -150,17 +160,35 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       section?.setAttribute("tabindex", "-1"); section?.focus({ preventScroll: true });
     });
   }
+  function saveQuestion(next: string) {
+    if (next.trim() === question.trim()) return;
+    dispatch({type:"next-question",question:next.trim()});setInstrumentMode("observe");
+    setNotice("Question saved. Completed evidence remains in Evidence / history. Review a new design before running.");
+  }
+  function chooseExperimentType(next: ExperimentType) {
+    if (next === experimentType) return;
+    dispatch({type:"experiment-type",experimentType:next});setInstrumentMode("observe");
+    if(next === "STIMULUS_RESPONSE" && syntheticAmplitude === 0) setSyntheticAmplitude(1);
+    setNotice("Controlled difference changed. Earlier completed evidence remains in Evidence / history; design and approve the new test.");
+  }
+  function prepareStimulusComparison() {
+    dispatch({type:"experiment-type",experimentType:"STIMULUS_RESPONSE",question:"What happens when the looming stimulus appears?"});
+    setSyntheticAmplitude(1);setInstrumentMode("observe");
+    setNotice("Prepared no stimulus (0.0) versus looming stimulus (1.0), identical network. Design and approve to measure it.");
+    guideViewportTo("demo-question","textarea, button");
+  }
   async function execute(action: "design" | "run" | "interpret" | "stimulus", researchQuestion = question, stimulusAmplitude?: number, perceptionId?: string | null, receipt?: string) {
     if (inFlight.current || external || (action !== "design" && !design)) return;
     const requestInvestigationId = action === "design" ? (investigationId ?? 0) + 1 : investigationId;
     if (action === "design") dispatch({ type: "begin", question: researchQuestion });
     else if (action === "run") guideViewportTo("demo-watch", "h2, h3, .run-experiment-btn");
     if (action === "stimulus" || perceptionId) setPerceptionSession(current => ({ ...current, error: undefined, failure: undefined, errorDiagnostics: undefined }));
+    if (action === "design" || action === "interpret") setMetaError("");
     inFlight.current = true; setPending(action); setError(""); setErrorTarget(""); setFailure(undefined);
     const selectedId = perceptionId ?? (action === "design" && perceptionSession.source === "perception" ? perceptionSession.analysis?.perception.id : undefined);
     const selectedReceipt = receipt ?? (selectedId === perceptionSession.analysis?.perception.id ? perceptionSession.analysis?.receipt : undefined);
     try {
-      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion, ...(!selectedId ? { stimulusAmplitude: stimulusAmplitude ?? syntheticAmplitude } : {}), ...(nextFromId ? { nextFromId } : {}), ...(selectedId ? { perceptionId: selectedId, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}) } : { action, id: design!.id, ...(action === "stimulus" ? { perceptionId: perceptionId ?? null, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}), ...(action === "run" && stimulusAmplitude !== undefined && stimulusAmplitude !== design!.spec.stimulus.amplitude ? { stimulusAmplitude } : {}) }) });
+      const response = await fetch("/api/experiments", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(action === "design" ? { action, researchQuestion, experimentType, ...(!selectedId ? { stimulusAmplitude: stimulusAmplitude ?? syntheticAmplitude } : {}), ...(nextFromId ? { nextFromId } : {}), ...(selectedId ? { perceptionId: selectedId, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}) } : { action, id: design!.id, ...(action === "stimulus" ? { perceptionId: perceptionId ?? null, ...(selectedReceipt ? { perceptionReceipt: selectedReceipt } : {}) } : {}), ...(action === "run" && stimulusAmplitude !== undefined && stimulusAmplitude !== design!.spec.stimulus.amplitude ? { stimulusAmplitude } : {}) }) });
       const data = await response.json() as GuidedResponse;
       if (data.retainedStimulusReceipt) {
         const retained = data.retainedStimulusReceipt;
@@ -195,9 +223,9 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     } catch { reportFailure(action, "Unable to reach CausalFly. Retry the explicit action; retained evidence is unchanged."); }
     finally { inFlight.current = false; setPending(""); }
   }
-  const analysisEnabled = Boolean(mode && fruitFlyAskedQuestion?.trim() && activeObservation.snapshot.evidence && activeObservation.snapshot.retentionId);
-  function analyzeObservation() { if (analysisEnabled) void analyzeFruitFly(fruitFlyAskedQuestion!, activeObservation.snapshot, activeObservation.frames); }
-  const needsDesign = !design || unavailableDesignId === design.id || question.trim() !== design.researchQuestion.trim() || !design.perceptionInput && design.spec.stimulus.amplitude !== syntheticAmplitude;
+  const analysisEnabled = Boolean(!escapeCompatibility(fruitFlyAskedQuestion ?? "", activeObservation.snapshot, activeObservation.frames)?.blocked && mode && fruitFlyAskedQuestion?.trim() && activeObservation.snapshot.evidence && activeObservation.snapshot.retentionId);
+  function analyzeObservation() { const latest = fruitFly.current(); const window = investigationWindow(latest.snapshot, latest.frames, observation); if (analysisEnabled) void analyzeFruitFly(fruitFlyAskedQuestion!, window.snapshot, window.frames); }
+  const needsDesign = !design || unavailableDesignId === design.id || question.trim() !== design.researchQuestion.trim() || (design.spec.experimentType ?? "NEURAL_INTERVENTION") !== experimentType || !design.perceptionInput && design.spec.stimulus.amplitude !== syntheticAmplitude;
   const pendingStimulus = perceptionSession.source === "perception" && perceptionSession.analysis?.perception.id !== design?.perceptionInput?.id ? perceptionSession.analysis : undefined;
   const nextLabel = external ? !fruitFlyAskedQuestion ? "Set Investigation Question" : !hasTelemetry ? "Connect / observe session" : !currentMeta ? "Review local interpretation" : "View proposed next experiment" : needsDesign ? pendingStimulus ? "Design experiment with this stimulus" : "Design with Meta" : pendingStimulus ? "Use as Experiment Stimulus" : !result ? "Review experiment approval" : !result.analysis ? "Explain with Meta" : "View proposed next experiment";
   function nextAction() {
@@ -211,8 +239,9 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
     else if (!result.analysis) void execute("interpret");
     else { navigate("observatory"); requestAnimationFrame(() => document.querySelector(".next-experiment")?.scrollIntoView({ block: "center", behavior: "smooth" })); }
   }
-  const metaProps = { state: currentMeta || fruitFlyMeta.pending || fruitFlyMeta.error ? fruitFlyMeta : { pending: false }, enabled: analysisEnabled, onAnalyze: analyzeObservation };
+  const metaProps = { state: currentMeta || fruitFlyMeta.pending || fruitFlyMeta.error ? fruitFlyMeta : { pending: false }, enabled: analysisEnabled, disabledReason: escapeCompatibility(fruitFlyAskedQuestion ?? "", activeObservation.snapshot, activeObservation.frames)?.blocked ? escapeCompatibility(fruitFlyAskedQuestion ?? "", activeObservation.snapshot, activeObservation.frames)?.message : undefined, onAnalyze: analyzeObservation };
 
+  useEffect(() => { document.dispatchEvent(new Event("causalfly:navigation")); }, [home, workspace, source]);
   const primaryWorkspace = home ? undefined : workspace === "compare" || workspace === "scientist" ? external ? "live" : "observatory" : workspace;
   return <DiagnosticVisibilityProvider value={initialStatus.developerDiagnostics ?? false}><div className={`app-shell instrument-shell guided-shell workspace-shell${home ? " home-shell" : workspace === "live" ? " live-shell" : ""}${!home && !external && workspace === "observatory" ? " cockpit-shell" : ""}`}>
     {failure && !external && <WorkflowErrorNotice key={failure.id} failure={failure} onDismiss={() => setFailure(undefined)} onLocate={locateFailure} />}
@@ -221,7 +250,7 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       <Link className="brand" href="/" aria-label="CausalFly home" aria-current={home ? "page" : undefined} onClick={event => { event.preventDefault(); setHome(true); window.scrollTo({ top: 0, behavior: "instant" }); }}><span>◈</span><span>Causal<span className="brand-accent">Fly</span><small>Scientific experiment<br />workbench</small></span></Link>
       <span className="sidebar-caption">RESEARCH WORKSPACE</span>
       <WorkspaceNavigation active={primaryWorkspace} disabled={busy} onNavigate={openWorkspace} onOpenOverview={() => { setHome(true); window.scrollTo({ top: 0, behavior: "instant" }); }} />
-      <DataSourcePanel source={source} snapshot={fruitFly.snapshot} disabled={busy} onSelect={selectSource} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} />
+      <DataSourcePanel source={source} snapshot={fruitFly.snapshot} now={fruitFly.now} disabled={busy} onSelect={selectSource} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} />
       {busy && <p className="trace-note">Navigation and source selection pause while the explicit experiment request completes.</p>}
       <details className="sidebar-how"><summary>How CausalFly works</summary><p>CausalFly runs and measures controlled tests. Meta designs and interprets on request. Live connectome simulation supplies observational simulation data.</p></details>
     </aside>
@@ -229,9 +258,9 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       <FirstRunBanner />
       <PageHeader
         eyebrow={home ? "CAUSALFLY / OVERVIEW" : workspace === "evidence" ? "RETAINED RECORDS / PROVENANCE" : external ? "LIVE CONNECTOME / SIMULATION" : `CONTROLLED MODEL / ${activeStage}`}
-        title={home ? "Welcome to CausalFly" : workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "compare" ? "Control vs intervention" : "Scientific Experiment Workspace"}
+        title={home ? "Welcome to CausalFly" : workspace === "evidence" ? "Evidence" : external ? "A brain map in motion." : workspace === "compare" ? (result && isStimulusResponse(result.spec) ? "No stimulus vs stimulus" : "Control vs intervention") : "Scientific Experiment Workspace"}
         subtitle={home ? "Ask → Test → Understand" : workspace === "evidence" ? "Measurements, source records and AI interpretation — traceable and separate." : external ? "Published structure · simulated dynamics · live connection or recorded replay" : "An AI scientist for embodied neural experiments."}
-        status={<><MetaStatus mode={mode} disabled={initialStatus.metaDisabled} working={fruitFlyMeta.pending || ["design", "interpret"].includes(pending)} error={error || fruitFlyMeta.error} /><BrainServerStatus snapshot={fruitFly.snapshot} now={fruitFly.now} controlAvailable={brainControlActive} controlStatus={brainControlDetail} /><ConnectomeStatus source={source} snapshot={fruitFly.snapshot} /></>}
+        status={<><MetaStatus mode={mode} disabled={initialStatus.metaDisabled} working={fruitFlyMeta.pending || perceptionInference || ["design", "interpret"].includes(pending)} error={metaError || fruitFlyMeta.error || (perceptionSession.failure?.kind === "transient" && perceptionSession.failure.stage !== "upload" ? perceptionSession.error : undefined)} /><BrainServerStatus snapshot={fruitFly.snapshot} now={fruitFly.now} controlAvailable={brainControlActive} controlStatus={brainControlDetail} /><ConnectomeStatus source={source} snapshot={fruitFly.snapshot} /></>}
       />
 
       {!home && workspace !== "evidence" && (
@@ -280,26 +309,28 @@ export default function Observatory({ initialStatus }: { initialStatus: WebStatu
       {!home && workspace === "observatory" && notice && <p className="workflow-notice" role="status">{notice}</p>}
       {error && <div className="error-panel" role="alert"><strong>Action could not complete</strong><p>{error}</p>{failure?.diagnostics ? <RunDiagnosticsDetails diagnostics={failure.diagnostics} /> : failure?.run_id && <details><summary>Run reference</summary><p>Run: <code>{failure.run_id}</code></p></details>}</div>}
       <main id="main" tabIndex={-1} className="main-content" aria-label={home ? "Home overview" : `${primaryWorkspace === "live" ? "Live Connectome" : activeStage} workspace`}>
+        {!home && !external && (workspace === "evidence" || workspace === "scientist") && <section className="cockpit-command persistent-question" id="demo-question" aria-label="Research question"><ResearchQuestion question={question} busy={busy} underTest={Boolean(design)} completed={Boolean(result)} onUse={saveQuestion} /></section>}
         {home ? <HomeOverview disabled={busy} onOpen={openWorkspace} /> : external ? <>
           {workspace === "compare" ? <CompareRequirements external onNext={() => navigate("evidence")} /> : workspace === "evidence" ? replaying ? <RecordedSimulationEvidence /> : <><p className="workflow-notice">{fruitFlyAskedQuestion ? `ACTIVE INVESTIGATION - ${fruitFlyAskedQuestion}` : "No question submitted"}{!hasTelemetry && " · No evidence observed for this question yet."}</p><FruitFlyEvidenceView snapshot={activeObservation.snapshot} question={fruitFlyAskedQuestion} />{historicalFrames.length > 0 && <details className="panel"><summary>HISTORICAL / RETAINED RECORDS · unrelated to the active question</summary><FruitFlyEvidenceView snapshot={{ ...fruitFly.snapshot, evidence: historicalFrames.at(-1)!, state: "DISCONNECTED", message: "Historical context only. No current activity is claimed." }} /></details>}{currentMeta && fruitFlyMeta.result && <details className="panel"><summary>Frozen Meta interpretation / proposal provenance</summary><p>Analysis belongs to session {fruitFlyMeta.result.evidence.sessionId}; inspect its exact frozen window.</p><pre>{JSON.stringify(fruitFlyMeta.result, null, 2)}</pre></details>}</> : liveStep === "understand" ? <FruitFlyScientist snapshot={activeObservation.snapshot} frames={activeObservation.frames} now={fruitFly.now} question={fruitFlyAskedQuestion} meta={metaProps} onLive={() => setLiveStep("observe")} onEvidence={() => navigate("evidence")} /> : <>
             <LiveConnectomeGate snapshot={fruitFly.snapshot} now={fruitFly.now} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} replaying={replaying} onReplay={setReplaying} />
             {!replaying && <>
-            <InvestigationQuestion question={fruitFlyQuestion} setQuestion={fruitFlyAskedQuestion} hasEvidence={hasTelemetry} onChange={question => dispatch({ type: "fruitfly-question", question })} onSet={() => { dispatch({ type: "fruitfly-ask", question: fruitFlyQuestion, sessionId: currentSession, startedAt: new Date().toISOString(), excluded: fruitFly.frames.map(frameIdentity) }); setFruitFlyMeta({ pending: false }); setLiveStep("observe"); }} />
+            {<LiveSessionWorkspace embodimentChoice={embodimentChoice} onEmbodimentChange={setEmbodimentChoice} readSnapshot={fruitFly.readSnapshot} snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} onEvidence={() => navigate("evidence")} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} onInterpret={() => setLiveStep("understand")} />}
+            <InvestigationQuestion question={fruitFlyQuestion} setQuestion={fruitFlyAskedQuestion} hasEvidence={hasTelemetry} onChange={question => dispatch({ type: "fruitfly-question", question })} onSet={() => { dispatch({ type: "fruitfly-ask", question: fruitFlyQuestion, sessionId: currentSession, startedAt: new Date().toISOString(), excluded: fruitFly.current().frames.map(frameIdentity) }); setFruitFlyMeta({ pending: false }); setLiveStep("observe"); }} />
+            <QuestionCompatibility question={fruitFlyAskedQuestion} snapshot={activeObservation.snapshot} frames={activeObservation.frames} onEvidence={() => setLiveStep("understand")} />
             {fruitFly.snapshot.evidence && !hasTelemetry && <p className="workflow-notice">Retained telemetry is historical context for this question. Active observation requires a newly received frame.</p>}
-            {liveStep === "observe" && fruitFlyAskedQuestion ? <LiveSessionWorkspace snapshot={fruitFly.snapshot} frames={fruitFly.frames} now={fruitFly.now} onEvidence={() => navigate("evidence")} onConnect={fruitFly.connect} onDisconnect={fruitFly.disconnect} onInterpret={() => setLiveStep("understand")} /> : <section className="panel"><p>Set an investigation question first. The research connection can receive data while you define the question; earlier frames will remain historical context.</p></section>}
             <p className="trace-note">XR PREVIEW · The current bridge supplies no video or image feed. Published soma geometry and received telemetry are shown above.</p>
             </>}
           </>}
         </> : workspace === "live" ? <section className="panel"><h2>Observe a connectome simulation.</h2><p>Live Session uses the Live connectome simulation read-only telemetry source. Your synthetic experiment stays retained when switching sources.</p><button type="button" className="primary-button" onClick={() => selectSource("FRUITFLY_XR")}>Select Live connectome simulation ↗</button></section> : (workspace === "compare" || workspace === "observatory") ? <>
-          <GuidedExperiment instrumentMode={workspace === "compare" ? "compare" : instrumentMode} question={question} design={effectiveDesign} result={result} pending={pending} mode={mode} amplitude={syntheticAmplitude} onAmplitude={setSyntheticAmplitude} flyModel={flyModel} onFlyModel={setFlyModel}
-            perceptionSession={perceptionSession} onPerceptionSession={setPerceptionSession}
+          <GuidedExperiment instrumentMode={workspace === "compare" ? "compare" : instrumentMode} question={question} experimentType={experimentType} onExperimentType={chooseExperimentType} onStimulusComparison={prepareStimulusComparison} design={effectiveDesign} result={result} pending={pending} mode={mode} amplitude={syntheticAmplitude} onAmplitude={setSyntheticAmplitude} flyModel={flyModel} onFlyModel={setFlyModel}
+            perceptionSession={perceptionSession} onPerceptionSession={setPerceptionSession} onPerceptionInference={setPerceptionInference}
             perceptionWorkflowError={errorTarget === "perception-source" ? error : undefined}
             actionError={error ? { target: errorTarget, detail: error } : undefined}
             onPerceptionFailure={(_message, diagnostics) => { if (diagnostics) dispatch({ type: "diagnostics", diagnostics }); }}
             onDesignPerception={(id, receipt) => void execute("design", question, undefined, id, receipt)}
             onStimulus={(id, receipt) => void execute("stimulus", question, undefined, id, receipt)}
             onPerceptionBusy={value => { inFlight.current = value; setPending(value ? "perception" : ""); if (value) { setError(""); setFailure(undefined); } }}
-            onQuestion={question => dispatch({ type: "question", question })}
+            onQuestion={saveQuestion}
             onDemo={() => { void execute("design", defaultQuestion); }}
             onDesign={amplitude => void execute("design", question, amplitude)} onRun={strength => void execute("run", question, strength)} onExplain={() => void execute("interpret")}
             onNext={useNextQuestion} onCompare={() => handleInstrumentModeSelect("compare")} onEvidence={() => navigate("evidence")}

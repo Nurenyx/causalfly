@@ -2,6 +2,7 @@ import "server-only";
 import { sceneDiscoveryDiagnostics } from "../perception/scene-diagnostics";
 import { createHash, randomUUID } from "node:crypto";
 import { freezeRecord } from "../experiment/engine";
+import { isStimulusResponse, validComparison } from "../experiment/semantics";
 import { createCompactEvidence } from "../meta/compact-evidence";
 import type { EvidencePayload } from "../meta/evidence";
 import type { ExperimentSpec } from "../experiment/types";
@@ -124,6 +125,7 @@ export class FlightRecorder {
         controlPresent: control.condition === "CONTROL", interventionPresent: perturbed.condition === "PERTURBED",
         measurementsImmutable: Object.isFrozen(evidence.comparison) && Object.isFrozen(control.activity) && Object.isFrozen(perturbed.activity),
         replayableInputs: Boolean(control.provenance.network && control.provenance.experiment && matched.engine),
+        ...(isStimulusResponse(evidence.experimentSpec) ? {stimulusOnlyComparison:true,controlledDifferenceValid:validComparison(evidence.comparison.provenance),testPresent:perturbed.condition === "TEST",networkUnchanged:matched.network && control.provenance.appliedPerturbation === null && perturbed.provenance.appliedPerturbation === null} : {}),
         ...(p ? { trackReturned: p.measurement.frames.length >= 2, derivedStimulusValid } : {}),
       } };
     this.event("experiment.control.completed");

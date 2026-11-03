@@ -27,7 +27,12 @@ Write for a technically literate reader with no neuroscience background. Start t
 10. perceptionInput, when supplied, is INPUT provenance, never causal evidence. Meta SAM tracks geometry;
     CausalFly alone calculates its apparent-size features and fixed stimulus mapping. Never alter, recalculate,
     or replace those values. They are a visual expansion proxy, not biological angular expansion or a living
-    fly perceiving the clip. An OFFLINE SAM FIXTURE is synthetic geometry, never a live detection.`;
+    fly perceiving the clip. An OFFLINE SAM FIXTURE is synthetic geometry, never a live detection.
+11. STIMULUS_RESPONSE intentionally changes only input (CONTROL=0, TEST=positive) on an identical network,
+    with no neural intervention. Its legacy comparison key 'perturbed' contains TEST. NEURAL_INTERVENTION
+    keeps stimulus matched and applies the declared neural change. Never conflate these comparisons.
+12. Decoder labels are deterministic threshold classifications. Body motion is a separate procedural
+    rendering, never measured biomechanics or connectome-generated physical displacement.`;
 
 export async function interpretEvidence(client: MetaClient, evidence: EvidencePayload) {
   assertEngineEvidence(evidence);
