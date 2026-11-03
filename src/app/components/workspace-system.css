@@ -133,7 +133,8 @@
   .workspace-shell .cockpit-scientist { grid-column: 1/-1; min-height: 360px; }
   .workspace-shell .embodied-world-column,.workspace-shell .embodied-signals { min-height: 450px; }
   .home-hero { grid-template-columns: 1fr; }
-  .home-instrument { display: none; }
+  .home-instrument { display: block; width: 100%; max-width: 100%; }
+  .home-instrument svg { height: clamp(220px, 55vw, 300px); }
   .home-paths { grid-template-columns: 1fr; }
   .home-trust { align-items: flex-start; flex-direction: column; }
 }
@@ -186,6 +187,8 @@
   .local-live-progress button span { display: block; margin: 0 0 4px; }
   .home-overview { padding-top: 8px; }
   .home-hero { padding: 8px 0 28px; }
+  .home-instrument-heading { flex-wrap: wrap; gap: 6px 12px; font-size: 10px; }
+  .home-instrument-caption strong { font-size: 18px; }
   .home-introduction h2 { font-size: 42px; letter-spacing: -1.5px; }
   .home-tagline { font-size: 18px; }
   .home-promise { font-size: 24px; }
