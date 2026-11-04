@@ -333,10 +333,11 @@
 .streamNotes { min-height:255px; max-height:255px; overflow:auto; scrollbar-gutter:stable; }
 .investigate > strong { display:block; min-height:60px; }
 @media(max-width:760px) { .statusStrip { grid-template-columns:1fr; } }
-.contextSlot { height:126px; overflow:auto; scrollbar-gutter:stable; margin-bottom:10px; }
+.contextSlot { max-height:126px; overflow:auto; scrollbar-gutter:stable; margin-bottom:10px; }
+.contextSlot:empty { display:none; }
 .statusStrip > span:first-child { height:36px; overflow:auto; scrollbar-gutter:stable; }
 
-.contextSlot[data-question="true"] { height:230px; }
+.contextSlot[data-question="true"] { max-height:230px; }
 /* Dynamic rail rows replace in place; their geometry does not depend on prose length. */
 .observer { align-self:start; }
 .observer > .panel { flex:none; display:grid; grid-template-rows:76px 190px 255px 192px 108px; }

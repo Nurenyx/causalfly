@@ -17,8 +17,10 @@ test("Home orients users with exactly three workspace paths and explicit measure
 });
 test("one primary navigation has identical order, labels and only the selected destination current", () => {
   for (const active of ["observatory", "live", "evidence", undefined] as const) {
-    const html = render(<WorkspaceNavigation active={active} disabled={false} onNavigate={forbidden} />);
-    assert.equal((html.match(/aria-current="page"/g) ?? []).length, active ? 1 : 0);
+    const html = render(<WorkspaceNavigation active={active} disabled={false} onNavigate={forbidden} onOpenOverview={forbidden} />);
+    assert.equal((html.match(/aria-current="page"/g) ?? []).length, 1);
+    assert.equal((html.match(/class="[^"]*\bactive\b[^"]*"/g) ?? []).length, 1);
+    assert.match(html, active === undefined ? /aria-label="Overview &amp; Orientation"[^>]*aria-current="page"/ : new RegExp(`aria-label="${active === "observatory" ? "Experiment" : active === "live" ? "Live Connectome" : "Evidence"}"[^>]*aria-current="page"`));
     assert.ok(html.indexOf('aria-label="Experiment"') < html.indexOf('aria-label="Live Connectome"'));
     assert.ok(html.indexOf('aria-label="Live Connectome"') < html.indexOf('aria-label="Evidence"'));
     assert.doesNotMatch(html, />Home</);

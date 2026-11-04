@@ -5,7 +5,8 @@ import os from "node:os";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 const { chromium } = await import(pathToFileURL(process.env.CAUSALFLY_PLAYWRIGHT_MODULE || path.join(os.homedir(), ".cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs")).href);
-const base = "http://127.0.0.1:3142";
+const base = process.env.CAUSALFLY_BROWSER_REVIEW_BASE ?? "http://127.0.0.1:3142";
+assert.ok(['127.0.0.1','localhost'].includes(new URL(base).hostname));
 const browser = await chromium.launch({channel:"msedge",headless:true});
 const context = await browser.newContext({viewport:{width:1440,height:900},reducedMotion:"reduce",acceptDownloads:true});
 const page = await context.newPage(), calls = [], errors = [];
@@ -17,7 +18,8 @@ await context.route('**/*', route => {
   return route.continue();
 });
 const nav = name => page.getByRole('navigation',{name:'Experiment workspaces'}).getByRole('button',{name,exact:true}).click();
-const dir = 'docs/review/sprint-11b';fs.mkdirSync(dir,{recursive:true});
+const dir = process.env.CAUSALFLY_BROWSER_REVIEW_DIR ?? 'docs/review/sprint-11b';fs.mkdirSync(dir,{recursive:true});
+let uploadPage;
 try {
   await page.goto(base);
   const health = await (await page.request.get(base+'/api/health')).json();
@@ -48,18 +50,26 @@ try {
   assert.equal(diagnostics.manifest.measurements.control.outputPeakActivity,.64);
   assert.equal(diagnostics.manifest.measurements.perturbed.outputPeakActivity,.32);
   await page.screenshot({path:dir+'/05-offline-perception-1440.png',fullPage:true});
+  console.log('PASS: offline tracking, measurement, retained evidence, and diagnostic export');
   // Mock ONLY the storage/provider boundaries in a second page; test real direct PUT browser transport.
-  const uploadPage = await context.newPage();
+  uploadPage = await context.newPage();
   await uploadPage.route('**/api/health', route => route.fulfill({json:{metaMode:'live',metaEnabled:true,providersChecked:false}}));
   let authorizationBytes = 0, uploadBytes = 0, referenceBytes = 0, authorizationCalls = 0, sceneAttempts = 0;
   await uploadPage.route('**/api/media/authorize', route => {
     authorizationCalls++; authorizationBytes = route.request().postDataBuffer().length;
+    console.log('Mock upload authorization received');
     const body = route.request().postDataJSON();assert.equal(body.sizeBytes,20*1024*1024);assert.equal(body.contentType,'video/mp4');assert.equal(body.pathname,undefined);
-    return route.fulfill({json:{reference:{ticket:'mock-reference'},presignedUrl:base+'/mock-private-blob'}});
+    return route.fulfill({json:{reference:{ticket:'mock-reference'},presignedUrl:'https://storage.invalid/mock-private-blob'}});
   });
   await uploadPage.route('**/mock-private-blob', async route => {
+    // The production client requires HTTPS. This reserved host is intercepted;
+    // neither preflight nor video bytes leave the browser test.
+    const headers = {'Access-Control-Allow-Origin':base,'Access-Control-Allow-Methods':'PUT, OPTIONS','Access-Control-Allow-Headers':'Content-Type'};
+    if (route.request().method() === 'OPTIONS') return route.fulfill({status:204,headers});
     assert.equal(route.request().method(),'PUT');uploadBytes=route.request().postDataBuffer().length;
-    await new Promise(resolve=>setTimeout(resolve,300));return route.fulfill({status:200,json:{}});
+    console.log('Mock storage received '+uploadBytes+' bytes');
+    await uploadPage.evaluate(bytes => window.__mockUploadXHR.upload.dispatchEvent(new ProgressEvent('progress',{lengthComputable:true,loaded:bytes/2,total:bytes})),uploadBytes);
+    await new Promise(resolve=>setTimeout(resolve,300));return route.fulfill({status:200,headers,json:{}});
   });
   const fixtureRequest = await page.request.post(base+'/api/perception/scene',{headers:{'X-Scene-Request':crypto.randomUUID()},data:{mode:'fixture'}});
   const fixtureScene = await fixtureRequest.json();
@@ -67,6 +77,7 @@ try {
     referenceBytes=route.request().postDataBuffer().length;
     assert.deepEqual(route.request().postDataJSON(),{mode:'live',media:{ticket:'mock-reference'}});
     sceneAttempts++;
+    console.log('Mock scene attempt '+sceneAttempts);
     if (sceneAttempts === 1) return route.fulfill({status:502,json:{ok:false,error:'Mock provider unavailable. Retry explicitly.',kind:'provider'}});
     return route.fulfill({json:fixtureScene});
   });
@@ -74,7 +85,7 @@ try {
   await uploadPage.addInitScript(() => {
     const send = XMLHttpRequest.prototype.send;
     XMLHttpRequest.prototype.send = function(body) {
-      if (body instanceof File) setTimeout(() => this.upload.dispatchEvent(new ProgressEvent('progress',{lengthComputable:true,loaded:body.size/2,total:body.size})),100);
+      if (body && typeof body.size === 'number') window.__mockUploadXHR = this;
       return Reflect.apply(send,this,[body]);
     };
   });
@@ -82,24 +93,32 @@ try {
   await uploadPage.getByRole('button',{name:'Real-world perception',exact:true}).click();
   const clip=fs.readFileSync('public/perception-calibration.mp4'), padded=Buffer.alloc(20*1024*1024);clip.copy(padded);
   await uploadPage.getByLabel('Choose video',{exact:true}).setInputFiles({name:'boundary.mp4',mimeType:'video/mp4',buffer:padded});
+  // The accepted compact UI keeps the local preview in a disclosure. Open it
+  // and wait for real native metadata validation before requesting analysis.
+  await uploadPage.evaluate(() => { document.querySelector('.perception-local-media').open = true; });
+  await uploadPage.waitForFunction(() => document.querySelector('.perception-preview video')?.readyState >= 1);
   const discover=uploadPage.getByRole('button',{name:'DISCOVER WITH META',exact:true});await discover.waitFor();
+  await uploadPage.waitForFunction(() => !document.querySelector('.perception-upload button')?.disabled);
   await uploadPage.evaluate(() => {
     window.__uploadStages = [];
-    new MutationObserver(() => document.querySelectorAll('[role="status"]').forEach(item => { const text=item.textContent; if (/Preparing upload|Uploading|Upload complete/.test(text)) window.__uploadStages.push(text); })).observe(document.body,{childList:true,subtree:true,characterData:true});
+    new MutationObserver(() => document.querySelectorAll('[role="status"]').forEach(item => { const text=item.textContent; if (/Preparing upload|Uploading|UPLOAD COMPLETE/.test(text)) window.__uploadStages.push(text); })).observe(document.body,{childList:true,subtree:true,characterData:true});
   });
-  await discover.click();
-  await uploadPage.getByText('Upload complete · ready',{exact:true}).waitFor();
+  await uploadPage.evaluate(() => document.querySelector('.perception-upload button').click());
+  await uploadPage.waitForFunction(() => window.__uploadStages.some(stage=>stage.includes('UPLOAD COMPLETE')));
   await uploadPage.getByRole('alert').filter({hasText:'Mock provider unavailable'}).first().waitFor();
-  await uploadPage.getByRole('button',{name:'Discover again with Meta',exact:true}).click();
+  await uploadPage.evaluate(() => [...document.querySelectorAll('button')].find(button=>button.textContent.trim()==='Discover again with Meta').click());
   await uploadPage.getByRole('radio',{name:/red square/}).waitFor();
   assert.equal(authorizationCalls,1,'Provider retry must reuse the uploaded reference');
   const uploadStages=await uploadPage.evaluate(()=>window.__uploadStages);
   assert.ok(uploadStages.some(stage=>stage.includes('Preparing upload')));
   assert.ok(uploadStages.some(stage=>stage.includes('Uploading — 50%')));
-  assert.ok(uploadStages.some(stage=>stage.includes('Upload complete')));
+  assert.ok(uploadStages.some(stage=>stage.includes('UPLOAD COMPLETE')));
   assert.equal(uploadBytes,20*1024*1024);assert.ok(authorizationBytes<1024);assert.ok(referenceBytes<1024);
   await uploadPage.screenshot({path:dir+'/06-upload-ready-1440.png',fullPage:true});
   assert.equal(errors.length,0,errors.join('\n'));
   fs.writeFileSync(dir+'/perception-checks.json',JSON.stringify({health,calls,offlineEndToEnd:true,diagnosticExportSafe:true,deterministicPeaks:[.64,.32],directUploadBytes:uploadBytes,authorizationBytes,referenceBytes,storageMocked:true,providerRetryReusesUpload:true,uploadStages:[...new Set(uploadStages)],liveMuseCalls:0,liveSamCalls:0,errors},null,2));
   console.log(JSON.stringify({offlineEndToEnd:true,directUploadBytes:uploadBytes,authorizationBytes,referenceBytes,errors}));
+} catch (error) {
+  if (uploadPage) fs.writeFileSync(dir+'/failure.json',JSON.stringify({error:String(error),body:await uploadPage.locator('body').innerText(),video:await uploadPage.evaluate(()=>{const v=document.querySelector('.perception-preview video');return v?{readyState:v.readyState,networkState:v.networkState,error:v.error?.message}:null;})},null,2));
+  throw error;
 } finally {await browser.close();}

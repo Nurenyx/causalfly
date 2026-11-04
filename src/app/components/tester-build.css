@@ -6,6 +6,16 @@
 .instrument-shell .workspace .page-header .workflow-identity { display:block; margin:8px 0 0; line-height:1.5; font-size:12px; max-width:620px; }
 .page-header-copy { min-width:0; flex:1 1 400px; }
 .page-header-tools { min-width:0; flex:0 1 430px; }
+/* Desktop flex bases become vertical allocations in the mobile column header. */
+@media(max-width:760px) {
+  .instrument-shell .workspace .page-header { height:auto; min-height:0; align-items:stretch; justify-content:flex-start; }
+  .instrument-shell .page-header .page-header-copy,
+  .instrument-shell .page-header .page-header-tools { flex:0 0 auto; width:100%; max-width:100%; min-width:0; }
+  .instrument-shell .instrument-mode-nav { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:4px; min-width:0; }
+  .instrument-shell .instrument-mode-tab { min-width:0; padding:6px 4px; gap:4px; flex-wrap:wrap; font-size:11px; line-height:1.3; letter-spacing:0; }
+  .instrument-shell .instrument-mode-tab .mode-pill { flex-basis:100%; width:max-content; padding:2px 3px; }
+  .instrument-shell .research-cockpit canvas { max-width:100%; }
+}
 .instrument-shell .page-header .header-badges { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:6px; max-width:none; }
 .status-chip { display:inline-flex; align-items:center; gap:7px; min-height:26px; padding:4px 8px; border:1px solid #2a4654; border-radius:4px; color:#a9bdc8; background:#071923; font:10px/1.4 var(--font-geist-mono),monospace; white-space:normal; text-align:left; }
 .status-chip i { flex:0 0 5px; width:5px; height:5px; border-radius:50%; background:currentColor; }
@@ -67,6 +77,10 @@
 .workspace-shell .research-cockpit .embodied-signal header { display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; }
 @media(max-width:1450px) { .instrument-shell .workspace .page-header { padding:20px 24px; gap:14px; } .page-header-tools { flex-basis:100%; } .instrument-shell .page-header .header-badges { justify-content:flex-start; } }
 @media(max-width:800px) { .workspace-shell .compare-condition-readouts { grid-template-columns:minmax(0,1fr); } .workspace-shell .research-cockpit .embodied-signals .embodied-preview,.workspace-shell .research-cockpit .signal-viz-row { grid-template-columns:minmax(0,1fr); } .workspace-shell .research-cockpit .embodied-signals .fixture-topology { grid-row:auto; } .workspace-shell .research-cockpit .embodied-preview > p,.workspace-shell .research-cockpit .embodied-preview > small,.workspace-shell .research-cockpit .network-preview-instrument { grid-column:1; } .instrument-shell .workspace .page-header { padding:18px 16px; } }
+/* Overview becomes a column at 760px; desktop flex bases would become heights. */
+@media(max-width:760px) {
+  .home-shell .page-header-copy,.home-shell .page-header-tools { flex:0 1 auto; width:100%; }
+}
 @media(prefers-reduced-motion:reduce) { .status-chip { transition:none; } }
 
 .live-launcher-actions .primary-button:disabled { background:#0b2632; border-color:#315160; color:#9bb1bc; opacity:1; cursor:not-allowed; box-shadow:none; }
@@ -185,6 +199,14 @@
 .workspace-shell .research-cockpit .embodied-signals .fixture-topology { height:360px; }
 .workspace-shell .research-cockpit .embodied-signals .embodied-preview { grid-template-columns:minmax(0,3fr) minmax(190px,1fr); gap:8px 16px; }
 .workspace-shell .research-cockpit .fixture-topology svg { min-height:270px; }
+@media(max-width:760px) {
+  .workspace-shell .research-cockpit .embodied-signals:has(.fixture-topology) { height:auto; min-height:0; }
+  .workspace-shell .research-cockpit .embodied-signals .embodied-preview { grid-template-columns:minmax(0,1fr); align-items:start; }
+  .workspace-shell .research-cockpit .embodied-signals .fixture-topology { grid-row:auto; height:auto; grid-template-rows:auto auto auto; gap:12px; }
+  .workspace-shell .research-cockpit .embodied-signals .fixture-topology svg { height:auto; min-height:0; aspect-ratio:1; }
+  .workspace-shell .research-cockpit .fixture-topology[data-compact=true] text { font-size:20px; paint-order:stroke; stroke:var(--cf-bg-elevated); stroke-width:4px; stroke-linejoin:round; }
+  .workspace-shell .research-cockpit .embodied-preview > .source-context { grid-column:1; grid-row:auto; }
+}
 .source-context { min-width:0; padding:12px 14px; min-height:120px; color:#a9bdc8; border-bottom:1px solid #244350; }
 .source-context h4 { margin:6px 0; color:#c5e9f0; font-size:13px; display:flex; justify-content:space-between; gap:12px; }
 .source-context p { font-size:12px; line-height:1.6; min-height:40px; }

@@ -41,7 +41,7 @@ test("latched mode without actual jump/spike cannot fabricate a fresh escape", (
 });
 test("stale/unreferenced output, session mismatch and out-of-order outputs fail safely", () => {
   for (const extra of [{ inputSequence: 10 }, { inputFresh: false }, { capturedMs: 999 }, { inputAgeMs: 501 }, { totalSpikes: 0 }]) {
-    const f = fixture(); f.message(hello); f.adapter.publish(sensors, stimulus); f.message(f.output(extra)); assert.equal(f.drives.at(-1), null);
+    const f = fixture(); f.message(hello); f.adapter.publish(sensors, stimulus); f.message(f.output(extra)); assert.equal(f.drives.at(-1), null); assert.equal(f.adapter.feedbackState, "REJECTED");
   }
   const f = fixture(); f.message(hello); f.adapter.publish(sensors, stimulus); f.setNow(1800); f.message(f.output()); assert.equal(f.drives.at(-1), null);
   const g = fixture(); g.message(hello); g.adapter.publish(sensors, stimulus); g.message(g.output()); g.message(g.output()); assert.equal(g.closed(), true);
@@ -123,4 +123,27 @@ test("feedback receipt is armed until send and accepted only for validated match
   assert.match(f.adapter.feedbackDetail,/reference\/freshness validation/);
   const g=fixture();g.message({bad:true});assert.equal(g.adapter.feedbackState,"REJECTED");
   assert.match(g.adapter.feedbackDetail,/message rejected/);
+});
+
+test("dataset and hash identity failures cannot send input or claim acceptance", () => {
+  for (const extra of [{ dataset: "other" }, { sha256: "invalid" }]) {
+    const f = fixture(); f.message({ ...hello, ...extra }); f.adapter.publish(sensors, stimulus);
+    assert.equal(f.closed(), true); assert.equal(f.sends.length, 0);
+    assert.equal(f.adapter.feedbackState, "REJECTED"); assert.equal(f.drives.at(-1), null);
+  }
+});
+
+test("session lifetime and oversized messages still fail closed", () => {
+  const f = fixture(); f.message(hello);
+  // Keep receipts fresh so this specifically exercises the 60-second session cap.
+  for (let at = 1000; at <= 60000; at += 1000) {
+    f.setNow(at); f.adapter.publish(sensors, stimulus);
+    const sequence = f.sends.length;
+    f.message(f.output({ sequence, simulationMs: sequence * 50, inputSequence: sequence, capturedMs: at }));
+  }
+  const sent = f.sends.length; f.setNow(61001); f.adapter.publish(sensors, stimulus);
+  assert.equal(f.closed(), true); assert.equal(f.sends.length, sent);
+  assert.match(f.adapter.status, /session ended/);
+  const g = fixture(); g.message({ padding: "x".repeat(32769) });
+  assert.equal(g.closed(), true); assert.equal(g.adapter.feedbackState, "REJECTED");
 });

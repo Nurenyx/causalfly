@@ -5,9 +5,11 @@
 .perception-source small { margin-left: auto; color: #a7bbc9; font-size: .7rem; }
 .perception-content { padding: 1.2rem; border-top: 1px solid #244050; }
 .perception-content h3 { font-size: 1.3rem; margin: .4rem 0 1rem; }
-.perception-upload { display: flex; align-items: end; flex-wrap: wrap; gap: .8rem; }
-.perception-upload label { display: grid; gap: .35rem; font-size: .75rem; }
-.perception-upload input { max-width: 240px; color: #dceaf3; }
+.perception-upload { display: flex; align-items: end; flex-wrap: wrap; gap: .8rem; min-width:0; max-width:100%; }
+.perception-upload label { display: grid; gap: .35rem; font-size: .75rem; min-width:0; max-width:100%; box-sizing:border-box; }
+.perception-upload label:has(input[type=file]) { width:240px; }
+.perception-upload input { max-width: 240px; min-width:0; box-sizing:border-box; color: #dceaf3; }
+.perception-upload input[type=file] { width:100%; max-width:100%; }
 .perception-upload input:not([type=file]) { border: 1px solid #315267; border-radius: 5px; padding: .6rem; background: #0a1e2d; }
 .perception-upload small { flex-basis: 100%; color: #a7bbc9; }
 .perception-content small { display: block; font-size: .72rem; }
@@ -105,3 +107,15 @@
 @media (max-width: 720px) { .perception-metrics { grid-template-columns: repeat(2, 1fr); } .perception-source small { flex-basis: 100%; margin: 0; } .perception-chain { flex-wrap: wrap; } .perception-player-controls { flex-wrap: wrap; } .perception-upload input { max-width: 100%; } }
 
 .research-cockpit .perception-stages li, .research-cockpit .perception-stages small { font-size: 11px; line-height: 1.4; }
+@media (min-width:601px) and (max-width:900px) {
+  .perception-stages { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .perception-stages li + li::before { content:none; }
+}
+@media (max-width:600px) {
+  .perception-upload label:has(input[type=file]) { width:100%; }
+  .research-cockpit .perception-stages { grid-template-columns:minmax(0,1fr); gap:24px; padding:12px 8px; }
+  .research-cockpit .perception-stages li { display:grid; gap:4px; }
+  .workspace-shell .research-cockpit .perception-stages li,
+  .workspace-shell .research-cockpit .perception-stages small { font-size:13px; line-height:1.5; }
+  .research-cockpit .perception-stages li + li::before { content:'↓'; top:-21px; left:0; font-size:14px; line-height:18px; }
+}

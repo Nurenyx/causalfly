@@ -38,7 +38,8 @@ export function WorkspaceNavigation({
           type="button"
           aria-label="Overview & Orientation"
           disabled={disabled}
-          className="overview-nav-btn"
+          aria-current={active === undefined ? "page" : undefined}
+          className={`overview-nav-btn${active === undefined ? " active" : ""}`}
           onClick={onOpenOverview}
         >
           <span aria-hidden="true">ℹ</span>

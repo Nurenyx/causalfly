@@ -29,6 +29,10 @@ export function AutonomyPanel({
   snapshot?: FruitFlySnapshot;
   onBrainControlStatus?: (available: boolean, status: string) => void;
 }) {
+  // Check if Brain Server control endpoint is configured
+  const brainEndpointConfigured = Boolean(
+    configuredBrainEndpoint(process.env.NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL, process.env.NODE_ENV === "production")
+  );
   const [viewReset, setViewReset] = useState(0);
   const [modelStatus, setModelStatus] = useState<FlyModelStatus>("loading");
   const reportModelStatus = useCallback((status: FlyModelStatus) => { setModelStatus(status); onModelStatus?.(status); }, [onModelStatus]);
@@ -36,7 +40,7 @@ export function AutonomyPanel({
   const [paused, setPaused] = useState(false);
   const [trial, setTrial] = useState(startLiveTrial);
   const [matched, setMatched] = useState(false);
-  const [brainInput, setBrainInput] = useState(startLiveTrial);
+  const [brainInput, setBrainInput] = useState(startLiveTrial && brainEndpointConfigured);
   const [frames, setFrames] = useState<(AutonomyFrame | null)[]>([null]);
   const [retained, setRetained] = useState<AutonomyFrame[][]>([]);
   const [acceptedContext, setAcceptedContext] = useState<{sessionId: string; tick: number; mode: string} | null>(null);
@@ -56,11 +60,6 @@ export function AutonomyPanel({
   const frame = frames[0];
   const external = Boolean(snapshot);
 
-  // Check if Brain Server control endpoint is configured
-  const brainEndpointConfigured = Boolean(
-    configuredBrainEndpoint(process.env.NEXT_PUBLIC_FRUITFLY_XR_BRAIN_URL, process.env.NODE_ENV === "production")
-  );
-
   useEffect(() => { latestSnapshot.current = snapshot; sourceReader.current = readSnapshot; }, [snapshot, readSnapshot]);
   useEffect(() => {
     const started = Date.now(), mode = trial ? "trial" : "exploration";
@@ -68,7 +67,7 @@ export function AutonomyPanel({
     if (matched && !external) runs.push(new AutonomyEngine({ silenced: true, mode }, started));
     engines.current = runs; pulseAt.current = 60; player.current = null;
     let active = true, previous = performance.now(), lastPaint = -1;
-    const brain = brainInput && external ? new ExperimentalBrainAdapter(drive => {
+    const brain = brainInput && external && brainEndpointConfigured ? new ExperimentalBrainAdapter(drive => {
       if (!active) return;
       if (drive) runs[0].acceptBrain(drive); else runs[0].disconnect();
     }) : null;
@@ -139,7 +138,12 @@ export function AutonomyPanel({
   function togglePause() {
     const next = !paused; pausedRef.current = next; setPaused(next);
     for (const run of engines.current) run.setPaused(next);
-    if (next && brainInput) adapter.current?.close("Paused; start a new brain session to reconnect experimental input");
+    if (next && brainInput) {
+      const pauseReason = "Experimental brain input disconnected while paused; reset or re-arm feedback to reconnect";
+      adapter.current?.close(pauseReason);
+      setTransportStatus(pauseReason);
+      setFeedbackDetail(pauseReason);
+    }
   }
   function reset() {
     setAcceptedContext(null); setFeedbackReceipt("ARMED"); setFeedbackDetail(""); setTransportStatus("");
@@ -151,7 +155,9 @@ export function AutonomyPanel({
     const retained = new AutonomyTrajectoryReplay(engines.current.map(run => run.trajectory()));
     if (!retained.available) return;
     for (const run of engines.current) run.setPaused(true);
-    pausedRef.current = true; setPaused(true); adapter.current?.close("Replay mode; neural input disconnected");
+    const replayReason = "Replay mode; neural input disconnected";
+    pausedRef.current = true; setPaused(true); adapter.current?.close(replayReason);
+    setTransportStatus(replayReason); setFeedbackDetail(replayReason);
     player.current = retained; setFrames(retained.frames);
     setReplay({ cursor: 0, length: retained.length, playing: false });
   }
@@ -179,11 +185,15 @@ export function AutonomyPanel({
 
   // Determine whether Present Stimulus has a genuine closed-loop control channel
   const isClosedLoopConnected = external && brainInput && transportStatus === "Experimental brain input connected";
-  const isClosedLoopUnavailable = external && (!brainInput || !brainEndpointConfigured || transportStatus?.includes("unavailable"));
+  const isClosedLoopUnavailable = external && !isClosedLoopConnected;
+  const telemetryConnected = snapshot?.state === "CONNECTED" || snapshot?.state === "DATA RECEIVED";
+  const transportFailed = /unavailable|disconnected|ended|capacity|failed/i.test(transportStatus);
+  // Capability to opt in must not depend on an already-connected input socket.
+  const feedbackAvailable = brainEndpointConfigured && !replay && !paused && !complete;
 
   return <section className="autonomy-panel" aria-label="Autonomous experimental behaviour" data-mode={replay ? "replay" : trial ? "trial" : "exploration"} data-behaviour={frame?.decision.state ?? "IDLE"} data-source={frame?.decision.source ?? "BASELINE_AUTONOMOUS_POLICY"} data-tick={frame?.tick ?? 0} data-altitude={frame?.after.altitude ?? 0}>
     <div className="procedural-boundary" role="note"><strong>PROCEDURAL EMBODIMENT</strong><span>Decoder selects supported states; CausalFly executes movement.</span></div>
-    {external && <SensoryFeedbackControl decoderChangedAfterAcceptance={Boolean(acceptedContext && snapshot?.evidence?.telemetry.sessionId === acceptedContext.sessionId && snapshot.evidence.telemetry.neuralTick > acceptedContext.tick && snapshot.evidence.telemetry.motorMode !== acceptedContext.mode)} disabled={Boolean(replay)} armed={brainInput} available={brainEndpointConfigured && !replay && !paused && !complete && !/unavailable|disconnected|ended|capacity|failed/i.test(transportStatus)} receipt={feedbackReceipt} detail={feedbackDetail || transportStatus} onChange={value => { setBrainInput(value); reset(); }} />}
+    {external && <SensoryFeedbackControl configured={brainEndpointConfigured} replay={Boolean(replay)} paused={paused} telemetryConnected={telemetryConnected} disconnected={transportFailed} decoderChangedAfterAcceptance={Boolean(acceptedContext && snapshot?.evidence?.telemetry.sessionId === acceptedContext.sessionId && snapshot.evidence.telemetry.neuralTick > acceptedContext.tick && snapshot.evidence.telemetry.motorMode !== acceptedContext.mode)} disabled={Boolean(replay)} armed={brainInput && brainEndpointConfigured} available={feedbackAvailable} receipt={feedbackReceipt} detail={feedbackDetail || transportStatus} onChange={value => { setBrainInput(value && brainEndpointConfigured); reset(); }} />}
     <div className="autonomy-world" data-model-status={modelStatus} >
       {model === "anatomical" && modelStatus === "loading" && <p className="anatomical-loading" role="status">Loading anatomical model…</p>}
       {model === "anatomical" && modelStatus === "fallback" && <p className="anatomical-loading" role="status">Anatomical model unavailable · Lightweight fallback</p>}
@@ -243,7 +253,7 @@ export function AutonomyPanel({
 
     {external && (
       <div className="stimulus-brain-warning" role="note" data-unavailable={isClosedLoopUnavailable}>
-        <p><strong>{isClosedLoopUnavailable ? "Closed-loop Brain control is not connected." : "Experimental sensory proxy channel."}</strong> Telemetry observation remains available.</p>
+        <p><strong>{isClosedLoopUnavailable ? "Closed-loop Brain control is not connected." : "Experimental sensory proxy channel."}</strong> {telemetryConnected && !brainEndpointConfigured ? "Read-only telemetry is connected; experimental sensory feedback is not configured." : "Telemetry observation remains available."}</p>
         <small>{isClosedLoopUnavailable ? "Presenting a stimulus in this mode tests visual perception and arena geometry without closed-loop connectome control. Baseline autonomous steering will continue." : "Only validated server receipts establish stimulus acceptance. Rendered movement remains procedural."}</small>
       </div>
     )}

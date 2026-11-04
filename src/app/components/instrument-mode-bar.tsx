@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { InstrumentMode } from "@/lib/web/instrument-mode";
 import type { DataSourceKind } from "@/lib/sources/contracts";
 import { checkModeCapability } from "@/lib/web/instrument-mode";
@@ -19,6 +20,7 @@ export function InstrumentModeBar({
   onSelectMode,
   onSelectSource,
 }: InstrumentModeBarProps) {
+  const descriptionId = useId();
   const modes: { id: InstrumentMode; label: string; icon: string; description: string }[] = [
     { id: "observe", label: "Observe", icon: "◉", description: "Baseline organism and neural activity" },
     { id: "perturb", label: "Perturb", icon: "⚡", description: "Controlled intervention or stimulus" },
@@ -44,6 +46,7 @@ export function InstrumentModeBar({
               disabled={isActionDisabled}
               aria-disabled={isUnavailable ? "true" : undefined}
               className={`instrument-mode-tab ${m.id}-tab${active ? " active" : ""}${isUnsupported ? " unsupported-capability" : ""}${isUnavailable ? " mode-unavailable" : ""}`}
+              aria-describedby={isUnavailable ? `${descriptionId}-${m.id}` : undefined}
               onClick={() => {
                 if (!isActionDisabled) onSelectMode(m.id);
               }}
@@ -56,6 +59,7 @@ export function InstrumentModeBar({
               ) : isUnavailable ? (
                 <span className="mode-pill">Unavailable</span>
               ) : null}
+              {isUnavailable && <span id={`${descriptionId}-${m.id}`} className="sr-only">{capability.reason}</span>}
             </button>
           );
         })}

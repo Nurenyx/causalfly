@@ -333,7 +333,6 @@ test("LiveSessionWorkspace mounts all five semantic lanes with fixed placeholder
   const coldSnapshot = disconnectedFruitFly();
   const coldHtml = render(
     <LiveSessionWorkspace
-      embodimentChoice={false}
       snapshot={coldSnapshot}
       frames={[]}
       now={Date.parse("2026-03-29T21:07:00.000Z")}
@@ -350,7 +349,6 @@ test("LiveSessionWorkspace mounts all five semantic lanes with fixed placeholder
 
   const connectedWaitingHtml = render(
     <LiveSessionWorkspace
-      embodimentChoice={false}
       snapshot={{ ...coldSnapshot, state: "CONNECTED", message: "Connected waiting for telemetry" }}
       frames={[]}
       now={Date.parse("2026-03-29T21:07:05.000Z")}
@@ -364,7 +362,6 @@ test("LiveSessionWorkspace mounts all five semantic lanes with fixed placeholder
   const f1 = makeFrame({ sequence: 1, neuralTick: 284, simulationMs: 14200, receivedAt: "2026-03-29T21:07:10.000Z" });
   const liveHtml = render(
     <LiveSessionWorkspace
-      embodimentChoice={false}
       snapshot={{ source: "FRUITFLY_XR", state: "DATA RECEIVED", message: "Live telemetry", evidence: f1 }}
       frames={[f1]}
       now={Date.parse("2026-03-29T21:07:10.200Z")}
@@ -378,7 +375,6 @@ test("LiveSessionWorkspace mounts all five semantic lanes with fixed placeholder
 
   const disconnectedHtml = render(
     <LiveSessionWorkspace
-      embodimentChoice={false}
       snapshot={{ source: "FRUITFLY_XR", state: "DISCONNECTED", message: "Disconnected", evidence: f1 }}
       frames={[f1]}
       now={Date.parse("2026-03-29T21:07:16.000Z")}

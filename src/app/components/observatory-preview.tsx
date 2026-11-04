@@ -1,5 +1,7 @@
+"use client";
+
 import { nodeLabel } from "@/lib/web/display-labels";
-import { useId } from "react";
+import { useId, useSyncExternalStore } from "react";
 import type { MeasuredExperimentResult as WebExperimentResult } from "@/lib/web/contracts";
 import { syntheticDemoNetwork } from "@/lib/experiment/network";
 import { Badge, SectionTitle } from "./workspace-ui";
@@ -12,12 +14,39 @@ export function ResearchWorkflow() {
   ].map(([label, detail], index) => <li key={label}><span className="section-index">0{index + 1}</span><div><strong>{label}</strong><small>{detail}</small></div><span className="workflow-arrow" aria-hidden="true">→</span></li>)}</ol>;
 }
 
+const subscribeTopologyWidth = (update: () => void) => {
+  const query = window.matchMedia("(max-width: 760px)");
+  query.addEventListener("change", update);
+  return () => query.removeEventListener("change", update);
+};
+const compactTopology = () => window.matchMedia("(max-width: 760px)").matches;
+const serverTopology = () => false;
+
 export function FixtureTopology() {
   const glow = useId().replace(/:/g, "");
-  const positions: Record<string, [number, number]> = { stimulus: [55, 115], primary_a: [210, 45], primary_b: [410, 45], alternate_a: [175, 180], alternate_b: [310, 180], alternate_c: [445, 180], motor: [565, 115] };
-  return <figure className="fixture-topology"><figcaption className="eyebrow">DECLARED TOPOLOGY / NO ACTIVITY DATA</figcaption><svg viewBox="0 0 620 225" role="img" aria-label="Declared seven-node synthetic fixture topology. No experiment measurements yet.">
+  const compact = useSyncExternalStore(subscribeTopologyWidth, compactTopology, serverTopology);
+  // Schematic coordinates only: the same declared nodes, edges and weights are
+  // arranged vertically on phones so labels stay readable without page scrolling.
+  const positions: Record<string, [number, number]> = compact
+    ? { stimulus: [180, 30], primary_a: [75, 117], primary_b: [75, 235], alternate_a: [275, 90], alternate_b: [275, 170], alternate_c: [275, 250], motor: [180, 313] }
+    : { stimulus: [55, 115], primary_a: [210, 45], primary_b: [410, 45], alternate_a: [175, 180], alternate_b: [310, 180], alternate_c: [445, 180], motor: [565, 115] };
+  const weightPosition = (from: string, to: string): [number, number] => {
+    const start = positions[from], end = positions[to];
+    const vertical = start[0] === end[0];
+    let offsetX = 0;
+    if (compact) {
+      if (to === "motor") offsetX = start[0] < end[0] ? -16 : 16;
+      else if (vertical) offsetX = 24;
+      else if (from === "stimulus" && to === "alternate_a") offsetX = 14;
+    }
+    return [(start[0] + end[0]) / 2 + offsetX, compact && to === "motor" ? 316 : (start[1] + end[1]) / 2 + (compact && vertical ? 23 : -8)];
+  };
+  return <figure className="fixture-topology" data-compact={compact}><figcaption className="eyebrow">DECLARED TOPOLOGY / NO ACTIVITY DATA</figcaption><svg viewBox={compact ? "0 0 360 360" : "0 0 620 225"} role="img" aria-label="Declared seven-node synthetic fixture topology. No experiment measurements yet.">
     <defs><filter id={glow} x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="7" /></filter></defs>
-    {syntheticDemoNetwork.edges.map(({ from, to, weight }) => <g key={`${from}-${to}`}><path d={`M ${positions[from].join(" ")} L ${positions[to].join(" ")}`} fill="none" stroke="var(--cf-border-strong)" /><text x={(positions[from][0] + positions[to][0]) / 2} y={(positions[from][1] + positions[to][1]) / 2 - 8} textAnchor="middle">{weight}</text></g>)}
+    {syntheticDemoNetwork.edges.map(({ from, to, weight }) => {
+      const [x, y] = weightPosition(from, to);
+      return <g key={`${from}-${to}`}><path d={`M ${positions[from].join(" ")} L ${positions[to].join(" ")}`} fill="none" stroke="var(--cf-border-strong)" /><text x={x} y={y} textAnchor="middle">{weight}</text></g>;
+    })}
     {syntheticDemoNetwork.nodes.map(({ id }) => <g key={id}><circle cx={positions[id][0]} cy={positions[id][1]} r="20" fill="var(--cyan)" opacity=".3" filter={`url(#${glow})`} /><circle cx={positions[id][0]} cy={positions[id][1]} r="12" stroke="var(--cyan)" fill="var(--cf-bg-elevated)" /><circle cx={positions[id][0]} cy={positions[id][1]} r="3" fill="var(--cyan)" /><text x={positions[id][0]} y={positions[id][1] + 29} textAnchor="middle">{nodeLabel(id)}</text></g>)}
   </svg><p>Hand-authored engineering network · schematic layout · edge labels are declared weights.</p></figure>;
 }

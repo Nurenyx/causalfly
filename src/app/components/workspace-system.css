@@ -139,11 +139,14 @@
   .home-trust { align-items: flex-start; flex-direction: column; }
 }
 @media (max-width: 760px) {
-  .workspace-shell .sidebar { position: static; inset: auto; width: 100%; padding: 16px; overflow: visible; }
+  .workspace-shell .sidebar { position: static; inset: auto; width: 100%; padding: 8px 12px 12px; border-right:0; border-bottom:1px solid var(--cf-border); overflow: visible; display:flex; flex-direction:column; align-items:stretch; }
   .workspace-shell .workspace { margin-left: 0; }
-  .workspace-shell .brand { margin-bottom: 16px; }
-  .workspace-shell .sidebar .primary-navigation { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; }
-  .workspace-shell .sidebar .primary-navigation button { flex-direction: column; justify-content: center; min-height: 76px; padding: 8px 4px; gap: 4px; text-align: center; font-size: 14px; }
+  /* One mobile brand row and four equal navigation cells across every workspace. */
+  .workspace-shell .sidebar .brand { width:100%; min-height:44px; margin:0 0 8px; padding:0; justify-content:center; gap:8px; border-bottom:0; }
+  .workspace-shell .sidebar .brand > span { font-size:21px; letter-spacing:0; }
+  .workspace-shell .sidebar .brand small { display:none; }
+  .workspace-shell .sidebar .primary-navigation { display:grid; width:100%; min-width:0; grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; align-items:stretch; }
+  .workspace-shell .sidebar .primary-navigation button { min-width:0; min-height:64px; margin:0; flex-direction:column; justify-content:center; padding:6px 2px; gap:4px; text-align:center; font-size:12px; line-height:1.25; white-space:normal; }
   .workspace-shell .source-picker { display: block; margin-top: 16px; padding: 12px; }
   .workspace-shell .mobile-source-toggle { display: flex; flex-direction: column; align-items: flex-start; width: 100%; gap: 5px; text-align: left; font-size: var(--type-action); min-height: 44px; color: #daedf5; }
   .mobile-source-toggle > span { color: #98bccd; font-size: var(--type-meta); }
@@ -254,4 +257,9 @@
   .comparison-world-labels { gap:6px; inset-inline:8px; }
   .comparison-world-labels span { font-size:11px; padding:5px; }
   .phenotype-summary > div { grid-template-columns:minmax(0,1fr); }
+}
+
+/* Keep full labels readable on narrow phones, with the same fallback in every workspace. */
+@media (max-width: 359px) {
+  .workspace-shell .sidebar .primary-navigation { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }

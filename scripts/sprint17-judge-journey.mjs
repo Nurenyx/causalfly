@@ -53,8 +53,10 @@ try {
   await page.locator('.compare-transition-btn').first().click();await page.locator('.compare-arena canvas[data-world-camera]').waitFor();
   for(const [label,focus] of [['Both side-by-side','both'],['01 Control only','control'],['02 Intervention only','perturbed']]) {
     await page.getByRole('button',{name:label,exact:true}).click();
-    await page.waitForFunction(f=>{const c=JSON.parse(document.querySelector('.compare-arena canvas').getAttribute('data-world-camera'));return c.focus===f&&c.framing==='visual-bounds'&&Boolean(c.bounds?.min&&c.bounds?.max);},focus);
-    const camera=JSON.parse(await page.locator('.compare-arena canvas').getAttribute('data-world-camera'));
+    // Capture the validated snapshot in the same evaluation: a responsive resize
+    // may publish a provisional camera between a separate wait and attribute read.
+    const cameraHandle=await page.waitForFunction(f=>{const c=JSON.parse(document.querySelector('.compare-arena canvas').getAttribute('data-world-camera'));return c.focus===f&&c.framing==='visual-bounds'&&c.bounds?.min&&c.bounds?.max?c:false;},focus);
+    const camera=await cameraHandle.jsonValue();await cameraHandle.dispose();
     const c=new PerspectiveCamera(camera.fov,camera.width/camera.height,.1,100);c.position.fromArray(camera.position);c.lookAt(new Vector3().fromArray(camera.target));c.updateMatrixWorld();
     const projected=[];for(const x of [camera.bounds.min[0],camera.bounds.max[0]])for(const y of [camera.bounds.min[1],camera.bounds.max[1]])for(const z of [camera.bounds.min[2],camera.bounds.max[2]]){const p=new Vector3(x,y,z).project(c);projected.push([p.x,p.y]);assert.ok(Math.abs(p.x)<1&&Math.abs(p.y)<1,'Fly/arena/stimulus visual bounds contained');}
     const distance=new Vector3().fromArray(camera.position).distanceTo(new Vector3().fromArray(camera.target));

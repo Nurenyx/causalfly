@@ -1,7 +1,7 @@
 "use client";
 
 import { AutonomyPanel } from "./autonomy-panel";
-import { useMemo, useState, useSyncExternalStore } from "react";
+import { useMemo, useState } from "react";
 import type { FruitFlyEvidence, FruitFlySnapshot } from "@/lib/sources/contracts";
 import { LIVE_FRAME_LIMIT, number, sessionStatus, sessionTimeline } from "@/lib/sources/live-session";
 import { ConnectomeActivityView, InstrumentPanel, LiveMetricChart } from "./live-visualizations";
@@ -9,9 +9,6 @@ import styles from "./live-session.module.css";
 import { LiveStateSummary, QuestionCompatibility } from "./live-state-summary";
 import { liveEventSummary } from "@/lib/web/live-event-summary";
 
-const wideSubscribe = (update: () => void) => { const media = window.matchMedia("(min-width: 1440px)"); media.addEventListener("change", update); return () => media.removeEventListener("change", update); };
-const wideSnapshot = () => window.matchMedia("(min-width: 1440px)").matches;
-const serverWidth = () => false;
 type Status = ReturnType<typeof sessionStatus>;
 export function LiveSessionHeader({ snapshot, status }: { snapshot: FruitFlySnapshot; status: Status; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
   const t = snapshot.evidence?.telemetry;
@@ -218,13 +215,9 @@ export function AiObserverRail({ evidence, historical, onEvidence, onInterpret }
   </InstrumentPanel><section className={styles.provenance} data-verified={Boolean(evidence)}><span className={styles.microLabel}>{evidence ? "VALIDATED CONNECTOME SOURCE" : "SOURCE PROVENANCE"}</span><strong><i />{evidence ? evidence.provenance.dataset : "Awaiting source verification"}</strong>{evidence && <dl><div><dd>{number(evidence.provenance.neurons)}</dd><dt>loaded graph nodes</dt></div><div><dd>{number(evidence.provenance.edges)}</dd><dt>loaded structural edges</dt></div></dl>}<p>Published structure <span> / </span> Simulated dynamics</p><p>Not recordings from a living fly</p></section></aside>;
 }
 
-export function LiveSessionWorkspace({ readSnapshot, embodimentChoice, onEmbodimentChange, replayTotal, question, snapshot, frames, now, onEvidence, onConnect, onDisconnect, onInterpret }: { readSnapshot?: () => FruitFlySnapshot; embodimentChoice?: boolean | null; onEmbodimentChange?: (value: boolean) => void; replayTotal?: number; question?: string; snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
-  const [localChoice, setLocalChoice] = useState<boolean | null>(null);
-  const wide = useSyncExternalStore(wideSubscribe, wideSnapshot, serverWidth);
-  const choice = embodimentChoice === undefined ? localChoice : embodimentChoice;
-  // The procedural visualizer can observe telemetry without an input/control endpoint.
-  const embodiment = choice ?? Boolean(wide && !snapshot.presentation);
-  const setEmbodiment = onEmbodimentChange ?? setLocalChoice;
+export function LiveSessionWorkspace({ readSnapshot, replayTotal, question, snapshot, frames, now, onEvidence, onConnect, onDisconnect, onInterpret }: { readSnapshot?: () => FruitFlySnapshot; replayTotal?: number; question?: string; snapshot: FruitFlySnapshot; frames: readonly FruitFlyEvidence[]; now: number | null; onEvidence: () => void; onConnect: () => void; onDisconnect: () => void; onInterpret?: () => void }) {
+  // Normal live viewing always includes the procedural telemetry context; replay stays unchanged.
+  const embodiment = !snapshot.presentation;
   const status = sessionStatus(snapshot, now ?? 0);
   const event = liveEventSummary(snapshot, frames);
   const receivedAt = snapshot.evidence?.receivedAt;
@@ -238,7 +231,6 @@ export function LiveSessionWorkspace({ readSnapshot, embodimentChoice, onEmbodim
   return <div className={styles.session}>
     <LiveSessionHeader snapshot={snapshot} status={status} onConnect={onConnect} onDisconnect={onDisconnect} />
     <div className={`${styles.statusStrip} ${status.historical ? styles.historical : ""}`}><span>{snapshot.presentation ? "Original timestamps · no current activity claimed" : status.historical && receivedAt ? `Last received: ${new Date(receivedAt).toISOString().replace("T", " ").replace("Z", " UTC")} · No current activity claimed` : status.live ? "Published fruit-fly connectome · Simulated neural dynamics" : snapshot.message}</span><span>{snapshot.presentation ? `REPLAY FRAME ${frames.length} / ${replayTotal ?? frames.length}` : `DISPLAY BUFFER ${frames.length} / ${LIVE_FRAME_LIMIT} frames`}</span></div>
-    {!snapshot.presentation && <button type="button" className="text-button" aria-expanded={embodiment} data-prominent={Boolean(snapshot.evidence)} onClick={() => setEmbodiment(!embodiment)}>{embodiment ? "Close experimental embodiment" : "Open experimental embodiment"}</button>}
     <div className={styles.contextSlot} data-question={Boolean(question)}><QuestionCompatibility question={question} snapshot={snapshot} frames={frames} onEvidence={onEvidence} />
     {event && <section className="live-event-highlight" aria-label="Retained event"><span className="eyebrow">{event.label}</span><p>{event.headline}</p><small>Received simulation frames only · gaps unobserved · no causal claim</small><button type="button" className="text-button" onClick={onInterpret ?? onEvidence}>Understand this event ↗</button></section>}
     </div>
