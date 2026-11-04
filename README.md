@@ -1,16 +1,64 @@
 # CausalFly
 
-**An AI-powered causal experiment workbench for simulated nervous systems.**
+**An AI-assisted experimental workbench for simulated nervous systems.**
 
-CausalFly turns a natural-language question into a controlled experiment: change one signal, compare control and intervention, inspect the measurements, and decide what to test next. It makes the path from an AI suggestion to measured evidence visible.
+**Ask a question. Test one change. See what actually changed.**
+
+[Live Application](https://causalfly.nurenyx.ai) · [Watch the 3-Minute Demo](https://www.youtube.com/watch?v=dCPXuIaWth4) · [Scientific Foundation](https://research.google/blog/a-connectomics-milestone-mapping-the-complete-male-fruit-fly-brain/)
+
+![Actual CausalFly experiment comparison showing a 50% reduction in simulated signal](docs/assets/causalfly-experiment-hero.png)
+
+*Actual CausalFly Compare workspace: the intervention reduces the synthetic network's measured peak signal by 50% and delays the illustrated response by one **simulation step**, not biological time. The fly movement is procedural. These are not biological findings.*
+
+CausalFly uses Meta AI to turn visual observations and natural-language questions into controlled experiments. A deterministic measurement engine compares outcomes, while interactive 3D visualizations and provenance records help users understand what changed and why.
 
 **Ask → Perceive → Design → Run → Measure → Understand → Test again**
 
-**Meta Muse Spark** discovers trackable objects in a selected video. **Meta Muse Wonder** designs experiments, interprets measured evidence, and proposes the next test. **Meta SAM 3.1** segments and tracks visual input. **CausalFly** validates proposals, deterministically derives the stimulus, executes matched trials, and retains evidence and provenance.
+**Built with Meta AI**
+
+- **Muse Spark:** Scene understanding and object discovery.
+- **SAM 3.1:** Visual object tracking.
+- **Muse:** Experiment design and interpretation.
+- **CausalFly:** Experiment validation, deterministic measurement, evidence and provenance.
 
 > **AI proposes and interprets. CausalFly measures.**
 
-Run the reliable offline demo with Node.js 24 and npm (PowerShell):
+The controlled experiments use a **seven-node synthetic engineering network**. The separate Live Connectome workspace displays published Drosophila CNS anatomical data and optional external simulated neural activity. **Biological behavioural validation has not yet been established.**
+
+### See the complete experiment
+
+<details>
+
+<summary>Expand the full CausalFly experiment workspace screenshot</summary>
+
+![Full CausalFly experiment workspace](docs/assets/causalfly-experiment-full.png)
+
+</details>
+
+## Problem and solution
+
+An AI explanation alone cannot establish what an intervention changed. A useful experiment needs matched conditions, independent measurements, and a record of how the result was produced.
+
+CausalFly connects those steps in one guided workbench. The controlled experiment uses a small, deterministic, synthetic two-pathway network. A user reviews the proposed design, approves the run, watches network and web embodiment playback, and inspects measured output differences before requesting interpretation. A proposed next test requires a new design and approval.
+
+The separate **Live Connectome** workspace displays published Drosophila CNS anatomical data and can subscribe to read-only simulated telemetry from an optional external FruitFly XR service. An independent, opt-in experimental feedback control is available when configured. Neither the observational telemetry nor the feedback path constitutes a controlled biological experiment.
+
+## Concept illustration
+
+<details>
+<summary>Expand an illustrative overview of the AI-assisted workflow</summary>
+
+![Illustration of the CausalFly experimentation concept; not an actual application screenshot](docs/assets/causalfly-concept.png)
+
+*Promotional concept artwork, **not a screenshot**. Its visualized UI and network are illustrative. Controlled results use the synthetic engineering model; published anatomy and external connectome simulation are separate capabilities.*
+
+</details>
+
+## Quick start — reproducible offline demo
+
+The controlled synthetic experiment runs without Meta credentials or an external brain server. The offline AI client uses **explicitly labeled fixtures**, not live provider inference.
+
+**Requirements:** Node.js 24 and npm.
 
 ```powershell
 git clone https://github.com/Nurenyx/causalfly.git
@@ -20,17 +68,9 @@ $env:CAUSALFLY_FAKE_META = '1'
 npm run dev -- --hostname 127.0.0.1 --port 3132
 ```
 
-Open **http://127.0.0.1:3132** → **Experiment** → **Design with Meta** → **Approve & Run Experiment** → **Explain with Meta**. Confirm **FAKE META CLIENT**: design and explanation are offline templates. To include perception offline, use **Real-world perception → choose the calibration video → Offline demo / validation → Load OFFLINE SCENE-UNDERSTANDING FIXTURE → select red square → Load OFFLINE SAM FIXTURE**. Discover with Meta and tracking with SAM are explicit live actions even in fake experiment-design mode.
+Open http://127.0.0.1:3132 → **Experiment**. Design and approve a synthetic trial, compare its measured output, and inspect Evidence. To try the offline perception fixture, follow the explicit **Offline demo / validation** controls; these do not contact Muse Spark or SAM.
 
-[Demo runbook](docs/DEMO_RUNBOOK.md) · [3-minute video script](docs/DEMO_SCRIPT.md) · [Submission copy](docs/HACKATHON_SUBMISSION.md) · [Release review](docs/SPRINT_9_RELEASE_REVIEW.md)
-
-## Problem and solution
-
-An AI explanation alone cannot establish what an intervention changed. A useful experiment needs matched conditions, independent measurements, and a record of how the result was produced.
-
-CausalFly connects those steps in one guided workbench. The controlled experiment uses a small, deterministic, synthetic two-pathway network. A user reviews the proposed design, approves the run, watches network and web embodiment playback, and inspects measured output differences before requesting interpretation. A proposed next test requires a new design and approval.
-
-The second visual proof, **Live Connectome**, displays published Drosophila CNS structure with optional read-only FruitFly XR simulation telemetry. It is a separate observational path, not a controlled biological experiment.
+[Demo runbook](docs/DEMO_RUNBOOK.md) · [Hackathon disclosure](docs/HACKATHON-DISCLOSURE.md) · [Demo video](https://www.youtube.com/watch?v=dCPXuIaWth4)
 
 ## How Meta AI matters
 
@@ -60,16 +100,45 @@ flowchart LR
     A --> Q
     M --> T[Experiment Trust + diagnostics]
     A --> T
-    P[Published CNS structure] --> L[Live Connectome: observational]
-    X[Optional FruitFly XR telemetry] --> L
+    P[Published CNS anatomy] --> L[Live Connectome: read-only observatory]
+    X[Optional FruitFly XR simulated telemetry] --> L
+    L -. optional separately armed sensory proxy .-> F[Brain Server control endpoint]
 ```
 
 Next.js / React provide the workbench and server routes. TypeScript implements the synthetic engine, strict schemas, retained evidence, and process-local flight recorder. The OpenAI-compatible SDK transports Meta requests; official Meta SAM parser/player packages handle tracking output and playback. Three.js renders web embodiment and connectome views. [Detailed architecture](docs/ARCHITECTURE.md)
 
+## Scientific foundation and data attribution
+
+CausalFly's broader research context includes the published male *Drosophila melanogaster* central nervous system connectome, developed through research involving HHMI Janelia, the MRC Laboratory of Molecular Biology, Google Research, and collaborators.
+
+The published reconstruction provides an anatomical resource for studying neural connectivity and sensory-to-motor circuits. It does not establish the physiological accuracy of CausalFly's simulated results.
+
+**Primary sources:**
+
+- [Google Research — A connectomics milestone: Mapping the complete male fruit fly brain](https://research.google/blog/a-connectomics-milestone-mapping-the-complete-male-fruit-fly-brain/)
+- [Berg et al. (2026), *Sexual dimorphism in the complete Drosophila male central nervous system connectome*, *Cell*](https://doi.org/10.1016/j.cell.2026.08.015)
+- [Janelia Male CNS Connectome Project](https://male-cns.janelia.org/)
+- [Dataset attribution and third-party notices](THIRD_PARTY_NOTICES.md)
+
+### How this research relates to CausalFly
+
+CausalFly provides two distinct experimental and visualization layers:
+
+1. **Synthetic controlled experiments:** A seven-node, hand-authored engineering network used to demonstrate deterministic interventions, measurements and comparisons.
+2. **Live Connectome:** A separate visualization of published Drosophila CNS anatomy with optional telemetry from an external neural simulation service.
+
+The controlled synthetic experiments do not simulate the complete published male CNS connectome.
+
+Published anatomical connectivity does not, by itself, establish accurate neural dynamics or biological behaviour.
+
+The associated FruitFly XR / ConnectomeXR research platform predates the Meta hackathon and is separately disclosed.
+
+CausalFly is an independent Nurenyx project. The scientific references above do not imply endorsement by or affiliation with Google Research, HHMI Janelia, or the publishing institutions.
+
 ## Scientific trust boundary
 
-- Both synthetic trials share network, engine, stimulus, seed, observation window, and threshold. Only the approved silencing intervention differs.
-- Engine-issued results and provenance remain separate from validated AI interpretation. Structural validation cannot guarantee the truth of AI prose; compare it with the measurements.
+- Matched trials share the same engine and controlled conditions. **Pathway-intervention experiments** hold stimulus and network fixed while changing the approved pathway state; **stimulus-response experiments** hold the network fixed while varying the specified stimulus. Matched-condition checks enforce the applicable comparison.
+- Engine-issued results and provenance remain separate from schema-validated AI interpretation. Structural validation cannot guarantee the truth of AI prose; compare it with the measurements.
 - SAM geometry is **input provenance**, not causal evidence. Apparent box expansion maps to synthetic amplitude using `clamp(max(0, lastArea - firstArea) / 0.5, 0, 1)`; it is not calibrated distance, approach speed, or biological vision.
 - **Experiment Trust** reports matched conditions, engine-owned measurements, and replay inputs. Diagnostics export a manifest and event ledger. Hashes identify snapshots; downloads are editable copies, not signed attestations. Replay inputs do not mean replay was verified.
 - Controlled results are synthetic engineering results, not Drosophila findings. Live Connectome combines published structure with **simulated neural dynamics**, not recordings from a living fly. Biological validation is not established.
@@ -103,6 +172,14 @@ npm run dev -- --hostname 127.0.0.1 --port 3132
 
 Confirm **META LIVE** before presenting live Muse results. Restart the server after changing modes/configuration. For stable playback after validation, build once with `npm run build`, then substitute `npm run start -- --hostname 127.0.0.1 --port 3132` for the dev command. Build may need internet access for Google fonts.
 
+### Meta enablement and developer diagnostics
+
+Live experiment design requires `CAUSALFLY_META_ENABLED=1` and valid provider configuration. An unset or disabled switch returns a configuration-disabled response (HTTP 503), rather than masquerading as a provider outage. `CAUSALFLY_FAKE_META=1` explicitly selects offline templates without contacting Meta; live errors do not silently fall back to fixtures. Restart the local server after changing environment settings. Health checks report configuration status, **not** successful provider reachability.
+
+Flight Recorder, scientific provenance, and human-readable Technical Details remain available. Raw diagnostic JSON export and raw event ledgers are hidden by default in production. On an internal deployment, `CAUSALFLY_DEVELOPER_DIAGNOSTICS=1` enables them; development exposes them by default unless this flag is `0`. **This switch is not authentication.** Diagnostic exports must never include credentials, provider headers/bodies, or signed media URLs.
+
+Design failures use safe error codes such as `CONFIGURATION_DISABLED`, `CONFIGURATION_INVALID`, `AUTHENTICATION_FAILED`, `PROVIDER_TIMEOUT`, `PROVIDER_RATE_LIMIT`, `PROVIDER_HTTP_ERROR`, `INVALID_PROVIDER_RESPONSE`, `SCHEMA_VALIDATION_FAILED`, `REQUEST_CANCELLED`, and `UNKNOWN_PROVIDER_ERROR`. Provider output must pass strict schema validation before approval is available.
+
 ## SAM calibration demo
 
 In **Experiment**, keep the question “What happens if I silence the primary pathway?” Select **Real-world perception**, choose [`public/perception-calibration.mp4`](public/perception-calibration.mp4), enter **red square**, then use **Discover with Meta**, confirm a candidate, and choose the explicit SAM tracking action. Live video requires the private Blob setup below.
@@ -115,22 +192,23 @@ Offline perception instead uses a separate **four-frame geometry fixture**, ampl
 
 ## Optional FruitFly XR local integration
 
-FruitFly XR / ConnectomeXR, its brain server, Quest embodiment, and published-connectome integration predate this hackathon. They are separate proprietary work and are not required for the synthetic experiment demo.
+The Live Connectome observatory subscription is read-only by default.
 
-With an already-running local research service, configure the CausalFly server:
+A separate, experimental, opt-in sensory-feedback feature may send bounded proxy stimulus messages to a configured external Brain Server control endpoint. This is not direct neuronal silencing and does not establish biological sensory equivalence.
 
-```powershell
-$env:FRUITFLY_XR_OBSERVATORY_URL = 'ws://127.0.0.1:8766/observatory/v1'
-npm run dev -- --hostname 127.0.0.1 --port 3132
-```
-
-Open **Live Connectome → Connect FruitFly XR**. The research subscription is read-only; it does not start a trial. An existing external organism client must provide a session for moving telemetry. Without it, show the bundled structural view and its waiting/disconnected state. CausalFly never sends interventions to the brain control channel. [Startup and recovery](docs/DEMO_RUNBOOK.md) · [Verified bridge protocol](docs/FRUITFLY-XR-BRIDGE.md)
+The external Brain Server is optional for the synthetic experiment workflow. Public brain-control access should be authenticated or restricted before unsupervised use.
 
 ## Production alpha
 
-The current alpha runs on Vercel. Live perception uses direct, private Vercel Blob uploads with a 20 MiB application limit; video bytes never enter a normal CausalFly request. Follow the [Sprint 11B setup and review](docs/SPRINT_11B_PRODUCTION_HARDENING_REVIEW.md) for private-store/OIDC setup, signing secret, explicit cleanup and Firewall rules.
+CausalFly is deployed on Vercel at:
 
-Historical alternative target: **causalfly.nurenyx.ai**, a managed Next.js / Node.js web app. Standard `npm ci`, `npm run build`, and `npm start` commands apply. See the [Hostinger deployment guide](docs/DEPLOY_HOSTINGER.md) for configuration, port policy, health checks, and rollback. FruitFly XR remains optional; its [Sprint 11B Cloud Run plan](docs/CLOUD_RUN_FRUITFLY_BRIDGE_PLAN.md) is documentation only.
+https://causalfly.nurenyx.ai
+
+The synthetic experiment workflow runs independently of the optional external FruitFly XR Brain Server.
+
+Live Meta features require configured provider access. Live video analysis uses private Vercel Blob storage with explicit upload authorization and application-level media limits.
+
+See [Production Hardening](docs/SPRINT_11B_PRODUCTION_HARDENING_REVIEW.md) for deployment, storage, security, and operational considerations.
 
 ## Validation
 
@@ -146,9 +224,11 @@ Automated tests use fake/injected providers; no live SAM or Muse requests are ne
 
 ## Limitations
 
+The application supports responsive mobile and desktop layouts. Recent acceptance testing covered screen widths from 320 to 1440 CSS pixels in Firefox and Edge. Complex scientific inspection and detailed comparisons may still be easier on larger screens.
+
 The synthetic fixture is small and hand-authored; node labels do not establish biological identities. Web movement is an illustrative mapping of synthetic results. Perception uses a simple box-growth proxy affected by camera motion, occlusion, and track gaps. Video limits are 15 seconds, 20 MiB, 900 frames, and 1920 pixels per side; use H.264 MP4 for browser compatibility.
 
-Workspace state and server retention are ephemeral; reloads, expiry, and restarts can require reanalysis and redesign. The local prototype has no authentication or durable/shared evidence store. Live provider access and latency depend on the account/network. FruitFly telemetry is bounded, may be truncated or dropped, and supports observational statements only. The interface is desktop-first.
+Workspace state and server retention are ephemeral; reloads, expiry, and restarts can require reanalysis and redesign. The prototype does not provide application-level authentication or a durable shared evidence store. Live provider access and latency depend on the account and network. FruitFly telemetry is bounded, may be truncated or dropped, and supports observational statements only.
 
 ## Hackathon disclosure and license
 
@@ -157,27 +237,3 @@ Built by Nurenyx for the **Meta Global AI Developer Hackathon 2026**, beginning 
 [Full hackathon disclosure](docs/HACKATHON-DISCLOSURE.md) · [Submission copy](docs/HACKATHON_SUBMISSION.md)
 
 CausalFly code is **Apache-2.0**; see [LICENSE](LICENSE). The bundled published anatomy data retains **CC BY 4.0**; see [third-party notices and transformations](THIRD_PARTY_NOTICES.md). Dependencies retain their respective licenses. Copyright © 2026 Nurenyx.
-
-
-### Meta enablement and developer diagnostics
-
-Live experiment design requires all three Meta credentials/configuration fields plus
-`CAUSALFLY_META_ENABLED=1`. An unset or disabled switch blocks provider work and is
-reported as disabled configuration (HTTP 503), rather than a provider outage (502).
-`CAUSALFLY_FAKE_META=1` explicitly selects the offline template and never contacts Meta;
-failed live requests never fall back to fake output. Restart the server after changing
-local environment settings. Health checks report configuration, not provider reachability.
-
-Flight Recorder, scientific provenance, validation and human-readable Technical Details
-remain available to researchers. Raw diagnostic JSON export and the raw event ledger are
-hidden by default in production. Set the server-only
-`CAUSALFLY_DEVELOPER_DIAGNOSTICS=1` intentionally on an internal deployment to show them.
-Development exposes them by default; setting this flag to `0` hides them there too.
-This visibility switch is a product setting, not authentication. Diagnostic data remains
-allowlisted and must never contain credentials, provider headers/bodies or signed media URLs.
-
-Design failures record a safe code in Flight Recorder: `CONFIGURATION_DISABLED`,
-`CONFIGURATION_INVALID`, `AUTHENTICATION_FAILED`, `PROVIDER_TIMEOUT`,
-`PROVIDER_RATE_LIMIT`, `PROVIDER_HTTP_ERROR`, `INVALID_PROVIDER_RESPONSE`,
-`SCHEMA_VALIDATION_FAILED`, `REQUEST_CANCELLED`, or `UNKNOWN_PROVIDER_ERROR`.
-Provider output must still pass the unchanged strict schema before approval is offered.
